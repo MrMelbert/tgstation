@@ -3,6 +3,7 @@
 /datum/antagonist/heretic/heretic_plus
 	name = "Advanced Heretic"
 	give_equipment = FALSE
+	/// Static list of extra objectives heretics have.
 	var/static/list/heretic_objectives = list("sacrifice" = /datum/objective/sacrifice_ecult/adv)
 
 /datum/antagonist/heretic/heretic_plus/on_gain()
@@ -15,10 +16,6 @@
 	linked_advanced_datum = new /datum/advanced_antag_datum/heretic(src)
 	linked_advanced_datum.setup_advanced_antag()
 	linked_advanced_datum.possible_objectives = objectives_to_choose
-	return ..()
-
-/datum/antagonist/heretic/heretic_plus/on_removal()
-	qdel(linked_advanced_datum)
 	return ..()
 
 /datum/antagonist/heretic/heretic_plus/greet()
@@ -37,7 +34,7 @@
 
 	var/datum/advanced_antag_datum/heretic/our_heretic = linked_advanced_datum
 	parts += printplayer(owner)
-	parts += "<b>[owner]</b> was \a <b>[our_heretic.name]</b>[our_heretic.employer? " employed by <b>[our_heretic.employer]</b>":""]."
+	parts += "<b>[owner]</b> was \a <b>[our_heretic.name]</b>[our_heretic.employer? ", a follower of <b>[our_heretic.employer]</b>":""]."
 	if(our_heretic.sacrifices_enabled)
 		parts += "<b>Sacrifices Made:</b> [total_sacrifices]"
 	else
@@ -169,6 +166,10 @@ You can still edit your goals after finalizing, but you will not be able to re-e
 	if(sacrifices_enabled)
 		message_admins("Sacrifices enabled: [ADMIN_LOOKUPFLW(linked_antagonist.owner.current)] finalized their goals with sacrifices enabled.")
 	log_game("[key_name(linked_antagonist.owner.current)] finalized their goals with [sacrifices_enabled? "sacrifices enabled":"sacrifices disabled"].")
+
+/datum/advanced_antag_datum/heretic/greet_message_two(mob/antagonist)
+	to_chat(antagonist, "<span class='danger'>You are a cultic follower sent to [station_name()]! You can set your goals to whatever you think would make an interesting story or round. You have access to your goal panel via verb in your IC tab.</span>")
+	addtimer(CALLBACK(src, .proc/greet_message_three, antagonist), 3 SECONDS)
 
 /datum/objective/sacrifice_ecult/adv
 	name = "sacrifice"

@@ -44,3 +44,18 @@
 		A beacon with two uses that sends reports directly from The Syndicate to the station, classified or announced."
 	item = /obj/item/item_announcer/input/syndicate
 	cost = 8
+
+/datum/uplink_item/device_tools/doorhacker
+	name = "Automatic Door Bypasser Card"
+	desc = "An alternative to the Airlock Authentication Override Card, this device automatically hacks open \
+		an airlock for a short time. Compared to the AAOC, this device does not destroy an airlock's electronics and \
+		does not permanently bolt open an airlock. Instead, it takes a short time to hack open a door temporarily, increasing with rapid use. \
+		Additionally, the Automatic Door Bypasser is not charge-based, you're only limited on how patient you are - hack the planet!"
+	item = /obj/item/card/doorhacker
+	cost = 3
+
+/datum/uplink_item/badass/megaphone
+	name = "Megaphone"
+	desc = "LOUDER VOICE MEANS MORE EVIL!"
+	item = /obj/item/megaphone/synd
+	cost = 1
