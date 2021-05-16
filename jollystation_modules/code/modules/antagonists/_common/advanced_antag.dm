@@ -31,7 +31,7 @@
 
 	for(var/panel_user in open_panels)
 		var/datum/adv_traitor_panel/tgui_panel = open_panels[panel_user]
-		tgui_panel?.ui_close(panel_user)
+		SStgui.close_uis(tgui_panel)
 
 	linked_antagonist = null
 	QDEL_LIST(our_goals)
@@ -61,7 +61,7 @@
 /// Give them details on what their role actually means to them, then move to greet_three after 3 seconds.
 /// antagonist - the mob being greeted, the antagonist.
 /datum/advanced_antag_datum/proc/greet_message_two(mob/antagonist)
-	to_chat(antagonist, "<span class='danger'>You are a story driven antagonist! You can set your goals to whatever you think would make an interesting story or round. You have access to your goal panel via your IC tab.</span>")
+	to_chat(antagonist, "<span class='danger'>You are a story driven antagonist! You can set your goals to whatever you think would make an interesting story or round. You have access to your goal panel via verb in your IC tab</span>")
 	addtimer(CALLBACK(src, .proc/greet_message_three, antagonist), 3 SECONDS)
 
 /// Give them a short guide on how to use the goal panel, and what all the buttons do.

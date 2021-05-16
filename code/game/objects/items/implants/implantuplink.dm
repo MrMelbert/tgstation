@@ -6,10 +6,11 @@
 	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
 	var/starting_tc = 0
+	var/uplink_type = null /// NON-MODULE CHANGE
 
 /obj/item/implant/uplink/Initialize(mapload, _owner)
 	. = ..()
-	AddComponent(/datum/component/uplink, _owner, TRUE, FALSE, null, starting_tc)
+	AddComponent(/datum/component/uplink, _owner, TRUE, FALSE, uplink_type, starting_tc) // NON-MODULE CHANGE
 	RegisterSignal(src, COMSIG_COMPONENT_REMOVING, .proc/_component_removal)
 
 /**

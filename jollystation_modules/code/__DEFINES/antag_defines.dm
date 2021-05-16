@@ -35,3 +35,6 @@
 	"3 = Assassination / Grand Theft", \
 	"2 = Kidnapping / Theft", \
 	"1 = Minor theft or basic antagonizing" )
+
+/// Infiltrator uplink
+#define UPLINK_INFILTRATOR (1 << 3)
