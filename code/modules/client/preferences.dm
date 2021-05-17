@@ -5,7 +5,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1 //Holder so it doesn't default to slot 1, rather the last one used
-	var/max_save_slots = 6 //NON-MODULAR CHANGE
+	var/max_save_slots = 6 //NON-MODULE CHANGE
 
 	//non-preference stuff
 	var/muted = 0

@@ -59,6 +59,8 @@ var/epic_variable = 3 // NON-MODULE CHANGE
 NON-MODULE CHANGE END /*
 ```
 
+- It doesn't matter if you use Non-Module Change/Changes. Try to keep the ending part 'Module Change/s' consistent. DO NOT USE 'MODULAR'. 
+
 ## ...custom things to vendors:
 
 Go to `jollystation_modules/code/modules/vending/_vending.dm` and use the template provided to add or remove items from vendors. Follow the provided template there.
@@ -82,3 +84,50 @@ The time has come for doom. Pull from upstream and pray. Things will probably be
 - ...Or run _merge_update_dme.bash in gitbash, with the arguments of `<tgstation.dme>` and `<jollystation.dme>`.
 
 Everything should be set to try to compile. If there are errors, try to solve them. If it compiles and the game itself seems wonky, then probably call your local coder and cry.
+
+- Make sure that (to maintainers and Jolly) the commit message is not the garbled mess that it is. Change it. Please.
+
+# Files that have 'non-module' comments in the main code:
+
+To prevent me from accidentally accept incoming on files with module changes, I'm doing this for the future.
+
+- code\__DEFINES\antagonists.dm
+- code\__DEFINES\chat.dm
+- code\__DEFINES\say.dm
+- code\controllers\subsystem\id_access.dm
+- code\controllers\subsystems\job.dm
+- code\controllers\subsystem\mapping.dm
+- code\controllers\subsystem\vote.dm
+- code\datums\chatmessage.dm  
+- code\datums\datacore.dm
+- code\datums\id_trim\jobs.dm
+- code\datums\mapgen\Cavegens\LavalandGenerator.dm
+- code\game\gamemodes\objective_items.dm
+- code\game\machinery\PDApainter.dm
+- code\game\machinery\computer\crew.dm
+- code\game\machinery\computer\medical.dm
+- code\game\machinery\computer\security.dm
+- code\game\objects\items\implants\implantuplink.dm
+- code\modules\antagonists\eldritch_cult\eldritch_effects.dm
+- code\modules\antagonists\eldritch_cult\eldritch_knowledge.dm
+- code\modules\antagonists\traitor\datum_traitor.dm
+- code\modules\client\client_procs.dm
+- code\modules\client\preferences_savefile.dm
+- code\modules\client\preferences.dm
+- code\modules\jobs\jobs.dm
+- code\modules\jobs\job_types\_job.dm
+- code\modules\jobs\job_types\cargo_technician.dm
+- code\modules\jobs\job_types\lawyer.dm
+- code\modules\jobs\job_types\quartermaster.dm
+- code\modules\jobs\job_types\research_director.dm
+- code\modules\jobs\job_types\scientist.dm
+- code\modules\jobs\job_types\shaft_miner.dm
+- code\modules\language\language_holder.dm
+- code\modules\mob\living\carbon\human\species.dm
+- code\modules\modular_computers\file_system\programs\jobmanagement.dm
+- code\modules\surgery\organs\tongue.dm
+- code\modules\unit_tests\heretic_knowledge.dm
+
+# Tools with non-module comments
+- tgui\packages\tgui\index.js
+- tgui\packages\tgui-panel\chat\constants.js
