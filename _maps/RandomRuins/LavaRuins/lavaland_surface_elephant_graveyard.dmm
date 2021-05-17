@@ -8,13 +8,6 @@
 "ac" = (
 /turf/closed/mineral/volcanic/lava_land_surface,
 /area/ruin/unpowered/elephant_graveyard)
-"ad" = (
-/obj/effect/decal/cleanable/cobweb,
-/obj/structure/closet/crate/grave/filled/lead_researcher,
-/obj/effect/decal/cleanable/blood/gibs/old,
-/obj/effect/mob_spawn/human/skeleton,
-/turf/open/floor/plating/asteroid/basalt/wasteland,
-/area/ruin/unpowered/elephant_graveyard)
 "ae" = (
 /turf/open/floor/plating/asteroid/basalt/wasteland,
 /area/ruin/unpowered/elephant_graveyard)
@@ -164,11 +157,6 @@
 /area/ruin/unpowered/elephant_graveyard)
 "aH" = (
 /turf/closed/wall/mineral/titanium,
-/area/ruin/powered/graveyard_shuttle)
-"aI" = (
-/obj/effect/spawner/structure/window/shuttle,
-/obj/structure/grille,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface,
 /area/ruin/powered/graveyard_shuttle)
 "aJ" = (
 /obj/structure/table,
@@ -436,11 +424,6 @@
 /obj/effect/decal/cleanable/blood/splatter,
 /turf/open/floor/plating/asteroid/basalt/wasteland,
 /area/ruin/unpowered/elephant_graveyard)
-"bM" = (
-/obj/item/storage/fancy/cigarettes/cigpack_mindbreaker,
-/obj/structure/closet/crate/grave/filled,
-/turf/open/floor/plating/asteroid/basalt/wasteland,
-/area/ruin/unpowered/elephant_graveyard)
 "bN" = (
 /obj/structure/sign/warning/securearea,
 /obj/structure/sign/warning/securearea,
@@ -567,11 +550,6 @@
 /obj/structure/reagent_dispensers/water_cooler,
 /turf/open/floor/plating/asteroid/basalt/wasteland,
 /area/ruin/unpowered/elephant_graveyard)
-"cl" = (
-/obj/structure/closet/crate/grave/filled,
-/obj/effect/mob_spawn/human/skeleton,
-/turf/open/floor/plating/asteroid/basalt/wasteland,
-/area/ruin/unpowered/elephant_graveyard)
 "cm" = (
 /obj/structure/table/optable,
 /obj/item/storage/backpack/explorer,
@@ -627,12 +605,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/mineral/titanium/white,
 /area/ruin/powered/graveyard_shuttle)
-"cw" = (
-/obj/structure/closet/crate/grave/filled,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/mob_spawn/human/skeleton,
-/turf/open/floor/plating/asteroid/basalt/wasteland,
-/area/ruin/unpowered/elephant_graveyard)
 "cx" = (
 /obj/item/light/bulb/broken,
 /obj/effect/turf_decal/caution/stand_clear/white,
@@ -648,6 +620,33 @@
 /obj/structure/cable,
 /obj/item/food/deadmouse,
 /obj/item/assembly/mousetrap,
+/turf/open/floor/plating/asteroid/basalt/wasteland,
+/area/ruin/unpowered/elephant_graveyard)
+"iD" = (
+/obj/effect/spawner/structure/window/shuttle,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface,
+/area/ruin/powered/graveyard_shuttle)
+"jp" = (
+/obj/effect/decal/cleanable/cobweb,
+/obj/structure/closet/crate/grave/filled/lead_researcher,
+/obj/effect/decal/cleanable/blood/gibs/old,
+/obj/effect/mob_spawn/human/skeleton,
+/turf/open/floor/plating/asteroid/basalt/wasteland,
+/area/ruin/unpowered/elephant_graveyard)
+"rc" = (
+/obj/structure/closet/crate/grave/filled,
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/mob_spawn/human/skeleton,
+/turf/open/floor/plating/asteroid/basalt/wasteland,
+/area/ruin/unpowered/elephant_graveyard)
+"Hi" = (
+/obj/structure/closet/crate/grave/filled,
+/obj/effect/mob_spawn/human/skeleton,
+/turf/open/floor/plating/asteroid/basalt/wasteland,
+/area/ruin/unpowered/elephant_graveyard)
+"TS" = (
+/obj/item/storage/fancy/cigarettes/cigpack_mindbreaker,
+/obj/structure/closet/crate/grave/filled,
 /turf/open/floor/plating/asteroid/basalt/wasteland,
 /area/ruin/unpowered/elephant_graveyard)
 
@@ -854,7 +853,7 @@ aY
 ae
 bv
 ae
-cl
+Hi
 ae
 ae
 aC
@@ -996,7 +995,7 @@ ae
 ae
 ae
 ae
-cl
+Hi
 ae
 ae
 ae
@@ -1017,7 +1016,7 @@ ac
 ac
 ac
 bG
-bM
+TS
 ac
 ac
 "}
@@ -1045,7 +1044,7 @@ cz
 ae
 ae
 bn
-cw
+rc
 bf
 bf
 bB
@@ -1065,7 +1064,7 @@ bf
 bf
 bf
 al
-cl
+Hi
 ae
 ae
 ae
@@ -1097,10 +1096,10 @@ ac
 "}
 (13,1,1) = {"
 bf
-ad
+jp
 ae
 bf
-cl
+Hi
 al
 ae
 ae
@@ -1117,7 +1116,7 @@ ae
 ct
 ar
 ae
-cl
+Hi
 ae
 ae
 bf
@@ -1158,7 +1157,7 @@ ae
 aE
 bw
 bf
-cl
+Hi
 bB
 ae
 ac
@@ -1187,7 +1186,7 @@ ae
 ae
 ae
 ae
-cw
+rc
 ae
 ae
 ae
@@ -1266,7 +1265,7 @@ ba
 ae
 ae
 aE
-cl
+Hi
 al
 bf
 bf
@@ -1587,7 +1586,7 @@ ab
 ab
 ab
 ab
-aI
+iD
 aO
 bX
 bi

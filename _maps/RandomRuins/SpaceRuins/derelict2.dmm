@@ -34,19 +34,7 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/dinner_for_two)
-"h" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/dinner_for_two)
 "i" = (
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/dinner_for_two)
-"j" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/dinner_for_two)
 "k" = (
@@ -67,19 +55,6 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/dinner_for_two)
-"n" = (
-/obj/structure/table,
-/obj/item/candle{
-	pixel_y = 5
-	},
-/obj/item/plate{
-	pixel_x = 10
-	},
-/obj/item/plate{
-	pixel_x = -10
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/powered/dinner_for_two)
 "o" = (
 /obj/structure/chair{
 	dir = 8
@@ -93,14 +68,33 @@
 	},
 /turf/template_noop,
 /area/template_noop)
-"q" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
+"w" = (
+/obj/machinery/light/small/directional/south,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/dinner_for_two)
-"r" = (
-/obj/machinery/light/small,
+"A" = (
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/dinner_for_two)
+"L" = (
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/dinner_for_two)
+"T" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/powered/dinner_for_two)
+"X" = (
+/obj/structure/table,
+/obj/item/candle{
+	pixel_y = 5
+	},
+/obj/item/plate{
+	pixel_x = 10
+	},
+/obj/item/plate{
+	pixel_x = -10
+	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/powered/dinner_for_two)
 
@@ -210,7 +204,7 @@ i
 i
 i
 i
-q
+L
 f
 a
 a
@@ -224,7 +218,7 @@ a
 a
 a
 f
-h
+A
 i
 i
 i
@@ -265,7 +259,7 @@ c
 i
 i
 i
-n
+X
 i
 i
 i
@@ -306,7 +300,7 @@ i
 i
 i
 i
-r
+w
 f
 a
 a
@@ -320,7 +314,7 @@ a
 a
 a
 f
-j
+T
 i
 i
 i

@@ -5,21 +5,16 @@
 "aM" = (
 /turf/open/floor/wood,
 /area/ruin/powered)
-"aP" = (
-/obj/structure/dresser,
-/turf/open/floor/wood,
-/area/ruin/powered)
 "aZ" = (
 /obj/structure/sign/poster/ripped,
 /turf/closed/wall/rust,
 /area/icemoon/underground/explored)
-"bR" = (
-/obj/machinery/light/small/broken{
-	dir = 4
-	},
-/obj/structure/fluff/fokoff_sign,
-/turf/open/floor/plating/asteroid/snow/icemoon,
-/area/icemoon/underground/explored)
+"bf" = (
+/obj/structure/showcase/machinery/tv,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/broken/directional/north,
+/turf/open/floor/holofloor/wood,
+/area/ruin/powered)
 "bY" = (
 /obj/structure/flora/stump,
 /turf/open/floor/plating/asteroid/snow/icemoon,
@@ -80,12 +75,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood,
 /area/ruin/powered)
-"jP" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
-/turf/open/floor/plating/asteroid/snow/icemoon,
-/area/icemoon/underground/explored)
 "kl" = (
 /obj/structure/sign/poster/official/nanotrasen_logo,
 /turf/closed/wall,
@@ -108,11 +97,6 @@
 /obj/effect/decal/remains/human,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
-"li" = (
-/obj/structure/dresser,
-/obj/effect/decal/cleanable/glass,
-/turf/open/floor/wood,
-/area/ruin/powered)
 "lo" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 4
@@ -205,6 +189,10 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/checker,
 /area/ruin/powered)
+"tf" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/plating/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "tg" = (
 /obj/structure/fence{
 	dir = 8
@@ -283,14 +271,6 @@
 "zT" = (
 /turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/underground/explored)
-"AG" = (
-/obj/structure/showcase/machinery/tv,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/broken{
-	dir = 1
-	},
-/turf/open/floor/holofloor/wood,
-/area/ruin/powered)
 "AM" = (
 /obj/effect/decal/cleanable/blood/gibs/down,
 /obj/item/pickaxe,
@@ -340,6 +320,11 @@
 /area/ruin/powered)
 "DM" = (
 /obj/structure/flora/bush,
+/turf/open/floor/plating/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
+"DQ" = (
+/obj/machinery/light/small/broken/directional/east,
+/obj/structure/fluff/fokoff_sign,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "Ed" = (
@@ -394,23 +379,19 @@
 	},
 /turf/open/floor/wood,
 /area/ruin/powered)
-"Ha" = (
-/obj/structure/mirror{
-	broken = 1
-	},
-/turf/closed/wall/mineral/wood,
-/area/ruin/powered)
 "Hf" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/wood,
 /area/ruin/powered)
-"Hx" = (
-/obj/structure/closet/cabinet,
-/obj/item/clothing/under/rank/cargo/miner,
-/obj/item/clothing/suit/hooded/wintercoat/miner,
-/obj/item/clothing/shoes/winterboots,
-/obj/item/card/id/advanced/mining,
-/obj/effect/decal/cleanable/dirt,
+"Hh" = (
+/obj/structure/dresser,
+/obj/structure/mirror/directional/north,
+/turf/open/floor/wood,
+/area/ruin/powered)
+"Ib" = (
+/obj/structure/dresser,
+/obj/effect/decal/cleanable/glass,
+/obj/structure/mirror/directional/north,
 /turf/open/floor/wood,
 /area/ruin/powered)
 "IA" = (
@@ -501,10 +482,6 @@
 /obj/structure/flora/grass/both,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
-"Si" = (
-/obj/structure/mirror,
-/turf/closed/wall/mineral/wood,
-/area/ruin/powered)
 "Sk" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /obj/effect/decal/cleanable/blood/footprints{
@@ -528,6 +505,15 @@
 /obj/structure/flora/grass/both,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"UA" = (
+/obj/structure/closet/cabinet,
+/obj/item/clothing/under/rank/cargo/miner,
+/obj/item/clothing/suit/hooded/wintercoat/miner,
+/obj/item/clothing/shoes/winterboots,
+/obj/item/card/id/advanced/mining,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood,
+/area/ruin/powered)
 "UI" = (
 /obj/machinery/washing_machine,
 /obj/effect/decal/cleanable/blood,
@@ -605,11 +591,11 @@ tN
 pc
 Og
 Og
-bR
+DQ
 Og
 Og
 Og
-jP
+tf
 Og
 Og
 Og
@@ -821,7 +807,7 @@ Vn
 tF
 iz
 Vn
-AG
+bf
 aM
 yb
 Vn
@@ -844,8 +830,8 @@ Kd
 Ei
 Ei
 lo
-Ha
-li
+Vn
+Ib
 Hf
 SZ
 zT
@@ -875,7 +861,7 @@ Ei
 Ei
 lo
 Vn
-Hx
+UA
 fD
 Vn
 yS
@@ -1024,8 +1010,8 @@ Ei
 Vn
 EF
 hD
-Si
-aP
+Vn
+Hh
 WH
 ZG
 Vn

@@ -1,5 +1,12 @@
-/// "Traitor plus" or "Advanced traitor" - a traitor that is able to set their own goals and objectives when in game.
+/// -- "Traitor plus" or "Advanced traitor" - a traitor that is able to set their own goals and objectives when in game. --
 /// Loosely based on the ambitions system from skyrat, but made less bad.
+
+/// Proc to give the traitor their uplink and play the sound.
+/datum/antagonist/traitor/finalize_antag()
+	equip()
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/tatoralert.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
+
+/// The Advanecd Traitor antagonist datum.
 /datum/antagonist/traitor/traitor_plus
 	/// Changed to "Traitor" on spawn, but can be changed by the player.
 	name = "Advanced Traitor"
@@ -15,8 +22,6 @@
 	should_equip = FALSE
 	/// We finalize our antag when they finish their goals.
 	finalize_antag = FALSE
-	/// List of objectives AIs can get, because apparently they're not initialized anywhere like normal objectives.
-	var/static/list/ai_objectives = list("no organics on shuttle" = /datum/objective/block, "no mutants on shuttle" = /datum/objective/purge, "robot army" = /datum/objective/robot_army, "survive AI" = /datum/objective/survive/malf)
 	/// Typepath of what advanced antag datum gets instantiated to this antag.
 	var/advanced_antag_path = /datum/advanced_antag_datum/traitor
 
@@ -25,14 +30,8 @@
 		generate_admin_objective_list()
 
 	var/list/objectives_to_choose = GLOB.admin_objective_list.Copy() - blacklisted_similar_objectives
-	switch(traitor_kind)
-		if(TRAITOR_AI)
-			name = "Malfunctioning AI"
-			objectives_to_choose -= blacklisted_ai_objectives
-			objectives_to_choose += ai_objectives
-		if(TRAITOR_HUMAN)
-			if(findtext(name, "Advanced"))
-				name = "Traitor"
+	if(findtext(name, "Advanced"))
+		name = "Traitor"
 
 	linked_advanced_datum = new advanced_antag_path(src)
 	linked_advanced_datum.setup_advanced_antag()
@@ -84,7 +83,6 @@
 /datum/antagonist/traitor/traitor_plus/roundend_report_footer()
 	return "<br>And thus ends another story on board [station_name()]."
 
-/// -- Advanced Traitor datum - ambitions but not bad. --
 /// An extra button for the TP, to open the goal panel
 /datum/antagonist/traitor/traitor_plus/get_admin_commands()
 	. = ..()
@@ -105,55 +103,33 @@
 	var/datum/antagonist/traitor/our_traitor
 	/// Hijack speed = (starting telecrystals * this modifier)
 	var/hijack_speed_modifier = 0.025
-	/// The type of antag we are. (TRAITOR_AI vs TRAITOR_HUMAN)
-	var/antag_type
 
 /datum/advanced_antag_datum/traitor/New(datum/antagonist/linked_antag)
 	. = ..()
 	our_traitor = linked_antag
-	antag_type = our_traitor.traitor_kind
 
 /datum/advanced_antag_datum/traitor/Destroy()
 	our_traitor = null
 	. = ..()
 
 /datum/advanced_antag_datum/traitor/modify_antag_points()
-	switch(antag_type)
-		if(TRAITOR_HUMAN)
-			var/datum/component/uplink/made_uplink = linked_antagonist.owner.find_syndicate_uplink()
-			if(!made_uplink)
-				return
+	var/datum/component/uplink/made_uplink = linked_antagonist.owner.find_syndicate_uplink()
+	if(!made_uplink)
+		return
 
-			starting_points = get_antag_points_from_goals()
-			made_uplink.telecrystals = starting_points
-			linked_antagonist.hijack_speed = (starting_points * hijack_speed_modifier) // 20 tc traitor = 0.5 (default traitor hijack speed)
-		if(TRAITOR_AI)
-			var/mob/living/silicon/ai/traitor_ai = linked_antagonist.owner.current
-			var/datum/module_picker/traitor_ai_uplink = traitor_ai.malf_picker
-			starting_points = get_antag_points_from_goals()
-			traitor_ai_uplink.processing_time = starting_points
+	starting_points = get_antag_points_from_goals()
+	made_uplink.telecrystals = starting_points
+	linked_antagonist.hijack_speed = (starting_points * hijack_speed_modifier) // 20 tc traitor = 0.5 (default traitor hijack speed)
 
 /datum/advanced_antag_datum/traitor/get_antag_points_from_goals()
-	switch(antag_type)
-		if(TRAITOR_HUMAN)
-			var/finalized_starting_tc = TRAITOR_PLUS_INITIAL_TC
-			for(var/datum/advanced_antag_goal/goal as anything in our_goals)
-				finalized_starting_tc += (goal.intensity * 2)
+	var/finalized_starting_tc = TRAITOR_PLUS_INITIAL_TC
+	for(var/datum/advanced_antag_goal/goal as anything in our_goals)
+		finalized_starting_tc += (goal.intensity * 2)
 
-			return min(finalized_starting_tc, TRAITOR_PLUS_MAX_TC)
-		if(TRAITOR_AI)
-			var/finalized_starting_points = TRAITOR_PLUS_INITIAL_MALF_POINTS
-			for(var/datum/advanced_antag_goal/goal as anything in our_goals)
-				finalized_starting_points += (goal.intensity * 5)
-
-			return min(finalized_starting_points, TRAITOR_PLUS_MAX_MALF_POINTS)
+	return min(finalized_starting_tc, TRAITOR_PLUS_MAX_TC)
 
 /datum/advanced_antag_datum/traitor/get_finalize_text()
-	switch(antag_type)
-		if(TRAITOR_AI)
-			return "Finalizing will begin installlation of your malfunction module with [get_antag_points_from_goals()] processing power. You can still edit your goals after finalizing!"
-		if(TRAITOR_HUMAN)
-			return "Finalizing will send you your uplink to your preferred location with [get_antag_points_from_goals()] telecrystals. You can still edit your goals after finalizing!"
+	return "Finalizing will send you your uplink to your preferred location with [get_antag_points_from_goals()] telecrystals. You can still edit your goals after finalizing!"
 
 /datum/advanced_antag_datum/traitor/post_finalize_actions()
 	. = ..()
@@ -161,7 +137,7 @@
 		return
 
 	our_traitor.should_equip = TRUE
-	our_traitor.finalize_traitor()
+	our_traitor.finalize_antag()
 	modify_antag_points()
 
 /datum/advanced_antag_datum/traitor/set_employer(employer)

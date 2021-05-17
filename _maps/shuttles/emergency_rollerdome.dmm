@@ -92,18 +92,6 @@
 "pj" = (
 /turf/template_noop,
 /area/template_noop)
-"pI" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
-"qU" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
 "ss" = (
 /obj/docking_port/mobile/emergency{
 	name = "Uncle Pete's Rollerdome"
@@ -127,10 +115,6 @@
 	dir = 9
 	},
 /turf/open/floor/wood,
-/area/shuttle/escape)
-"wf" = (
-/obj/effect/spawner/structure/window/plasma/reinforced/plastitanium,
-/turf/open/floor/plating/elevatorshaft,
 /area/shuttle/escape)
 "wn" = (
 /obj/structure/chair/comfy/brown{
@@ -181,6 +165,17 @@
 "Cg" = (
 /turf/open/floor/eighties,
 /area/shuttle/escape)
+"Da" = (
+/obj/structure/table/wood/poker,
+/obj/item/storage/box/drinkingglasses,
+/obj/item/reagent_containers/food/drinks/bottle/whiskey,
+/obj/machinery/light/directional/south,
+/turf/open/floor/wood,
+/area/shuttle/escape)
+"Dd" = (
+/obj/effect/spawner/structure/window/plasma/reinforced/plastitanium,
+/turf/open/floor/plating/elevatorshaft,
+/area/shuttle/escape)
 "Dh" = (
 /obj/effect/spawner/randomsnackvend,
 /turf/open/floor/wood,
@@ -192,6 +187,10 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 6
 	},
+/turf/open/floor/wood,
+/area/shuttle/escape)
+"EX" = (
+/obj/machinery/light/directional/west,
 /turf/open/floor/wood,
 /area/shuttle/escape)
 "Hi" = (
@@ -223,6 +222,10 @@
 /obj/structure/shuttle/engine/heater,
 /obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/plating/airless,
+/area/shuttle/escape)
+"LH" = (
+/obj/machinery/light/directional/east,
+/turf/open/floor/wood,
 /area/shuttle/escape)
 "Ow" = (
 /obj/structure/table,
@@ -295,13 +298,6 @@
 /obj/item/kitchen/knife,
 /turf/open/floor/wood,
 /area/shuttle/escape)
-"Yr" = (
-/obj/structure/table/wood/poker,
-/obj/item/storage/box/drinkingglasses,
-/obj/item/reagent_containers/food/drinks/bottle/whiskey,
-/obj/machinery/light,
-/turf/open/floor/wood,
-/area/shuttle/escape)
 "Zo" = (
 /obj/structure/table/wood/bar,
 /turf/open/floor/wood,
@@ -324,19 +320,19 @@ pj
 tG
 tG
 tG
-wf
+Dd
 tG
 ss
 tG
-wf
-wf
-wf
+Dd
+Dd
+Dd
 tG
 hF
 tG
 QO
 tG
-wf
+Dd
 tG
 pj
 "}
@@ -359,7 +355,7 @@ Cg
 AT
 ce
 Ky
-pI
+EX
 Ky
 tG
 tG
@@ -389,7 +385,7 @@ KJ
 od
 "}
 (4,1,1) = {"
-wf
+Dd
 Hi
 We
 We
@@ -413,7 +409,7 @@ KJ
 od
 "}
 (5,1,1) = {"
-wf
+Dd
 wn
 Ky
 Ky
@@ -437,10 +433,10 @@ KJ
 od
 "}
 (6,1,1) = {"
-wf
+Dd
 im
 Ky
-Yr
+Da
 zx
 cP
 Cg
@@ -461,7 +457,7 @@ KJ
 od
 "}
 (7,1,1) = {"
-wf
+Dd
 wn
 Ky
 Ky
@@ -485,7 +481,7 @@ KJ
 od
 "}
 (8,1,1) = {"
-wf
+Dd
 zt
 xK
 xK
@@ -551,7 +547,7 @@ Cg
 AT
 ce
 Ky
-qU
+LH
 Ky
 tG
 tG
@@ -564,19 +560,19 @@ pj
 tG
 tG
 tG
-wf
+Dd
 tG
 tG
 tG
-wf
-wf
-wf
+Dd
+Dd
+Dd
 tG
 tG
 tG
-wf
+Dd
 tG
-wf
+Dd
 tG
 pj
 "}

@@ -102,6 +102,14 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/shuttle/caravan/freighter3)
+"aB" = (
+/obj/effect/turf_decal/box/white/corners{
+	dir = 1
+	},
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/gun/energy/disabler,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
 "aD" = (
 /obj/item/stack/rods,
 /turf/template_noop,
@@ -223,16 +231,11 @@
 /mob/living/simple_animal/hostile/carp,
 /turf/template_noop,
 /area/template_noop)
-"bo" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
+"bp" = (
+/obj/effect/turf_decal/bot_white,
 /obj/effect/decal/cleanable/dirt,
-/mob/living/simple_animal/hostile/pirate/ranged/space{
-	environment_smash = 0
-	},
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter2)
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
 "br" = (
 /obj/item/stack/sheet/iron,
 /turf/template_noop,
@@ -244,30 +247,25 @@
 "bt" = (
 /turf/closed/mineral/random,
 /area/ruin/unpowered)
+"bA" = (
+/obj/effect/turf_decal/box/white/corners,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
 "bJ" = (
 /turf/closed/wall/mineral/plastitanium,
 /area/ruin/unpowered)
-"ca" = (
-/obj/effect/turf_decal/box/white/corners{
-	dir = 4
-	},
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space/stormtrooper,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"cx" = (
-/obj/effect/turf_decal/bot_white,
-/obj/machinery/light/small,
-/obj/machinery/button/door{
-	id = "caravantrade3_cargo_starboard";
-	name = "Cargo Blast Door Control";
-	pixel_y = -24
-	},
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
 "dc" = (
 /obj/item/shard,
 /turf/template_noop,
 /area/template_noop)
+"dd" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless{
+	icon_state = "damaged5"
+	},
+/area/shuttle/caravan/freighter3)
 "dD" = (
 /turf/open/floor/plating/asteroid/airless,
 /area/ruin/unpowered)
@@ -281,6 +279,16 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/mineral/plastitanium/airless,
 /area/ruin/unpowered)
+"dH" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/gear,
+/obj/item/ammo_casing/shotgun/ion,
+/obj/item/ammo_casing/shotgun/pulseslug,
+/obj/item/ammo_casing/shotgun/dragonsbreath,
+/obj/item/ammo_casing/shotgun/stunslug,
+/obj/item/ammo_casing/shotgun/stunslug,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
 "dL" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/door_assembly/door_assembly_hatch{
@@ -354,12 +362,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter3)
-"gN" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/iron/airless{
-	icon_state = "damaged2"
-	},
-/area/shuttle/caravan/freighter3)
 "gP" = (
 /obj/structure/shuttle/engine/propulsion/burst{
 	dir = 8
@@ -409,13 +411,6 @@
 	},
 /turf/open/floor/iron/dark{
 	initial_gas_mix = "TEMP=2.7"
-	},
-/area/shuttle/caravan/freighter3)
-"hd" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless{
-	icon_state = "floorscorched1"
 	},
 /area/shuttle/caravan/freighter3)
 "hm" = (
@@ -482,22 +477,17 @@
 /obj/structure/cable,
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter3)
-"hz" = (
-/obj/machinery/firealarm{
-	dir = 4;
-	pixel_x = 24
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/turf/open/floor/iron{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/shuttle/caravan/freighter3)
 "hB" = (
 /turf/open/floor/iron/airless{
 	icon_state = "damaged2"
 	},
+/area/shuttle/caravan/freighter3)
+"hI" = (
+/obj/effect/turf_decal/box/white/corners{
+	dir = 4
+	},
+/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space/stormtrooper,
+/turf/open/floor/iron/dark/airless,
 /area/shuttle/caravan/freighter3)
 "hQ" = (
 /obj/structure/shuttle/engine/propulsion/burst/left{
@@ -505,17 +495,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter2)
-"hR" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
-/obj/structure/sign/warning/vacuum{
-	pixel_x = -32;
-	pixel_y = -32
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
 "hS" = (
 /obj/effect/turf_decal/bot_white,
 /obj/effect/decal/cleanable/dirt,
@@ -529,18 +508,6 @@
 /turf/open/floor/iron/airless{
 	icon_state = "damaged2"
 	},
-/area/shuttle/caravan/freighter2)
-"hX" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/small{
-	dir = 8
-	},
-/obj/structure/sign/warning/vacuum{
-	pixel_x = -32;
-	pixel_y = 32
-	},
-/turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter2)
 "hY" = (
 /obj/structure/rack,
@@ -662,18 +629,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter2)
-"iY" = (
-/obj/machinery/firealarm{
-	dir = 4;
-	pixel_x = 24
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/turf/open/floor/iron{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/shuttle/caravan/freighter2)
 "jb" = (
 /obj/effect/turf_decal/bot_white,
 /obj/effect/decal/cleanable/dirt,
@@ -701,14 +656,6 @@
 	},
 /turf/open/floor/iron/airless,
 /area/shuttle/caravan/freighter2)
-"jv" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/firealarm{
-	dir = 8;
-	pixel_x = -26
-	},
-/turf/open/floor/plating/airless,
-/area/shuttle/caravan/freighter2)
 "jy" = (
 /obj/machinery/door/poddoor{
 	id = "caravantrade3_cargo_starboard";
@@ -716,27 +663,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter3)
-"jC" = (
-/obj/effect/turf_decal/bot_white/right,
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/power/apc{
-	dir = 8;
-	name = "Tiny Freighter APC";
-	pixel_x = -25;
-	start_charge = 0
-	},
-/obj/machinery/button/door{
-	id = "caravantrade2_cargo_port";
-	name = "Cargo Blast Door Control";
-	pixel_y = 24
-	},
-/obj/machinery/light/small{
-	dir = 1
-	},
-/obj/structure/cable,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
 "jH" = (
 /obj/machinery/atmospherics/components/unary/tank/air{
 	dir = 4
@@ -775,11 +701,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter2)
-"jS" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
 "jV" = (
 /obj/structure/shuttle/engine/propulsion/burst/right{
 	dir = 8
@@ -817,6 +738,15 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/caravan/freighter2)
+"kh" = (
+/obj/machinery/firealarm/directional/east,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/iron{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/shuttle/caravan/freighter2)
 "kr" = (
 /obj/docking_port/stationary{
 	dir = 2;
@@ -841,11 +771,6 @@
 	},
 /turf/template_noop,
 /area/template_noop)
-"kK" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter2)
 "kU" = (
 /obj/docking_port/stationary{
 	dir = 2;
@@ -858,19 +783,14 @@
 	},
 /turf/template_noop,
 /area/template_noop)
-"lu" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+"lz" = (
+/obj/structure/chair{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/turf/open/floor/iron{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/shuttle/caravan/freighter2)
+/obj/effect/mob_spawn/human/corpse/cargo_tech,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
 "lB" = (
 /turf/closed/mineral/random/high_chance,
 /area/ruin/unpowered)
@@ -880,85 +800,85 @@
 	icon_state = "platingdmg1"
 	},
 /area/ruin/unpowered)
-"lJ" = (
+"mc" = (
+/obj/effect/turf_decal/box/white/corners{
+	dir = 1
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"mX" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"mZ" = (
+/obj/effect/turf_decal/bot_white,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"op" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/turf/open/floor/iron/airless{
+	icon_state = "floorscorched1"
+	},
+/area/shuttle/caravan/freighter2)
+"ow" = (
+/obj/machinery/door/firedoor,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/structure/door_assembly/door_assembly_com{
+	anchored = 1;
+	density = 0;
+	name = "broken airlock"
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"oI" = (
 /obj/effect/turf_decal/box/white/corners{
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/caravan/freighter2)
-"md" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter2)
-"mU" = (
-/obj/effect/turf_decal/box/white/corners{
-	dir = 1
-	},
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"nl" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 6
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter3)
-"nF" = (
-/obj/effect/turf_decal/box/white/corners{
-	dir = 8
-	},
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate/secure/weapon,
-/obj/item/gun/energy/laser/retro,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"nJ" = (
+"pe" = (
 /obj/effect/turf_decal/bot_white,
+/obj/machinery/light/small/directional/north,
+/obj/machinery/button/door/directional/north{
+	id = "caravantrade3_cargo_port";
+	name = "Cargo Blast Door Control"
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"pC" = (
+/obj/effect/turf_decal/bot_white/left,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small/directional/south,
+/obj/machinery/button/door/directional/south{
+	id = "caravantrade2_cargo_starboard";
+	name = "Cargo Blast Door Control"
+	},
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/caravan/freighter2)
 "pD" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 10
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"pI" = (
-/obj/effect/turf_decal/bot_white,
-/obj/structure/closet/crate/secure/gear,
-/obj/item/ammo_casing/shotgun/ion,
-/obj/item/ammo_casing/shotgun/pulseslug,
-/obj/item/ammo_casing/shotgun/dragonsbreath,
-/obj/item/ammo_casing/shotgun/stunslug,
-/obj/item/ammo_casing/shotgun/stunslug,
-/turf/open/floor/iron/dark/airless,
+/mob/living/simple_animal/hostile/pirate/ranged/space{
+	environment_smash = 0
+	},
+/turf/open/floor/iron/airless,
 /area/shuttle/caravan/freighter2)
 "qC" = (
-/obj/effect/turf_decal/bot_white,
-/obj/structure/closet/crate/secure/plasma,
-/obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"qR" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter3)
-"sr" = (
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"sY" = (
-/obj/effect/turf_decal/box/white/corners,
-/obj/structure/closet/crate/secure/weapon,
-/obj/item/gun/energy/e_gun/mini,
-/turf/open/floor/iron/dark/airless,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 10
+	},
+/turf/open/floor/iron/airless{
+	icon_state = "floorscorched1"
+	},
 /area/shuttle/caravan/freighter2)
-"tE" = (
+"rX" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -966,320 +886,16 @@
 /mob/living/simple_animal/hostile/syndicate/ranged/smg/space,
 /turf/open/floor/iron/airless,
 /area/shuttle/caravan/freighter3)
-"tH" = (
-/obj/structure/shuttle/engine/propulsion/burst{
-	dir = 8
-	},
-/turf/closed/wall/mineral/plastitanium,
-/area/ruin/unpowered)
-"tW" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter2)
-"ud" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter2)
-"uN" = (
-/obj/effect/turf_decal/bot_white,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate/secure/gear,
-/obj/item/storage/box/rubbershot,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"vE" = (
-/obj/machinery/door/airlock/external{
-	req_access_txt = "13"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/shuttle/caravan/freighter3)
-"vL" = (
-/obj/effect/turf_decal/bot_white/right,
-/obj/machinery/power/apc{
-	dir = 8;
-	name = "Tiny Freighter APC";
-	pixel_x = -25;
-	start_charge = 0
-	},
-/obj/machinery/button/door{
-	id = "caravantrade3_cargo_port";
-	name = "Cargo Blast Door Control";
-	pixel_y = 24
-	},
-/obj/machinery/light/small{
-	dir = 1
-	},
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"wj" = (
-/obj/machinery/door/firedoor,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/structure/door_assembly/door_assembly_com{
-	anchored = 1;
-	density = 0;
-	name = "broken airlock"
-	},
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"xZ" = (
-/obj/effect/turf_decal/bot_white,
-/obj/structure/closet/crate/secure/weapon,
-/obj/item/gun/ballistic/revolver/grenadelauncher/unrestricted,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"ym" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless{
-	icon_state = "floorscorched1"
-	},
-/area/shuttle/caravan/freighter3)
-"yv" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate/secure/engineering,
-/obj/effect/spawner/lootdrop/space/fancytech,
-/obj/effect/spawner/lootdrop/space/fancytech,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"AI" = (
-/obj/effect/turf_decal/bot_white,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate/secure/engineering,
-/obj/item/wrench/caravan,
-/obj/item/wirecutters/caravan,
-/obj/item/crowbar/red/caravan,
-/obj/item/screwdriver/caravan,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"Ct" = (
-/obj/machinery/firealarm{
-	dir = 8;
-	pixel_x = -26
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"FA" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/turf/open/floor/iron/airless{
-	icon_state = "damaged3"
-	},
-/area/shuttle/caravan/freighter2)
-"Gk" = (
-/obj/effect/turf_decal/bot_white,
-/obj/structure/closet/crate/secure/gear,
-/obj/item/storage/belt/bandolier,
-/obj/item/storage/belt/holster,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"GC" = (
-/obj/effect/turf_decal/box/white/corners,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"GL" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/door/airlock/external{
-	req_access_txt = "13"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/shuttle/caravan/freighter2)
-"Hm" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 10
-	},
-/turf/open/floor/iron/airless{
-	icon_state = "floorscorched1"
-	},
-/area/shuttle/caravan/freighter2)
-"Ia" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
-/obj/structure/sign/warning/vacuum{
-	pixel_x = -32;
-	pixel_y = 32
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"IM" = (
-/obj/effect/turf_decal/bot_white,
-/obj/machinery/button/door{
-	id = "caravantrade2_cargo_port";
-	name = "Cargo Blast Door Control";
-	pixel_y = 24
-	},
-/obj/machinery/light/small{
-	dir = 1
-	},
-/obj/structure/closet/crate/secure,
-/obj/effect/spawner/lootdrop/space/cashmoney,
-/obj/effect/spawner/lootdrop/space/cashmoney,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"JO" = (
-/obj/effect/turf_decal/bot_white,
-/obj/structure/closet/crate/secure/engineering,
-/obj/item/storage/toolbox/mechanical,
-/obj/item/storage/toolbox/mechanical,
-/obj/item/storage/toolbox/electrical,
-/obj/item/storage/toolbox/electrical,
-/obj/item/clothing/gloves/color/yellow,
-/obj/item/clothing/gloves/color/yellow,
-/obj/item/multitool,
-/obj/item/multitool,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"JU" = (
-/obj/machinery/door/firedoor,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/door_assembly/door_assembly_com{
-	anchored = 1;
-	density = 0;
-	name = "broken airlock"
-	},
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"KO" = (
-/obj/effect/turf_decal/box/white/corners{
-	dir = 1
-	},
-/obj/structure/closet/crate/secure/weapon,
-/obj/item/gun/energy/disabler,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"Mf" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/iron/airless{
-	icon_state = "floorscorched1"
-	},
-/area/shuttle/caravan/freighter2)
-"Mg" = (
-/obj/effect/turf_decal/bot_white,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"Np" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/small{
-	dir = 8
-	},
+"sd" = (
+/obj/machinery/light/small/directional/west,
 /obj/structure/sign/warning/vacuum{
 	pixel_x = -32;
 	pixel_y = -32
 	},
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"NB" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating/airless,
-/area/shuttle/caravan/freighter3)
-"Pu" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/airless{
-	icon_state = "damaged5"
-	},
-/area/shuttle/caravan/freighter3)
-"QH" = (
-/obj/effect/turf_decal/bot_white,
-/obj/structure/closet/crate/secure/engineering,
-/obj/item/organ/cyberimp/arm/toolset,
-/obj/item/organ/cyberimp/eyes/hud/medical,
-/obj/item/organ/cyberimp/brain/anti_stun,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"QR" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 6
-	},
-/turf/open/floor/iron/airless,
-/area/shuttle/caravan/freighter2)
-"Rz" = (
-/obj/effect/turf_decal/bot_white,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/button/door{
-	id = "caravantrade2_cargo_starboard";
-	name = "Cargo Blast Door Control";
-	pixel_y = -24
-	},
-/obj/machinery/light/small,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"TS" = (
-/obj/structure/chair{
-	dir = 4
-	},
-/obj/effect/mob_spawn/human/corpse/cargo_tech,
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"TV" = (
-/obj/effect/turf_decal/bot_white,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter2)
-"TX" = (
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg1"
-	},
 /area/shuttle/caravan/freighter3)
-"VE" = (
-/obj/effect/turf_decal/bot_white,
-/obj/machinery/light/small{
-	dir = 1
-	},
-/obj/machinery/button/door{
-	id = "caravantrade3_cargo_port";
-	name = "Cargo Blast Door Control";
-	pixel_y = 24
-	},
-/turf/open/floor/iron/dark/airless,
-/area/shuttle/caravan/freighter3)
-"WE" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/turf/open/floor/iron{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/shuttle/caravan/freighter3)
-"WQ" = (
+"sB" = (
 /obj/machinery/airalarm/all_access{
 	dir = 4;
 	pixel_x = -24
@@ -1290,18 +906,357 @@
 	},
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/caravan/freighter3)
-"YZ" = (
-/obj/effect/turf_decal/bot_white/left,
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/button/door{
-	id = "caravantrade2_cargo_starboard";
-	name = "Cargo Blast Door Control";
-	pixel_y = -24
+"tH" = (
+/obj/structure/shuttle/engine/propulsion/burst{
+	dir = 8
 	},
-/obj/machinery/light/small,
+/turf/closed/wall/mineral/plastitanium,
+/area/ruin/unpowered)
+"tR" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/plasma,
+/obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"ua" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/iron{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/shuttle/caravan/freighter3)
+"uh" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless{
+	icon_state = "floorscorched1"
+	},
+/area/shuttle/caravan/freighter3)
+"uS" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small/directional/west,
+/obj/structure/sign/warning/vacuum{
+	pixel_x = -32;
+	pixel_y = 32
+	},
+/turf/open/floor/plating/airless,
+/area/shuttle/caravan/freighter2)
+"vc" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/turf/open/floor/iron/airless{
+	icon_state = "damaged3"
+	},
+/area/shuttle/caravan/freighter2)
+"vE" = (
+/obj/machinery/door/airlock/external{
+	req_access_txt = "13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/shuttle/caravan/freighter3)
+"wG" = (
+/obj/effect/turf_decal/bot_white,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/button/door/directional/south{
+	id = "caravantrade2_cargo_starboard";
+	name = "Cargo Blast Door Control"
+	},
+/obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/caravan/freighter2)
+"wQ" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 10
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"xZ" = (
+/obj/effect/turf_decal/bot_white,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"Be" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter2)
+"Bt" = (
+/obj/machinery/firealarm/directional/east,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/iron{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/shuttle/caravan/freighter3)
+"BH" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/gun/ballistic/revolver/grenadelauncher/unrestricted,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"CB" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/engineering,
+/obj/item/storage/toolbox/mechanical,
+/obj/item/storage/toolbox/mechanical,
+/obj/item/storage/toolbox/electrical,
+/obj/item/storage/toolbox/electrical,
+/obj/item/clothing/gloves/color/yellow,
+/obj/item/clothing/gloves/color/yellow,
+/obj/item/multitool,
+/obj/item/multitool,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"Dh" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/firealarm/directional/west,
+/turf/open/floor/plating/airless,
+/area/shuttle/caravan/freighter2)
+"DE" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter2)
+"DK" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"Fs" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/secure/engineering,
+/obj/effect/spawner/lootdrop/space/fancytech,
+/obj/effect/spawner/lootdrop/space/fancytech,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"FQ" = (
+/obj/effect/turf_decal/box/white/corners,
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/gun/energy/e_gun/mini,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"GL" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/door/airlock/external{
+	req_access_txt = "13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating/airless,
+/area/shuttle/caravan/freighter2)
+"GZ" = (
+/obj/effect/turf_decal/bot_white/right,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/light/small/directional/north,
+/obj/structure/cable,
+/obj/machinery/button/door/directional/north{
+	id = "caravantrade2_cargo_port";
+	name = "Cargo Blast Door Control"
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"IF" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter2)
+"Jj" = (
+/obj/effect/turf_decal/bot_white,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/secure/engineering,
+/obj/item/wrench/caravan,
+/obj/item/wirecutters/caravan,
+/obj/item/crowbar/red/caravan,
+/obj/item/screwdriver/caravan,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"Jr" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 6
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter3)
+"Jw" = (
+/obj/effect/turf_decal/box/white/corners{
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/gun/energy/laser/retro,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"Jz" = (
+/obj/effect/turf_decal/bot_white,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/secure/gear,
+/obj/item/storage/box/rubbershot,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"KJ" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small/directional/west,
+/obj/structure/sign/warning/vacuum{
+	pixel_x = -32;
+	pixel_y = -32
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"KR" = (
+/obj/machinery/light/small/directional/west,
+/obj/structure/sign/warning/vacuum{
+	pixel_x = -32;
+	pixel_y = 32
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"LU" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter3)
+"Mm" = (
+/obj/machinery/door/firedoor,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/door_assembly/door_assembly_com{
+	anchored = 1;
+	density = 0;
+	name = "broken airlock"
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"OQ" = (
+/obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg1"
+	},
+/area/shuttle/caravan/freighter3)
+"Rn" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/gear,
+/obj/item/storage/belt/bandolier,
+/obj/item/storage/belt/holster,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"RG" = (
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/light/small/directional/south,
+/obj/machinery/button/door/directional/south{
+	id = "caravantrade3_cargo_starboard";
+	name = "Cargo Blast Door Control"
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"Sh" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/iron{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/shuttle/caravan/freighter2)
+"SO" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/turf/open/floor/iron/airless{
+	icon_state = "damaged2"
+	},
+/area/shuttle/caravan/freighter3)
+"Ti" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless{
+	icon_state = "floorscorched1"
+	},
+/area/shuttle/caravan/freighter3)
+"Tq" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter2)
+"Tw" = (
+/obj/effect/turf_decal/bot_white,
+/obj/machinery/button/door/directional/north{
+	id = "caravantrade2_cargo_port";
+	name = "Cargo Blast Door Control"
+	},
+/obj/machinery/light/small/directional/north,
+/obj/structure/closet/crate/secure,
+/obj/effect/spawner/lootdrop/space/cashmoney,
+/obj/effect/spawner/lootdrop/space/cashmoney,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter2)
+"TL" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 6
+	},
+/turf/open/floor/iron/airless,
+/area/shuttle/caravan/freighter2)
+"Xg" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating/airless,
+/area/shuttle/caravan/freighter3)
+"Yt" = (
+/obj/machinery/firealarm/directional/west,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"YY" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/engineering,
+/obj/item/organ/cyberimp/arm/toolset,
+/obj/item/organ/cyberimp/eyes/hud/medical,
+/obj/item/organ/cyberimp/brain/anti_stun,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
+"Zw" = (
+/obj/effect/turf_decal/bot_white/right,
+/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/light/small/directional/north,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+/obj/machinery/button/door/directional/north{
+	id = "caravantrade3_cargo_port";
+	name = "Cargo Blast Door Control"
+	},
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/caravan/freighter3)
 
 (1,1,1) = {"
 aa
@@ -3565,12 +3520,12 @@ aa
 aa
 aa
 hn
-jC
+GZ
 iq
 iT
 jp
 jH
-YZ
+pC
 hn
 aa
 aa
@@ -3619,10 +3574,10 @@ aa
 ho
 hS
 aP
-tW
-kK
-md
-TV
+DE
+Be
+IF
+xZ
 ke
 aa
 aa
@@ -3669,12 +3624,12 @@ bs
 bs
 bs
 hp
-pI
+dH
 is
-KO
-nF
-ud
-Gk
+aB
+Jw
+Tq
+Rn
 kf
 aa
 aa
@@ -3722,11 +3677,11 @@ af
 af
 hq
 hU
-QR
-jS
-jS
-Mf
-nJ
+TL
+DK
+DK
+op
+mZ
 ke
 aa
 aa
@@ -3773,12 +3728,12 @@ bs
 bs
 bs
 hr
-uN
-FA
-lJ
-sY
-bo
-TV
+Jz
+vc
+oI
+FQ
+pD
+xZ
 kf
 aa
 aa
@@ -3825,12 +3780,12 @@ aa
 aa
 aa
 hn
-IM
-lu
-iY
+Tw
+Sh
+kh
 ju
 bi
-Rz
+wG
 hn
 aa
 aa
@@ -3878,7 +3833,7 @@ aa
 aa
 hn
 hn
-wj
+ow
 hn
 hn
 hn
@@ -3929,12 +3884,12 @@ aa
 aa
 aa
 hs
-hX
-Hm
+uS
+qC
 bg
-jv
+Dh
 jN
-Np
+KJ
 GL
 aa
 aa
@@ -5278,7 +5233,7 @@ aa
 aa
 aa
 ga
-vL
+Zw
 gR
 hu
 hZ
@@ -5330,11 +5285,11 @@ aa
 aa
 aa
 gb
-Mg
+bp
 aN
-qR
-gN
-TX
+LU
+SO
+OQ
 ak
 ap
 aa
@@ -5382,12 +5337,12 @@ aa
 aa
 aa
 gb
-AI
+Jj
 gT
-mU
+mc
 ib
-NB
-QH
+Xg
+YY
 bd
 aa
 aa
@@ -5434,11 +5389,11 @@ aa
 aa
 aa
 gb
-xZ
-nl
-yv
-Pu
-hd
+BH
+Jr
+Fs
+dd
+uh
 jb
 jy
 aa
@@ -5486,12 +5441,12 @@ aa
 aa
 aa
 gb
-JO
-ym
-ca
-GC
-tE
-qC
+CB
+Ti
+hI
+bA
+rX
+tR
 jy
 aa
 aa
@@ -5538,12 +5493,12 @@ aa
 aa
 aa
 ga
-VE
-WE
-hz
+pe
+ua
+Bt
 ie
 aR
-cx
+RG
 ga
 aa
 aa
@@ -5591,7 +5546,7 @@ aa
 aa
 ga
 ga
-JU
+Mm
 ga
 ga
 ga
@@ -5642,12 +5597,12 @@ aa
 aa
 aa
 gc
-Ia
-pD
-WQ
-Ct
-sr
-hR
+KR
+wQ
+sB
+Yt
+mX
+sd
 vE
 aa
 aa
@@ -5697,7 +5652,7 @@ gd
 aw
 aG
 hB
-TS
+lz
 aM
 aQ
 gd

@@ -62,13 +62,6 @@
 	},
 /turf/open/floor/mineral/gold,
 /area/shuttle/escape)
-"n" = (
-/obj/structure/table/wood/poker,
-/obj/item/storage/box/drinkingglasses,
-/obj/item/reagent_containers/food/drinks/bottle/whiskey,
-/obj/machinery/light,
-/turf/open/floor/mineral/gold,
-/area/shuttle/escape)
 "o" = (
 /obj/machinery/computer/communications{
 	dir = 8
@@ -122,13 +115,6 @@
 /obj/item/reagent_containers/food/drinks/bottle/vodka/badminka,
 /turf/open/floor/wood,
 /area/shuttle/escape)
-"C" = (
-/obj/machinery/computer/slot_machine,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
 "D" = (
 /obj/structure/chair/comfy/brown{
 	dir = 8
@@ -151,18 +137,6 @@
 	dir = 8
 	},
 /turf/open/floor/carpet,
-/area/shuttle/escape)
-"H" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
-/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
-/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/item/coin/plasma,
-/obj/item/coin/plasma,
-/turf/open/floor/wood,
 /area/shuttle/escape)
 "I" = (
 /obj/machinery/computer/slot_machine{
@@ -200,26 +174,48 @@
 "O" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/shuttle/escape)
-"S" = (
+"P" = (
+/obj/structure/table/wood/poker,
+/obj/item/storage/box/drinkingglasses,
+/obj/item/reagent_containers/food/drinks/bottle/whiskey,
+/obj/machinery/light/directional/south,
+/turf/open/floor/mineral/gold,
+/area/shuttle/escape)
+"R" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating/elevatorshaft,
 /area/shuttle/escape)
-"T" = (
-/turf/open/floor/light/colour_cycle/dancefloor_a,
+"S" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
+/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
+/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
+/obj/machinery/light/directional/east,
+/obj/item/coin/plasma,
+/obj/item/coin/plasma,
+/turf/open/floor/wood,
 /area/shuttle/escape)
 "V" = (
-/obj/machinery/jukebox/disco/indestructible,
-/turf/open/floor/light/colour_cycle/dancefloor_a,
-/area/shuttle/escape)
-"X" = (
 /obj/structure/statue/plasma/scientist{
 	anchored = 1;
 	custom_materials = list(/datum/material/plasma = 100000)
 	},
 /turf/open/floor/light/colour_cycle/dancefloor_b,
 /area/shuttle/escape)
-"Z" = (
+"W" = (
 /turf/open/floor/light/colour_cycle/dancefloor_b,
+/area/shuttle/escape)
+"X" = (
+/obj/machinery/computer/slot_machine,
+/obj/machinery/light/directional/west,
+/turf/open/floor/wood,
+/area/shuttle/escape)
+"Y" = (
+/turf/open/floor/light/colour_cycle/dancefloor_a,
+/area/shuttle/escape)
+"Z" = (
+/obj/machinery/jukebox/disco/indestructible,
+/turf/open/floor/light/colour_cycle/dancefloor_a,
 /area/shuttle/escape)
 
 (1,1,1) = {"
@@ -230,19 +226,19 @@ a
 b
 b
 b
-S
+R
 b
 u
 b
-S
-S
-S
+R
+R
+R
 b
 O
 b
 w
 b
-S
+R
 b
 a
 "}
@@ -252,7 +248,7 @@ b
 b
 b
 O
-X
+V
 r
 r
 r
@@ -262,10 +258,10 @@ r
 r
 r
 r
-X
-S
+V
+R
 x
-C
+X
 I
 b
 b
@@ -275,7 +271,7 @@ b
 b
 h
 m
-S
+R
 r
 r
 r
@@ -287,7 +283,7 @@ r
 r
 r
 r
-S
+R
 x
 D
 D
@@ -295,23 +291,23 @@ M
 N
 "}
 (4,1,1) = {"
-S
+R
 d
 i
 i
-S
+R
 r
 r
 r
 j
 j
-T
+Y
 j
 j
 r
 r
 r
-S
+R
 x
 x
 x
@@ -319,23 +315,23 @@ M
 N
 "}
 (5,1,1) = {"
-S
+R
 e
 j
 j
-S
+R
 r
 r
 s
 j
-T
-Z
-T
+Y
+W
+Y
 j
 s
 r
 r
-S
+R
 y
 E
 y
@@ -343,23 +339,23 @@ M
 N
 "}
 (6,1,1) = {"
-S
+R
 f
 j
-n
-S
+P
+R
 r
 j
 j
-T
+Y
+W
 Z
-V
-Z
-T
+W
+Y
 j
 j
 r
-S
+R
 z
 F
 J
@@ -367,7 +363,7 @@ M
 N
 "}
 (7,1,1) = {"
-S
+R
 e
 j
 j
@@ -376,14 +372,14 @@ r
 r
 s
 j
-T
-Z
-T
+Y
+W
+Y
 j
 s
 r
 r
-S
+R
 y
 G
 y
@@ -391,23 +387,23 @@ M
 N
 "}
 (8,1,1) = {"
-S
+R
 g
 k
 k
-S
+R
 r
 r
 r
 j
 j
-T
+Y
 j
 j
 r
 r
 r
-S
+R
 x
 x
 x
@@ -419,7 +415,7 @@ b
 b
 l
 o
-S
+R
 r
 r
 r
@@ -431,7 +427,7 @@ r
 r
 r
 r
-S
+R
 A
 x
 K
@@ -444,7 +440,7 @@ b
 b
 b
 O
-X
+V
 r
 r
 r
@@ -454,10 +450,10 @@ r
 r
 r
 r
-X
-S
+V
+R
 B
-H
+S
 L
 b
 b
@@ -470,19 +466,19 @@ a
 b
 b
 b
-S
+R
 b
 b
 b
-S
-S
-S
+R
+R
+R
 b
 b
 b
-S
+R
 b
-S
+R
 b
 a
 "}

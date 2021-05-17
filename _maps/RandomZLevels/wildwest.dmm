@@ -50,11 +50,6 @@
 /mob/living/simple_animal/hostile/faithless,
 /turf/open/floor/circuit/off,
 /area/awaymission/wildwest/vault)
-"an" = (
-/turf/open/floor/cult{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/awaymission/wildwest/vault)
 "ao" = (
 /turf/open/floor/circuit/green/off,
 /area/awaymission/wildwest/vault)
@@ -128,24 +123,12 @@
 /obj/effect/mob_spawn/human/miner/rig,
 /turf/open/floor/engine/cult,
 /area/awaymission/wildwest/vault)
-"aL" = (
-/obj/item/paper/fluff/awaymissions/wildwest/grinder,
-/turf/open/floor/cult{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/awaymission/wildwest/vault)
 "aM" = (
 /turf/closed/mineral/silver,
 /area/awaymission/wildwest/mines)
 "aN" = (
 /turf/closed/mineral,
 /area/awaymission/wildwest/mines)
-"aO" = (
-/obj/effect/mob_spawn/human/corpse/syndicatecommando,
-/turf/open/floor/cult{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/awaymission/wildwest/vault)
 "aP" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /turf/closed/mineral,
@@ -364,35 +347,6 @@
 "bP" = (
 /turf/closed/wall/mineral/sandstone,
 /area/awaymission/wildwest/gov)
-"bQ" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/effect/spawner/structure/window/hollow/reinforced/directional{
-	dir = 8
-	},
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
-"bR" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/grille,
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
-"bS" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
 "bT" = (
 /obj/structure/window/reinforced/tinted/frosted{
 	dir = 8
@@ -421,19 +375,6 @@
 	},
 /turf/open/space,
 /area/space/nearstation)
-"bX" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
 "bY" = (
 /turf/open/floor/plating/ironsand,
 /area/awaymission/wildwest/gov)
@@ -466,26 +407,6 @@
 	dir = 5
 	},
 /area/awaymission/wildwest/mines)
-"ce" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/grille,
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
-"cf" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/grille,
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
 "cg" = (
 /obj/structure/table/wood,
 /obj/item/paper/fluff/awaymissions/wildwest/journal/page4,
@@ -655,33 +576,11 @@
 /mob/living/simple_animal/hostile/netherworld,
 /turf/open/floor/carpet,
 /area/awaymission/wildwest/gov)
-"cQ" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted,
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
 "cR" = (
 /obj/structure/chair/wood/wings{
 	dir = 4
 	},
 /turf/open/floor/wood,
-/area/awaymission/wildwest/gov)
-"cS" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted,
-/turf/open/floor/plating/ironsand,
 /area/awaymission/wildwest/gov)
 "cT" = (
 /obj/effect/decal/remains/human,
@@ -737,18 +636,6 @@
 	},
 /turf/open/floor/wood,
 /area/awaymission/wildwest/mines)
-"dc" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/effect/spawner/structure/window/hollow/reinforced/directional{
-	dir = 1
-	},
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
 "dd" = (
 /obj/structure/table/wood,
 /obj/item/food/bread/creamcheese,
@@ -769,19 +656,6 @@
 /turf/open/floor/iron/cafeteria{
 	dir = 5
 	},
-/area/awaymission/wildwest/gov)
-"dg" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/turf/open/floor/plating/ironsand,
 /area/awaymission/wildwest/gov)
 "dh" = (
 /obj/effect/mob_spawn/human/corpse/syndicatecommando{
@@ -957,36 +831,6 @@
 /obj/machinery/computer/security/telescreen/entertainment,
 /turf/closed/wall/mineral/sandstone,
 /area/awaymission/wildwest/mines)
-"dR" = (
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
-"dS" = (
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
-"dT" = (
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/turf/open/floor/plating/ironsand,
-/area/awaymission/wildwest/gov)
 "dU" = (
 /obj/machinery/door/airlock/sandstone,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
@@ -1218,44 +1062,6 @@
 	icon_state = "ironsand14"
 	},
 /area/awaymission/wildwest/gov)
-"eO" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
-"eP" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
-"eQ" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
-"eR" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/window/reinforced/tinted/frosted,
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "eS" = (
 /obj/effect/mine/gas/plasma,
 /turf/open/floor/wood,
@@ -1382,16 +1188,6 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/awaymission/wildwest/mines)
-"fj" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "fk" = (
 /obj/structure/mecha_wreckage/seraph{
 	anchored = 1
@@ -1414,16 +1210,6 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/awaymission/wildwest/mines)
-"fo" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "fp" = (
 /obj/structure/toilet{
 	dir = 1
@@ -1490,16 +1276,6 @@
 /obj/structure/window/reinforced/tinted/frosted,
 /turf/open/space,
 /area/space/nearstation)
-"fA" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/effect/spawner/structure/window/hollow/reinforced/directional,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "fB" = (
 /obj/effect/mine/gas/plasma,
 /turf/open/floor/plating/ironsand,
@@ -1633,19 +1409,6 @@
 	},
 /turf/open/floor/grass,
 /area/awaymission/wildwest/gov)
-"fX" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "fY" = (
 /obj/effect/decal/cleanable/cobweb,
 /obj/effect/decal/cleanable/blood,
@@ -1772,49 +1535,6 @@
 	},
 /turf/open/floor/grass,
 /area/awaymission/wildwest/gov)
-"gz" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
-"gA" = (
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
-"gB" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/grille,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
-"gC" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 1
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "gD" = (
 /obj/structure/window/reinforced/tinted/frosted{
 	dir = 8
@@ -1833,17 +1553,6 @@
 /obj/structure/window/reinforced,
 /turf/open/floor/grass,
 /area/awaymission/wildwest/gov)
-"gG" = (
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 4
-	},
-/obj/structure/window/reinforced/tinted/frosted{
-	dir = 8
-	},
-/obj/structure/grille,
-/turf/open/floor/iron,
-/area/awaymission/wildwest/refine)
 "gH" = (
 /obj/structure/sign/barsign,
 /turf/closed/wall/mineral/sandstone,
@@ -1854,6 +1563,12 @@
 "gJ" = (
 /turf/closed/wall/mineral/titanium,
 /area/awaymission/wildwest/refine)
+"gK" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end{
+	dir = 8
+	},
+/turf/open/floor/plating/ironsand,
+/area/awaymission/wildwest/gov)
 "gL" = (
 /obj/machinery/door/unpowered/shuttle,
 /turf/open/floor/mineral/titanium/yellow,
@@ -1891,10 +1606,64 @@
 /obj/item/paper/fluff/awaymissions/wildwest/journal/page8,
 /turf/open/floor/plating/ironsand,
 /area/awaymission/wildwest/mines)
+"ox" = (
+/obj/structure/window/reinforced/tinted/frosted{
+	dir = 8
+	},
+/obj/structure/window/reinforced/tinted/frosted{
+	dir = 4
+	},
+/obj/effect/spawner/structure/window/hollow/reinforced/directional,
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
 "pD" = (
 /obj/machinery/door/airlock/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/iron,
+/area/awaymission/wildwest/refine)
+"qN" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/middle{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
+"uF" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/directional{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
+"wq" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/middle,
+/turf/open/floor/plating/ironsand,
+/area/awaymission/wildwest/gov)
+"wu" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end,
+/turf/open/floor/plating/ironsand,
+/area/awaymission/wildwest/gov)
+"BW" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
+"DP" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end{
+	dir = 1
+	},
+/turf/open/floor/plating/ironsand,
+/area/awaymission/wildwest/gov)
+"ES" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end{
+	dir = 4
+	},
+/turf/open/floor/plating/ironsand,
+/area/awaymission/wildwest/gov)
+"FH" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/directional{
+	dir = 9
+	},
+/turf/open/floor/plating,
 /area/awaymission/wildwest/refine)
 "Gh" = (
 /obj/machinery/door/airlock/external,
@@ -1903,12 +1672,29 @@
 	},
 /turf/open/floor/grass,
 /area/awaymission/wildwest/gov)
+"HM" = (
+/obj/item/paper/fluff/awaymissions/wildwest/grinder,
+/turf/open/floor/cult{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/awaymission/wildwest/vault)
+"IN" = (
+/turf/open/floor/cult{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/awaymission/wildwest/vault)
 "Kh" = (
 /obj/machinery/door/airlock/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
 /turf/open/floor/iron,
+/area/awaymission/wildwest/refine)
+"Mj" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end{
+	dir = 8
+	},
+/turf/open/floor/plating,
 /area/awaymission/wildwest/refine)
 "RN" = (
 /obj/machinery/door/airlock/external,
@@ -1917,6 +1703,12 @@
 	},
 /turf/open/floor/iron,
 /area/awaymission/wildwest/refine)
+"Ta" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/middle{
+	dir = 4
+	},
+/turf/open/floor/plating/ironsand,
+/area/awaymission/wildwest/gov)
 "Ua" = (
 /obj/machinery/door/airlock/sandstone,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -1924,6 +1716,26 @@
 	},
 /turf/open/floor/plating/ironsand,
 /area/awaymission/wildwest/gov)
+"UK" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/middle,
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
+"UT" = (
+/obj/effect/mob_spawn/human/corpse/syndicatecommando,
+/turf/open/floor/cult{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/awaymission/wildwest/vault)
+"Vi" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end,
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
+"Yr" = (
+/obj/effect/spawner/structure/window/hollow/reinforced/end{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/awaymission/wildwest/refine)
 
 (1,1,1) = {"
 aa
@@ -17743,24 +17555,24 @@ br
 br
 bv
 bP
-bX
-ce
-ce
-ce
-ce
-ce
-cQ
+DP
+Ta
+Ta
+Ta
+Ta
+Ta
+wu
 bP
-dc
-ce
-ce
-ce
-ce
-ce
-ce
-ce
-ce
-cQ
+DP
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+wu
 bP
 ed
 aa
@@ -17999,7 +17811,7 @@ aa
 aa
 br
 bw
-bQ
+gK
 bY
 bY
 bY
@@ -18018,7 +17830,7 @@ bY
 bY
 dA
 bY
-dR
+gK
 ed
 aa
 aa
@@ -18256,7 +18068,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 bP
@@ -18275,7 +18087,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -18513,7 +18325,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 cm
@@ -18532,7 +18344,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -18770,7 +18582,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 cm
@@ -18789,7 +18601,7 @@ bP
 bP
 bP
 bY
-dS
+wq
 ed
 aa
 aa
@@ -19027,7 +18839,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 cm
@@ -19046,7 +18858,7 @@ bP
 dB
 dD
 bY
-dS
+wq
 ed
 aa
 aa
@@ -19284,7 +19096,7 @@ aa
 aa
 br
 bw
-bR
+wq
 bY
 bP
 cm
@@ -19303,7 +19115,7 @@ bP
 bP
 bP
 bY
-dS
+wq
 ed
 aa
 aa
@@ -19541,7 +19353,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 cm
@@ -19560,7 +19372,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 br
@@ -19798,7 +19610,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 cm
@@ -19817,7 +19629,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 br
 br
@@ -20055,7 +19867,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 bP
@@ -20074,7 +19886,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 br
 aa
@@ -20312,7 +20124,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bZ
 bP
 cn
@@ -20331,7 +20143,7 @@ bY
 dA
 bY
 bY
-dS
+wq
 ed
 br
 aa
@@ -20569,7 +20381,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 co
@@ -20588,7 +20400,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ee
 br
 aa
@@ -20826,7 +20638,7 @@ aa
 aa
 br
 bw
-bR
+wq
 bY
 bP
 cn
@@ -20845,7 +20657,7 @@ bY
 bY
 bY
 bY
-dT
+ES
 ef
 do
 do
@@ -21083,7 +20895,7 @@ aa
 aa
 br
 bw
-bR
+wq
 bY
 bP
 co
@@ -21340,7 +21152,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 co
@@ -21597,7 +21409,7 @@ aa
 br
 br
 bv
-bR
+wq
 bY
 bP
 cn
@@ -21616,7 +21428,7 @@ bY
 bY
 bY
 bY
-dR
+gK
 ei
 bT
 bT
@@ -21854,7 +21666,7 @@ aa
 br
 aa
 bv
-bR
+wq
 bY
 bP
 co
@@ -21873,7 +21685,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -22111,7 +21923,7 @@ aa
 br
 br
 bw
-bR
+wq
 bY
 bP
 co
@@ -22130,7 +21942,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -22368,7 +22180,7 @@ aa
 br
 aa
 bv
-bR
+wq
 bY
 bP
 cn
@@ -22387,7 +22199,7 @@ bY
 bY
 bY
 dF
-dS
+wq
 ed
 aa
 aa
@@ -22625,7 +22437,7 @@ aa
 br
 br
 bv
-bR
+wq
 bY
 bP
 cn
@@ -22644,7 +22456,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -22882,7 +22694,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 cn
@@ -22901,7 +22713,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -23139,7 +22951,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bZ
 bP
 cn
@@ -23158,7 +22970,7 @@ dz
 bY
 bY
 bY
-dS
+wq
 ed
 aa
 aa
@@ -23396,7 +23208,7 @@ aa
 aa
 br
 bw
-bR
+wq
 bY
 bP
 co
@@ -23415,7 +23227,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ee
 br
 aa
@@ -23653,7 +23465,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 bP
@@ -23672,7 +23484,7 @@ dA
 bY
 dx
 bY
-dS
+wq
 ed
 br
 aa
@@ -23910,7 +23722,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 cp
@@ -23929,7 +23741,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 br
 aa
@@ -24167,7 +23979,7 @@ aa
 aa
 aa
 bw
-bR
+wq
 bY
 bP
 cq
@@ -24186,7 +23998,7 @@ bY
 bY
 bY
 bY
-dS
+wq
 ed
 br
 aa
@@ -24424,7 +24236,7 @@ aa
 aa
 br
 bw
-bR
+wq
 bY
 bP
 cr
@@ -24443,7 +24255,7 @@ bY
 bY
 dA
 bY
-dS
+wq
 ed
 br
 aa
@@ -24681,7 +24493,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 cq
@@ -24700,7 +24512,7 @@ bY
 dC
 bY
 bY
-dS
+wq
 ed
 br
 aa
@@ -24938,7 +24750,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 cs
@@ -24957,7 +24769,7 @@ bZ
 bY
 bY
 bY
-dS
+wq
 ed
 br
 aa
@@ -25179,9 +24991,9 @@ ac
 ac
 ac
 ab
-an
-an
-an
+IN
+IN
+IN
 aa
 aa
 aa
@@ -25195,7 +25007,7 @@ aa
 aa
 br
 bv
-bR
+wq
 bY
 bP
 bP
@@ -25214,7 +25026,7 @@ bY
 bY
 bZ
 bY
-dS
+wq
 ee
 br
 aa
@@ -25438,8 +25250,8 @@ ac
 ab
 aa
 aa
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -25452,7 +25264,7 @@ aa
 aa
 br
 bv
-bS
+ES
 bY
 bY
 bY
@@ -25471,7 +25283,7 @@ bY
 bY
 bY
 bY
-dT
+ES
 ed
 br
 aa
@@ -25696,7 +25508,7 @@ ab
 aa
 aa
 aa
-an
+IN
 aa
 aa
 aa
@@ -25711,23 +25523,23 @@ br
 bv
 bP
 ca
-cf
-cf
-cf
-cf
-cf
-cS
+Ta
+Ta
+Ta
+Ta
+Ta
+wu
 bP
-dg
-cf
-cf
-cf
-cf
-cf
-cf
-cf
-cf
-cS
+DP
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+Ta
+wu
 bP
 ed
 br
@@ -25950,8 +25762,8 @@ ac
 ac
 ac
 ab
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -26208,8 +26020,8 @@ ac
 ac
 ab
 aa
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -26464,11 +26276,11 @@ ac
 ac
 ac
 ab
-an
-an
-an
-an
-an
+IN
+IN
+IN
+IN
+IN
 aa
 aa
 aa
@@ -26722,9 +26534,9 @@ ac
 ac
 ab
 aa
-an
-an
-an
+IN
+IN
+IN
 aa
 aa
 aa
@@ -26978,11 +26790,11 @@ ac
 ac
 ac
 ab
-an
-an
-an
-an
-an
+IN
+IN
+IN
+IN
+IN
 aa
 aa
 aa
@@ -27019,9 +26831,9 @@ aa
 br
 aa
 aa
-eO
+Mj
 fd
-eO
+Mj
 aa
 aa
 aa
@@ -27239,7 +27051,7 @@ aa
 aa
 aa
 aa
-an
+IN
 aa
 aa
 aa
@@ -27276,9 +27088,9 @@ aa
 br
 aa
 aa
-eP
+UK
 eA
-eP
+UK
 aa
 aa
 aa
@@ -27496,8 +27308,8 @@ aa
 aa
 aa
 aa
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -27533,9 +27345,9 @@ br
 br
 aa
 aa
-eQ
+UK
 eA
-eP
+UK
 aa
 aa
 aa
@@ -27753,9 +27565,9 @@ ab
 ab
 ab
 ab
-an
-an
-an
+IN
+IN
+IN
 aa
 aa
 aa
@@ -27790,19 +27602,19 @@ aG
 et
 et
 eJ
-eR
+Yr
 RN
-fj
-fo
-fA
+uF
+qN
+Vi
 et
-fX
-fo
-fA
+BW
+qN
+ox
 et
-fX
-fo
-fA
+BW
+qN
+Vi
 et
 aa
 aa
@@ -28006,16 +27818,16 @@ ac
 ac
 ac
 aF
-aL
-aO
-an
-an
-an
-an
-an
-an
-an
-an
+HM
+UT
+IN
+IN
+IN
+IN
+IN
+IN
+IN
+IN
 aa
 aa
 aa
@@ -28060,7 +27872,7 @@ eA
 eA
 eA
 eA
-gz
+Mj
 aa
 aa
 aa
@@ -28263,17 +28075,17 @@ ac
 ac
 ac
 aF
-an
-an
-an
-an
-an
-an
-an
-an
-an
-an
-an
+IN
+IN
+IN
+IN
+IN
+IN
+IN
+IN
+IN
+IN
+IN
 aa
 aa
 aa
@@ -28317,7 +28129,7 @@ eA
 eA
 eA
 eA
-eP
+UK
 aa
 aa
 aa
@@ -28524,12 +28336,12 @@ ab
 ab
 ab
 ab
-an
-an
-an
-an
-an
-an
+IN
+IN
+IN
+IN
+IN
+IN
 aa
 aa
 aa
@@ -28574,10 +28386,10 @@ eA
 eA
 eA
 eA
-fj
-fo
-fo
-gG
+uF
+qN
+qN
+Vi
 gJ
 gP
 gP
@@ -29036,8 +28848,8 @@ ac
 ab
 aa
 aa
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -29088,10 +28900,10 @@ eA
 eA
 eA
 eA
-gA
-fo
-fo
-gG
+FH
+qN
+qN
+Vi
 gJ
 gP
 gP
@@ -29291,9 +29103,9 @@ ac
 ac
 ac
 ab
-an
-an
-an
+IN
+IN
+IN
 aa
 aa
 aa
@@ -29345,7 +29157,7 @@ eA
 eA
 eA
 eA
-gB
+Yr
 aa
 aa
 aa
@@ -29548,10 +29360,10 @@ ac
 ac
 ac
 ab
-an
-an
-an
-an
+IN
+IN
+IN
+IN
 aa
 aa
 aa
@@ -29859,7 +29671,7 @@ eA
 eA
 eA
 eA
-gz
+Mj
 aa
 aa
 aa
@@ -30061,9 +29873,9 @@ ab
 ab
 ab
 ab
-an
-an
-an
+IN
+IN
+IN
 aa
 aa
 aa
@@ -30116,7 +29928,7 @@ eA
 eA
 eA
 eA
-eP
+UK
 aa
 aa
 aa
@@ -30316,12 +30128,12 @@ ab
 ab
 ab
 aa
-an
+IN
 aa
 aa
 aa
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -30373,7 +30185,7 @@ eA
 eA
 eA
 eA
-gC
+Yr
 aa
 aG
 aG
@@ -30573,13 +30385,13 @@ aa
 aa
 aa
 aa
-an
+IN
 aa
 aa
 aa
 aa
-an
-an
+IN
+IN
 aa
 aa
 aa
@@ -30830,13 +30642,13 @@ aa
 aa
 aa
 aa
-an
-an
-an
+IN
+IN
+IN
 aa
 aa
 aa
-an
+IN
 aa
 aa
 aa
@@ -31089,11 +30901,11 @@ aa
 aa
 aa
 aa
-an
+IN
 aa
 aa
 aa
-an
+IN
 aG
 aa
 aa

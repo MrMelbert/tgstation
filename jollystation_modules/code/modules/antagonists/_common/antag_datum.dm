@@ -3,6 +3,8 @@
 /datum/antagonist
 	/// Whether this antag can see exploitable info on examine.
 	var/antag_flags = CAN_SEE_EXPOITABLE_INFO
+	/// Whether we spawn with our equpiment or we wait to recieve it.
+	var/finalize_antag = TRUE
 	/// The advanced antag datum we are linked to.
 	var/datum/advanced_antag_datum/linked_advanced_datum
 	/// Some blacklisted objectives we don't want showing up in the similar objectives pool
@@ -27,6 +29,9 @@
 
 		our_antag.show_advanced_traitor_panel(usr)
 		return
+
+/datum/antagonist/proc/finalize_antag()
+	return FALSE
 
 /datum/antagonist/on_removal()
 	if(linked_advanced_datum)

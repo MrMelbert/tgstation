@@ -164,6 +164,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 	vis_contents.Cut()
 
+	vis_contents.Cut()
+
 /turf/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(.)

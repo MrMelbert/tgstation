@@ -3,7 +3,6 @@
 	name = "Infiltrator"
 	hijack_speed = 1
 	advanced_antag_path = /datum/advanced_antag_datum/traitor/infiltrator
-	special_role = "Infiltrator"
 	antag_hud_type = ANTAG_HUD_OPS
 	antag_hud_name = "synd"
 
@@ -11,11 +10,15 @@
 	var/mob/living/living_antag = mob_override || owner.current
 	add_antag_hud(antag_hud_type, antag_hud_name, living_antag)
 	living_antag.faction |= ROLE_SYNDICATE
+	living_antag.mind.special_role = "Infiltrator"
+	living_antag.mind.assigned_role = "Infiltrator"
 
 /datum/antagonist/traitor/traitor_plus/intiltrator/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/living_antag = mob_override || owner.current
 	remove_antag_hud(antag_hud_type, living_antag)
 	living_antag.faction -= ROLE_SYNDICATE
+	living_antag.mind.special_role = null
+	living_antag.mind.assigned_role = null
 
 /datum/antagonist/traitor/traitor_plus/intiltrator/on_removal()
 	var/obj/item/implant/uplink/infiltrator/infiltrator_implant = locate() in owner.current

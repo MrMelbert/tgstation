@@ -68,12 +68,6 @@
 /obj/item/stack/rods,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered)
-"an" = (
-/obj/machinery/light/broken{
-	dir = 8
-	},
-/turf/open/floor/iron/airless,
-/area/ruin/unpowered)
 "ao" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating/airless{
@@ -139,10 +133,6 @@
 	},
 /turf/template_noop,
 /area/template_noop)
-"aC" = (
-/obj/machinery/light/broken,
-/turf/open/floor/iron/airless,
-/area/ruin/unpowered)
 "aD" = (
 /obj/item/stack/sheet/iron,
 /obj/effect/turf_decal/tile/bar,
@@ -194,14 +184,6 @@
 	dir = 1
 	},
 /turf/open/floor/iron/airless,
-/area/ruin/unpowered)
-"aP" = (
-/obj/machinery/light/broken{
-	dir = 1
-	},
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg3"
-	},
 /area/ruin/unpowered)
 "aT" = (
 /obj/item/kitchen/fork,
@@ -409,80 +391,48 @@
 	},
 /turf/template_noop,
 /area/ruin/unpowered)
-"ci" = (
-/obj/structure/table,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"cq" = (
-/obj/machinery/light/broken{
-	dir = 8
-	},
-/obj/structure/table_frame,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"ew" = (
-/obj/item/food/donkpocket,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"eY" = (
-/obj/structure/table,
-/obj/item/storage/box/drinkingglasses,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"jJ" = (
-/obj/structure/closet/secure_closet/freezer/fridge/open,
-/obj/machinery/light/broken{
-	dir = 1
-	},
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"lq" = (
-/obj/structure/closet/secure_closet/freezer/kitchen,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"mE" = (
-/mob/living/simple_animal/hostile/retaliate/ghost,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"nV" = (
-/obj/structure/table_frame,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"oc" = (
-/obj/item/stack/tile/iron/base,
-/turf/open/floor/plating/airless,
-/area/ruin/unpowered)
-"pX" = (
-/obj/structure/table,
-/obj/machinery/microwave,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"yD" = (
-/obj/structure/table,
-/obj/item/shard,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"ED" = (
-/obj/item/plate,
-/obj/effect/decal/remains/human,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"EH" = (
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"Fz" = (
-/obj/item/stack/tile/iron/base,
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg1"
-	},
-/area/ruin/unpowered)
-"Gh" = (
+"fg" = (
 /obj/item/stack/tile/iron/base,
 /turf/open/floor/plating/airless{
 	icon_state = "platingdmg2"
 	},
 /area/ruin/unpowered)
-"Ku" = (
+"jD" = (
+/obj/item/stack/tile/iron/base,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/ruin/unpowered)
+"lh" = (
+/obj/structure/table/wood,
+/obj/item/plate,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/ruin/unpowered)
+"oN" = (
+/obj/item/plate,
+/obj/effect/decal/remains/human,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"uW" = (
+/obj/structure/closet/secure_closet/freezer/fridge/open,
+/obj/machinery/light/broken/directional/north,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"Ck" = (
+/obj/structure/table,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"CV" = (
+/obj/structure/closet/secure_closet/freezer/kitchen,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"EF" = (
+/obj/machinery/light/broken/directional/south,
+/turf/open/floor/iron/airless,
+/area/ruin/unpowered)
+"GF" = (
 /obj/item/plate,
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -490,15 +440,57 @@
 	},
 /turf/open/floor/iron/airless,
 /area/ruin/unpowered)
-"NL" = (
-/obj/structure/table/wood,
-/obj/item/plate,
+"GM" = (
+/obj/structure/table_frame,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"Hb" = (
+/obj/item/stack/tile/iron/base,
 /turf/open/floor/plating/airless{
-	icon_state = "platingdmg3"
+	icon_state = "platingdmg1"
 	},
 /area/ruin/unpowered)
-"PA" = (
+"HX" = (
+/obj/structure/table,
+/obj/item/shard,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"Iu" = (
 /obj/item/stack/tile/iron/base,
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered)
+"Kt" = (
+/obj/item/food/donkpocket,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"Lb" = (
+/obj/structure/table,
+/obj/item/storage/box/drinkingglasses,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"Lx" = (
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"LK" = (
+/obj/machinery/light/broken/directional/west,
+/obj/structure/table_frame,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"LM" = (
+/mob/living/simple_animal/hostile/retaliate/ghost,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"Pl" = (
+/obj/structure/table,
+/obj/machinery/microwave,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"SL" = (
+/obj/machinery/light/broken/directional/west,
+/turf/open/floor/iron/airless,
+/area/ruin/unpowered)
+"XJ" = (
+/obj/machinery/light/broken/directional/north,
 /turf/open/floor/plating/airless{
 	icon_state = "platingdmg3"
 	},
@@ -637,7 +629,7 @@ ah
 bg
 bl
 ah
-Gh
+fg
 be
 ac
 aa
@@ -654,7 +646,7 @@ ag
 ag
 aE
 aH
-oc
+Iu
 aH
 ap
 ap
@@ -697,13 +689,13 @@ ah
 ai
 av
 ag
-aC
+EF
 ai
-pX
-EH
-ci
-ci
-cq
+Pl
+Lx
+Ck
+Ck
+LK
 ap
 ap
 br
@@ -722,13 +714,13 @@ ag
 aw
 ag
 ai
-eY
-EH
-EH
-EH
+Lb
+Lx
+Lx
+Lx
 bi
 ap
-PA
+jD
 bl
 ac
 ac
@@ -745,11 +737,11 @@ ag
 ax
 ag
 ai
-jJ
-EH
-EH
-mE
-ED
+uW
+Lx
+Lx
+LM
+oN
 au
 ap
 aq
@@ -762,19 +754,19 @@ ab
 ac
 ag
 ag
-an
+SL
 ag
 ag
 ag
 ag
 ai
-lq
-EH
-EH
-ew
-EH
-EH
-EH
+CV
+Lx
+Lx
+Kt
+Lx
+Lx
+Lx
 ai
 ac
 ac
@@ -792,11 +784,11 @@ ag
 ag
 ai
 ai
-nV
-ci
-yD
-EH
-nV
+GM
+Ck
+HX
+Lx
+GM
 ai
 ai
 ac
@@ -837,7 +829,7 @@ ag
 ag
 ag
 aF
-Ku
+GF
 aT
 ah
 aM
@@ -885,7 +877,7 @@ ag
 ai
 aM
 aU
-Fz
+Hb
 ap
 bk
 bm
@@ -904,7 +896,7 @@ ap
 aq
 ag
 ag
-aC
+EF
 ai
 aM
 ap
@@ -929,7 +921,7 @@ ag
 ag
 ag
 ai
-aP
+XJ
 ap
 ac
 be
@@ -953,7 +945,7 @@ ag
 ag
 ai
 ap
-NL
+lh
 aD
 ap
 ac

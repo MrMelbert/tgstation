@@ -352,7 +352,6 @@
 	foodtypes = GRAIN | SUGAR
 	food_flags = FOOD_FINGER_FOOD
 	w_class = WEIGHT_CLASS_SMALL
-	venue_value = FOOD_PRICE_LEGENDARY
 
 /obj/item/food/powercrepe
 	name = "Powercrepe"
