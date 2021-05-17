@@ -5,6 +5,9 @@
 /tmp/**/*
 /data/logs/*
 data/next_map.json
+data/npc_saves/*
+data/player_saves/*
+data/roundend_reports/*
 
 #Ignore byond config folder.
 /cfg/**/*
@@ -195,3 +198,6 @@ Temporary Items
 /tools/LinuxOneShot/TGS_Config
 /tools/LinuxOneShot/TGS_Instances
 /tools/LinuxOneShot/TGS_Logs
+
+# SQL and other config ignores
+config/dbconfig.txt
