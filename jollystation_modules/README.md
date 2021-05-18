@@ -59,7 +59,7 @@ var/epic_variable = 3 // NON-MODULE CHANGE
 NON-MODULE CHANGE END /*
 ```
 
-- It doesn't matter if you use Non-Module Change/Changes. Try to keep the ending part 'Module Change/s' consistent. DO NOT USE 'MODULAR'. 
+- It doesn't matter if you use Non-Module Change/Changes. Try to keep the ending part 'Module Change/s' consistent. DO NOT USE 'MODULAR'.
 
 ## ...custom things to vendors:
 
@@ -98,12 +98,11 @@ To prevent me from accidentally accept incoming on files with module changes, I'
 - code\controllers\subsystems\job.dm
 - code\controllers\subsystem\mapping.dm
 - code\controllers\subsystem\vote.dm
-- code\datums\chatmessage.dm  
+- code\datums\chatmessage.dm
 - code\datums\datacore.dm
 - code\datums\id_trim\jobs.dm
 - code\datums\mapgen\Cavegens\LavalandGenerator.dm
 - code\game\gamemodes\objective_items.dm
-- code\game\machinery\PDApainter.dm
 - code\game\machinery\computer\crew.dm
 - code\game\machinery\computer\medical.dm
 - code\game\machinery\computer\security.dm
