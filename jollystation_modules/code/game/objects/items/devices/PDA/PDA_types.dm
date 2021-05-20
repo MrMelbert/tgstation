@@ -14,3 +14,21 @@
 /obj/item/pda/quartermaster
 	greyscale_config = /datum/greyscale_config/pda/stripe_thick/head
 	greyscale_colors = "#e39751#a92323#a23e3e"
+
+/// Scientist PDA, tone reset
+/obj/item/pda/toxins
+	ttone = "beep"
+
+/// Toxicologist PDA
+/obj/item/pda/toxins/toxocologist
+	name = "toxicologist PDA"
+	greyscale_config = /datum/greyscale_config/pda/stripe_two_color
+	greyscale_colors = "#e2e2e2#000099#40e0d0#9e00ea"
+	ttone = "boom"
+
+/// Xenobiologist PDA
+/obj/item/pda/toxins/xenobiologist
+	name = "xenobiologist PDA"
+	greyscale_config = /datum/greyscale_config/pda/stripe_two_color
+	greyscale_colors = "#e2e2e2#000099#6eaec8#9e00ea"
+	ttone = "glomp"
