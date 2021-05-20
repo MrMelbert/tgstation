@@ -76,3 +76,6 @@ config/title_music/sounds/Bonetrousle.ogg
 config/title_music/sounds/Once Upon A Time .ogg
 config/title_music/sounds/Undertale Phase 2 (Megalo Strike Back).ogg
 config/title_music/sounds/Terraria - Boss 2 (Mario 64 cover).ogg
+config/title_music/sounds/A Courageously Sad Song - SiIvaGunner King for Another Day.ogg
+config/title_music/sounds/Fire Emblem Awakening OST - Chaos.ogg
+config/title_music/sounds/ASGORE.ogg
