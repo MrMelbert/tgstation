@@ -1,7 +1,10 @@
 /// -- PDA extension and additions. --
 /// This proc adds modular PDAs into the PDA painter. Don't forget to update it or else you can't paint added PDAs.
 /proc/get_modular_PDA_regions()
-	return list(/obj/item/pda/heads/bridge_officer = list(REGION_COMMAND))
+	return list(
+		/obj/item/pda/heads/bridge_officer = list(REGION_COMMAND),
+		/obj/item/pda/toxins/toxocologist = list(REGION_RESEARCH),
+		/obj/item/pda/toxins/xenobiologist = list(REGION_RESEARCH),)
 
 // Bridge Officer PDA.
 /obj/item/pda/heads/bridge_officer
