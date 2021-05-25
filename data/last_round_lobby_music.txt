@@ -79,3 +79,4 @@ config/title_music/sounds/Terraria - Boss 2 (Mario 64 cover).ogg
 config/title_music/sounds/A Courageously Sad Song - SiIvaGunner King for Another Day.ogg
 config/title_music/sounds/Fire Emblem Awakening OST - Chaos.ogg
 config/title_music/sounds/ASGORE.ogg
+config/title_music/sounds/Adoration is Key - SiIvaGunner King for Another Day.ogg
