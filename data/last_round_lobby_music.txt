@@ -80,3 +80,5 @@ config/title_music/sounds/A Courageously Sad Song - SiIvaGunner King for Another
 config/title_music/sounds/Fire Emblem Awakening OST - Chaos.ogg
 config/title_music/sounds/ASGORE.ogg
 config/title_music/sounds/Adoration is Key - SiIvaGunner King for Another Day.ogg
+config/title_music/sounds/Professor E. Gadd - SiIvaGunner King for Another Day.ogg
+config/title_music/sounds/MEGALOVANIA.ogg
