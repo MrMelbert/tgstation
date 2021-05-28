@@ -16,6 +16,7 @@
 /data/npc_saves/Ian.json
 /data/npc_saves/Poly.json
 /data/npc_saves/Punpun.json
+/data/roundend_reports/
 
 #Ignore byond config folder.
 /cfg/**/*
@@ -211,9 +212,3 @@ Temporary Items
 /config/dbconfig.txt
 /config/whitelist.txt
 
-data/roundend_reports/doshmobile.html
-data/roundend_reports/jolly66.html
-data/roundend_reports/magmaexploiter2.html
-data/roundend_reports/mrmelbert.html
-data/roundend_reports/prodirus.html
-data/roundend_reports/rellyrelly.html
