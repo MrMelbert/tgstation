@@ -82,3 +82,5 @@ config/title_music/sounds/ASGORE.ogg
 config/title_music/sounds/Adoration is Key - SiIvaGunner King for Another Day.ogg
 config/title_music/sounds/Professor E. Gadd - SiIvaGunner King for Another Day.ogg
 config/title_music/sounds/MEGALOVANIA.ogg
+config/title_music/sounds/Cara Mia Addio.ogg
+config/title_music/sounds/Adoration is Key - SiIvaGunner King for Another Day.ogg
