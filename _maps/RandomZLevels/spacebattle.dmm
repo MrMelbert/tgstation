@@ -2731,17 +2731,15 @@
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/ion,
 /turf/open/floor/plating,
 /area/awaymission/spacebattle/cruiser)
-"sK" = (
-/turf/open/floor/vault/alien,
-/area/awaymission/spacebattle/secret)
-"th" = (
+"pU" = (
 /obj/effect/mob_spawn/human/engineer/rig/gunner{
-	mob_name = "William Gannon";
-	name = "William Gannon"
+	mob_name = "Peter West";
+	name = "Peter West"
 	},
-/turf/open/floor/iron,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/plating/airless,
 /area/awaymission/spacebattle/cruiser)
-"ut" = (
+"td" = (
 /obj/effect/mob_spawn/human/engineer/rig/gunner{
 	mob_name = "Dan Hedricks";
 	name = "Dan Hedricks"
@@ -2753,21 +2751,17 @@
 "vw" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/awaymission/spacebattle/syndicate5)
-"ya" = (
-/obj/item/clothing/suit/space/hardsuit/wizard,
-/turf/open/floor/vault/alien,
-/area/awaymission/spacebattle/secret)
-"yC" = (
+"vG" = (
 /obj/machinery/button/door/directional/east{
 	id = "spacebattlestorage";
 	name = "Secure Storage"
 	},
 /turf/open/floor/plating,
 /area/awaymission/spacebattle/cruiser)
-"zt" = (
+"ze" = (
 /obj/effect/mob_spawn/human/engineer/rig/gunner{
-	mob_name = "Andrew Thorn";
-	name = "Andrew Thorn"
+	mob_name = "Eric Abnett";
+	name = "Eric Abnett"
 	},
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/plating/airless,
@@ -2781,23 +2775,21 @@
 "Dv" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/awaymission/spacebattle/syndicate3)
-"HT" = (
+"JC" = (
 /obj/effect/mob_spawn/human/engineer/rig/gunner{
-	mob_name = "Peter West";
-	name = "Peter West"
+	mob_name = "William Gannon";
+	name = "William Gannon"
 	},
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/plating/airless,
+/turf/open/floor/iron,
 /area/awaymission/spacebattle/cruiser)
-"OW" = (
-/obj/effect/mob_spawn/human/engineer/rig/gunner{
-	mob_name = "Eric Abnett";
-	name = "Eric Abnett"
-	},
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/plating/airless,
-/area/awaymission/spacebattle/cruiser)
-"Te" = (
+"Ks" = (
+/turf/open/floor/vault/alien,
+/area/awaymission/spacebattle/secret)
+"Oc" = (
+/obj/item/clothing/suit/space/hardsuit/wizard,
+/turf/open/floor/vault/alien,
+/area/awaymission/spacebattle/secret)
+"SA" = (
 /obj/effect/mob_spawn/human/engineer/rig/gunner{
 	name = "Jeremy Tailor"
 	},
@@ -2813,6 +2805,14 @@
 "Yq" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/awaymission/spacebattle/syndicate4)
+"Zz" = (
+/obj/effect/mob_spawn/human/engineer/rig/gunner{
+	mob_name = "Andrew Thorn";
+	name = "Andrew Thorn"
+	},
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/plating/airless,
+/area/awaymission/spacebattle/cruiser)
 
 (1,1,1) = {"
 aa
@@ -29673,7 +29673,7 @@ kt
 kt
 kt
 kt
-yC
+vG
 kj
 kH
 kn
@@ -36362,7 +36362,7 @@ gZ
 bT
 cc
 cc
-th
+JC
 bT
 cc
 cc
@@ -38670,7 +38670,7 @@ cZ
 cZ
 cZ
 cZ
-Te
+SA
 cZ
 cZ
 cZ
@@ -39171,7 +39171,7 @@ cc
 cc
 bT
 dD
-zt
+Zz
 cZ
 cZ
 cZ
@@ -39433,7 +39433,7 @@ cZ
 cZ
 cZ
 cZ
-OW
+ze
 cZ
 cZ
 fy
@@ -39957,7 +39957,7 @@ cZ
 jV
 cZ
 cZ
-ut
+td
 dD
 cZ
 cZ
@@ -40973,7 +40973,7 @@ cZ
 cZ
 cZ
 dD
-HT
+pU
 dD
 cZ
 cZ
@@ -64477,15 +64477,15 @@ jk
 jk
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -64734,15 +64734,15 @@ jk
 jk
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -64991,15 +64991,15 @@ jk
 jk
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -65248,15 +65248,15 @@ jk
 jk
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -65505,15 +65505,15 @@ jk
 jk
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -65762,15 +65762,15 @@ jk
 jk
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -66019,15 +66019,15 @@ jk
 aa
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -66276,15 +66276,15 @@ aa
 aa
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -66533,15 +66533,15 @@ aa
 aa
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -66790,15 +66790,15 @@ aa
 aa
 aa
 jl
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa
@@ -67047,15 +67047,15 @@ aa
 aa
 aa
 jl
-sK
-sK
-sK
-sK
-ya
-sK
-sK
-sK
-sK
+Ks
+Ks
+Ks
+Ks
+Oc
+Ks
+Ks
+Ks
+Ks
 jl
 aa
 aa

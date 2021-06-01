@@ -25,7 +25,7 @@
 	bounty_types = CIV_JOB_SCI
 
 	family_heirlooms = list(/obj/item/book/manual/wiki/cytology, /obj/item/reagent_containers/glass/beaker) //NON MODULE CHANGE
-	
+
 	mail_goodies = list(
 		/obj/item/storage/box/monkeycubes = 30,
 		/obj/item/circuitboard/machine/sleeper/party = 3,

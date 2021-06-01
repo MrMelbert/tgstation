@@ -74,16 +74,6 @@
 /obj/effect/decal/cleanable/trail_holder,
 /turf/open/floor/wood,
 /area/ruin/unpowered)
-"t" = (
-/obj/structure/table/wood,
-/obj/item/pen,
-/obj/machinery/light/broken/directional/west,
-/obj/item/paper/crumpled/bloody{
-	info = "help...";
-	text = ""
-	},
-/turf/open/floor/wood,
-/area/ruin/unpowered)
 "u" = (
 /obj/structure/ladder{
 	travel_time = 40
@@ -93,8 +83,18 @@
 "G" = (
 /turf/open/openspace/icemoon/ruins,
 /area/icemoon/surface/outdoors)
-"P" = (
+"L" = (
 /obj/machinery/light/broken/directional/east,
+/turf/open/floor/wood,
+/area/ruin/unpowered)
+"M" = (
+/obj/structure/table/wood,
+/obj/item/pen,
+/obj/machinery/light/broken/directional/west,
+/obj/item/paper/crumpled/bloody{
+	info = "help...";
+	text = ""
+	},
 /turf/open/floor/wood,
 /area/ruin/unpowered)
 "Q" = (
@@ -386,7 +386,7 @@ c
 f
 f
 o
-t
+M
 b
 b
 G
@@ -601,7 +601,7 @@ b
 b
 f
 f
-P
+L
 b
 b
 b

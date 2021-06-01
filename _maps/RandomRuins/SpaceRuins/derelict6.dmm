@@ -391,48 +391,57 @@
 	},
 /turf/template_noop,
 /area/ruin/unpowered)
-"fg" = (
-/obj/item/stack/tile/iron/base,
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg2"
-	},
+"dq" = (
+/obj/item/food/donkpocket,
+/turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
-"jD" = (
-/obj/item/stack/tile/iron/base,
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg3"
-	},
+"hk" = (
+/obj/machinery/light/broken/directional/west,
+/obj/structure/table_frame,
+/turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
-"lh" = (
-/obj/structure/table/wood,
-/obj/item/plate,
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg3"
-	},
-/area/ruin/unpowered)
-"oN" = (
+"ho" = (
 /obj/item/plate,
 /obj/effect/decal/remains/human,
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
-"uW" = (
-/obj/structure/closet/secure_closet/freezer/fridge/open,
-/obj/machinery/light/broken/directional/north,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"Ck" = (
+"oo" = (
 /obj/structure/table,
+/obj/item/shard,
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
-"CV" = (
-/obj/structure/closet/secure_closet/freezer/kitchen,
+"oq" = (
+/mob/living/simple_animal/hostile/retaliate/ghost,
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
-"EF" = (
+"ou" = (
 /obj/machinery/light/broken/directional/south,
 /turf/open/floor/iron/airless,
 /area/ruin/unpowered)
-"GF" = (
+"rd" = (
+/obj/structure/table,
+/obj/item/storage/box/drinkingglasses,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"rK" = (
+/obj/machinery/light/broken/directional/west,
+/turf/open/floor/iron/airless,
+/area/ruin/unpowered)
+"to" = (
+/obj/structure/closet/secure_closet/freezer/kitchen,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"wM" = (
+/obj/structure/table_frame,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"xM" = (
+/obj/item/stack/tile/iron/base,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/ruin/unpowered)
+"Ap" = (
 /obj/item/plate,
 /obj/effect/turf_decal/tile/bar,
 /obj/effect/turf_decal/tile/bar{
@@ -440,60 +449,51 @@
 	},
 /turf/open/floor/iron/airless,
 /area/ruin/unpowered)
-"GM" = (
-/obj/structure/table_frame,
+"Ch" = (
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
-"Hb" = (
+"CW" = (
+/obj/structure/table,
+/obj/machinery/microwave,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"DP" = (
+/obj/item/stack/tile/iron/base,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg2"
+	},
+/area/ruin/unpowered)
+"HI" = (
+/obj/structure/table,
+/turf/open/floor/iron/cafeteria/airless,
+/area/ruin/unpowered)
+"JV" = (
+/obj/structure/table/wood,
+/obj/item/plate,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/ruin/unpowered)
+"Ln" = (
+/obj/item/stack/tile/iron/base,
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered)
+"Qm" = (
+/obj/machinery/light/broken/directional/north,
+/turf/open/floor/plating/airless{
+	icon_state = "platingdmg3"
+	},
+/area/ruin/unpowered)
+"Ra" = (
 /obj/item/stack/tile/iron/base,
 /turf/open/floor/plating/airless{
 	icon_state = "platingdmg1"
 	},
 /area/ruin/unpowered)
-"HX" = (
-/obj/structure/table,
-/obj/item/shard,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"Iu" = (
-/obj/item/stack/tile/iron/base,
-/turf/open/floor/plating/airless,
-/area/ruin/unpowered)
-"Kt" = (
-/obj/item/food/donkpocket,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"Lb" = (
-/obj/structure/table,
-/obj/item/storage/box/drinkingglasses,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"Lx" = (
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"LK" = (
-/obj/machinery/light/broken/directional/west,
-/obj/structure/table_frame,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"LM" = (
-/mob/living/simple_animal/hostile/retaliate/ghost,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"Pl" = (
-/obj/structure/table,
-/obj/machinery/microwave,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/unpowered)
-"SL" = (
-/obj/machinery/light/broken/directional/west,
-/turf/open/floor/iron/airless,
-/area/ruin/unpowered)
-"XJ" = (
+"WV" = (
+/obj/structure/closet/secure_closet/freezer/fridge/open,
 /obj/machinery/light/broken/directional/north,
-/turf/open/floor/plating/airless{
-	icon_state = "platingdmg3"
-	},
+/turf/open/floor/iron/cafeteria/airless,
 /area/ruin/unpowered)
 
 (1,1,1) = {"
@@ -629,7 +629,7 @@ ah
 bg
 bl
 ah
-fg
+DP
 be
 ac
 aa
@@ -646,7 +646,7 @@ ag
 ag
 aE
 aH
-Iu
+Ln
 aH
 ap
 ap
@@ -689,13 +689,13 @@ ah
 ai
 av
 ag
-EF
+ou
 ai
-Pl
-Lx
-Ck
-Ck
-LK
+CW
+Ch
+HI
+HI
+hk
 ap
 ap
 br
@@ -714,13 +714,13 @@ ag
 aw
 ag
 ai
-Lb
-Lx
-Lx
-Lx
+rd
+Ch
+Ch
+Ch
 bi
 ap
-jD
+xM
 bl
 ac
 ac
@@ -737,11 +737,11 @@ ag
 ax
 ag
 ai
-uW
-Lx
-Lx
-LM
-oN
+WV
+Ch
+Ch
+oq
+ho
 au
 ap
 aq
@@ -754,19 +754,19 @@ ab
 ac
 ag
 ag
-SL
+rK
 ag
 ag
 ag
 ag
 ai
-CV
-Lx
-Lx
-Kt
-Lx
-Lx
-Lx
+to
+Ch
+Ch
+dq
+Ch
+Ch
+Ch
 ai
 ac
 ac
@@ -784,11 +784,11 @@ ag
 ag
 ai
 ai
-GM
-Ck
-HX
-Lx
-GM
+wM
+HI
+oo
+Ch
+wM
 ai
 ai
 ac
@@ -829,7 +829,7 @@ ag
 ag
 ag
 aF
-GF
+Ap
 aT
 ah
 aM
@@ -877,7 +877,7 @@ ag
 ai
 aM
 aU
-Hb
+Ra
 ap
 bk
 bm
@@ -896,7 +896,7 @@ ap
 aq
 ag
 ag
-EF
+ou
 ai
 aM
 ap
@@ -921,7 +921,7 @@ ag
 ag
 ag
 ai
-XJ
+Qm
 ap
 ac
 be
@@ -945,7 +945,7 @@ ag
 ag
 ai
 ap
-lh
+JV
 aD
 ap
 ac

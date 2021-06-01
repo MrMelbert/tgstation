@@ -391,7 +391,7 @@
 /obj/structure/shuttle/engine/propulsion,
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
-"cg" = (
+"iI" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
@@ -400,11 +400,7 @@
 	},
 /turf/open/floor/mineral/plastitanium/red/brig,
 /area/shuttle/escape/brig)
-"co" = (
-/obj/structure/chair/wood,
-/turf/open/floor/cult,
-/area/shuttle/escape)
-"hx" = (
+"iQ" = (
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/mineral/plastitanium/red/brig,
 /area/shuttle/escape/brig)
@@ -414,11 +410,12 @@
 	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/escape)
-"ny" = (
-/obj/structure/barricade/wooden,
-/turf/open/floor/cult,
+"mL" = (
+/obj/machinery/chem_dispenser,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/mineral/titanium/white,
 /area/shuttle/escape)
-"nR" = (
+"pr" = (
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -432,11 +429,7 @@
 	},
 /turf/open/floor/iron/dark,
 /area/shuttle/escape)
-"nX" = (
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/mineral/titanium,
-/area/shuttle/escape)
-"qq" = (
+"tK" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
@@ -446,10 +439,32 @@
 	},
 /turf/open/floor/mineral/plastitanium/red/brig,
 /area/shuttle/escape/brig)
-"rq" = (
-/obj/machinery/light/directional/south,
-/obj/machinery/status_display/evac/directional/south,
+"vf" = (
+/turf/open/floor/cult,
+/area/shuttle/escape)
+"vJ" = (
+/obj/structure/extinguisher_cabinet/directional/east,
+/obj/structure/table/glass,
+/obj/item/storage/box/syringes{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/storage/box/beakers,
+/turf/open/floor/mineral/titanium/white,
+/area/shuttle/escape)
+"xp" = (
+/obj/structure/barricade/wooden,
+/obj/machinery/door/airlock/titanium,
+/turf/open/floor/cult,
+/area/shuttle/escape)
+"Cr" = (
+/obj/machinery/light/directional/north,
 /turf/open/floor/mineral/titanium,
+/area/shuttle/escape)
+"Cs" = (
+/obj/structure/table/wood,
+/obj/item/candle/infinite,
+/turf/open/floor/cult,
 /area/shuttle/escape)
 "Ec" = (
 /obj/structure/chair/comfy/shuttle{
@@ -460,53 +475,38 @@
 	},
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/escape)
-"Gb" = (
-/obj/machinery/light/directional/north,
-/turf/open/floor/mineral/titanium,
-/area/shuttle/escape)
-"Hb" = (
-/obj/machinery/chem_dispenser,
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/mineral/titanium/white,
-/area/shuttle/escape)
-"If" = (
+"Es" = (
+/obj/structure/chair/wood,
+/obj/machinery/light/directional/west,
 /turf/open/floor/cult,
 /area/shuttle/escape)
-"Kz" = (
+"GF" = (
+/obj/structure/chair/wood,
+/turf/open/floor/cult,
+/area/shuttle/escape)
+"IS" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/escape)
-"Mh" = (
-/obj/structure/barricade/wooden,
-/obj/machinery/door/airlock/titanium,
-/turf/open/floor/cult,
-/area/shuttle/escape)
 "MK" = (
 /obj/structure/chair/comfy/shuttle,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/escape)
-"Pq" = (
-/obj/structure/extinguisher_cabinet/directional/east,
-/obj/structure/table/glass,
-/obj/item/storage/box/syringes{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/storage/box/beakers,
-/turf/open/floor/mineral/titanium/white,
-/area/shuttle/escape)
-"Vl" = (
-/obj/structure/table/wood,
-/obj/item/candle/infinite,
+"On" = (
+/obj/structure/barricade/wooden,
 /turf/open/floor/cult,
 /area/shuttle/escape)
-"Wk" = (
-/obj/structure/chair/wood,
-/obj/machinery/light/directional/west,
-/turf/open/floor/cult,
+"Sh" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/mineral/titanium,
+/area/shuttle/escape)
+"SB" = (
+/obj/machinery/light/directional/south,
+/obj/machinery/status_display/evac/directional/south,
+/turf/open/floor/mineral/titanium,
 /area/shuttle/escape)
 
 (1,1,1) = {"
@@ -539,18 +539,18 @@ ab
 ab
 ab
 ab
-qq
-cg
+tK
+iI
 al
 as
 aq
-Kz
+IS
 aI
 aI
 aq
 ab
 aq
-Kz
+IS
 aW
 ba
 be
@@ -563,7 +563,7 @@ ab
 ag
 ae
 ab
-hx
+iQ
 al
 al
 aB
@@ -633,17 +633,17 @@ bg
 ac
 af
 ad
-nR
+pr
 ai
-Vl
-Wk
+Cs
+Es
 ay
 ab
-Gb
+Cr
 aq
 aq
 aq
-rq
+SB
 ab
 ab
 ab
@@ -658,9 +658,9 @@ ac
 ae
 ad
 ae
-Mh
-ny
-co
+xp
+On
+GF
 az
 ab
 aF
@@ -683,7 +683,7 @@ ad
 ae
 ad
 ai
-If
+vf
 av
 aA
 ab
@@ -735,14 +735,14 @@ ar
 aw
 aw
 ab
-Pq
-Hb
+vJ
+mL
 aQ
 aR
 aT
 as
 MK
-nX
+Sh
 aZ
 bd
 be

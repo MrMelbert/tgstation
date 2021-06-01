@@ -66,11 +66,6 @@
 	wires = null
 	. = ..()
 
-/obj/machinery/scanner_gate/Destroy()
-	qdel(wires)
-	wires = null
-	. = ..()
-
 /obj/machinery/scanner_gate/examine(mob/user)
 	. = ..()
 	if(locked)

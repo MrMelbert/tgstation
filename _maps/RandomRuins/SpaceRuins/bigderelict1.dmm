@@ -1453,138 +1453,27 @@
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/derelictoutpost/cargobay)
-"ft" = (
-/obj/structure/table,
-/obj/machinery/light/directional/east,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargobay)
-"lk" = (
-/obj/item/crowbar{
-	pixel_x = -16;
-	pixel_y = -6
+"gq" = (
+/obj/machinery/button/door/directional/north{
+	id = "bigderelictshipdock";
+	name = "tradepost entry doors"
 	},
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/derelictoutpost/cargobay)
-"ls" = (
-/obj/structure/table,
-/obj/machinery/light/directional/west,
-/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargobay)
-"mr" = (
-/obj/structure/extinguisher_cabinet/directional/west,
+"gO" = (
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost)
-"nt" = (
+/area/ruin/space/has_grav/derelictoutpost/cargostorage)
+"hg" = (
 /obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargostorage)
-"nv" = (
-/obj/structure/alien/weeds/creature,
-/obj/effect/decal/cleanable/blood/old{
-	dir = 1;
-	icon_state = "trails_1";
-	name = "dried blood trail"
-	},
+"iq" = (
+/obj/structure/table,
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost)
-"qd" = (
-/obj/structure/alien/weeds/creature,
-/obj/machinery/button/door/directional/east{
-	id = "bigderelictship";
-	name = "shuttle cargo doors"
-	},
-/turf/open/floor/mineral/titanium/blue,
-/area/ruin/space/has_grav/derelictoutpost/dockedship)
-"qC" = (
-/obj/structure/extinguisher_cabinet/directional/west,
-/obj/effect/turf_decal/delivery,
-/turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargobay)
-"rT" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/machinery/light/directional/south,
-/obj/effect/turf_decal/delivery,
-/obj/effect/spawner/lootdrop/space/fancytech,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargostorage)
-"sL" = (
-/obj/structure/alien/weeds/creature,
-/obj/machinery/light/directional/south,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargobay)
-"tm" = (
-/obj/structure/closet/crate,
-/obj/item/target/syndicate,
-/obj/item/target/clown,
-/obj/item/target/clown,
-/obj/item/target/alien,
-/obj/item/target,
-/obj/machinery/light/directional/north,
-/obj/effect/turf_decal/delivery,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargostorage)
-"uV" = (
-/obj/machinery/door/airlock/external,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/derelictoutpost/powerstorage)
-"vE" = (
-/obj/structure/filingcabinet,
-/obj/machinery/light/directional/west,
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/turf/open/floor/iron/dark,
-/area/ruin/space/has_grav/derelictoutpost)
-"wS" = (
-/obj/machinery/suit_storage_unit/standard_unit,
-/obj/machinery/light/directional/north,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargostorage)
-"xi" = (
-/obj/machinery/firealarm/directional/east,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost)
-"Ej" = (
-/obj/item/ammo_casing/c45{
-	caliber = null;
-	desc = "A .45 bullet casing. This one is spent.";
-	name = "spent bullet casing"
-	},
-/obj/machinery/light/directional/west,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/powerstorage)
-"FZ" = (
-/obj/machinery/firealarm/directional/west,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargobay)
-"HP" = (
-/obj/effect/mob_spawn/human/corpse/nanotrasensoldier{
-	head = null;
-	name = "Tradeport Officer";
-	random = 1
-	},
-/obj/item/paper/crumpled/ruins/bigderelict1/coward,
-/obj/effect/decal/cleanable/blood/old{
-	name = "dried blood splatter";
-	pixel_x = -29
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/powerstorage)
-"Jz" = (
+"jY" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/structure/alien/weeds/creature,
 /obj/effect/turf_decal/tile/red{
@@ -1603,23 +1492,91 @@
 	},
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/derelictoutpost)
-"KM" = (
-/obj/machinery/firealarm/directional/south,
+"lg" = (
+/obj/machinery/light/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost)
+"lk" = (
+/obj/item/crowbar{
+	pixel_x = -16;
+	pixel_y = -6
+	},
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/derelictoutpost/cargobay)
+"nK" = (
+/obj/structure/table,
+/obj/machinery/light/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargobay)
+"oY" = (
+/obj/item/ammo_casing/c45{
+	caliber = null;
+	desc = "A .45 bullet casing. This one is spent.";
+	name = "spent bullet casing"
+	},
+/obj/machinery/light/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/powerstorage)
+"pU" = (
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost)
+"qO" = (
+/obj/structure/closet/crate,
+/obj/item/target/syndicate,
+/obj/item/target/clown,
+/obj/item/target/clown,
+/obj/item/target/alien,
+/obj/item/target,
+/obj/machinery/light/directional/north,
+/obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargostorage)
-"LB" = (
+"tC" = (
+/obj/structure/filingcabinet,
+/obj/machinery/light/directional/west,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/derelictoutpost)
+"uV" = (
 /obj/machinery/door/airlock/external,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
 /turf/open/floor/plating,
+/area/ruin/space/has_grav/derelictoutpost/powerstorage)
+"vg" = (
+/obj/machinery/firealarm/directional/east,
+/turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost)
-"LD" = (
-/obj/structure/table,
-/obj/machinery/light/directional/west,
+"wc" = (
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargobay)
-"QS" = (
+"zI" = (
+/obj/structure/alien/weeds/creature,
+/obj/effect/decal/cleanable/blood/old{
+	dir = 1;
+	icon_state = "trails_1";
+	name = "dried blood trail"
+	},
+/obj/machinery/light/directional/east,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost)
+"Gh" = (
+/obj/structure/extinguisher_cabinet/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost)
+"Hd" = (
 /obj/effect/decal/cleanable/blood/old{
 	dir = 4;
 	icon_state = "trails_1";
@@ -1630,29 +1587,72 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargobay)
-"Rp" = (
-/obj/machinery/light/directional/west,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargobay)
-"RH" = (
-/obj/machinery/button/door/directional/north{
-	id = "bigderelictshipdock";
-	name = "tradepost entry doors"
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost/cargobay)
-"RX" = (
-/obj/machinery/light/directional/south,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost)
-"Sl" = (
-/obj/machinery/light/directional/west,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/derelictoutpost)
-"Zo" = (
+"HP" = (
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/derelictoutpost/cargostorage)
+"Kd" = (
+/obj/machinery/suit_storage_unit/standard_unit,
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargostorage)
+"LB" = (
+/obj/machinery/door/airlock/external,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/derelictoutpost)
+"MB" = (
+/obj/structure/alien/weeds/creature,
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargobay)
+"Pu" = (
+/obj/machinery/light/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargobay)
+"SD" = (
+/obj/structure/table,
+/obj/machinery/light/directional/west,
+/obj/item/reagent_containers/glass/bucket,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargobay)
+"SF" = (
+/obj/structure/extinguisher_cabinet/directional/west,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargobay)
+"UZ" = (
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/obj/machinery/light/directional/south,
+/obj/effect/turf_decal/delivery,
+/obj/effect/spawner/lootdrop/space/fancytech,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/cargostorage)
+"XJ" = (
+/obj/structure/alien/weeds/creature,
+/obj/machinery/button/door/directional/east{
+	id = "bigderelictship";
+	name = "shuttle cargo doors"
+	},
+/turf/open/floor/mineral/titanium/blue,
+/area/ruin/space/has_grav/derelictoutpost/dockedship)
+"YW" = (
+/obj/effect/mob_spawn/human/corpse/nanotrasensoldier{
+	head = null;
+	name = "Tradeport Officer";
+	random = 1
+	},
+/obj/item/paper/crumpled/ruins/bigderelict1/coward,
+/obj/effect/decal/cleanable/blood/old{
+	name = "dried blood splatter";
+	pixel_x = -29
+	},
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/derelictoutpost/powerstorage)
 
 (1,1,1) = {"
 aa
@@ -1738,8 +1738,8 @@ aB
 aM
 uV
 ba
-HP
-Ej
+YW
+oY
 bJ
 cn
 aA
@@ -1817,13 +1817,13 @@ bJ
 aS
 cT
 ak
-Rp
+Pu
 cT
 bx
 dJ
 bx
 bx
-Rp
+Pu
 ak
 ak
 eL
@@ -1912,17 +1912,17 @@ ab
 af
 ai
 al
-ls
+SD
 aw
 aw
 aN
-qC
+SF
 aJ
 az
-LD
+nK
 cb
 an
-FZ
+wc
 ak
 db
 ab
@@ -1946,7 +1946,7 @@ aa
 ab
 ab
 ab
-RH
+gq
 ak
 ak
 ak
@@ -1960,16 +1960,16 @@ ak
 an
 cH
 cV
-sL
+MB
 ab
 dw
 dE
 dL
-wS
+Kd
 dW
 dW
 ex
-rT
+UZ
 dL
 aR
 aZ
@@ -2077,7 +2077,7 @@ dX
 dW
 dW
 ex
-KM
+gO
 dL
 aR
 aZ
@@ -2181,7 +2181,7 @@ ab
 dv
 dH
 dL
-nt
+hg
 dW
 dW
 ex
@@ -2205,7 +2205,7 @@ ay
 aI
 aI
 aW
-qd
+XJ
 be
 bO
 at
@@ -2289,11 +2289,11 @@ ab
 dA
 cm
 dL
-tm
+qO
 dW
 es
 ex
-Zo
+HP
 dL
 aR
 aZ
@@ -2306,7 +2306,7 @@ ad
 ab
 ab
 ab
-RH
+gq
 an
 an
 an
@@ -2320,7 +2320,7 @@ ce
 ce
 ce
 ce
-QS
+Hd
 ab
 dA
 cR
@@ -2344,12 +2344,12 @@ ab
 ah
 ak
 ao
-ft
+iq
 az
 aJ
 aN
 aX
-ft
+iq
 bx
 bP
 bx
@@ -2459,10 +2459,10 @@ aa
 aY
 aK
 bz
-vE
+tC
 bC
 cj
-RX
+pU
 aZ
 aZ
 aZ
@@ -2567,10 +2567,10 @@ aa
 aY
 aK
 bB
-Jz
+jY
 bC
 cj
-xi
+vg
 aK
 cR
 cR
@@ -2638,9 +2638,9 @@ aa
 ad
 aZ
 aZ
-Sl
+lg
 bn
-mr
+Gh
 cA
 bF
 bl
@@ -2963,7 +2963,7 @@ aK
 aZ
 bp
 bG
-nv
+zI
 cl
 cD
 cR

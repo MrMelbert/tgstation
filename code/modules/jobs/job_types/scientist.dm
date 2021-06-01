@@ -22,8 +22,8 @@
 	family_heirlooms = list(/obj/item/book/manual/wiki/cytology, /obj/item/reagent_containers/glass/beaker) //NON MODULE CHANGE
 
 	mail_goodies = list(
-		/obj/item/raw_anomaly_core/random = 10, 
-		/obj/item/disk/tech_disk/spaceloot = 2, 
+		/obj/item/raw_anomaly_core/random = 10,
+		/obj/item/disk/tech_disk/spaceloot = 2,
 		/obj/item/camera_bug = 1
 	)
 
@@ -40,6 +40,9 @@
 	backpack = /obj/item/storage/backpack/science
 	satchel = /obj/item/storage/backpack/satchel/tox
 	duffelbag = /obj/item/storage/backpack/duffelbag/toxins
+	backpack_contents = list(/obj/item/modular_computer/tablet/preset/science=1)
+
+	id_trim = /datum/id_trim/job/scientist
 
 	id_trim = /datum/id_trim/job/scientist
 

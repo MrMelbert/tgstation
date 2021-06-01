@@ -819,105 +819,11 @@
 /obj/item/stack/cable_coil/cut,
 /turf/template_noop,
 /area/template_noop)
-"fW" = (
-/obj/machinery/light/directional/south,
-/obj/structure/table/reinforced,
-/obj/item/storage/firstaid/regular,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/bridge)
-"gi" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/button/door/directional/north{
-	id = "onehalf_drone4ext";
-	name = "Drone 4 External Hatch Override";
-	pixel_x = 8;
-	pixel_y = 32
-	},
-/obj/machinery/button/door/directional/north{
-	id = "onehalf_drone3ext";
-	name = "Drone 3 External Hatch Override";
-	pixel_x = -8;
-	pixel_y = 32
-	},
-/obj/machinery/button/door/directional/north{
-	custom_acid_overlay = "onehalf_drone4int";
-	name = "Drone 4 Internal Hatch Override";
-	pixel_x = 8
-	},
-/obj/machinery/button/door/directional/north{
-	custom_acid_overlay = "onehalf_drone3int";
-	name = "Drone 3 Internal Hatch Override";
-	pixel_x = -8
-	},
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/drone_bay)
-"lX" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/drone_bay)
-"mt" = (
-/obj/item/stack/tile/iron/base,
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/bridge)
-"nu" = (
-/obj/item/crowbar/red,
-/obj/item/multitool,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/onehalf/bridge)
-"tW" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/power/apc/auto_name/south,
-/obj/structure/cable,
-/turf/open/floor/iron/airless,
-/area/ruin/space/has_grav/onehalf/hallway)
-"ub" = (
-/obj/machinery/light/directional/west,
-/obj/machinery/vending/sovietsoda,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/bridge)
-"ux" = (
+"fc" = (
 /obj/item/stack/tile/iron/base,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/onehalf/bridge)
-"xw" = (
-/obj/machinery/light/directional/north,
-/obj/structure/frame/computer,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/bridge)
-"yV" = (
-/obj/machinery/light/directional/west,
-/obj/structure/closet,
-/obj/effect/spawner/lootdrop/space/syndiecosmetic,
-/obj/effect/spawner/lootdrop/space/syndiecosmetic,
-/obj/effect/spawner/lootdrop/space/syndiecosmetic,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/dorms_med)
-"Ad" = (
-/obj/machinery/light/small/directional/west,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/onehalf/drone_bay)
-"AZ" = (
-/obj/machinery/light/directional/east,
-/obj/structure/table,
-/obj/item/storage/firstaid/brute{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/storage/firstaid/regular,
-/turf/open/floor/iron/white,
-/area/ruin/space/has_grav/onehalf/dorms_med)
-"EU" = (
+"gl" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -925,14 +831,7 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/onehalf/drone_bay)
-"Gi" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/light/directional/south,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/drone_bay)
-"Hr" = (
+"jt" = (
 /obj/structure/closet/crate/medical,
 /obj/item/clothing/neck/stethoscope,
 /obj/item/healthanalyzer,
@@ -942,17 +841,52 @@
 /obj/structure/cable,
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/onehalf/dorms_med)
-"Hw" = (
-/obj/machinery/light/small/directional/south,
-/obj/structure/cable,
-/turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/bridge)
-"KC" = (
+"jw" = (
+/obj/machinery/light/directional/north,
 /obj/structure/frame/computer,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/bridge)
+"nu" = (
+/obj/item/crowbar/red,
+/obj/item/multitool,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/onehalf/bridge)
+"nN" = (
+/obj/machinery/light/directional/south,
+/obj/structure/table/reinforced,
+/obj/item/storage/firstaid/regular,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/bridge)
+"pL" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable,
+/turf/open/floor/iron/airless,
+/area/ruin/space/has_grav/onehalf/hallway)
+"rM" = (
+/obj/machinery/light/directional/west,
+/obj/machinery/vending/sovietsoda,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/bridge)
+"so" = (
+/obj/machinery/light/directional/east,
+/obj/structure/table,
+/obj/item/storage/firstaid/brute{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/storage/firstaid/regular,
+/turf/open/floor/iron/white,
+/area/ruin/space/has_grav/onehalf/dorms_med)
+"tC" = (
+/obj/item/stack/tile/iron/base,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/onehalf/bridge)
-"Ti" = (
+"xp" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -980,15 +914,81 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/onehalf/drone_bay)
-"Vh" = (
-/obj/structure/cable,
+"Ec" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/button/door/directional/north{
+	id = "onehalf_drone4ext";
+	name = "Drone 4 External Hatch Override";
+	pixel_x = 8;
+	pixel_y = 32
+	},
+/obj/machinery/button/door/directional/north{
+	id = "onehalf_drone3ext";
+	name = "Drone 3 External Hatch Override";
+	pixel_x = -8;
+	pixel_y = 32
+	},
+/obj/machinery/button/door/directional/north{
+	custom_acid_overlay = "onehalf_drone4int";
+	name = "Drone 4 Internal Hatch Override";
+	pixel_x = 8
+	},
+/obj/machinery/button/door/directional/north{
+	custom_acid_overlay = "onehalf_drone3int";
+	name = "Drone 3 Internal Hatch Override";
+	pixel_x = -8
+	},
 /turf/open/floor/iron,
-/area/ruin/space/has_grav/onehalf/bridge)
-"Vs" = (
+/area/ruin/space/has_grav/onehalf/drone_bay)
+"Fl" = (
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/onehalf/bridge)
+"FU" = (
+/obj/machinery/light/small/directional/south,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/bridge)
+"KC" = (
+/obj/structure/frame/computer,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/bridge)
+"Mx" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/drone_bay)
+"MT" = (
+/obj/machinery/light/directional/west,
+/obj/structure/closet,
+/obj/effect/spawner/lootdrop/space/syndiecosmetic,
+/obj/effect/spawner/lootdrop/space/syndiecosmetic,
+/obj/effect/spawner/lootdrop/space/syndiecosmetic,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/dorms_med)
+"Sn" = (
+/obj/machinery/light/small/directional/west,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/onehalf/drone_bay)
+"Vh" = (
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/bridge)
+"Xp" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/onehalf/drone_bay)
 
 (1,1,1) = {"
 aa
@@ -1171,8 +1171,8 @@ aa
 ab
 ag
 an
-AZ
-Hr
+so
+jt
 ag
 bi
 bx
@@ -1215,11 +1215,11 @@ aa
 ab
 ag
 ao
-yV
+MT
 ao
 ag
 bj
-tW
+pL
 bR
 bR
 ax
@@ -1303,7 +1303,7 @@ aa
 ab
 ab
 aq
-Ad
+Sn
 aq
 aX
 bo
@@ -1312,7 +1312,7 @@ bU
 aa
 cj
 bU
-Hw
+FU
 bU
 aw
 aa
@@ -1327,7 +1327,7 @@ aa
 ar
 ar
 ar
-lX
+Xp
 bp
 bp
 bU
@@ -1357,7 +1357,7 @@ ca
 cl
 cw
 Vh
-ub
+rM
 cR
 cY
 bU
@@ -1371,9 +1371,9 @@ aa
 ar
 ar
 ar
-Ti
+xp
 bp
-Gi
+Mx
 bU
 cb
 cm
@@ -1401,7 +1401,7 @@ cc
 cn
 cn
 Vh
-ux
+fc
 cn
 da
 cq
@@ -1419,10 +1419,10 @@ bb
 bp
 bp
 bU
-xw
+jw
 co
 cn
-mt
+tC
 nu
 cS
 KC
@@ -1459,11 +1459,11 @@ aa
 ar
 ar
 ar
-gi
+Ec
 bp
-Gi
+Mx
 bU
-Vs
+Fl
 Vh
 Vh
 cJ
@@ -1491,7 +1491,7 @@ cy
 KC
 ce
 cU
-fW
+nN
 bU
 ad
 aa
@@ -1548,7 +1548,7 @@ aa
 ar
 ar
 ar
-EU
+gl
 bH
 ar
 aa

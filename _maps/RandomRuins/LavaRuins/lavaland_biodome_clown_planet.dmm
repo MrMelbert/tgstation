@@ -575,13 +575,6 @@
 	},
 /turf/open/indestructible/light,
 /area/ruin/powered/clownplanet)
-"bk" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/obj/machinery/light/small/directional/west,
-/turf/open/indestructible/white,
-/area/ruin/powered/clownplanet)
 "bl" = (
 /turf/open/indestructible/light,
 /area/ruin/powered/clownplanet)
@@ -802,14 +795,6 @@
 /obj/item/clothing/shoes/clown_shoes/banana_shoes,
 /turf/open/floor/carpet,
 /area/ruin/powered/clownplanet)
-"bS" = (
-/obj/item/coin/bananium,
-/obj/item/coin/bananium,
-/obj/item/coin/bananium,
-/obj/item/coin/bananium,
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/carpet,
-/area/ruin/powered/clownplanet)
 "bT" = (
 /obj/structure/table/glass,
 /obj/item/reagent_containers/spray/waterflower/superlube,
@@ -854,59 +839,28 @@
 "cu" = (
 /turf/open/floor/plating,
 /area/ruin/powered/clownplanet)
-"dB" = (
-/obj/structure/disposalpipe/segment{
-	invisibility = 101
-	},
-/obj/machinery/light/small/directional/north,
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/indestructible/permalube,
+"eE" = (
+/obj/effect/mapping_helpers/no_lava,
+/turf/closed/wall/r_wall,
 /area/ruin/powered/clownplanet)
-"dC" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4;
-	invisibility = 101
+"fL" = (
+/obj/machinery/light/directional/north,
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
 	},
-/obj/machinery/light/small/directional/north,
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/indestructible/permalube,
 /area/ruin/powered/clownplanet)
-"dD" = (
-/obj/structure/disposalpipe/segment{
-	dir = 10
+"fS" = (
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
 	},
-/obj/machinery/light/small/directional/east,
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/turf/open/indestructible/permalube,
-/area/ruin/powered/clownplanet)
-"dE" = (
+/area/lavaland/surface/outdoors/explored)
+"gX" = (
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/chasm/lavaland,
+/area/lavaland/surface/outdoors/explored)
+"ij" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -924,15 +878,65 @@
 	},
 /turf/open/indestructible/permalube,
 /area/ruin/powered/clownplanet)
-"dF" = (
+"jK" = (
+/obj/structure/disposalpipe/segment{
+	invisibility = 101
+	},
+/obj/machinery/light/small/directional/north,
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/indestructible/permalube,
+/area/ruin/powered/clownplanet)
+"mn" = (
+/obj/item/coin/bananium,
+/obj/item/coin/bananium,
+/obj/item/coin/bananium,
+/obj/item/coin/bananium,
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/carpet,
+/area/ruin/powered/clownplanet)
+"nh" = (
+/obj/machinery/light/directional/east,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
+	},
+/area/ruin/powered/clownplanet)
+"rJ" = (
+/obj/item/clothing/head/cone,
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/noslip,
+/area/ruin/powered/clownplanet)
+"sj" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
 	invisibility = 101
 	},
-/obj/machinery/light/small/directional/west,
-/turf/open/indestructible/white,
+/obj/machinery/light/small/directional/north,
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/indestructible/permalube,
 /area/ruin/powered/clownplanet)
-"dG" = (
+"tg" = (
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/carpet,
+/area/ruin/powered/clownplanet)
+"uN" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
 	invisibility = 101
@@ -940,14 +944,63 @@
 /obj/machinery/light/small/directional/east,
 /turf/open/indestructible/white,
 /area/ruin/powered/clownplanet)
-"dH" = (
+"wZ" = (
+/obj/effect/mapping_helpers/no_lava,
+/obj/machinery/door/airlock/external,
+/turf/open/floor/noslip,
+/area/ruin/powered/clownplanet)
+"ye" = (
+/turf/open/lava/smooth,
+/area/ruin/powered/clownplanet)
+"yF" = (
+/obj/machinery/light/directional/south,
+/turf/open/indestructible/honk,
+/area/ruin/powered/clownplanet)
+"yJ" = (
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/machinery/light/small/directional/east,
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/indestructible/permalube,
+/area/ruin/powered/clownplanet)
+"yU" = (
+/obj/machinery/light/directional/south,
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
+	},
+/area/ruin/powered/clownplanet)
+"CZ" = (
+/obj/machinery/light/directional/west,
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
+	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
+	},
+/area/ruin/powered/clownplanet)
+"Dd" = (
+/obj/item/paper/crumpled/bloody/ruins/lavaland/clown_planet/hope,
+/obj/effect/decal/cleanable/blood/old,
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/noslip,
+/area/ruin/powered/clownplanet)
+"Dy" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
 /obj/machinery/light/small/directional/east,
 /turf/open/indestructible/white,
 /area/ruin/powered/clownplanet)
-"dI" = (
+"Hf" = (
 /obj/machinery/light/directional/north,
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -960,65 +1013,6 @@
 	dir = 1
 	},
 /turf/open/indestructible/permalube,
-/area/ruin/powered/clownplanet)
-"dK" = (
-/obj/machinery/light/small/directional/north,
-/turf/open/floor/carpet,
-/area/ruin/powered/clownplanet)
-"dL" = (
-/obj/item/coin/bananium,
-/obj/item/coin/bananium,
-/obj/item/coin/bananium,
-/obj/item/coin/bananium,
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/carpet,
-/area/ruin/powered/clownplanet)
-"dM" = (
-/obj/machinery/light/directional/north,
-/turf/open/indestructible/honk,
-/area/ruin/powered/clownplanet)
-"dO" = (
-/obj/machinery/light/directional/south,
-/turf/open/indestructible/honk,
-/area/ruin/powered/clownplanet)
-"eE" = (
-/obj/effect/mapping_helpers/no_lava,
-/turf/closed/wall/r_wall,
-/area/ruin/powered/clownplanet)
-"eX" = (
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/noslip,
-/area/ruin/powered/clownplanet)
-"gX" = (
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/chasm/lavaland,
-/area/lavaland/surface/outdoors/explored)
-"hY" = (
-/obj/machinery/light/directional/south,
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
-	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
-	},
-/area/ruin/powered/clownplanet)
-"os" = (
-/obj/effect/mapping_helpers/no_lava,
-/obj/machinery/door/airlock/external,
-/turf/open/floor/noslip,
-/area/ruin/powered/clownplanet)
-"pv" = (
-/obj/machinery/light/directional/east,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
-	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
-	},
-/area/ruin/powered/clownplanet)
-"ye" = (
-/turf/open/lava/smooth,
-/area/ruin/powered/clownplanet)
-"CB" = (
-/obj/item/paper/crumpled/bloody/ruins/lavaland/clown_planet/hope,
-/obj/effect/decal/cleanable/blood/old,
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/noslip,
 /area/ruin/powered/clownplanet)
 "Hj" = (
 /obj/effect/decal/cleanable/food/pie_smudge,
@@ -1034,7 +1028,7 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/indestructible/permalube,
 /area/ruin/powered/clownplanet)
-"KX" = (
+"Jc" = (
 /obj/item/grown/bananapeel{
 	color = "#2F3000";
 	name = "stealth banana peel"
@@ -1044,7 +1038,52 @@
 	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
 	},
 /area/lavaland/surface/outdoors/explored)
-"LH" = (
+"KE" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	invisibility = 101
+	},
+/obj/machinery/light/small/directional/west,
+/turf/open/indestructible/white,
+/area/ruin/powered/clownplanet)
+"Ni" = (
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/noslip,
+/area/ruin/powered/clownplanet)
+"RV" = (
+/obj/structure/disposalpipe/trunk,
+/obj/structure/disposaloutlet{
+	dir = 1
+	},
+/obj/effect/mapping_helpers/no_lava,
+/turf/open/floor/noslip,
+/area/ruin/powered/clownplanet)
+"Ux" = (
+/obj/item/coin/bananium,
+/obj/item/coin/bananium,
+/obj/item/coin/bananium,
+/obj/item/coin/bananium,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/carpet,
+/area/ruin/powered/clownplanet)
+"VU" = (
+/obj/machinery/light/directional/north,
+/turf/open/indestructible/honk,
+/area/ruin/powered/clownplanet)
+"Wj" = (
+/obj/machinery/light/small/directional/south,
+/obj/effect/mapping_helpers/no_lava,
+/mob/living/simple_animal/hostile/retaliate/clown,
+/turf/open/floor/noslip,
+/area/ruin/powered/clownplanet)
+"WP" = (
+/obj/structure/disposalpipe/segment{
+	invisibility = 101
+	},
+/obj/machinery/light/small/directional/west,
+/turf/open/indestructible/white,
+/area/ruin/powered/clownplanet)
+"Zd" = (
 /obj/machinery/disposal/delivery_chute{
 	desc = "The following is engraved upon the chute: A FATE WORSE THAN DEATH LIES WITHIN";
 	dir = 1;
@@ -1054,46 +1093,7 @@
 /obj/effect/mapping_helpers/no_lava,
 /turf/open/floor/noslip,
 /area/ruin/powered/clownplanet)
-"MR" = (
-/obj/machinery/light/directional/west,
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
-	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
-	},
-/area/ruin/powered/clownplanet)
-"RW" = (
-/obj/effect/mapping_helpers/no_lava,
-/mob/living/simple_animal/hostile/retaliate/clown,
-/turf/open/floor/noslip,
-/area/ruin/powered/clownplanet)
-"TD" = (
-/obj/structure/disposalpipe/trunk,
-/obj/structure/disposaloutlet{
-	dir = 1
-	},
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/noslip,
-/area/ruin/powered/clownplanet)
-"Xm" = (
-/obj/item/clothing/head/cone,
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/noslip,
-/area/ruin/powered/clownplanet)
-"XO" = (
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
-	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
-	},
-/area/lavaland/surface/outdoors/explored)
-"Yf" = (
-/obj/machinery/light/directional/north,
-/obj/effect/mapping_helpers/no_lava,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface{
-	initial_gas_mix = "o2=22;n2=82;TEMP=293.15"
-	},
-/area/ruin/powered/clownplanet)
-"YI" = (
-/obj/machinery/light/small/directional/south,
+"ZT" = (
 /obj/effect/mapping_helpers/no_lava,
 /mob/living/simple_animal/hostile/retaliate/clown,
 /turf/open/floor/noslip,
@@ -1115,11 +1115,11 @@ aa
 aa
 aa
 aa
-XO
-XO
-XO
-XO
-XO
+fS
+fS
+fS
+fS
+fS
 aa
 aa
 aa
@@ -1148,13 +1148,13 @@ cc
 cc
 cc
 cc
-pv
-XO
+nh
+fS
 gX
-XO
-XO
+fS
+fS
 gX
-pv
+nh
 cc
 cc
 cc
@@ -1185,7 +1185,7 @@ cc
 cc
 gX
 gX
-KX
+Jc
 gX
 gX
 cc
@@ -1246,7 +1246,7 @@ ye
 am
 au
 aS
-dE
+ij
 aH
 bf
 aJ
@@ -1300,7 +1300,7 @@ aU
 ye
 ye
 cc
-Yf
+fL
 aa
 "}
 (7,1,1) = {"
@@ -1351,10 +1351,10 @@ aL
 aX
 aL
 bb
-dF
+KE
 bp
 cc
-dI
+Hf
 bA
 bB
 cc
@@ -1398,7 +1398,7 @@ bB
 bB
 ca
 bH
-dO
+yF
 cc
 ye
 ye
@@ -1407,7 +1407,7 @@ aa
 "}
 (10,1,1) = {"
 aa
-XO
+fS
 cc
 ye
 an
@@ -1441,12 +1441,12 @@ cc
 "}
 (11,1,1) = {"
 aa
-hY
+yU
 cc
 ye
 ao
 ch
-dB
+jK
 aH
 az
 az
@@ -1475,7 +1475,7 @@ cc
 "}
 (12,1,1) = {"
 aa
-XO
+fS
 cc
 ye
 ap
@@ -1487,7 +1487,7 @@ an
 aB
 aL
 bb
-dG
+uN
 br
 cc
 cc
@@ -1529,9 +1529,9 @@ cc
 cc
 cc
 bP
-bS
+mn
 cc
-dM
+VU
 bB
 bH
 ca
@@ -1543,8 +1543,8 @@ cc
 "}
 (14,1,1) = {"
 eE
-RW
-Xm
+ZT
+rJ
 eE
 cc
 an
@@ -1577,9 +1577,9 @@ cc
 "}
 (15,1,1) = {"
 eE
-RW
-RW
-LH
+ZT
+ZT
+Zd
 ch
 au
 ar
@@ -1595,7 +1595,7 @@ aA
 aM
 aG
 cc
-dK
+tg
 bQ
 bT
 bM
@@ -1610,10 +1610,10 @@ ye
 cc
 "}
 (16,1,1) = {"
-os
-eX
-CB
-YI
+wZ
+Ni
+Dd
+Wj
 cc
 ao
 ar
@@ -1645,9 +1645,9 @@ cc
 "}
 (17,1,1) = {"
 eE
-eX
-RW
-TD
+Ni
+ZT
+RV
 ch
 av
 ay
@@ -1679,8 +1679,8 @@ cc
 "}
 (18,1,1) = {"
 eE
-RW
-RW
+ZT
+ZT
 eE
 cc
 cc
@@ -1733,9 +1733,9 @@ cc
 bB
 cc
 bP
-dL
+Ux
 cc
-dM
+VU
 bB
 bH
 bH
@@ -1747,7 +1747,7 @@ cc
 "}
 (20,1,1) = {"
 aa
-XO
+fS
 cc
 ye
 cc
@@ -1759,7 +1759,7 @@ az
 aA
 aL
 bh
-bk
+WP
 bn
 cc
 bE
@@ -1781,12 +1781,12 @@ cc
 "}
 (21,1,1) = {"
 aa
-hY
+yU
 cc
 ye
 cc
 cc
-dC
+sj
 aK
 aL
 az
@@ -1815,7 +1815,7 @@ cc
 "}
 (22,1,1) = {"
 aa
-XO
+fS
 cc
 ye
 aq
@@ -1840,7 +1840,7 @@ bH
 bH
 bB
 bW
-dO
+yF
 cc
 aU
 ye
@@ -1895,10 +1895,10 @@ aA
 aL
 aL
 bh
-dH
+Dy
 bp
 cc
-dI
+Hf
 bA
 bB
 bB
@@ -1959,7 +1959,7 @@ cc
 cc
 aM
 aB
-dD
+yJ
 ar
 ar
 aS
@@ -1980,7 +1980,7 @@ cu
 ye
 ye
 cc
-Yf
+fL
 aa
 "}
 (27,1,1) = {"
@@ -2069,7 +2069,7 @@ cc
 cc
 gX
 gX
-KX
+Jc
 gX
 gX
 cc
@@ -2100,13 +2100,13 @@ cc
 cc
 cc
 cc
-MR
-XO
-XO
-XO
-XO
+CZ
+fS
+fS
+fS
+fS
 gX
-MR
+CZ
 cc
 cc
 cc
@@ -2135,11 +2135,11 @@ aa
 aa
 aa
 aa
-XO
+fS
 gX
-XO
-XO
-XO
+fS
+fS
+fS
 aa
 aa
 aa

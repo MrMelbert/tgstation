@@ -109,9 +109,7 @@ const TutorialModal = (props, context) => {
       <Box
         mb={1}
         textAlign="center"
-        style={{
-          'white-space': 'pre-wrap',
-        }}>
+        preserveWhitespace >
         {props.text}
       </Box>
       <Box align="center">

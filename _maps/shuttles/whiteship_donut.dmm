@@ -387,13 +387,109 @@
 /obj/item/crowbar/red,
 /turf/open/floor/plating/airless,
 /area/shuttle/abandoned)
-"bL" = (
+"eo" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/urinal/directional/east,
 /obj/structure/window/reinforced/tinted,
 /turf/open/floor/iron/showroomfloor/airless,
 /area/shuttle/abandoned)
-"hB" = (
+"gD" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron/showroomfloor/airless,
+/area/shuttle/abandoned)
+"mk" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/extinguisher_cabinet/directional/north,
+/obj/item/storage/toolbox/emergency,
+/turf/open/floor/iron/airless,
+/area/shuttle/abandoned)
+"oj" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/urinal/directional/east,
+/obj/structure/window/reinforced/tinted{
+	dir = 1
+	},
+/turf/open/floor/iron/showroomfloor/airless,
+/area/shuttle/abandoned)
+"pe" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/decal/cleanable/shreds,
+/obj/item/storage/firstaid/ancient,
+/turf/open/floor/plating/airless,
+/area/shuttle/abandoned)
+"pm" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = -12
+	},
+/obj/item/soap,
+/turf/open/floor/iron/showroomfloor/airless,
+/area/shuttle/abandoned)
+"tT" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/item/stack/sheet/iron{
+	amount = 50
+	},
+/turf/open/floor/iron/airless,
+/area/shuttle/abandoned)
+"ud" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/door/airlock/titanium{
+	name = "restroom"
+	},
+/turf/open/floor/iron/showroomfloor/airless,
+/area/shuttle/abandoned)
+"vR" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/plating/airless,
+/area/shuttle/abandoned)
+"zG" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/directional/south,
+/turf/open/floor/iron/showroomfloor/airless,
+/area/shuttle/abandoned)
+"AI" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/toilet{
+	dir = 4
+	},
+/obj/machinery/door/window/eastleft,
+/obj/structure/window/reinforced/tinted,
+/turf/open/floor/iron/showroomfloor/airless,
+/area/shuttle/abandoned)
+"CQ" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/item/stack/sheet/mineral/uranium{
+	amount = 15
+	},
+/turf/open/floor/plating/airless,
+/area/shuttle/abandoned)
+"Ib" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/item/clothing/suit/space/eva,
+/obj/item/clothing/head/helmet/space/eva,
+/obj/item/clothing/mask/breath,
+/turf/open/floor/plating/airless,
+/area/shuttle/abandoned)
+"JR" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/directional/south,
+/obj/effect/spawner/lootdrop/whiteship_cere_ripley,
+/turf/open/floor/mech_bay_recharge_floor,
+/area/shuttle/abandoned)
+"Kd" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/frame/machine,
+/obj/item/stack/cable_coil,
+/obj/machinery/light/broken/directional/east,
+/turf/open/floor/iron/airless,
+/area/shuttle/abandoned)
+"NE" = (
 /obj/structure/table,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/light/directional/west,
@@ -406,50 +502,7 @@
 	},
 /turf/open/floor/iron/airless,
 /area/shuttle/abandoned)
-"iL" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/light/broken/directional/east,
-/obj/structure/closet/emcloset,
-/turf/open/floor/iron/airless,
-/area/shuttle/abandoned)
-"jI" = (
-/obj/structure/chair/comfy/shuttle{
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/extinguisher_cabinet/directional/north,
-/obj/item/storage/toolbox/emergency,
-/turf/open/floor/iron/airless,
-/area/shuttle/abandoned)
-"ky" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/frame/machine,
-/obj/item/stack/cable_coil,
-/obj/machinery/light/broken/directional/east,
-/turf/open/floor/iron/airless,
-/area/shuttle/abandoned)
-"pe" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/decal/cleanable/shreds,
-/obj/item/storage/firstaid/ancient,
-/turf/open/floor/plating/airless,
-/area/shuttle/abandoned)
-"qn" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/urinal/directional/east,
-/obj/structure/window/reinforced/tinted{
-	dir = 1
-	},
-/turf/open/floor/iron/showroomfloor/airless,
-/area/shuttle/abandoned)
-"tT" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/item/stack/sheet/iron{
-	amount = 50
-	},
-/turf/open/floor/iron/airless,
-/area/shuttle/abandoned)
-"vx" = (
+"OE" = (
 /obj/structure/table,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/light/directional/east,
@@ -460,71 +513,18 @@
 /obj/machinery/cell_charger,
 /turf/open/floor/iron/airless,
 /area/shuttle/abandoned)
-"vR" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/portable_atmospherics/canister/air,
-/turf/open/floor/plating/airless,
-/area/shuttle/abandoned)
-"zg" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/light/directional/south,
-/obj/effect/spawner/lootdrop/whiteship_cere_ripley,
-/turf/open/floor/mech_bay_recharge_floor,
-/area/shuttle/abandoned)
-"zz" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/door/airlock/titanium{
-	name = "restroom"
-	},
-/turf/open/floor/iron/showroomfloor/airless,
-/area/shuttle/abandoned)
-"CQ" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/item/stack/sheet/mineral/uranium{
-	amount = 15
-	},
-/turf/open/floor/plating/airless,
-/area/shuttle/abandoned)
-"Fx" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/light/directional/south,
-/turf/open/floor/iron/showroomfloor/airless,
-/area/shuttle/abandoned)
-"Ib" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/item/clothing/suit/space/eva,
-/obj/item/clothing/head/helmet/space/eva,
-/obj/item/clothing/mask/breath,
-/turf/open/floor/plating/airless,
-/area/shuttle/abandoned)
-"JK" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/toilet{
-	dir = 4
-	},
-/obj/machinery/door/window/eastleft,
-/obj/structure/window/reinforced/tinted,
-/turf/open/floor/iron/showroomfloor/airless,
-/area/shuttle/abandoned)
-"Rg" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/sink{
-	dir = 4;
-	pixel_x = -12
-	},
-/obj/item/soap,
-/turf/open/floor/iron/showroomfloor/airless,
-/area/shuttle/abandoned)
-"WJ" = (
+"Ug" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/light/directional/west,
 /obj/item/stack/sheet/iron,
 /obj/structure/tank_dispenser,
 /turf/open/floor/iron/airless,
 /area/shuttle/abandoned)
-"XK" = (
+"UM" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/turf/open/floor/iron/showroomfloor/airless,
+/obj/machinery/light/broken/directional/east,
+/obj/structure/closet/emcloset,
+/turf/open/floor/iron/airless,
 /area/shuttle/abandoned)
 
 (1,1,1) = {"
@@ -559,8 +559,8 @@ ac
 aY
 aC
 ac
-JK
-Rg
+AI
+pm
 ab
 ab
 ac
@@ -578,9 +578,9 @@ ab
 av
 ay
 bd
-zz
-XK
-Fx
+ud
+gD
+zG
 ab
 aX
 be
@@ -599,8 +599,8 @@ ak
 az
 ag
 ac
-bL
-qn
+eo
+oj
 ab
 aX
 bf
@@ -642,14 +642,14 @@ ai
 pe
 ao
 ab
-hB
+NE
 bl
 ab
 ab
 "}
 (7,1,1) = {"
 ab
-WJ
+Ug
 Ib
 ac
 ao
@@ -729,7 +729,7 @@ bq
 "}
 (11,1,1) = {"
 ab
-iL
+UM
 vR
 ak
 al
@@ -742,7 +742,7 @@ aq
 ag
 ag
 ab
-jI
+mk
 bn
 bo
 bq
@@ -762,7 +762,7 @@ ag
 ag
 tT
 ab
-vx
+OE
 bo
 ab
 ab
@@ -820,7 +820,7 @@ aA
 aD
 aI
 aO
-zg
+JR
 ab
 aX
 bf
@@ -836,7 +836,7 @@ al
 al
 al
 aw
-ky
+Kd
 aE
 aJ
 aP

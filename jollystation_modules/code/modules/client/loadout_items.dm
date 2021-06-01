@@ -364,7 +364,7 @@ GLOBAL_LIST_INIT(loadout_pocket_items, list(
 	"Lighter" = /obj/item/lighter,
 	"Bee Plush" = /obj/item/toy/plush/beeplushie,
 	"Carp Plush" = /obj/item/toy/plush/carpplushie,
-	"Lizard Plush" = /obj/item/toy/plush/lizardplushie,
+	"Lizard Plush" = /obj/item/toy/plush/lizard_plushie,
 	"Moth Plush" = /obj/item/toy/plush/moth,
 	"Nar'sie Plush" = /obj/item/toy/plush/narplush,
 	"Nukie Plush" = /obj/item/toy/plush/nukeplushie,

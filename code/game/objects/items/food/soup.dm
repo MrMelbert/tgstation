@@ -216,6 +216,7 @@
 	tastes = list("sweet potato" = 1)
 	foodtypes = VEGETABLES | SUGAR
 	venue_value = FOOD_PRICE_NORMAL
+
 /obj/item/food/soup/beet/red
 	name = "red beet soup"
 	desc = "Quite a delicacy."

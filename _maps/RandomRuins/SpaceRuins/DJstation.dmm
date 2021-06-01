@@ -285,28 +285,26 @@
 /obj/structure/disposaloutlet,
 /turf/open/floor/plating/airless,
 /area/template_noop)
-"gM" = (
+"fG" = (
+/obj/machinery/newscaster/directional/north,
+/turf/open/floor/iron/cafeteria,
+/area/ruin/space/djstation)
+"mX" = (
 /obj/machinery/light_switch/directional/north,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/djstation)
-"lR" = (
-/obj/machinery/telecomms/relay/preset/ruskie,
-/obj/machinery/light/directional/north,
+"pr" = (
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable,
+/obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/space/syndiecosmetic,
 /turf/open/floor/plating,
 /area/ruin/space/djstation)
-"mv" = (
-/obj/machinery/light/small/directional/south,
-/obj/effect/turf_decal/tile/bar,
-/obj/effect/turf_decal/tile/bar{
-	dir = 1
-	},
-/turf/open/floor/iron,
+"pQ" = (
+/obj/machinery/light_switch/directional/north,
+/turf/open/floor/iron/grimy,
 /area/ruin/space/djstation)
-"ou" = (
-/obj/machinery/power/solar/fake,
-/turf/open/floor/iron/solarpanel/airless,
-/area/ruin/space/djstation/solars)
-"Bb" = (
+"xg" = (
 /obj/machinery/vending/snack,
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/iron/cafeteria,
@@ -320,11 +318,32 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/space/djstation)
-"Cs" = (
+"CR" = (
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/iron/grimy,
+/area/ruin/space/djstation)
+"MZ" = (
+/obj/machinery/telecomms/relay/preset/ruskie,
+/obj/machinery/light/directional/north,
+/turf/open/floor/plating,
+/area/ruin/space/djstation)
+"Ne" = (
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/djstation)
-"Op" = (
+"Qe" = (
+/obj/machinery/power/solar/fake,
+/turf/open/floor/iron/solarpanel/airless,
+/area/ruin/space/djstation/solars)
+"RV" = (
+/obj/machinery/light/small/directional/south,
+/obj/effect/turf_decal/tile/bar,
+/obj/effect/turf_decal/tile/bar{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/ruin/space/djstation)
+"Sw" = (
 /obj/structure/sink{
 	dir = 4;
 	pixel_x = -12;
@@ -332,25 +351,6 @@
 	},
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/freezer,
-/area/ruin/space/djstation)
-"Qt" = (
-/obj/machinery/light_switch/directional/north,
-/turf/open/floor/iron/grimy,
-/area/ruin/space/djstation)
-"TL" = (
-/obj/machinery/power/apc/auto_name/south,
-/obj/structure/cable,
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/space/syndiecosmetic,
-/turf/open/floor/plating,
-/area/ruin/space/djstation)
-"XU" = (
-/obj/machinery/newscaster/directional/north,
-/turf/open/floor/iron/cafeteria,
-/area/ruin/space/djstation)
-"ZI" = (
-/obj/machinery/light/small/directional/south,
-/turf/open/floor/iron/grimy,
 /area/ruin/space/djstation)
 
 (1,1,1) = {"
@@ -385,11 +385,11 @@ aa
 aa
 aa
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
@@ -410,17 +410,17 @@ aa
 aa
 aa
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
 aA
 aA
-mv
+RV
 af
 ae
 ae
@@ -435,11 +435,11 @@ aa
 aa
 ae
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
@@ -460,11 +460,11 @@ aa
 ae
 ae
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
@@ -473,7 +473,7 @@ aA
 aA
 aX
 ba
-Op
+Sw
 af
 aa
 aa
@@ -505,17 +505,17 @@ aa
 "}
 (7,1,1) = {"
 ab
-ou
-ou
-ou
-ou
+Qe
+Qe
+Qe
+Qe
 ag
 ah
 ah
 ah
 am
 ah
-TL
+pr
 af
 au
 aw
@@ -542,7 +542,7 @@ ah
 ah
 aq
 af
-Bb
+xg
 aw
 aH
 aP
@@ -555,12 +555,12 @@ aa
 "}
 (9,1,1) = {"
 ab
-ou
-ou
-ou
-ou
+Qe
+Qe
+Qe
+Qe
 af
-lR
+MZ
 ah
 aj
 an
@@ -592,7 +592,7 @@ ah
 ah
 ah
 af
-gM
+mX
 aw
 aH
 aR
@@ -605,10 +605,10 @@ af
 "}
 (11,1,1) = {"
 ab
-ou
-ou
-ou
-ou
+Qe
+Qe
+Qe
+Qe
 ag
 ah
 ah
@@ -617,11 +617,11 @@ ah
 ah
 as
 af
-XU
+fG
 aw
 aw
 aw
-Cs
+Ne
 bd
 aw
 bi
@@ -660,11 +660,11 @@ ae
 ae
 ae
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
@@ -685,15 +685,15 @@ aa
 aa
 ae
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
-Qt
+pQ
 aK
 aT
 af
@@ -710,17 +710,17 @@ aa
 aa
 ae
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af
 aD
 aK
-ZI
+CR
 af
 ae
 ae
@@ -735,11 +735,11 @@ aa
 aa
 aa
 ab
-ou
+Qe
 ad
-ou
+Qe
 ad
-ou
+Qe
 ab
 aa
 af

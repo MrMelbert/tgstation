@@ -622,29 +622,29 @@
 /obj/item/assembly/mousetrap,
 /turf/open/floor/plating/asteroid/basalt/wasteland,
 /area/ruin/unpowered/elephant_graveyard)
-"iD" = (
-/obj/effect/spawner/structure/window/shuttle,
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface,
-/area/ruin/powered/graveyard_shuttle)
-"jp" = (
+"dr" = (
+/obj/structure/closet/crate/grave/filled,
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/mob_spawn/human/skeleton,
+/turf/open/floor/plating/asteroid/basalt/wasteland,
+/area/ruin/unpowered/elephant_graveyard)
+"Dr" = (
+/obj/structure/closet/crate/grave/filled,
+/obj/effect/mob_spawn/human/skeleton,
+/turf/open/floor/plating/asteroid/basalt/wasteland,
+/area/ruin/unpowered/elephant_graveyard)
+"Gd" = (
 /obj/effect/decal/cleanable/cobweb,
 /obj/structure/closet/crate/grave/filled/lead_researcher,
 /obj/effect/decal/cleanable/blood/gibs/old,
 /obj/effect/mob_spawn/human/skeleton,
 /turf/open/floor/plating/asteroid/basalt/wasteland,
 /area/ruin/unpowered/elephant_graveyard)
-"rc" = (
-/obj/structure/closet/crate/grave/filled,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/mob_spawn/human/skeleton,
-/turf/open/floor/plating/asteroid/basalt/wasteland,
-/area/ruin/unpowered/elephant_graveyard)
-"Hi" = (
-/obj/structure/closet/crate/grave/filled,
-/obj/effect/mob_spawn/human/skeleton,
-/turf/open/floor/plating/asteroid/basalt/wasteland,
-/area/ruin/unpowered/elephant_graveyard)
-"TS" = (
+"Xz" = (
+/obj/effect/spawner/structure/window/shuttle,
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface,
+/area/ruin/powered/graveyard_shuttle)
+"Yh" = (
 /obj/item/storage/fancy/cigarettes/cigpack_mindbreaker,
 /obj/structure/closet/crate/grave/filled,
 /turf/open/floor/plating/asteroid/basalt/wasteland,
@@ -853,7 +853,7 @@ aY
 ae
 bv
 ae
-Hi
+Dr
 ae
 ae
 aC
@@ -995,7 +995,7 @@ ae
 ae
 ae
 ae
-Hi
+Dr
 ae
 ae
 ae
@@ -1016,7 +1016,7 @@ ac
 ac
 ac
 bG
-TS
+Yh
 ac
 ac
 "}
@@ -1044,7 +1044,7 @@ cz
 ae
 ae
 bn
-rc
+dr
 bf
 bf
 bB
@@ -1064,7 +1064,7 @@ bf
 bf
 bf
 al
-Hi
+Dr
 ae
 ae
 ae
@@ -1096,10 +1096,10 @@ ac
 "}
 (13,1,1) = {"
 bf
-jp
+Gd
 ae
 bf
-Hi
+Dr
 al
 ae
 ae
@@ -1116,7 +1116,7 @@ ae
 ct
 ar
 ae
-Hi
+Dr
 ae
 ae
 bf
@@ -1157,7 +1157,7 @@ ae
 aE
 bw
 bf
-Hi
+Dr
 bB
 ae
 ac
@@ -1186,7 +1186,7 @@ ae
 ae
 ae
 ae
-rc
+dr
 ae
 ae
 ae
@@ -1265,7 +1265,7 @@ ba
 ae
 ae
 aE
-Hi
+Dr
 al
 bf
 bf
@@ -1586,7 +1586,7 @@ ab
 ab
 ab
 ab
-iD
+Xz
 aO
 bX
 bi

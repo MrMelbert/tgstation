@@ -54,8 +54,10 @@
 #include "crayons.dm"
 #include "designs.dm"
 #include "dynamic_ruleset_sanity.dm"
+#include "egg_glands.dm"
 #include "emoting.dm"
 #include "food_edibility_check.dm"
+#include "greyscale_config.dm"
 #include "heretic_knowledge.dm"
 #include "holidays.dm"
 #include "hydroponics_harvest.dm"
@@ -92,10 +94,6 @@
 #include "timer_sanity.dm"
 #include "unit_test.dm"
 #include "wizard.dm"
-
-#ifdef REFERENCE_TRACKING //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
-#include "find_reference_sanity.dm"
-#endif
 
 #ifdef REFERENCE_TRACKING //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"

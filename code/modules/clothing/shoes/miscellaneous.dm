@@ -1,6 +1,6 @@
 /obj/item/clothing/shoes/sneakers/mime
 	name = "mime shoes"
-	greyscale_colors = "#ffffff"
+	greyscale_colors = "#ffffff#ffffff"
 
 /obj/item/clothing/shoes/combat //basic syndicate combat boots for nuke ops and mob corpses
 	name = "combat boots"
@@ -104,7 +104,7 @@
 
 /obj/item/clothing/shoes/clown_shoes/Initialize()
 	. = ..()
-	LoadComponent(/datum/component/squeak, list('sound/effects/clownstep1.ogg'=1,'sound/effects/clownstep2.ogg'=1), 50, 0, 0, 0, 0, 20, 0) //die off quick please
+	LoadComponent(/datum/component/squeak, list('sound/effects/clownstep1.ogg'=1,'sound/effects/clownstep2.ogg'=1), 50, falloff_exponent = 20) //die off quick please
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_CLOWN, CELL_VIRUS_TABLE_GENERIC, rand(2,3), 0)
 
 /obj/item/clothing/shoes/clown_shoes/equipped(mob/user, slot)
@@ -278,8 +278,17 @@
 		recharging_time = world.time + recharging_rate
 	else
 		to_chat(user, "<span class='warning'>Something prevents you from dashing forward!</span>")
-		
-/obj/item/clothing/shoes/bhop/rocket 
+
+/obj/item/clothing/shoes/bhop/rocket
+	name = "rocket boots"
+	desc = "Very special boots with built-in rocket thrusters! SHAZBOT!"
+	icon_state = "rocketboots"
+	inhand_icon_state = "rocketboots"
+	actions_types = list(/datum/action/item_action/bhop/brocket)
+	jumpdistance = 20 //great for throwing yourself into walls and people at high speeds
+	jumpspeed = 5
+
+/obj/item/clothing/shoes/bhop/rocket
 	name = "rocket boots"
 	desc = "Very special boots with built-in rocket thrusters! SHAZBOT!"
 	icon_state = "rocketboots"

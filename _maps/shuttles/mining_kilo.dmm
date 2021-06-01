@@ -151,21 +151,67 @@
 /obj/structure/sign/warning/fire,
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/mining/large)
-"M" = (
+"N" = (
 /obj/effect/turf_decal/box/corners{
 	dir = 1
 	},
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining/large)
-"N" = (
-/obj/effect/turf_decal/box/corners{
+"O" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/light/small/directional/north,
-/turf/open/floor/mineral/plastitanium,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining/large)
-"O" = (
+"P" = (
+/obj/machinery/door/airlock/external{
+	name = "Mining Shuttle External Airlock"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/obj/docking_port/mobile{
+	dwidth = 3;
+	height = 10;
+	id = "mining";
+	name = "mining shuttle";
+	port_direction = 2;
+	width = 7
+	},
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
+/turf/open/floor/plating,
+/area/shuttle/mining/large)
+"Q" = (
+/obj/structure/sign/warning/vacuum/external{
+	pixel_x = 32
+	},
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/light/small/directional/west,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/shuttle/mining/large)
+"R" = (
 /obj/item/clothing/suit/hazardvest{
 	desc = "A high-visibility lifejacket complete with whistle and slot for oxygen tanks.";
 	name = "emergency lifejacket"
@@ -203,24 +249,17 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining/large)
-"P" = (
-/obj/structure/sign/warning/vacuum/external{
-	pixel_x = 32
-	},
-/obj/structure/cable,
+"S" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/light/small/directional/west,
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 1
-	},
-/turf/open/floor/plating,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
+/turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining/large)
-"Q" = (
+"T" = (
 /obj/machinery/light/small/directional/south,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -228,7 +267,24 @@
 /obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining/large)
-"R" = (
+"U" = (
+/obj/effect/turf_decal/box/corners{
+	dir = 4
+	},
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/mineral/plastitanium,
+/area/shuttle/mining/large)
+"V" = (
+/obj/machinery/power/apc/auto_name/east,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+/obj/effect/turf_decal/bot,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/shuttle/mining/large)
+"W" = (
 /obj/machinery/light/small/directional/south,
 /obj/item/radio/intercom/directional/south,
 /obj/effect/decal/cleanable/dirt,
@@ -240,27 +296,7 @@
 	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/mining/large)
-"S" = (
-/obj/machinery/power/apc/auto_name/east,
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/cable,
-/obj/effect/turf_decal/bot,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/shuttle/mining/large)
-"U" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/item/stock_parts/cell/high,
-/obj/item/screwdriver{
-	pixel_y = 18
-	},
-/obj/structure/table,
-/obj/machinery/airalarm/directional/east,
-/turf/open/floor/mineral/plastitanium,
-/area/shuttle/mining/large)
-"V" = (
+"X" = (
 /obj/machinery/door/airlock/external{
 	name = "Mining Shuttle External Airlock"
 	},
@@ -273,51 +309,15 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
 /turf/open/floor/plating,
 /area/shuttle/mining/large)
-"W" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
-/turf/open/floor/mineral/titanium/yellow,
-/area/shuttle/mining/large)
-"X" = (
-/obj/machinery/door/airlock/external{
-	name = "Mining Shuttle External Airlock"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/obj/docking_port/mobile{
-	dwidth = 3;
-	height = 10;
-	id = "mining";
-	name = "mining shuttle";
-	port_direction = 2;
-	width = 7
-	},
-/obj/structure/cable,
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
-/turf/open/floor/plating,
-/area/shuttle/mining/large)
 "Y" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/obj/effect/decal/cleanable/dirt,
+/obj/item/stock_parts/cell/high,
+/obj/item/screwdriver{
+	pixel_y = 18
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible{
-	dir = 4
-	},
-/obj/structure/cable,
-/turf/open/floor/mineral/titanium/yellow,
+/obj/structure/table,
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/mineral/plastitanium,
 /area/shuttle/mining/large)
 "Z" = (
 /obj/effect/turf_decal/tile/neutral,
@@ -355,7 +355,7 @@ b
 f
 l
 r
-O
+R
 x
 G
 D
@@ -365,9 +365,9 @@ F
 b
 c
 g
-Q
+T
 q
-N
+U
 z
 H
 k
@@ -379,19 +379,19 @@ d
 h
 n
 Z
-W
-Y
-V
-P
+S
+O
 X
+Q
+P
 "}
 (5,1,1) = {"
 b
 e
 i
-R
+W
 k
-M
+N
 B
 H
 k
@@ -401,11 +401,11 @@ k
 b
 b
 j
-U
+Y
 k
 y
 E
-S
+V
 D
 F
 "}

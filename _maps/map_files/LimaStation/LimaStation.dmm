@@ -6137,7 +6137,7 @@
 	pixel_x = -9;
 	pixel_y = 8
 	},
-/obj/item/toy/plush/lizardplushie{
+/obj/item/toy/plush/lizard_plushie{
 	desc = "With real wheelchair action! Comes with a blindfold accessory.";
 	name = "Tends-The-Garden"
 	},
@@ -13542,15 +13542,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos)
-"eeo" = (
-/obj/structure/sign/warning{
-	pixel_y = -32
-	},
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/starboard/fore)
 "eeL" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -16139,15 +16130,6 @@
 /obj/machinery/status_display/evac/directional/east,
 /turf/open/floor/iron/showroomfloor,
 /area/ai_monitored/turret_protected/aisat/foyer)
-"fwj" = (
-/obj/machinery/camera{
-	c_tag = "Science - Experimentor Lab";
-	network = list("ss13","rd")
-	},
-/obj/structure/closet/l3closet/scientist,
-/obj/machinery/newscaster/directional/north,
-/turf/open/floor/iron/showroomfloor,
-/area/science/explab)
 "fwo" = (
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/machinery/door/airlock/atmos{
@@ -16185,18 +16167,6 @@
 /obj/item/kirbyplants/random,
 /turf/open/floor/iron,
 /area/hallway/secondary/entry)
-"fxc" = (
-/obj/structure/table,
-/obj/item/paper_bin{
-	pixel_x = -5;
-	pixel_y = 4
-	},
-/obj/machinery/airalarm{
-	pixel_y = 24
-	},
-/obj/item/pen,
-/turf/open/floor/iron/showroomfloor,
-/area/science/explab)
 "fxj" = (
 /obj/machinery/power/terminal{
 	dir = 4
@@ -16208,11 +16178,14 @@
 /turf/open/floor/iron/dark,
 /area/ai_monitored/command/storage/satellite)
 "fxo" = (
-/obj/machinery/modular_computer/console/preset/civilian,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/airalarm{
+	pixel_y = 24
 	},
-/turf/open/floor/iron/showroomfloor,
+/obj/machinery/component_printer{
+	pixel_y = 4
+	},
+/obj/effect/turf_decal/stripes/box,
+/turf/open/floor/iron/dark,
 /area/science/explab)
 "fxy" = (
 /obj/machinery/door/poddoor/preopen{
@@ -16325,6 +16298,7 @@
 /area/maintenance/starboard/aft)
 "fzh" = (
 /obj/effect/landmark/xeno_spawn,
+/obj/machinery/light/cold/directional/north,
 /turf/open/floor/engine,
 /area/science/explab)
 "fzu" = (
@@ -17879,9 +17853,6 @@
 /turf/open/floor/vault,
 /area/ai_monitored/command/nuke_storage)
 "gts" = (
-/obj/machinery/light{
-	dir = 8
-	},
 /obj/item/radio/intercom{
 	pixel_x = -29
 	},
@@ -17974,14 +17945,6 @@
 /turf/open/floor/iron,
 /area/command/bridge)
 "guN" = (
-/obj/machinery/button/door{
-	id = "telelab";
-	name = "Test Chamber Blast Doors";
-	pixel_x = 6;
-	pixel_y = 30;
-	req_access_txt = "47"
-	},
-/obj/effect/landmark/start/scientist,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
@@ -19715,6 +19678,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/light/cold/directional/west,
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
 "hrU" = (
@@ -19766,7 +19730,7 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/exit)
 "htz" = (
-/obj/structure/cable,
+/obj/effect/landmark/start/scientist,
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
 "htJ" = (
@@ -19827,6 +19791,13 @@
 "hvp" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/machinery/button/door{
+	id = "telelab";
+	name = "Test Chamber Blast Doors";
+	pixel_x = 6;
+	pixel_y = -28;
+	req_access_txt = "47"
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
@@ -21673,22 +21644,17 @@
 /turf/open/floor/iron,
 /area/hallway/secondary/exit)
 "ixT" = (
-/obj/machinery/door/airlock/research{
-	name = "Experimentation Lab";
-	req_access_txt = "47"
-	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/door/firedoor,
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
 "iyn" = (
-/obj/structure/table,
-/obj/item/book/manual/wiki/experimentor,
-/obj/item/relic,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
+/obj/machinery/modular_computer/console/preset/civilian{
+	dir = 1
+	},
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
 "iys" = (
@@ -21762,12 +21728,12 @@
 /turf/open/floor/grass,
 /area/command/bridge)
 "iCT" = (
-/obj/machinery/light/small,
 /obj/machinery/camera{
 	c_tag = "Science - Experimentor Lab Chamber";
 	dir = 1;
 	network = list("ss13","rd")
 	},
+/obj/machinery/light/cold/directional/south,
 /turf/open/floor/engine,
 /area/science/explab)
 "iCZ" = (
@@ -23658,8 +23624,13 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron/white,
-/area/science/research)
+/obj/machinery/door/airlock/research{
+	name = "Experimentation Lab";
+	req_access_txt = "47"
+	},
+/obj/machinery/door/firedoor,
+/turf/open/floor/iron,
+/area/science/explab)
 "jGz" = (
 /obj/machinery/light{
 	dir = 8
@@ -23675,8 +23646,8 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/turf/open/floor/iron/white,
-/area/science/research)
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "jHh" = (
 /obj/item/toy/plush/moth{
 	desc = "A plushie depicting a mothperson with a tiny hardhat. Remember: only you can prevent plasma fires.";
@@ -24385,6 +24356,30 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron,
 /area/cargo/office)
+"keL" = (
+/obj/structure/table/reinforced,
+/obj/item/multitool/circuit{
+	pixel_x = -1
+	},
+/obj/item/multitool/circuit{
+	pixel_x = 6
+	},
+/obj/item/multitool/circuit{
+	pixel_x = -8
+	},
+/obj/effect/turf_decal/tile/green,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/machinery/requests_console{
+	department = "Science";
+	departmentType = 2;
+	name = "Science Requests Console";
+	pixel_x = -32;
+	receive_ore_updates = 1
+	},
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "keN" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -25247,22 +25242,15 @@
 /turf/open/floor/iron/white,
 /area/science/research)
 "kBm" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/item/radio/intercom{
 	pixel_y = -30
 	},
-/turf/open/floor/iron/white,
-/area/science/research)
+/turf/closed/wall,
+/area/science/explab)
 "kBA" = (
-/obj/machinery/disposal/bin,
-/obj/effect/turf_decal/stripes/box,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
-/turf/open/floor/iron/dark,
-/area/science/research)
+/obj/structure/closet/l3closet/scientist,
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "kBM" = (
 /obj/machinery/light,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -26602,6 +26590,13 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
 /area/commons/storage/art)
+"lne" = (
+/obj/structure/rack,
+/obj/item/controller,
+/obj/item/compact_remote,
+/obj/item/compact_remote,
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "lnf" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
@@ -27947,6 +27942,12 @@
 	},
 /turf/open/floor/wood,
 /area/commons/dorms)
+"maE" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/fore)
 "mbr" = (
 /obj/machinery/duct,
 /obj/machinery/door/airlock/maintenance{
@@ -31182,6 +31183,15 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/plating,
 /area/command/heads_quarters/hop)
+"nLS" = (
+/obj/structure/rack,
+/obj/item/integrated_circuit/loaded/hello_world,
+/obj/item/integrated_circuit/loaded/speech_relay,
+/obj/structure/sign/poster/official/science{
+	pixel_x = 32
+	},
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "nLX" = (
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -31580,6 +31590,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/plastic,
 /area/hallway/secondary/service)
+"nWB" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/plating,
+/area/maintenance/starboard/fore)
 "nWH" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 8
@@ -33961,6 +33975,21 @@
 /obj/machinery/vending/drugs,
 /turf/open/floor/iron/showroomfloor,
 /area/medical/virology)
+"pjW" = (
+/obj/structure/table/reinforced,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high/plus,
+/obj/item/stock_parts/cell/high/plus,
+/obj/effect/turf_decal/tile/green,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/machinery/camera{
+	c_tag = "Science - Experimentor Lab";
+	network = list("ss13","rd")
+	},
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "pjZ" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/iron/showroomfloor,
@@ -36404,12 +36433,19 @@
 /turf/open/floor/iron/showroomfloor,
 /area/service/hydroponics)
 "qHp" = (
-/obj/machinery/door/airlock/maintenance{
-	name = "Experimentation Lab Maintenance";
-	req_access_txt = "47"
+/obj/structure/table/reinforced,
+/obj/machinery/newscaster/directional/west,
+/obj/item/storage/toolbox/electrical{
+	pixel_y = 5
 	},
-/turf/open/floor/iron,
-/area/maintenance/starboard/fore)
+/obj/effect/turf_decal/tile/green,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/item/storage/toolbox/mechanical,
+/obj/machinery/light/cold/directional/west,
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "qHu" = (
 /obj/machinery/power/smes/engineering,
 /obj/structure/cable,
@@ -38937,6 +38973,17 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/maintenance/central)
+"sgS" = (
+/obj/machinery/light_switch{
+	pixel_x = -10;
+	pixel_y = -22
+	},
+/obj/structure/cable,
+/obj/structure/table,
+/obj/item/book/manual/wiki/experimentor,
+/obj/item/relic,
+/turf/open/floor/iron/showroomfloor,
+/area/science/explab)
 "shF" = (
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
@@ -39542,6 +39589,12 @@
 	},
 /turf/open/floor/iron,
 /area/cargo/qm)
+"szc" = (
+/obj/structure/sign/warning{
+	pixel_y = -32
+	},
+/turf/open/floor/plating,
+/area/maintenance/starboard/fore)
 "szl" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -44950,14 +45003,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/fore)
-"vhN" = (
-/obj/machinery/light_switch{
-	pixel_x = -10;
-	pixel_y = -22
-	},
-/obj/structure/cable,
-/turf/open/floor/iron/showroomfloor,
-/area/science/explab)
 "vhQ" = (
 /obj/effect/landmark/start/mime,
 /obj/structure/mirror/directional/west,
@@ -46287,6 +46332,13 @@
 	},
 /turf/open/floor/iron,
 /area/security/brig)
+"vJS" = (
+/obj/machinery/door/airlock/maintenance{
+	name = "Experimentation Lab Maintenance";
+	req_access_txt = "47"
+	},
+/turf/open/floor/plating,
+/area/science/explab)
 "vKj" = (
 /turf/closed/wall,
 /area/service/lawoffice)
@@ -47394,14 +47446,18 @@
 /turf/open/floor/wood,
 /area/command/heads_quarters/hop)
 "wqy" = (
-/obj/structure/table,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/item/storage/toolbox/mechanical,
 /obj/structure/sign/poster/official/random{
 	pixel_y = -32
 	},
+/obj/structure/table,
+/obj/item/paper_bin{
+	pixel_x = -5;
+	pixel_y = 4
+	},
+/obj/item/pen,
 /turf/open/floor/iron/showroomfloor,
 /area/science/explab)
 "wqJ" = (
@@ -48703,6 +48759,14 @@
 /obj/item/paint/paint_remover,
 /turf/open/floor/plating,
 /area/security/prison/safe)
+"wYL" = (
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/obj/machinery/disposal/bin,
+/obj/effect/turf_decal/stripes/box,
+/turf/open/floor/iron/dark,
+/area/science/research)
 "wYX" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -95642,7 +95706,7 @@ anO
 anP
 iwg
 jFw
-kyH
+wYL
 lwV
 mXJ
 nRR
@@ -95891,8 +95955,8 @@ xII
 xxF
 xII
 xII
-dJf
-dJf
+ahS
+ahS
 ahS
 ahS
 ahS
@@ -96148,10 +96212,10 @@ aZq
 xxF
 xII
 fBE
-fBE
-xII
+oCL
+pjW
 qHp
-fvA
+keL
 gts
 hrx
 ixT
@@ -96404,14 +96468,14 @@ xII
 wtF
 xxF
 xxF
-xxF
-xxF
-eeo
-cNO
-fwj
+maE
+vJS
+fvA
+htz
+fvA
 gug
-vhN
-oCL
+fvA
+sgS
 wnE
 wnE
 wTN
@@ -96661,11 +96725,11 @@ uyr
 wtF
 cir
 xxF
-gfQ
-xxF
-xII
-cNO
-fxc
+szc
+oCL
+nLS
+lne
+fvA
 guN
 htz
 iyn
@@ -96918,10 +96982,10 @@ xII
 bNd
 aZp
 xxF
-gfQ
-xxF
 xII
-cNO
+oCL
+oCL
+oCL
 fxo
 gvd
 hvp
@@ -97175,8 +97239,8 @@ xII
 bNf
 xxF
 xxF
-gfQ
-xxF
+xII
+xII
 fBE
 cNO
 fxy
@@ -97431,8 +97495,8 @@ xII
 bay
 xxF
 xxF
-gfQ
-gfQ
+xxF
+xxF
 xxF
 fBE
 cNO
@@ -98467,7 +98531,7 @@ fBE
 xII
 xII
 xII
-xII
+nWB
 xII
 kGJ
 lGq

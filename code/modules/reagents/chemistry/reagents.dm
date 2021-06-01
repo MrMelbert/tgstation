@@ -258,5 +258,3 @@ Primarily used in reagents/reaction_agents
 		rs += "[R.name], [R.volume]"
 
 	return rs.Join(" | ")
-
-

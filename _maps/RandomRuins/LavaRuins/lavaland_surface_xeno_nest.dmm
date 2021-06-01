@@ -135,15 +135,6 @@
 /obj/item/clothing/glasses/night,
 /turf/open/floor/plating/asteroid/basalt/lava_land_surface,
 /area/ruin/unpowered/xenonest)
-"J" = (
-/obj/structure/alien/weeds,
-/obj/structure/alien/resin/wall{
-	move_force = 1000;
-	move_resist = 3000;
-	pull_force = 1000
-	},
-/turf/open/floor/plating/asteroid/basalt/lava_land_surface,
-/area/ruin/unpowered/xenonest)
 "K" = (
 /obj/structure/alien/weeds/node,
 /mob/living/simple_animal/hostile/alien,
@@ -171,6 +162,15 @@
 /obj/effect/decal/cleanable/blood,
 /mob/living/simple_animal/hostile/alien/drone{
 	plants_off = 1
+	},
+/turf/open/floor/plating/asteroid/basalt/lava_land_surface,
+/area/ruin/unpowered/xenonest)
+"Y" = (
+/obj/structure/alien/weeds,
+/obj/structure/alien/resin/wall{
+	move_force = 1000;
+	move_resist = 3000;
+	pull_force = 1000
 	},
 /turf/open/floor/plating/asteroid/basalt/lava_land_surface,
 /area/ruin/unpowered/xenonest)
@@ -252,7 +252,7 @@ b
 g
 g
 b
-J
+Y
 G
 a
 a

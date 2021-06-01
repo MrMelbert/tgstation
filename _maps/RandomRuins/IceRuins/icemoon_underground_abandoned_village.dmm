@@ -9,12 +9,6 @@
 /obj/structure/sign/poster/ripped,
 /turf/closed/wall/rust,
 /area/icemoon/underground/explored)
-"bf" = (
-/obj/structure/showcase/machinery/tv,
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/broken/directional/north,
-/turf/open/floor/holofloor/wood,
-/area/ruin/powered)
 "bY" = (
 /obj/structure/flora/stump,
 /turf/open/floor/plating/asteroid/snow/icemoon,
@@ -164,6 +158,11 @@
 /obj/machinery/door/airlock/maintenance_hatch,
 /turf/open/floor/plating,
 /area/ruin/powered)
+"rz" = (
+/obj/machinery/light/small/broken/directional/east,
+/obj/structure/fluff/fokoff_sign,
+/turf/open/floor/plating/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "rC" = (
 /obj/structure/closet/secure_closet/freezer,
 /obj/item/food/fishmeat/carp,
@@ -189,10 +188,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/checker,
 /area/ruin/powered)
-"tf" = (
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/plating/asteroid/snow/icemoon,
-/area/icemoon/underground/explored)
 "tg" = (
 /obj/structure/fence{
 	dir = 8
@@ -271,6 +266,10 @@
 "zT" = (
 /turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/underground/explored)
+"AJ" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/plating/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "AM" = (
 /obj/effect/decal/cleanable/blood/gibs/down,
 /obj/item/pickaxe,
@@ -293,6 +292,12 @@
 /obj/structure/flora/tree/pine,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"BN" = (
+/obj/structure/dresser,
+/obj/effect/decal/cleanable/glass,
+/obj/structure/mirror/directional/north,
+/turf/open/floor/wood,
+/area/ruin/powered)
 "Cd" = (
 /obj/structure/chair/comfy/brown{
 	dir = 8
@@ -320,11 +325,6 @@
 /area/ruin/powered)
 "DM" = (
 /obj/structure/flora/bush,
-/turf/open/floor/plating/asteroid/snow/icemoon,
-/area/icemoon/underground/explored)
-"DQ" = (
-/obj/machinery/light/small/broken/directional/east,
-/obj/structure/fluff/fokoff_sign,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "Ed" = (
@@ -383,17 +383,6 @@
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/wood,
 /area/ruin/powered)
-"Hh" = (
-/obj/structure/dresser,
-/obj/structure/mirror/directional/north,
-/turf/open/floor/wood,
-/area/ruin/powered)
-"Ib" = (
-/obj/structure/dresser,
-/obj/effect/decal/cleanable/glass,
-/obj/structure/mirror/directional/north,
-/turf/open/floor/wood,
-/area/ruin/powered)
 "IA" = (
 /obj/structure/fireplace{
 	fuel_added = 1000;
@@ -410,6 +399,12 @@
 /obj/structure/bed,
 /obj/item/bedsheet/random,
 /turf/open/floor/wood,
+/area/ruin/powered)
+"MX" = (
+/obj/structure/showcase/machinery/tv,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/broken/directional/north,
+/turf/open/floor/holofloor/wood,
 /area/ruin/powered)
 "Nq" = (
 /obj/effect/decal/cleanable/dirt,
@@ -478,6 +473,11 @@
 "QR" = (
 /turf/closed/wall/rust,
 /area/ruin/powered)
+"Ru" = (
+/obj/structure/dresser,
+/obj/structure/mirror/directional/north,
+/turf/open/floor/wood,
+/area/ruin/powered)
 "Rv" = (
 /obj/structure/flora/grass/both,
 /turf/open/floor/plating/asteroid/snow/icemoon,
@@ -505,19 +505,19 @@
 /obj/structure/flora/grass/both,
 /turf/open/floor/plating/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
-"UA" = (
+"UI" = (
+/obj/machinery/washing_machine,
+/obj/effect/decal/cleanable/blood,
+/obj/item/food/meat/slab/corgi,
+/turf/open/floor/wood,
+/area/ruin/powered)
+"Vh" = (
 /obj/structure/closet/cabinet,
 /obj/item/clothing/under/rank/cargo/miner,
 /obj/item/clothing/suit/hooded/wintercoat/miner,
 /obj/item/clothing/shoes/winterboots,
 /obj/item/card/id/advanced/mining,
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/wood,
-/area/ruin/powered)
-"UI" = (
-/obj/machinery/washing_machine,
-/obj/effect/decal/cleanable/blood,
-/obj/item/food/meat/slab/corgi,
 /turf/open/floor/wood,
 /area/ruin/powered)
 "Vn" = (
@@ -591,11 +591,11 @@ tN
 pc
 Og
 Og
-DQ
+rz
 Og
 Og
 Og
-tf
+AJ
 Og
 Og
 Og
@@ -807,7 +807,7 @@ Vn
 tF
 iz
 Vn
-bf
+MX
 aM
 yb
 Vn
@@ -831,7 +831,7 @@ Ei
 Ei
 lo
 Vn
-Ib
+BN
 Hf
 SZ
 zT
@@ -861,7 +861,7 @@ Ei
 Ei
 lo
 Vn
-UA
+Vh
 fD
 Vn
 yS
@@ -1011,7 +1011,7 @@ Vn
 EF
 hD
 Vn
-Hh
+Ru
 WH
 ZG
 Vn

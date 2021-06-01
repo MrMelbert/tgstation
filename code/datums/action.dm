@@ -695,6 +695,10 @@
 	name = "Activate Rocket Boots"
 	desc = "Activates the boot's rocket propulsion system, allowing the user to hurl themselves great distances."
 
+/datum/action/item_action/bhop/brocket
+	name = "Activate Rocket Boots"
+	desc = "Activates the boot's rocket propulsion system, allowing the user to hurl themselves great distances."
+
 /datum/action/language_menu
 	name = "Language Menu"
 	desc = "Open the language menu to review your languages, their keys, and select your default language."

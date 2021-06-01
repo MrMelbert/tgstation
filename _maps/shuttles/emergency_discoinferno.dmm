@@ -175,17 +175,22 @@
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/shuttle/escape)
 "P" = (
-/obj/structure/table/wood/poker,
-/obj/item/storage/box/drinkingglasses,
-/obj/item/reagent_containers/food/drinks/bottle/whiskey,
-/obj/machinery/light/directional/south,
-/turf/open/floor/mineral/gold,
+/turf/open/floor/light/colour_cycle/dancefloor_a,
+/area/shuttle/escape)
+"Q" = (
+/obj/machinery/computer/slot_machine,
+/obj/machinery/light/directional/west,
+/turf/open/floor/wood,
 /area/shuttle/escape)
 "R" = (
+/obj/machinery/jukebox/disco/indestructible,
+/turf/open/floor/light/colour_cycle/dancefloor_a,
+/area/shuttle/escape)
+"S" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating/elevatorshaft,
 /area/shuttle/escape)
-"S" = (
+"T" = (
 /obj/structure/table/wood/fancy,
 /obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
 /obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,
@@ -196,26 +201,21 @@
 /turf/open/floor/wood,
 /area/shuttle/escape)
 "V" = (
+/obj/structure/table/wood/poker,
+/obj/item/storage/box/drinkingglasses,
+/obj/item/reagent_containers/food/drinks/bottle/whiskey,
+/obj/machinery/light/directional/south,
+/turf/open/floor/mineral/gold,
+/area/shuttle/escape)
+"W" = (
 /obj/structure/statue/plasma/scientist{
 	anchored = 1;
 	custom_materials = list(/datum/material/plasma = 100000)
 	},
 /turf/open/floor/light/colour_cycle/dancefloor_b,
 /area/shuttle/escape)
-"W" = (
-/turf/open/floor/light/colour_cycle/dancefloor_b,
-/area/shuttle/escape)
-"X" = (
-/obj/machinery/computer/slot_machine,
-/obj/machinery/light/directional/west,
-/turf/open/floor/wood,
-/area/shuttle/escape)
-"Y" = (
-/turf/open/floor/light/colour_cycle/dancefloor_a,
-/area/shuttle/escape)
 "Z" = (
-/obj/machinery/jukebox/disco/indestructible,
-/turf/open/floor/light/colour_cycle/dancefloor_a,
+/turf/open/floor/light/colour_cycle/dancefloor_b,
 /area/shuttle/escape)
 
 (1,1,1) = {"
@@ -226,19 +226,19 @@ a
 b
 b
 b
-R
+S
 b
 u
 b
-R
-R
-R
+S
+S
+S
 b
 O
 b
 w
 b
-R
+S
 b
 a
 "}
@@ -248,7 +248,7 @@ b
 b
 b
 O
-V
+W
 r
 r
 r
@@ -258,10 +258,10 @@ r
 r
 r
 r
-V
-R
+W
+S
 x
-X
+Q
 I
 b
 b
@@ -271,7 +271,7 @@ b
 b
 h
 m
-R
+S
 r
 r
 r
@@ -283,7 +283,7 @@ r
 r
 r
 r
-R
+S
 x
 D
 D
@@ -291,23 +291,23 @@ M
 N
 "}
 (4,1,1) = {"
-R
+S
 d
 i
 i
-R
+S
 r
 r
 r
 j
 j
-Y
+P
 j
 j
 r
 r
 r
-R
+S
 x
 x
 x
@@ -315,23 +315,23 @@ M
 N
 "}
 (5,1,1) = {"
-R
+S
 e
 j
 j
-R
+S
 r
 r
 s
 j
-Y
-W
-Y
+P
+Z
+P
 j
 s
 r
 r
-R
+S
 y
 E
 y
@@ -339,23 +339,23 @@ M
 N
 "}
 (6,1,1) = {"
-R
+S
 f
 j
+V
+S
+r
+j
+j
 P
-R
-r
-j
-j
-Y
-W
 Z
-W
-Y
+R
+Z
+P
 j
 j
 r
-R
+S
 z
 F
 J
@@ -363,7 +363,7 @@ M
 N
 "}
 (7,1,1) = {"
-R
+S
 e
 j
 j
@@ -372,14 +372,14 @@ r
 r
 s
 j
-Y
-W
-Y
+P
+Z
+P
 j
 s
 r
 r
-R
+S
 y
 G
 y
@@ -387,23 +387,23 @@ M
 N
 "}
 (8,1,1) = {"
-R
+S
 g
 k
 k
-R
+S
 r
 r
 r
 j
 j
-Y
+P
 j
 j
 r
 r
 r
-R
+S
 x
 x
 x
@@ -415,7 +415,7 @@ b
 b
 l
 o
-R
+S
 r
 r
 r
@@ -427,7 +427,7 @@ r
 r
 r
 r
-R
+S
 A
 x
 K
@@ -440,7 +440,7 @@ b
 b
 b
 O
-V
+W
 r
 r
 r
@@ -450,10 +450,10 @@ r
 r
 r
 r
-V
-R
-B
+W
 S
+B
+T
 L
 b
 b
@@ -466,19 +466,19 @@ a
 b
 b
 b
-R
+S
 b
 b
 b
-R
-R
-R
+S
+S
+S
 b
 b
 b
-R
+S
 b
-R
+S
 b
 a
 "}
