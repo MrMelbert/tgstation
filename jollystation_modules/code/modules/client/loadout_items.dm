@@ -22,12 +22,12 @@ GLOBAL_LIST_INIT(loadout_ears, list(
 
 /// Glasses Slot Items (Moves overrided items to backpack)
 GLOBAL_LIST_INIT(loadout_glasses, list(
-	"\[Prescription\] Glasses" = /obj/item/clothing/glasses/regular,
-	"\[Prescription\] Circle Glasses" = /obj/item/clothing/glasses/regular/circle,
-	"\[Prescription\] Hipster Glasses" = /obj/item/clothing/glasses/regular/hipster,
-	"\[Prescription\] Jamjar Glasses" = /obj/item/clothing/glasses/regular/jamjar,
+	"[PRESCRIPTION_GLASSES] Glasses" = /obj/item/clothing/glasses/regular,
+	"[PRESCRIPTION_GLASSES] Circle Glasses" = /obj/item/clothing/glasses/regular/circle,
+	"[PRESCRIPTION_GLASSES] Hipster Glasses" = /obj/item/clothing/glasses/regular/hipster,
+	"[PRESCRIPTION_GLASSES] Jamjar Glasses" = /obj/item/clothing/glasses/regular/jamjar,
 	"Black Blindfold" = /obj/item/clothing/glasses/blindfold,
-	"Colored Blindfold (Matches Eye Color)" = /obj/item/clothing/glasses/blindfold/white/loadout,
+	"[MATCHES_EYE_COLOR] Colored Blindfold" = /obj/item/clothing/glasses/blindfold/white/loadout,
 	"Cold Glasses" = /obj/item/clothing/glasses/cold,
 	"Heat Glasses" = /obj/item/clothing/glasses/heat,
 	"Geist Gazers" = /obj/item/clothing/glasses/geist_gazers,
@@ -40,7 +40,7 @@ GLOBAL_LIST_INIT(loadout_glasses, list(
 /// Glove Slot Items (Deletes overrided items)
 GLOBAL_LIST_INIT(loadout_gloves, list(
 	"Fingerless Gloves" = /obj/item/clothing/gloves/fingerless,
-	"Bone Bracers (Unarmored)" = /obj/item/clothing/gloves/armorless_bracer,
+	"[NO_ARMOR] Bone Bracers" = /obj/item/clothing/gloves/armorless_bracer,
 	"Black Gloves" = /obj/item/clothing/gloves/color/black,
 	"Blue Gloves" = /obj/item/clothing/gloves/color/blue,
 	"Brown Gloves" = /obj/item/clothing/gloves/color/brown,
@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(loadout_gloves, list(
 	"Purple Gloves" = /obj/item/clothing/gloves/color/purple,
 	"Rainbow Gloves" = /obj/item/clothing/gloves/color/rainbow,
 	"Red Gloves" = /obj/item/clothing/gloves/color/red,
-	"Yellow Gloves (Uninsulated)" = /obj/item/clothing/gloves/color/normal_yellow,
+	"[NO_SHOCK] Yellow Gloves" = /obj/item/clothing/gloves/color/normal_yellow,
 	"White Gloves" = /obj/item/clothing/gloves/color/white,
 ))
 
@@ -166,6 +166,7 @@ GLOBAL_LIST_INIT(loadout_shoes, list(
 	"Black Cowboy Boots" = /obj/item/clothing/shoes/cowboy/black,
 	"Brown Cowboy Boots" = /obj/item/clothing/shoes/cowboy,
 	"White Cowboy Boots" = /obj/item/clothing/shoes/cowboy/white,
+	"[GREYSCALE] Sneakers" = /obj/item/clothing/shoes/sneakers,
 	"Black Sneakers" = /obj/item/clothing/shoes/sneakers/black,
 	"Blue Sneakers" = /obj/item/clothing/shoes/sneakers/blue,
 	"Brown Sneakers" = /obj/item/clothing/shoes/sneakers/brown,
@@ -192,7 +193,7 @@ GLOBAL_LIST_INIT(loadout_exosuits, list(
 	"White Dress" = /obj/item/clothing/suit/whitedress,
 	"Labcoat" = /obj/item/clothing/suit/toggle/labcoat,
 	"Green Labcoat" = /obj/item/clothing/suit/toggle/labcoat/mad,
-	"Goliath Cloak (Unarmored)" = /obj/item/clothing/suit/hooded/cloak/goliath_heirloom,
+	"[NO_ARMOR] Goliath Cloak" = /obj/item/clothing/suit/hooded/cloak/goliath_heirloom,
 	"Poncho" = /obj/item/clothing/suit/poncho,
 	"Green Poncho" = /obj/item/clothing/suit/poncho/green,
 	"Red Poncho" = /obj/item/clothing/suit/poncho/red,
@@ -212,6 +213,8 @@ GLOBAL_LIST_INIT(loadout_exosuits, list(
 
 /// Underslot - Jumpsuit Items (Deletes overrided items)
 GLOBAL_LIST_INIT(loadout_jumpsuits, list(
+	"[GREYSCALE] Jumpsuit" = /obj/item/clothing/under/color,
+	"[GREYSCALE] Jumpskirt" = /obj/item/clothing/under/color/jumpskirt,
 	"Random Jumpsuit" = /obj/item/clothing/under/color/random,
 	"Random Jumpskirt" = /obj/item/clothing/under/color/jumpskirt/random,
 	"Black Jumpsuit" = /obj/item/clothing/under/color/black,
@@ -339,7 +342,7 @@ GLOBAL_LIST_INIT(loadout_inhand_items, list(
 	"Briefcase" = /obj/item/storage/briefcase,
 	"Secure Briefcase" = /obj/item/storage/secure/briefcase,
 	"Skateboard" = /obj/item/melee/skateboard,
-	"Bone Spear (Ceremonial)" = /obj/item/spear/bonespear/ceremonial,
+	"[NO_DAMAGE] Bone Spear" = /obj/item/spear/bonespear/ceremonial,
 ))
 
 /// Pocket / Backpack / Accessory Slot Items (3 allowed, placed in backpack)
@@ -356,15 +359,15 @@ GLOBAL_LIST_INIT(loadout_pocket_items, list(
 	"White Armband" = /obj/item/clothing/accessory/armband/med_cosmetic,
 	"White and Blue Armband" = /obj/item/clothing/accessory/armband/medblue_cosmetic,
 	"Name-Inscribed Dogtags" = /obj/item/clothing/accessory/cosmetic_dogtag,
-	"Bone Talismin (Unarmored)" = /obj/item/clothing/accessory/armorless_talisman,
-	"Skull Codpiece (Unarmored)" = /obj/item/clothing/accessory/armorless_skullcodpiece,
+	"[NO_ARMOR] Bone Talismin" = /obj/item/clothing/accessory/armorless_talisman,
+	"[NO_ARMOR] Skull Codpiece" = /obj/item/clothing/accessory/armorless_skullcodpiece,
 	"Pack of Gum" = /obj/item/storage/box/gum,
 	"Pack of Nicotine Gum" = /obj/item/storage/box/gum/nicotine,
 	"Pack of HP+ Gum" = /obj/item/storage/box/gum/happiness,
 	"Lighter" = /obj/item/lighter,
 	"Bee Plush" = /obj/item/toy/plush/beeplushie,
 	"Carp Plush" = /obj/item/toy/plush/carpplushie,
-	"Lizard Plush" = /obj/item/toy/plush/lizard_plushie,
+	"[GREYSCALE] Lizard Plush" = /obj/item/toy/plush/lizard_plushie,
 	"Moth Plush" = /obj/item/toy/plush/moth,
 	"Nar'sie Plush" = /obj/item/toy/plush/narplush,
 	"Nukie Plush" = /obj/item/toy/plush/nukeplushie,

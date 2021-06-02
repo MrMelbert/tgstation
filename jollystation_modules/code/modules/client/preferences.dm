@@ -9,6 +9,7 @@
 	var/runechat_color = "aaa"
 	/// Loadout prefs. Assoc list of slot to typepath.
 	var/list/loadout_list
+	var/list/greyscale_loadout_list
 
 	/// Client preferences
 	var/hear_speech_sounds = TRUE

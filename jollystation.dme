@@ -3621,6 +3621,7 @@
 #include "jollystation_modules\code\modules\client\client_defines.dm"
 #include "jollystation_modules\code\modules\client\loadout_items.dm"
 #include "jollystation_modules\code\modules\client\loadout_manager.dm"
+#include "jollystation_modules\code\modules\client\loadout_outfit_helpers.dm"
 #include "jollystation_modules\code\modules\client\preferences.dm"
 #include "jollystation_modules\code\modules\client\verbs\looc.dm"
 #include "jollystation_modules\code\modules\clothing\accessories\loadout_accessories.dm"

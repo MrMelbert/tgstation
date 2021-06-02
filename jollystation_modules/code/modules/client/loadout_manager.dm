@@ -1,49 +1,4 @@
 /// -- The loadout manager and UI --
-/// Defines for what loadout slot a corresponding item belongs to.
-#define LOADOUT_ITEM_BELT "belt"
-#define LOADOUT_ITEM_EARS "ears"
-#define LOADOUT_ITEM_GLASSES "glasses"
-#define LOADOUT_ITEM_GLOVES "gloves"
-#define LOADOUT_ITEM_HEAD "head"
-#define LOADOUT_ITEM_MASK "mask"
-#define LOADOUT_ITEM_NECK "neck"
-#define LOADOUT_ITEM_SHOES "shoes"
-#define LOADOUT_ITEM_SUIT "suit"
-#define LOADOUT_ITEM_UNIFORM "under"
-#define LOADOUT_ITEM_INHAND "inhand_items" //Divides into the two below slots
-#define LOADOUT_ITEM_LEFT_HAND "left_hand"
-#define LOADOUT_ITEM_RIGHT_HAND "right_hand"
-#define LOADOUT_ITEM_MISC "pocket_items" //Divides into the three below slots
-#define LOADOUT_ITEM_BACKPACK_1 "backpack_1"
-#define LOADOUT_ITEM_BACKPACK_2 "backpack_2"
-#define LOADOUT_ITEM_BACKPACK_3 "backpack_3"
-
-/* Takes an assoc list of [string]s to [typepaths]s
- * (Such as the global assoc lists of loadout items)
- * And formats it into an object for TGUI.
- *
- *  - list[name] is the string / key of the item.
- *  - list[path] is the typepath of the item.
- */
-/proc/list_to_data(assoc_item_list)
-	if(!LAZYLEN(assoc_item_list))
-		return null
-
-	var/list/formatted_list = new(length(assoc_item_list))
-
-	var/array_index = 1
-	for(var/path_id in assoc_item_list)
-		var/list/formatted_item = list()
-		formatted_item["name"] = path_id
-		formatted_item["path"] = assoc_item_list[path_id]
-		formatted_list[array_index++] = formatted_item
-
-	return formatted_list
-
-/// An empty outfit we fill in with our loadout items to dress our dummy.
-/datum/outfit/player_loadout
-	name = "Player Loadout"
-
 /// Tracking when a client has an open loadout manager, to prevent funky stuff.
 /client
 	/// A ref to loadout_manager datum.
@@ -109,32 +64,13 @@
 
 		// Either equips or de-equips the params["path"] item into params["category"]
 		if("select_item")
-			var/category_slot = params["category"]
 			if(params["doReset"])
-				if(category_slot == LOADOUT_ITEM_MISC || category_slot == LOADOUT_ITEM_INHAND)
-					for(var/slot_key in owner.prefs.loadout_list)
-						if(owner.prefs.loadout_list[slot_key] == params["path"])
-							category_slot = slot_key
-							break
-
-				owner.prefs.loadout_list[category_slot] = null
-				loadout_to_outfit()
-				owner.prefs.loadout_list -= category_slot
+				deselect_item(params["path"], params["category"])
 			else
-				if(category_slot == LOADOUT_ITEM_MISC)
-					if(!owner.prefs.loadout_list[LOADOUT_ITEM_BACKPACK_1])
-						category_slot = LOADOUT_ITEM_BACKPACK_1
-					else if(!owner.prefs.loadout_list[LOADOUT_ITEM_BACKPACK_2])
-						category_slot = LOADOUT_ITEM_BACKPACK_2
-					else
-						category_slot = LOADOUT_ITEM_BACKPACK_3
-				if(category_slot == LOADOUT_ITEM_INHAND)
-					if(!owner.prefs.loadout_list[LOADOUT_ITEM_LEFT_HAND])
-						category_slot = LOADOUT_ITEM_LEFT_HAND
-					else
-						category_slot = LOADOUT_ITEM_RIGHT_HAND
+				select_item(params["path"], params["category"])
 
-				owner.prefs.loadout_list[category_slot] = params["path"]
+		if("select_colored_item")
+			select_item_with_color(params["path"], params["category"])
 
 		// Clears the loadout list entirely.
 		if("clear_all_items")
@@ -146,36 +82,11 @@
 
 		// Rotates the dummy left or right depending on params["dir"]
 		if("rotate_dummy")
-			if(dummy_dir.len > 1)
-				dummy_dir = list(SOUTH)
-			else
-				if(params["dir"] == "left")
-					switch(dummy_dir[1])
-						if(SOUTH)
-							dummy_dir[1] = WEST
-						if(EAST)
-							dummy_dir[1] = SOUTH
-						if(NORTH)
-							dummy_dir[1] = EAST
-						if(WEST)
-							dummy_dir[1] = NORTH
-				else
-					switch(dummy_dir[1])
-						if(SOUTH)
-							dummy_dir[1] = EAST
-						if(EAST)
-							dummy_dir[1] = NORTH
-						if(NORTH)
-							dummy_dir[1] = WEST
-						if(WEST)
-							dummy_dir[1] = SOUTH
+			rotate_model_dir(params["dir"])
 
 		// Toggles between showing all dirs of the dummy at once.
 		if("show_all_dirs")
-			if(dummy_dir.len > 1)
-				dummy_dir = list(SOUTH)
-			else
-				dummy_dir = GLOB.cardinals
+			toggle_model_dirs()
 
 		// Closes the UI, reverting our loadout to before edits if params["revert"] is set
 		if("close_ui")
@@ -187,6 +98,129 @@
 	// Always update our loadout after we do something.
 	loadout_to_outfit()
 	return TRUE
+
+/// Select [path] item to [category_slot] slot.
+/datum/loadout_manager/proc/select_item(path, category_slot, datum/greyscale_modify_menu/menu)
+	if(owner.prefs.loadout_list[category_slot])
+		deselect_item(owner.prefs.loadout_list[category_slot], category_slot)
+
+	var/list/loadout_list = owner.prefs.loadout_list.Copy()
+	var/list/greyscale_list = owner.prefs.greyscale_loadout_list ? owner.prefs.greyscale_loadout_list.Copy() : null
+	if(category_slot == LOADOUT_ITEM_MISC)
+		if(!loadout_list[LOADOUT_ITEM_BACKPACK_1])
+			category_slot = LOADOUT_ITEM_BACKPACK_1
+		else if(!loadout_list[LOADOUT_ITEM_BACKPACK_2])
+			category_slot = LOADOUT_ITEM_BACKPACK_2
+		else
+			category_slot = LOADOUT_ITEM_BACKPACK_3
+	if(category_slot == LOADOUT_ITEM_INHAND)
+		if(!loadout_list[LOADOUT_ITEM_LEFT_HAND])
+			category_slot = LOADOUT_ITEM_LEFT_HAND
+		else
+			category_slot = LOADOUT_ITEM_RIGHT_HAND
+
+	if(menu)
+		var/list/colors = menu.split_colors
+		if(colors)
+			if(!greyscale_list)
+				greyscale_list = list()
+			greyscale_list[category_slot] = colors.Join("")
+
+	loadout_list[category_slot] = path
+
+	owner.prefs.loadout_list = loadout_list
+	owner.prefs.greyscale_loadout_list = greyscale_list
+
+/// Deselect [path] item from [category_slot] slot.
+/datum/loadout_manager/proc/deselect_item(path, category_slot)
+	var/list/loadout_list = owner.prefs.loadout_list.Copy()
+	var/list/greyscale_list = owner.prefs.greyscale_loadout_list ? owner.prefs.greyscale_loadout_list.Copy() : null
+	if(category_slot == LOADOUT_ITEM_MISC || category_slot == LOADOUT_ITEM_INHAND)
+		for(var/slot_key in loadout_list)
+			if(loadout_list[slot_key] == path)
+				category_slot = slot_key
+				break
+
+	loadout_list[category_slot] = null
+	if(greyscale_list && greyscale_list[category_slot])
+		greyscale_list[category_slot] = null
+
+	loadout_to_outfit()
+
+	loadout_list -= category_slot
+	if(greyscale_list && greyscale_list[category_slot])
+		greyscale_list -= category_slot
+		if(!LAZYLEN(greyscale_list))
+			greyscale_list = null
+
+	owner.prefs.loadout_list = loadout_list
+	owner.prefs.greyscale_loadout_list = greyscale_list
+
+/// Select [path] item to [category_slot] slot, and open up the greyscale UI to customize [path] in [category] slot.
+/datum/loadout_manager/proc/select_item_with_color(path, category_slot)
+	if(owner.prefs.loadout_list[category_slot] != path)
+		deselect_item(owner.prefs.loadout_list[category_slot], category_slot)
+
+	var/atom/fake_atom = new path
+
+	var/list/allowed_configs = list()
+	var/config = initial(fake_atom.greyscale_config)
+	if(!config)
+		return
+	allowed_configs += "[config]"
+	if(ispath(fake_atom, /obj/item))
+		var/obj/item/item = fake_atom
+		if(initial(item.greyscale_config_worn))
+			allowed_configs += "[initial(item.greyscale_config_worn)]"
+		if(initial(item.greyscale_config_inhand_left))
+			allowed_configs += "[initial(item.greyscale_config_inhand_left)]"
+		if(initial(item.greyscale_config_inhand_right))
+			allowed_configs += "[initial(item.greyscale_config_inhand_right)]"
+
+	var/datum/greyscale_modify_menu/menu = new(
+		src,
+		usr,
+		allowed_configs,
+		CALLBACK(src, .proc/select_item, path, category_slot), // TODO instead of selecting, make this just set the color and update
+		starting_icon_state=initial(fake_atom.icon_state),
+		starting_config=initial(fake_atom.greyscale_config),
+		starting_colors=initial(fake_atom.greyscale_colors)
+	)
+	menu.ui_interact(usr)
+	qdel(fake_atom)
+
+/// Rotate the dummy [DIR] direction, or reset it to SOUTH dir if we're showing all dirs at once.
+/datum/loadout_manager/proc/rotate_model_dir(dir)
+	if(dummy_dir.len > 1)
+		dummy_dir = list(SOUTH)
+	else
+		if(dir == "left")
+			switch(dummy_dir[1])
+				if(SOUTH)
+					dummy_dir[1] = WEST
+				if(EAST)
+					dummy_dir[1] = SOUTH
+				if(NORTH)
+					dummy_dir[1] = EAST
+				if(WEST)
+					dummy_dir[1] = NORTH
+		else
+			switch(dummy_dir[1])
+				if(SOUTH)
+					dummy_dir[1] = EAST
+				if(EAST)
+					dummy_dir[1] = NORTH
+				if(NORTH)
+					dummy_dir[1] = WEST
+				if(WEST)
+					dummy_dir[1] = SOUTH
+
+/// Toggle between showing all the dirs and just the front dir of the dummy.
+/datum/loadout_manager/proc/toggle_model_dirs()
+	if(dummy_dir.len > 1)
+		dummy_dir = list(SOUTH)
+	else
+		dummy_dir = GLOB.cardinals
 
 /datum/loadout_manager/ui_data(mob/user)
 	var/list/data = list()
@@ -311,107 +345,59 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
 			if(LOADOUT_ITEM_RIGHT_HAND)
 				custom_loadout.r_hand = loadout[slot]
 
-/* Actually equip our mob with our job outfit and our loadout items.
- * Loadout items override the pre-existing item in the corresponding slot of the job outfit.
- * Some job items are preserved after being overridden - belt items, ear items, and glasses.
- * The rest of the slots, the items are overridden completely and deleted.
+/* Takes an assoc list of [string]s to [typepaths]s
+ * (Such as the global assoc lists of loadout items)
+ * And formats it into an object for TGUI.
  *
- * Plasmamen are snowflaked to not have any envirosuit pieces removed just in case.
- * Their loadout items for those slots will be added to their backpack on spawn.
- *
- * outfit - the job outfit we're equipping
- * visuals_only - whether we call special equipped procs, or if we just look like we equipped it
- * preference_source - the client belonging to the thing we're equipping
+ *  - list[name] is the string / key of the item.
+ *  - list[path] is the typepath of the item.
  */
-/mob/living/carbon/human/proc/equip_outfit_and_loadout(outfit, visuals_only = FALSE, client/preference_source)
-	var/datum/outfit/equipped_outfit
+/proc/list_to_data(assoc_item_list)
+	if(!LAZYLEN(assoc_item_list))
+		return null
 
-	if(ispath(outfit))
-		equipped_outfit = new outfit()
-	else if(outfit)
-		equipped_outfit = outfit
-		if(!istype(equipped_outfit))
-			return FALSE
+	var/list/formatted_list = new(length(assoc_item_list))
 
-	if(!outfit)
-		return FALSE
+	var/array_index = 1
+	for(var/path_id in assoc_item_list)
+		var/list/formatted_item = list()
+		formatted_item["name"] = path_id
+		formatted_item["path"] = assoc_item_list[path_id]
 
-	if(LAZYLEN(preference_source?.prefs?.loadout_list))
-		var/list/loadout = preference_source?.prefs?.loadout_list
-		for(var/slot in loadout)
-			var/move_to_backpack = null
-			switch(slot)
-				if(LOADOUT_ITEM_BELT)
-					if(equipped_outfit.belt)
-						move_to_backpack = equipped_outfit.belt
-					equipped_outfit.belt = loadout[slot]
-				if(LOADOUT_ITEM_EARS)
-					if(equipped_outfit.ears)
-						move_to_backpack = equipped_outfit.ears
-					equipped_outfit.ears = loadout[slot]
-				if(LOADOUT_ITEM_GLASSES)
-					if(equipped_outfit.glasses)
-						move_to_backpack = equipped_outfit.glasses
-					equipped_outfit.glasses = loadout[slot]
-				if(LOADOUT_ITEM_GLOVES)
-					if(isplasmaman(src))
-						to_chat(src, "Your loadout gloves were not equipped directly due to your envirosuit gloves.")
-						move_to_backpack = loadout[slot]
-					else
-						equipped_outfit.gloves = loadout[slot]
-				if(LOADOUT_ITEM_HEAD)
-					if(isplasmaman(src))
-						to_chat(src, "Your loadout helmet was not equipped directly due to your envirosuit helmet.")
-						move_to_backpack = loadout[slot]
-					else
-						equipped_outfit.head = loadout[slot]
-				if(LOADOUT_ITEM_MASK)
-					if(isplasmaman(src))
-						move_to_backpack = loadout[slot]
-						to_chat(src, "Your loadout mask was not equipped directly due to your envirosuit mask.")
-					else
-						equipped_outfit.mask = loadout[slot]
-				if(LOADOUT_ITEM_NECK)
-					equipped_outfit.neck = loadout[slot]
-				if(LOADOUT_ITEM_SHOES)
-					equipped_outfit.shoes = loadout[slot]
-				if(LOADOUT_ITEM_SUIT)
-					equipped_outfit.suit = loadout[slot]
-				if(LOADOUT_ITEM_UNIFORM)
-					if(isplasmaman(src))
-						to_chat(src, "Your loadout jumpsuit was not equipped directly due to your envirosuit.")
-						move_to_backpack = loadout[slot]
-					else
-						equipped_outfit.uniform = loadout[slot]
-				if(LOADOUT_ITEM_LEFT_HAND)
-					if(equipped_outfit.l_hand)
-						move_to_backpack = equipped_outfit.l_hand
-					equipped_outfit.l_hand = loadout[slot]
-				if(LOADOUT_ITEM_RIGHT_HAND)
-					if(equipped_outfit.r_hand)
-						move_to_backpack = equipped_outfit.r_hand
-					equipped_outfit.r_hand = loadout[slot]
-				else
-					move_to_backpack = loadout[slot]
-			if(move_to_backpack)
-				LAZYADD(equipped_outfit.backpack_contents, move_to_backpack)
+		var/extra_info_identifier = findtext(path_id, "]")
+		if(extra_info_identifier)
+			formatted_item["extra_info"] = get_info_instructions(copytext(path_id, 1, extra_info_identifier+1))
 
-	return equipped_outfit.equip(src, visuals_only)
+		formatted_list[array_index++] = formatted_item
 
-#undef LOADOUT_ITEM_BELT
-#undef LOADOUT_ITEM_EARS
-#undef LOADOUT_ITEM_GLASSES
-#undef LOADOUT_ITEM_GLOVES
-#undef LOADOUT_ITEM_HEAD
-#undef LOADOUT_ITEM_MASK
-#undef LOADOUT_ITEM_NECK
-#undef LOADOUT_ITEM_SHOES
-#undef LOADOUT_ITEM_SUIT
-#undef LOADOUT_ITEM_UNIFORM
-#undef LOADOUT_ITEM_INHAND
-#undef LOADOUT_ITEM_LEFT_HAND
-#undef LOADOUT_ITEM_RIGHT_HAND
-#undef LOADOUT_ITEM_MISC
-#undef LOADOUT_ITEM_BACKPACK_1
-#undef LOADOUT_ITEM_BACKPACK_2
-#undef LOADOUT_ITEM_BACKPACK_3
+	return formatted_list
+
+/*
+ * Used to pass additional instructions for certain loadout items.
+ * If a loadout item has a defined identifier in the front, it is passed here.
+ *
+ * Then, we return a list telling the UI what special things to do with this item
+ *
+ */
+/proc/get_info_instructions(identifier)
+	var/instructions = list()
+	var/tooltip_contents = ""
+	switch(identifier)
+		if(PRESCRIPTION_GLASSES)
+			tooltip_contents = "These glasses function with the 'nearsighted' quirk."
+		if(MATCHES_EYE_COLOR)
+			tooltip_contents = "The color of this item matches your character's eye color on spawn."
+		if(NO_ARMOR)
+			tooltip_contents = "This item has no armor and is entirely cosmetic."
+		if(NO_DAMAGE)
+			tooltip_contents = "This item deals no damage and is entirely cosmetic."
+		if(NO_SHOCK)
+			tooltip_contents = "This item provides no shock protection and is entirely cosmetic."
+		if(GREYSCALE)
+			instructions["greyscale_selector"] = TRUE
+			tooltip_contents = "This item can be customized with greyscaling."
+	if(tooltip_contents)
+		instructions["tooltip"] = TRUE
+		instructions["tooltip_text"] = tooltip_contents
+
+	return instructions
