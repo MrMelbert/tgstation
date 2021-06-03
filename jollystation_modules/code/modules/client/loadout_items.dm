@@ -166,7 +166,7 @@ GLOBAL_LIST_INIT(loadout_shoes, list(
 	"Black Cowboy Boots" = /obj/item/clothing/shoes/cowboy/black,
 	"Brown Cowboy Boots" = /obj/item/clothing/shoes/cowboy,
 	"White Cowboy Boots" = /obj/item/clothing/shoes/cowboy/white,
-	"[GREYSCALE] Sneakers" = /obj/item/clothing/shoes/sneakers,
+	"[GREYSCALE] Sneakers" = /obj/item/clothing/shoes/sneakers/greyscale,
 	"Black Sneakers" = /obj/item/clothing/shoes/sneakers/black,
 	"Blue Sneakers" = /obj/item/clothing/shoes/sneakers/blue,
 	"Brown Sneakers" = /obj/item/clothing/shoes/sneakers/brown,
@@ -213,8 +213,8 @@ GLOBAL_LIST_INIT(loadout_exosuits, list(
 
 /// Underslot - Jumpsuit Items (Deletes overrided items)
 GLOBAL_LIST_INIT(loadout_jumpsuits, list(
-	"[GREYSCALE] Jumpsuit" = /obj/item/clothing/under/color,
-	"[GREYSCALE] Jumpskirt" = /obj/item/clothing/under/color/jumpskirt,
+	"[GREYSCALE] Jumpsuit" = /obj/item/clothing/under/color/greyscale,
+	"[GREYSCALE] Jumpskirt" = /obj/item/clothing/under/color/jumpskirt/greyscale,
 	"Random Jumpsuit" = /obj/item/clothing/under/color/random,
 	"Random Jumpskirt" = /obj/item/clothing/under/color/jumpskirt/random,
 	"Black Jumpsuit" = /obj/item/clothing/under/color/black,

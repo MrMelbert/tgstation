@@ -64,17 +64,19 @@
 
 		// Either equips or de-equips the params["path"] item into params["category"]
 		if("select_item")
-			if(params["doReset"])
-				deselect_item(params["path"], params["category"])
+			if(params["deselect"])
+				deselect_item(params["path"], params["category"], params["greyscale"])
 			else
-				select_item(params["path"], params["category"])
+				select_item(params["path"], params["category"], params["greyscale"])
 
-		if("select_colored_item")
-			select_item_with_color(params["path"], params["category"])
+		if("select_color")
+			select_item_color(params["path"], params["category"])
 
 		// Clears the loadout list entirely.
 		if("clear_all_items")
 			owner.prefs.loadout_list.Cut()
+			if(owner.prefs.greyscale_loadout_list)
+				owner.prefs.greyscale_loadout_list = null
 
 		// Toggles between viewing favorite job clothes on the dummy.
 		if("toggle_job_clothes")
@@ -100,12 +102,8 @@
 	return TRUE
 
 /// Select [path] item to [category_slot] slot.
-/datum/loadout_manager/proc/select_item(path, category_slot, datum/greyscale_modify_menu/menu)
-	if(owner.prefs.loadout_list[category_slot])
-		deselect_item(owner.prefs.loadout_list[category_slot], category_slot)
-
-	var/list/loadout_list = owner.prefs.loadout_list.Copy()
-	var/list/greyscale_list = owner.prefs.greyscale_loadout_list ? owner.prefs.greyscale_loadout_list.Copy() : null
+/datum/loadout_manager/proc/select_item(path, category_slot, greyscale)
+	var/list/loadout_list = owner.prefs.loadout_list
 	if(category_slot == LOADOUT_ITEM_MISC)
 		if(!loadout_list[LOADOUT_ITEM_BACKPACK_1])
 			category_slot = LOADOUT_ITEM_BACKPACK_1
@@ -119,75 +117,72 @@
 		else
 			category_slot = LOADOUT_ITEM_RIGHT_HAND
 
-	if(menu)
-		var/list/colors = menu.split_colors
-		if(colors)
-			if(!greyscale_list)
-				greyscale_list = list()
-			greyscale_list[category_slot] = colors.Join("")
-
+	if(!greyscale)
+		clear_slot_greyscale(category_slot)
 	loadout_list[category_slot] = path
 
-	owner.prefs.loadout_list = loadout_list
-	owner.prefs.greyscale_loadout_list = greyscale_list
-
 /// Deselect [path] item from [category_slot] slot.
-/datum/loadout_manager/proc/deselect_item(path, category_slot)
-	var/list/loadout_list = owner.prefs.loadout_list.Copy()
-	var/list/greyscale_list = owner.prefs.greyscale_loadout_list ? owner.prefs.greyscale_loadout_list.Copy() : null
+/datum/loadout_manager/proc/deselect_item(path, category_slot, greyscale)
 	if(category_slot == LOADOUT_ITEM_MISC || category_slot == LOADOUT_ITEM_INHAND)
-		for(var/slot_key in loadout_list)
-			if(loadout_list[slot_key] == path)
-				category_slot = slot_key
-				break
+		category_slot = find_path_in_list(path, category_slot)
 
-	loadout_list[category_slot] = null
-	if(greyscale_list && greyscale_list[category_slot])
-		greyscale_list[category_slot] = null
+	if(!greyscale)
+		// If we're not a greyscale item, clear any greyscale config associated with our slot
+		clear_slot_greyscale(category_slot)
 
-	loadout_to_outfit()
-
-	loadout_list -= category_slot
-	if(greyscale_list && greyscale_list[category_slot])
-		greyscale_list -= category_slot
-		if(!LAZYLEN(greyscale_list))
-			greyscale_list = null
-
-	owner.prefs.loadout_list = loadout_list
-	owner.prefs.greyscale_loadout_list = greyscale_list
+	owner.prefs.loadout_list[category_slot] = null
+	loadout_to_outfit() // We call this here so we `null` the slot correctly
+	owner.prefs.loadout_list -= category_slot
 
 /// Select [path] item to [category_slot] slot, and open up the greyscale UI to customize [path] in [category] slot.
-/datum/loadout_manager/proc/select_item_with_color(path, category_slot)
-	if(owner.prefs.loadout_list[category_slot] != path)
-		deselect_item(owner.prefs.loadout_list[category_slot], category_slot)
-
-	var/atom/fake_atom = new path
+/datum/loadout_manager/proc/select_item_color(path, category_slot)
+	var/obj/item/colored_item = new path
 
 	var/list/allowed_configs = list()
-	var/config = initial(fake_atom.greyscale_config)
-	if(!config)
-		return
-	allowed_configs += "[config]"
-	if(ispath(fake_atom, /obj/item))
-		var/obj/item/item = fake_atom
-		if(initial(item.greyscale_config_worn))
-			allowed_configs += "[initial(item.greyscale_config_worn)]"
-		if(initial(item.greyscale_config_inhand_left))
-			allowed_configs += "[initial(item.greyscale_config_inhand_left)]"
-		if(initial(item.greyscale_config_inhand_right))
-			allowed_configs += "[initial(item.greyscale_config_inhand_right)]"
+	if(colored_item.greyscale_config)
+		allowed_configs += "[colored_item.greyscale_config]"
+	if(colored_item.greyscale_config_worn)
+		allowed_configs += "[colored_item.greyscale_config_worn]"
+	if(colored_item.greyscale_config_inhand_left)
+		allowed_configs += "[colored_item.greyscale_config_inhand_left]"
+	if(colored_item.greyscale_config_inhand_right)
+		allowed_configs += "[colored_item.greyscale_config_inhand_right]"
+
+	if(category_slot == LOADOUT_ITEM_MISC || category_slot == LOADOUT_ITEM_INHAND)
+		category_slot = find_path_in_list(path, category_slot)
 
 	var/datum/greyscale_modify_menu/menu = new(
 		src,
 		usr,
 		allowed_configs,
-		CALLBACK(src, .proc/select_item, path, category_slot), // TODO instead of selecting, make this just set the color and update
-		starting_icon_state=initial(fake_atom.icon_state),
-		starting_config=initial(fake_atom.greyscale_config),
-		starting_colors=initial(fake_atom.greyscale_colors)
+		CALLBACK(src, .proc/set_slot_greyscale, category_slot),
+		starting_icon_state=colored_item.icon_state,
+		starting_config=colored_item.greyscale_config,
+		starting_colors=colored_item.greyscale_colors,
 	)
 	menu.ui_interact(usr)
-	qdel(fake_atom)
+	qdel(colored_item)
+
+/datum/loadout_manager/proc/set_slot_greyscale(category_slot, datum/greyscale_modify_menu/menu)
+	if(!menu)
+		CRASH("set_slot_greyscale called without a greyscale menu")
+
+	var/list/colors = menu.split_colors
+	if(colors)
+		if(!owner.prefs.greyscale_loadout_list)
+			owner.prefs.greyscale_loadout_list = list()
+		owner.prefs.greyscale_loadout_list[category_slot] = colors.Join("")
+
+/datum/loadout_manager/proc/clear_slot_greyscale(category_slot)
+	if(!owner.prefs.greyscale_loadout_list)
+		return
+	if(!owner.prefs.greyscale_loadout_list[category_slot])
+		return
+
+	owner.prefs.greyscale_loadout_list[category_slot] = null
+	owner.prefs.greyscale_loadout_list -= category_slot
+	if(!owner.prefs.greyscale_loadout_list.len)
+		owner.prefs.greyscale_loadout_list = null
 
 /// Rotate the dummy [DIR] direction, or reset it to SOUTH dir if we're showing all dirs at once.
 /datum/loadout_manager/proc/rotate_model_dir(dir)
@@ -231,6 +226,7 @@
 		dummy_key = dummy_key,
 		outfit_override = custom_loadout,
 		showDirs = dummy_dir,
+		prefs = owner.prefs,
 		)
 	data["icon64"] = icon2base64(dummysprite)
 
@@ -345,6 +341,12 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
 			if(LOADOUT_ITEM_RIGHT_HAND)
 				custom_loadout.r_hand = loadout[slot]
 
+/datum/loadout_manager/proc/find_path_in_list(path, category_slot)
+	var/list/loadout_list = owner.prefs.loadout_list
+	for(var/slot_key in loadout_list)
+		if(loadout_list[slot_key] == path)
+			return slot_key
+
 /* Takes an assoc list of [string]s to [typepaths]s
  * (Such as the global assoc lists of loadout items)
  * And formats it into an object for TGUI.
@@ -394,7 +396,7 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
 		if(NO_SHOCK)
 			tooltip_contents = "This item provides no shock protection and is entirely cosmetic."
 		if(GREYSCALE)
-			instructions["greyscale_selector"] = TRUE
+			instructions["is_greyscale"] = TRUE
 			tooltip_contents = "This item can be customized with greyscaling."
 	if(tooltip_contents)
 		instructions["tooltip"] = TRUE

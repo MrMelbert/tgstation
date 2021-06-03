@@ -76,11 +76,11 @@ export const _LoadoutManager = (props, context) => {
                             <Stack.Item grow align="left">
                               {item.name}
                             </Stack.Item>
-                            { item.extra_info && !!item.extra_info.greyscale_selector && (
+                            { item.extra_info && !!item.extra_info.is_greyscale && (
                               <Stack.Item>
                                 <Button
                                   icon="palette"
-                                  onClick={() => act('select_colored_item', {
+                                  onClick={() => act('select_color', {
                                     category: selectedTab.slot,
                                     path: item.path,
                                   })} />
@@ -97,7 +97,9 @@ export const _LoadoutManager = (props, context) => {
                                 onClick={() => act('select_item', {
                                   category: selectedTab.slot,
                                   path: item.path,
-                                  doReset: selected_loadout.includes(item.path),
+                                  deselect: selected_loadout.includes(item.path),
+                                  greyscale: item.extra_info ?
+                                    (item.extra_info.is_greyscale) : (0)
                                 })} />
                             </Stack.Item>
                           </Stack>
