@@ -1,23 +1,23 @@
 /// -- A ton of global lists that dictate the name and typepaths of all loadout items. --
 /// Belt Slot Items (Moves overrided items to backpack)
 GLOBAL_LIST_INIT(loadout_belts, list(
-	"Black Fannypack" = /obj/item/storage/belt/fannypack/black,
-	"Blue Fannypack" = /obj/item/storage/belt/fannypack/blue,
-	"Brown Fannypack" = /obj/item/storage/belt/fannypack,
-	"Cyan Fannypack" = /obj/item/storage/belt/fannypack/cyan,
-	"Green Fannypack" = /obj/item/storage/belt/fannypack/green,
-	"Orange Fannypack" = /obj/item/storage/belt/fannypack/orange,
-	"Pink Fannypack" = /obj/item/storage/belt/fannypack/pink,
-	"Purple Fannypack" = /obj/item/storage/belt/fannypack/purple,
-	"Red Fannypack" = /obj/item/storage/belt/fannypack/red,
-	"Yellow Fannypack" = /obj/item/storage/belt/fannypack/yellow,
-	"White Fannypack" = /obj/item/storage/belt/fannypack/white,
+	"Black Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/black,
+	"Blue Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/blue,
+	"Brown Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack,
+	"Cyan Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/cyan,
+	"Green Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/green,
+	"Orange Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/orange,
+	"Pink Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/pink,
+	"Purple Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/purple,
+	"Red Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/red,
+	"Yellow Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/yellow,
+	"White Fannypack_[IMPORTANT_SLOT]" = /obj/item/storage/belt/fannypack/white,
 ))
 
 /// Ear Slot Items (Moves overrided items to backpack)
 GLOBAL_LIST_INIT(loadout_ears, list(
-	"Earmuffs" = /obj/item/clothing/ears/earmuffs,
-	"Headphones" = /obj/item/instrument/piano_synth/headphones,
+	"Earmuffs_[IMPORTANT_SLOT]" = /obj/item/clothing/ears/earmuffs,
+	"Headphones_[IMPORTANT_SLOT]" = /obj/item/instrument/piano_synth/headphones,
 ))
 
 /// Glasses Slot Items (Moves overrided items to backpack)

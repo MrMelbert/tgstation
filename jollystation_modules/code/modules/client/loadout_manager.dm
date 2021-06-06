@@ -20,17 +20,21 @@
 	var/view_job_clothes = TRUE
 	/// Whether we see tutorial text in the UI
 	var/tutorial_status = FALSE
+	/// Our currently open greyscaling menu.
+	var/datum/greyscale_modify_menu/menu
 
 /datum/loadout_manager/New(user)
 	owner = CLIENT_FROM_VAR(user)
 	custom_loadout = new()
 	owner.open_loadout_ui = src
-	if(!owner.prefs.loadout_list)
-		owner.prefs.loadout_list = list()
+	LAZYINITLIST(owner.prefs.loadout_list)
 	loadout_on_open = owner.prefs.loadout_list.Copy()
 	loadout_to_outfit()
 
 /datum/loadout_manager/ui_close(mob/user)
+	if(menu)
+		SStgui.close_uis(menu)
+		menu = null
 	owner.open_loadout_ui = null
 	clear_human_dummy(dummy_key)
 	qdel(custom_loadout)
@@ -101,7 +105,7 @@
 	loadout_to_outfit()
 	return TRUE
 
-/// Select [path] item to [category_slot] slot.
+/// Select [path] item to [category_slot] slot. If it's not a greyscale item, clear the corresponding greyscale slot too.
 /datum/loadout_manager/proc/select_item(path, category_slot, greyscale)
 	var/list/loadout_list = owner.prefs.loadout_list
 	if(category_slot == LOADOUT_ITEM_MISC)
@@ -121,10 +125,10 @@
 		clear_slot_greyscale(category_slot)
 	loadout_list[category_slot] = path
 
-/// Deselect [path] item from [category_slot] slot.
+/// Deselect [path] item from [category_slot] slot. If it's not a greyscale item, clear the corresponding greyscale slot too.
 /datum/loadout_manager/proc/deselect_item(path, category_slot, greyscale)
 	if(category_slot == LOADOUT_ITEM_MISC || category_slot == LOADOUT_ITEM_INHAND)
-		category_slot = find_path_in_list(path, category_slot)
+		category_slot = find_path_in_list(path)
 
 	if(!greyscale)
 		// If we're not a greyscale item, clear any greyscale config associated with our slot
@@ -136,6 +140,10 @@
 
 /// Select [path] item to [category_slot] slot, and open up the greyscale UI to customize [path] in [category] slot.
 /datum/loadout_manager/proc/select_item_color(path, category_slot)
+	if(menu)
+		to_chat(owner, "<span class='warning'>You already have a greyscaling window open!</span>")
+		return
+
 	var/obj/item/colored_item = new path
 
 	var/list/allowed_configs = list()
@@ -149,30 +157,50 @@
 		allowed_configs += "[colored_item.greyscale_config_inhand_right]"
 
 	if(category_slot == LOADOUT_ITEM_MISC || category_slot == LOADOUT_ITEM_INHAND)
-		category_slot = find_path_in_list(path, category_slot)
+		category_slot = find_path_in_list(path)
 
-	var/datum/greyscale_modify_menu/menu = new(
+	var/slot_starting_colors = colored_item.greyscale_colors
+	if(owner.prefs.greyscale_loadout_list && owner.prefs.greyscale_loadout_list[category_slot])
+		slot_starting_colors = owner.prefs.greyscale_loadout_list[category_slot]
+
+	menu = new(
 		src,
 		usr,
 		allowed_configs,
 		CALLBACK(src, .proc/set_slot_greyscale, category_slot),
 		starting_icon_state=colored_item.icon_state,
 		starting_config=colored_item.greyscale_config,
-		starting_colors=colored_item.greyscale_colors,
+		starting_colors=slot_starting_colors,
 	)
+	RegisterSignal(menu, COMSIG_PARENT_PREQDELETED, /datum/loadout_manager.proc/cleanup_greyscale_menu)
 	menu.ui_interact(usr)
 	qdel(colored_item)
 
-/datum/loadout_manager/proc/set_slot_greyscale(category_slot, datum/greyscale_modify_menu/menu)
-	if(!menu)
+/// A proc to make sure our menu gets null'd properly when it's deleted.
+/// If we delete the greyscale menu from the greyscale datum, we don't null it correctly here, and it harddels.
+/datum/loadout_manager/proc/cleanup_greyscale_menu(datum/source)
+	SIGNAL_HANDLER
+
+	menu = null
+
+/// Sets [category_slot]'s greyscale colors to the colors in the currently opened [open_menu].
+/datum/loadout_manager/proc/set_slot_greyscale(category_slot, datum/greyscale_modify_menu/open_menu)
+	if(!open_menu)
 		CRASH("set_slot_greyscale called without a greyscale menu")
 
-	var/list/colors = menu.split_colors
+	var/list/loadout = owner.prefs.loadout_list
+
+	if(!loadout[category_slot])
+		to_chat(owner, "<span class='warning'>Select the item before attempting to apply greyscale to it!</span>")
+		return
+
+	var/list/colors = open_menu.split_colors
 	if(colors)
 		if(!owner.prefs.greyscale_loadout_list)
 			owner.prefs.greyscale_loadout_list = list()
 		owner.prefs.greyscale_loadout_list[category_slot] = colors.Join("")
 
+/// Clears [category_slot]'s greyscale colors.
 /datum/loadout_manager/proc/clear_slot_greyscale(category_slot)
 	if(!owner.prefs.greyscale_loadout_list)
 		return
@@ -279,7 +307,11 @@ It allows you to customize what your character will wear on shift start in addit
 
 Only one item can be selected per tab, with some exceptions.
 Inhand items (one item is allowed per hand)
-Miscellaneous items (three items are allowed in total - they will spawn in your backpack).
+Miscellaneous items (three items are allowed in total - they will spawn in your backpack or attached to your jumpsuit).
+
+Some items have tooltips displaying additional information about how they work.
+Some items are compatible with greyscale coloring! You can choose what color they spawn as
+by selecting the item, then by pressing the paint icon next to it and using the greyscaling UI.
 
 Your loadout items will override the corresponding item in your job's outfit,
 with the exception being BELT, EAR, and GLASSES items,
@@ -341,7 +373,8 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
 			if(LOADOUT_ITEM_RIGHT_HAND)
 				custom_loadout.r_hand = loadout[slot]
 
-/datum/loadout_manager/proc/find_path_in_list(path, category_slot)
+/// Finds [path] in the loadout list and returns the key it's associated to.
+/datum/loadout_manager/proc/find_path_in_list(path)
 	var/list/loadout_list = owner.prefs.loadout_list
 	for(var/slot_key in loadout_list)
 		if(loadout_list[slot_key] == path)
@@ -406,10 +439,12 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
 			if(RANDOM_COLOR)
 				tooltip_contents += "[RANDOM_COLOR] - This item's color is randomized on spawn."
 			if(ACCESSORY)
-				tooltip_contents += "[ACCESSORY] - This item is an accessory, and will attempt to be attatched to your jumpsuit on spawn."
+				tooltip_contents += "[ACCESSORY] - This item is an accessory, and will attempt to be attached to your jumpsuit on spawn."
+			if(IMPORTANT_SLOT)
+				tooltip_contents += "[IMPORTANT_SLOT] - This item occupies a slot where important items spawn, any job items replaced will be moved to your backpack on spawn."
 
 	if(tooltip_contents.len)
 		instructions["tooltip"] = TRUE
-		instructions["tooltip_text"] = tooltip_contents.Join("\n\n")
+		instructions["tooltip_text"] = tooltip_contents.Join("\n")
 
 	return instructions

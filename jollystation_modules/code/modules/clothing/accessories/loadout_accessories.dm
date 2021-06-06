@@ -77,17 +77,17 @@
 	else
 		. += "The dogtag has a name on it, but it's scratched and hard to read."
 
-/obj/item/clothing/accessory/cosmetic_dogtag/on_uniform_equip(obj/item/clothing/under/attatched_clothes, user)
+/obj/item/clothing/accessory/cosmetic_dogtag/on_uniform_equip(obj/item/clothing/under/attached_clothes, user)
 	. = ..()
-	RegisterSignal(attatched_clothes, COMSIG_PARENT_EXAMINE,.proc/on_examine)
+	RegisterSignal(attached_clothes, COMSIG_PARENT_EXAMINE,.proc/on_examine)
 
-/obj/item/clothing/accessory/cosmetic_dogtag/on_uniform_dropped(obj/item/clothing/under/attatched_clothes, user)
+/obj/item/clothing/accessory/cosmetic_dogtag/on_uniform_dropped(obj/item/clothing/under/attached_clothes, user)
 	. = ..()
-	UnregisterSignal(attatched_clothes, COMSIG_PARENT_EXAMINE)
+	UnregisterSignal(attached_clothes, COMSIG_PARENT_EXAMINE)
 
 ///What happens when we examine the uniform
 /obj/item/clothing/accessory/cosmetic_dogtag/proc/on_examine(datum/source, mob/user, list/examine_list)
 	if(display_name)
-		examine_list += "There's a set of dogtags attatched. They have a name inscribed: <b>[display_name]</b>."
+		examine_list += "There's a set of dogtags attached. They have a name inscribed: <b>[display_name]</b>."
 	else
-		examine_list += "There's a set of dogtags attatched. They have a name inscribed, but it's scratched and hard to read."
+		examine_list += "There's a set of dogtags attached. They have a name inscribed, but it's scratched and hard to read."

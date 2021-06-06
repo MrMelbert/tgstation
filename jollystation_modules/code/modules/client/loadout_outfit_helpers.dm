@@ -16,7 +16,7 @@
  * visuals_only - whether we call special equipped procs, or if we just look like we equipped it
  * preference_source - the client belonging to the thing we're equipping
  */
-/mob/living/carbon/human/proc/equip_outfit_and_loadout(datum/outfit/outfit, visuals_only = FALSE, client/preference_source)
+/mob/living/carbon/human/proc/equip_outfit_and_loadout(datum/outfit/outfit, visuals_only = FALSE, datum/preferences/preference_source)
 	var/datum/outfit/equipped_outfit
 
 	if(ispath(outfit))
@@ -26,8 +26,8 @@
 	else
 		return FALSE
 
-	if(LAZYLEN(preference_source?.prefs?.loadout_list))
-		var/list/loadout = preference_source?.prefs?.loadout_list
+	if(LAZYLEN(preference_source?.loadout_list))
+		var/list/loadout = preference_source?.loadout_list
 		for(var/slot in loadout)
 			var/move_to_backpack = null
 			switch(slot)
@@ -82,7 +82,7 @@
 						move_to_backpack = equipped_outfit.r_hand
 					equipped_outfit.r_hand = loadout[slot]
 				if(LOADOUT_ITEM_BACKPACK_1, LOADOUT_ITEM_BACKPACK_2, LOADOUT_ITEM_BACKPACK_3)
-					if(ispath(text2path(loadout[slot]), /obj/item/clothing/accessory/waistcoat))
+					if(ispath(text2path(loadout[slot]), /obj/item/clothing/accessory))
 						if(equipped_outfit.accessory)
 							move_to_backpack = equipped_outfit.accessory
 						equipped_outfit.accessory = loadout[slot]
@@ -94,16 +94,15 @@
 				LAZYADD(equipped_outfit.backpack_contents, move_to_backpack)
 
 	equipped_outfit.equip(src, visuals_only)
-	equip_greyscale(visuals_only, preference_source?.prefs)
+	equip_greyscale(visuals_only, preference_source)
 	return TRUE
 
 /mob/living/carbon/human/proc/equip_greyscale(visuals_only = FALSE, datum/preferences/preference_source)
 	var/list/items = preference_source?.loadout_list
 	var/list/colors = preference_source?.greyscale_loadout_list
-	if(!colors || !items)
+	if(!LAZYLEN(colors) || !LAZYLEN(items))
 		return
 
-	//Start with uniform,suit,backpack for additional slots
 	if(w_uniform && items[LOADOUT_ITEM_UNIFORM] && colors[LOADOUT_ITEM_UNIFORM])
 		w_uniform.set_greyscale(colors[LOADOUT_ITEM_UNIFORM])
 	if(wear_suit && items[LOADOUT_ITEM_SUIT] && colors[LOADOUT_ITEM_SUIT])
@@ -125,8 +124,7 @@
 	if(glasses && items[LOADOUT_ITEM_GLASSES] && colors[LOADOUT_ITEM_GLASSES])
 		glasses.set_greyscale(colors[LOADOUT_ITEM_GLASSES])
 
-	if(!visuals_only && back) // Items in pockets or backpack don't show up on mob's icon.
-
+	if(!visuals_only && back) // Items in backpack don't show up so we can ignore them
 		if(items[LOADOUT_ITEM_BACKPACK_1] && colors[LOADOUT_ITEM_BACKPACK_1])
 			var/obj/item/backpack_item_one = locate(text2path(items[LOADOUT_ITEM_BACKPACK_1])) in back.contents
 			if(backpack_item_one)

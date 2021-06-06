@@ -36,6 +36,11 @@ Assistant
 
 /datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	// NON-MODULE CHANGE: LOADOUTS
+	if(!ispath(uniform, /obj/item/clothing/under/color/grey))
+		return
+
 	if (CONFIG_GET(flag/grey_assistants))
 		if(H.jumpsuit_style == PREF_SUIT)
 			uniform = /obj/item/clothing/under/color/grey
