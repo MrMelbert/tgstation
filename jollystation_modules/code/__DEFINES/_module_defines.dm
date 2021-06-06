@@ -26,9 +26,12 @@
 #define LOADOUT_ITEM_BACKPACK_3 "pocket_items_3"
 
 /// Defines for extra info blurbs, for loadout items.
-#define PRESCRIPTION_GLASSES "\[Prescription\]"
-#define MATCHES_EYE_COLOR "\[Matches Eye Color\]"
-#define NO_ARMOR "\[Unarmored\]"
-#define NO_DAMAGE "\[Ceremonial\]"
-#define NO_SHOCK "\[Uninsulated\]"
-#define GREYSCALE "\[Greyscale\]"
+#define PRESCRIPTION_GLASSES "PRESCRIPTION"
+#define MATCHES_EYE_COLOR "MATCHES EYE COLOR"
+#define NO_ARMOR "UNARMORED"
+#define NO_DAMAGE "CEREMONIAL"
+#define NO_SHOCK "UNINSULATED"
+#define GREYSCALE "GREYSCALED"
+#define SETS_NAME "MATCHES NAME"
+#define RANDOM_COLOR "RANDOM COLOR"
+#define ACCESSORY "ACCESSORY"

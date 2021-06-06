@@ -3626,6 +3626,7 @@
 #include "jollystation_modules\code\modules\client\verbs\looc.dm"
 #include "jollystation_modules\code\modules\clothing\accessories\loadout_accessories.dm"
 #include "jollystation_modules\code\modules\clothing\accessories\loadout_inhand_items.dm"
+#include "jollystation_modules\code\modules\clothing\accessories\loadout_pocket_items.dm"
 #include "jollystation_modules\code\modules\clothing\glasses\loadout_glasses.dm"
 #include "jollystation_modules\code\modules\clothing\gloves\loadout_gloves.dm"
 #include "jollystation_modules\code\modules\clothing\head\jobs.dm"

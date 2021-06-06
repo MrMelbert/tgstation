@@ -363,12 +363,15 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
 	var/array_index = 1
 	for(var/path_id in assoc_item_list)
 		var/list/formatted_item = list()
-		formatted_item["name"] = path_id
-		formatted_item["path"] = assoc_item_list[path_id]
+		var/list/split_path_id = splittext(path_id, "_")
 
-		var/extra_info_identifier = findtext(path_id, "]")
-		if(extra_info_identifier)
-			formatted_item["extra_info"] = get_info_instructions(copytext(path_id, 1, extra_info_identifier+1))
+		formatted_item["path"] = assoc_item_list[path_id]
+		formatted_item["name"] = split_path_id[1]
+
+
+		if(split_path_id.len > 1)
+			split_path_id.Cut(1, 2)
+			formatted_item["extra_info"] = get_info_instructions(split_path_id)
 
 		formatted_list[array_index++] = formatted_item
 
@@ -378,28 +381,35 @@ to avoid an untimely and sudden death by fire or suffocation at the start of the
  * Used to pass additional instructions for certain loadout items.
  * If a loadout item has a defined identifier in the front, it is passed here.
  *
- * Then, we return a list telling the UI what special things to do with this item
- *
+ * Then, we return a list telling the UI what special things to do with this item.
  */
-/proc/get_info_instructions(identifier)
-	var/instructions = list()
-	var/tooltip_contents = ""
-	switch(identifier)
-		if(PRESCRIPTION_GLASSES)
-			tooltip_contents = "These glasses function with the 'nearsighted' quirk."
-		if(MATCHES_EYE_COLOR)
-			tooltip_contents = "The color of this item matches your character's eye color on spawn."
-		if(NO_ARMOR)
-			tooltip_contents = "This item has no armor and is entirely cosmetic."
-		if(NO_DAMAGE)
-			tooltip_contents = "This item deals no damage and is entirely cosmetic."
-		if(NO_SHOCK)
-			tooltip_contents = "This item provides no shock protection and is entirely cosmetic."
-		if(GREYSCALE)
-			instructions["is_greyscale"] = TRUE
-			tooltip_contents = "This item can be customized with greyscaling."
-	if(tooltip_contents)
+/proc/get_info_instructions(list/identifiers)
+	var/list/instructions = list()
+	var/list/tooltip_contents = list()
+	for(var/found_identifier in identifiers)
+		switch(found_identifier)
+			if(PRESCRIPTION_GLASSES)
+				tooltip_contents += "[PRESCRIPTION_GLASSES] - These glasses function with the 'nearsighted' quirk."
+			if(MATCHES_EYE_COLOR)
+				tooltip_contents += "[MATCHES_EYE_COLOR] - The color of this item matches your character's eye color on spawn."
+			if(NO_ARMOR)
+				tooltip_contents += "[NO_ARMOR] - This item has no armor and is entirely cosmetic."
+			if(NO_DAMAGE)
+				tooltip_contents += "[NO_DAMAGE] - This item deals no damage and is entirely cosmetic."
+			if(NO_SHOCK)
+				tooltip_contents += "[NO_SHOCK] - This item provides no shock protection and is entirely cosmetic."
+			if(GREYSCALE)
+				instructions["is_greyscale"] = TRUE
+				tooltip_contents += "[GREYSCALE] - This item can be customized with greyscaling."
+			if(SETS_NAME)
+				tooltip_contents += "[SETS_NAME] - The name on this item matches your character's name on spawn."
+			if(RANDOM_COLOR)
+				tooltip_contents += "[RANDOM_COLOR] - This item's color is randomized on spawn."
+			if(ACCESSORY)
+				tooltip_contents += "[ACCESSORY] - This item is an accessory, and will attempt to be attatched to your jumpsuit on spawn."
+
+	if(tooltip_contents.len)
 		instructions["tooltip"] = TRUE
-		instructions["tooltip_text"] = tooltip_contents
+		instructions["tooltip_text"] = tooltip_contents.Join("\n\n")
 
 	return instructions
