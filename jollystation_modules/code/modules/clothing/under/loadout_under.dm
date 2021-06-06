@@ -27,7 +27,3 @@
 /obj/item/clothing/under/color/jumpskirt/greyscale
 	name = "greyscale jumpskirt"
 	greyscale_colors = "#eeeeee"
-	body_parts_covered = CHEST|GROIN|ARMS
-	dying_key = DYE_REGISTRY_JUMPSKIRT
-	fitted = FEMALE_UNIFORM_TOP
-	icon_state = "jumpskirt"
