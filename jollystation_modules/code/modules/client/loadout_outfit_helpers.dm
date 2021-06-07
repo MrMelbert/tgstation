@@ -30,6 +30,7 @@
 	for(var/slot in loadout)
 		var/move_to_backpack = null
 		switch(slot)
+			/// Key slots - Replaced, item moved to backpack
 			if(LOADOUT_ITEM_BELT)
 				if(equipped_outfit.belt)
 					move_to_backpack = equipped_outfit.belt
@@ -42,6 +43,15 @@
 				if(equipped_outfit.glasses)
 					move_to_backpack = equipped_outfit.glasses
 				equipped_outfit.glasses = loadout[slot]
+			if(LOADOUT_ITEM_LEFT_HAND)
+				if(equipped_outfit.l_hand)
+					move_to_backpack = equipped_outfit.l_hand
+				equipped_outfit.l_hand = loadout[slot]
+			if(LOADOUT_ITEM_RIGHT_HAND)
+				if(equipped_outfit.r_hand)
+					move_to_backpack = equipped_outfit.r_hand
+				equipped_outfit.r_hand = loadout[slot]
+			/// Plasmaman slots - Not replaced, loadout item moved to backpack
 			if(LOADOUT_ITEM_GLOVES)
 				if(isplasmaman(src))
 					to_chat(src, "Your loadout gloves were not equipped directly due to your envirosuit gloves.")
@@ -60,26 +70,20 @@
 					to_chat(src, "Your loadout mask was not equipped directly due to your envirosuit mask.")
 				else
 					equipped_outfit.mask = loadout[slot]
-			if(LOADOUT_ITEM_NECK)
-				equipped_outfit.neck = loadout[slot]
-			if(LOADOUT_ITEM_SHOES)
-				equipped_outfit.shoes = loadout[slot]
-			if(LOADOUT_ITEM_SUIT)
-				equipped_outfit.suit = loadout[slot]
 			if(LOADOUT_ITEM_UNIFORM)
 				if(isplasmaman(src))
 					to_chat(src, "Your loadout jumpsuit was not equipped directly due to your envirosuit.")
 					move_to_backpack = loadout[slot]
 				else
 					equipped_outfit.uniform = loadout[slot]
-			if(LOADOUT_ITEM_LEFT_HAND)
-				if(equipped_outfit.l_hand)
-					move_to_backpack = equipped_outfit.l_hand
-				equipped_outfit.l_hand = loadout[slot]
-			if(LOADOUT_ITEM_RIGHT_HAND)
-				if(equipped_outfit.r_hand)
-					move_to_backpack = equipped_outfit.r_hand
-				equipped_outfit.r_hand = loadout[slot]
+			// Loadout slots - items replaced and deleted
+			if(LOADOUT_ITEM_NECK)
+				equipped_outfit.neck = loadout[slot]
+			if(LOADOUT_ITEM_SHOES)
+				equipped_outfit.shoes = loadout[slot]
+			if(LOADOUT_ITEM_SUIT)
+				equipped_outfit.suit = loadout[slot]
+			// Backpack items - accessories are equipped, and former accessories are preserved
 			if(LOADOUT_ITEM_BACKPACK_1, LOADOUT_ITEM_BACKPACK_2, LOADOUT_ITEM_BACKPACK_3)
 				if(ispath(text2path(loadout[slot]), /obj/item/clothing/accessory))
 					if(equipped_outfit.accessory)
