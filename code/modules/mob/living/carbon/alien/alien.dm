@@ -71,7 +71,7 @@
 	else
 		clear_alert("alien_fire")
 
-/mob/living/carbon/alien/reagent_check(datum/reagent/R, delta_time, times_fired) //can metabolize all reagents
+/mob/living/carbon/alien/reagent_check(datum/reagent/special_reagent, delta_time, times_fired) //can metabolize all reagents
 	return FALSE
 
 /mob/living/carbon/alien/get_status_tab_items()

@@ -310,7 +310,16 @@
 	return FALSE
 
 
-/mob/proc/reagent_check(datum/reagent/R, delta_time, times_fired) // utilized in the species code
+/*
+ * Runs special species-based or type-based checks for certain reagents on metabolize.
+ *
+ * special_reagent - the reagent we're running special checks on
+ *
+ * Return FALSE to run the usual on_mob_metabolize / on_mob_life procs for that reagent.
+ * Return TRUE to stop metabolism after running handle_chemicals for the species.
+ *  - If TRUE is returned, the reagents [metabolizing] variable will not be set to TRUE and it will not be removed from their system.
+ */
+/mob/proc/reagent_check(datum/reagent/special_reagent, delta_time, times_fired)
 	return TRUE
 
 
