@@ -182,6 +182,12 @@
 		/obj/item/mod/module/flashlight,
 	)
 
+/obj/item/mod/control/pre_equipped/nuclear/plasmaman
+
+/obj/item/mod/control/pre_equipped/nuclear/plasmaman/Initialize(mapload, new_theme, new_skin, new_core)
+	initial_modules += /obj/item/mod/module/plasma_stabilizer
+	return ..()
+
 /obj/item/mod/control/pre_equipped/elite
 	theme = /datum/mod_theme/elite
 	applied_cell = /obj/item/stock_parts/cell/bluespace

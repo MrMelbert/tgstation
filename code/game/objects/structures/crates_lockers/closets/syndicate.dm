@@ -18,6 +18,8 @@
 	new /obj/item/clothing/glasses/night(src)
 	new /obj/item/storage/belt/holster/nukie(src)
 	new /obj/item/pickaxe/drill/diamonddrill(src)
+	new /obj/item/mod/module/plasma_stabilizer(src)
+	new /obj/item/mod/module/thermal_regulator(src)
 
 /obj/structure/closet/syndicate/nuclear
 	desc = "It's a storage unit for a Syndicate boarding party."

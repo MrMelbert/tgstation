@@ -3,7 +3,7 @@
 	name = ROLE_CLOWN_OPERATIVE
 	roundend_category = "clown operatives"
 	antagpanel_category = "ClownOp"
-	nukeop_outfit = /datum/outfit/syndicate/clownop
+	nukeop_job = /datum/job/nuclear_operative/clown
 	suicide_cry = "HAPPY BIRTHDAY!!"
 
 	preview_outfit = /datum/outfit/clown_operative_elite
@@ -11,7 +11,6 @@
 	nuke_icon_state = "bananiumbomb_base"
 
 /datum/antagonist/nukeop/clownop/admin_add(datum/mind/new_owner,mob/admin)
-	new_owner.set_assigned_role(SSjob.GetJobType(/datum/job/clown_operative))
 	new_owner.add_antag_datum(src)
 	message_admins("[key_name_admin(admin)] has clown op'ed [key_name_admin(new_owner)].")
 	log_admin("[key_name(admin)] has clown op'ed [key_name(new_owner)].")
@@ -40,11 +39,16 @@
 	else
 		owner.current.real_name = "Syndicate [title]"
 
+/datum/antagonist/nukeop/clownop/reinforcement
+	show_in_antagpanel = FALSE
+	send_to_spawnpoint = FALSE
+	nukeop_job = /datum/job/nuclear_operative/clown/reinforcement
+
 /datum/antagonist/nukeop/leader/clownop
 	name = "Clown Operative Leader"
 	roundend_category = "clown operatives"
 	antagpanel_category = "ClownOp"
-	nukeop_outfit = /datum/outfit/syndicate/clownop/leader
+	nukeop_job = /datum/job/nuclear_operative/clown/leader
 	challengeitem = /obj/item/nuclear_challenge/clownops
 	suicide_cry = "HAPPY BIRTHDAY!!"
 
@@ -64,25 +68,3 @@
 	var/obj/item/organ/internal/liver/liver = L.getorganslot(ORGAN_SLOT_LIVER)
 	if(liver)
 		ADD_TRAIT(liver, TRAIT_COMEDY_METABOLISM, CLOWNOP_TRAIT)
-
-/datum/outfit/clown_operative
-	name = "Clown Operative (Preview only)"
-
-	back = /obj/item/mod/control/pre_equipped/empty/syndicate/honkerative
-	uniform = /obj/item/clothing/under/syndicate
-
-/datum/outfit/clown_operative/post_equip(mob/living/carbon/human/H, visualsOnly)
-	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
-	booster.active = TRUE
-	H.update_inv_back()
-
-/datum/outfit/clown_operative_elite
-	name = "Clown Operative (Elite, Preview only)"
-
-	back = /obj/item/mod/control/pre_equipped/empty/syndicate/honkerative
-	uniform = /obj/item/clothing/under/syndicate
-
-/datum/outfit/clown_operative_elite/post_equip(mob/living/carbon/human/H, visualsOnly)
-	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
-	booster.active = TRUE
-	H.update_inv_back()

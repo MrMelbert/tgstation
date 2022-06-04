@@ -89,3 +89,12 @@
 	can_adjust = FALSE
 	armor = list(MELEE = 5, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 10, FIRE = 0, ACID = 0)
 	resistance_flags = NONE
+
+// Plasmaman synd-outfit.
+/obj/item/clothing/under/plasmaman/syndicate
+	name = "tactical envirosuit"
+	desc = "A suspiciously dark colored envirosuit with extra padding, and extra pockets."
+	icon_state = "syndie_envirosuit"
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, FIRE = 50, ACID = 50)
+	has_sensor = NO_SENSORS
+	resistance_flags = FIRE_PROOF

@@ -464,10 +464,10 @@
 
 	else if(IS_NUKE_OP(creator))
 		var/datum/antagonist/nukeop/converter = creator.mind.has_antag_datum(/datum/antagonist/nukeop,TRUE)
-		var/datum/antagonist/nukeop/N = new()
-		N.send_to_spawnpoint = FALSE
-		N.nukeop_outfit = null
-		add_antag_datum(N,converter.nuke_team)
+		var/datum/antagonist/nukeop/nukie_goon_datum = new()
+		nukie_goon_datum.send_to_spawnpoint = FALSE
+		nukie_goon_datum.nukeop_job = null
+		add_antag_datum(nukie_goon_datum, converter.nuke_team)
 
 
 	enslaved_to = creator

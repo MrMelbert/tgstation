@@ -362,3 +362,9 @@
 	desc = "A special containment helmet designed for CentCom Staff. You know, so any coffee spills don't kill the poor sod."
 	icon_state = "intern_envirohelm"
 	inhand_icon_state = "intern_envirohelm"
+
+/obj/item/clothing/head/helmet/space/plasmaman/syndie
+	name = "tactical envirosuit helmet"
+	desc = "A suspiciously dark colored envirosuit helmet with extra skull padding."
+	icon_state = "syndie_envirohelm"
+	armor = list(MELEE = 10, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 10, BIO = 10, FIRE = 50, ACID = 50)

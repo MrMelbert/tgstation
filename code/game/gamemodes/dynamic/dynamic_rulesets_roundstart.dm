@@ -404,7 +404,6 @@
 			break
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
-		M.mind.set_assigned_role(SSjob.GetJobType(/datum/job/nuclear_operative))
 		M.mind.special_role = ROLE_NUCLEAR_OPERATIVE
 	return TRUE
 
@@ -657,7 +656,6 @@
 				new /obj/machinery/nuclearbomb/syndicate/bananium(nuke_turf)
 				qdel(syndicate_nuke)
 		for(var/datum/mind/clowns in assigned)
-			clowns.set_assigned_role(SSjob.GetJobType(/datum/job/clown_operative))
 			clowns.special_role = ROLE_CLOWN_OPERATIVE
 
 //////////////////////////////////////////////
