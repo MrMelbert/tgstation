@@ -143,10 +143,11 @@
 /obj/item/soulstone/examine(mob/user)
 	. = ..()
 	if(role_check(user) || isobserver(user))
-		if(!grab_sleeping)
-			. += span_cult("A soulstone, used to capture a soul, either from dead humans or from freed shades.")
-		else
+		if(grab_sleeping)
 			. += span_cult("A soulstone, used to capture souls, either from unconscious or sleeping humans or from freed shades.")
+		else
+			. += span_cult("A soulstone, used to capture a soul, either from dead humans or from freed shades.")
+
 		. += span_cult("The captured soul can be placed into a construct shell to produce a construct, or released from the stone as a shade.")
 		if(spent)
 			. += span_cult("This shard is spent; it is now just a creepy rock.")
@@ -221,35 +222,38 @@
 
 		on_release_spirits()
 
-/obj/item/soulstone/pre_attack(atom/A, mob/living/user, params)
-	var/mob/living/simple_animal/shade/occupant = (locate() in src)
-	var/obj/item/storage/toolbox/mechanical/target_toolbox = A
-	if(!occupant || !istype(target_toolbox) || target_toolbox.has_soul)
-		return ..()
+/obj/item/soulstone/pre_attack(atom/hit_atom, mob/living/user, params)
+	. = ..()
+	if(.)
+		return TRUE
 
 	if(theme == THEME_HOLY && IS_CULTIST(user))
 		hot_potato(user)
-		return
+		return TRUE
+
 	if(!role_check(user))
 		user.Unconscious(10 SECONDS)
 		to_chat(user, span_userdanger("Your body is wracked with debilitating pain!"))
-		return
+		return TRUE
 
-	user.visible_message("<span class='notice'>[user] holds [src] above [user.p_their()] head and forces it into [target_toolbox] with a flash of light!", \
-		span_notice("You hold [src] above your head briefly, then force it into [target_toolbox], transferring the [occupant]'s soul!"), ignored_mobs = occupant)
-	to_chat(occupant, span_userdanger("[user] holds you up briefly, then forces you into [target_toolbox]!"))
-	to_chat(occupant, span_deadsay("<b>Your eternal soul has been sacrificed to restore the soul of a toolbox. Them's the breaks!</b>"))
+	if(SEND_SIGNAL(hit_atom, COMSIG_SOULSTONE_HIT, src, user) & SOULSTONE_HIT_HANDLED)
+		return TRUE
 
-	occupant.client?.give_award(/datum/award/achievement/misc/toolbox_soul, occupant)
-	occupant.deathmessage = "shrieks out in unholy pain as [occupant.p_their()] soul is absorbed into [target_toolbox]!"
-	release_shades(user, TRUE)
-	occupant.death()
+	if(!ishuman(hit_atom) || hit_atom == user)
+		return FALSE // continue attack chain
 
-	target_toolbox.name = "soulful toolbox"
-	target_toolbox.icon = 'icons/obj/storage.dmi'
-	target_toolbox.icon_state = "toolbox_blue_old"
-	target_toolbox.has_soul = TRUE
-	target_toolbox.has_latches = FALSE
+	if(spent)
+		to_chat(user, span_warning("There is no power left in [src]."))
+		return TRUE
+
+	var/mob/living/carbon/human/human_hit = hit_atom
+	if(IS_CULTIST(human_hit) && IS_CULTIST(user))
+		to_chat(user, span_cultlarge("\"Come now, do not capture your bretheren's soul.\""))
+		return TRUE
+
+	log_combat(user, human_hit, "captured [human_hit.name]'s soul", src)
+	capture_soul(human_hit, user)
+	return TRUE
 
 ///////////////////////////Transferring to constructs/////////////////////////////////////////////////////
 /obj/structure/constructshell
