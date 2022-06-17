@@ -25,8 +25,9 @@
 
 /obj/item/soulstone/Initialize(mapload)
 	. = ..()
-	if(theme != THEME_HOLY)
-		RegisterSignal(src, COMSIG_BIBLE_SMACKED, .proc/on_bible_smacked)
+	AddComponent(/datum/component/exorcisable, \
+		pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
+		on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
 
 /obj/item/soulstone/update_appearance(updates)
 	. = ..()
@@ -77,35 +78,21 @@
 			the 'Soul Stone'. The shard lies still, dull and lifeless; \
 			whatever spark it once held long extinguished."
 
-///signal called whenever a soulstone is smacked by a bible
-/obj/item/soulstone/proc/on_bible_smacked(datum/source, mob/living/user, direction)
-	SIGNAL_HANDLER
-	INVOKE_ASYNC(src, .proc/attempt_exorcism, user)
-
-/**
- * attempt_exorcism: called from on_bible_smacked, takes time and if successful
- * resets the item to a pre-possessed state
- *
- * Arguments:
- * * exorcist: user who is attempting to remove the spirit
- */
-/obj/item/soulstone/proc/attempt_exorcism(mob/exorcist)
+/obj/item/soulstone/proc/pre_exorcism(mob/exorcist)
 	if(IS_CULTIST(exorcist) || theme == THEME_HOLY)
-		return
-	balloon_alert(exorcist, span_notice("exorcising [src]..."))
-	playsound(src, 'sound/hallucinations/veryfar_noise.ogg', 40, TRUE)
-	if(!do_after(exorcist, 4 SECONDS, target = src))
-		return
-	playsound(src, 'sound/effects/pray_chaplain.ogg', 60, TRUE)
+		return TRUE // Cancel exorcism
+
+	return FALSE
+
+/obj/item/soulstone/proc/on_exorcism(mob/living/exorcist)
 	required_role = null
 	theme = THEME_HOLY
-
 	update_appearance()
 	for(var/mob/shade_to_deconvert in contents)
 		shade_to_deconvert.mind?.remove_antag_datum(/datum/antagonist/cult)
 
 	exorcist.visible_message(span_notice("[exorcist] purifies [src]!"))
-	UnregisterSignal(src, COMSIG_BIBLE_SMACKED)
+	return TRUE
 
 /**
  * corrupt: turns the soulstone into a cult one and turns the occupant shade, if any, into a cultist
@@ -122,7 +109,6 @@
 			continue
 		shade_to_convert.mind?.add_antag_datum(/datum/antagonist/cult)
 
-	RegisterSignal(src, COMSIG_BIBLE_SMACKED)
 	return TRUE
 
 /obj/item/soulstone/proc/role_check(mob/who)

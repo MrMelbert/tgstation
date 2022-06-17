@@ -39,9 +39,11 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 	worn_icon_state = "bible"
 	lefthand_file = 'icons/mob/inhands/misc/books_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/books_righthand.dmi'
-	var/mob/affecting = null
-	var/deity_name = "Christ"
 	force_string = "holy"
+	/// Whether we can be hit with another bible to be converted to a new bible type.
+	var/can_be_converted_to_another_bible = TRUE
+	/// The name of our bible's diety.
+	var/deity_name = "Christ"
 
 /obj/item/storage/book/bible/examine(mob/user)
 	. = ..()
@@ -54,6 +56,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 /obj/item/storage/book/bible/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, MAGIC_RESISTANCE_HOLY)
+	RegisterSignal(src, COMSIG_BIBLE_SMACKED, .proc/on_smacked_with_another_bible)
 
 /obj/item/storage/book/bible/suicide_act(mob/user)
 	user.visible_message(span_suicide("[user] is offering [user.p_them()]self to [deity_name]! It looks like [user.p_theyre()] trying to commit suicide!"))
@@ -147,6 +150,24 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "blessing", /datum/mood_event/blessing)
 	return TRUE
 
+/obj/item/storage/book/bible/proc/on_smacked_with_another_bible(datum/source, mob/living/user, obj/item/storage/book/bible/bible, proximity)
+	SIGNAL_HANDLER
+
+	if(!proximity)
+		return
+
+	if(!user.mind || !user.mind.holy_role)
+		return
+
+	if(!can_be_converted_to_another_bible)
+		return
+
+	to_chat(user, span_notice("You purify [src], conforming it to your belief."))
+	name = bible.name
+	icon_state = bible.icon_state
+	inhand_icon_state = bible.inhand_icon_state
+	return COMSIG_END_BIBLE_CHAIN
+
 /obj/item/storage/book/bible/attack(mob/living/M, mob/living/carbon/human/user, heal_mode = TRUE)
 
 	if (!ISADVANCEDTOOLUSER(user))
@@ -196,7 +217,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 	. = ..()
 	if(!proximity)
 		return
-	if(SEND_SIGNAL(bible_smacked, COMSIG_BIBLE_SMACKED, user, proximity) & COMSIG_END_BIBLE_CHAIN)
+	if(SEND_SIGNAL(bible_smacked, COMSIG_BIBLE_SMACKED, user, src, proximity) & COMSIG_END_BIBLE_CHAIN)
 		return
 	if(isfloorturf(bible_smacked))
 		if(user.mind && (user.mind.holy_role))
@@ -219,34 +240,6 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 			var/unholy2clean = bible_smacked.reagents.get_reagent_amount(/datum/reagent/fuel/unholywater)
 			bible_smacked.reagents.del_reagent(/datum/reagent/fuel/unholywater)
 			bible_smacked.reagents.add_reagent(/datum/reagent/water/holywater,unholy2clean)
-		if(istype(bible_smacked, /obj/item/storage/book/bible) && !istype(bible_smacked, /obj/item/storage/book/bible/syndicate))
-			to_chat(user, span_notice("You purify [bible_smacked], conforming it to your belief."))
-			var/obj/item/storage/book/bible/B = bible_smacked
-			B.name = name
-			B.icon_state = icon_state
-			B.inhand_icon_state = inhand_icon_state
-
-	if(istype(bible_smacked, /obj/item/cult_bastard) && !IS_CULTIST(user))
-		var/obj/item/cult_bastard/sword = bible_smacked
-		to_chat(user, span_notice("You begin to exorcise [sword]."))
-		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,TRUE)
-		if(do_after(user, 40, target = sword))
-			playsound(src,'sound/effects/pray_chaplain.ogg',60,TRUE)
-			for(var/obj/item/soulstone/SS in sword.contents)
-				SS.required_role = null
-				for(var/mob/living/simple_animal/shade/EX in SS)
-					var/datum/antagonist/cult/cultist = EX.mind.has_antag_datum(/datum/antagonist/cult)
-					if (cultist)
-						cultist.silent = TRUE
-						cultist.on_removal()
-
-					EX.icon_state = "shade_holy"
-					EX.name = "Purified [EX.name]"
-				SS.release_shades(user)
-				qdel(SS)
-			new /obj/item/nullrod/claymore(get_turf(sword))
-			user.visible_message(span_notice("[user] purifies [sword]!"))
-			qdel(sword)
 
 /obj/item/storage/book/bible/booze
 	desc = "To be applied to the head repeatedly."
@@ -266,6 +259,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 	name = "Syndicate Tome"
 	attack_verb_continuous = list("attacks", "burns", "blesses", "damns", "scorches")
 	attack_verb_simple = list("attack", "burn", "bless", "damn", "scorch")
+	can_be_converted_to_another_bible = FALSE
 	var/uses = 1
 
 /obj/item/storage/book/bible/syndicate/attack_self(mob/living/carbon/human/H)

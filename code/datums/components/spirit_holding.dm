@@ -81,40 +81,24 @@
 
 	//Add new signals for parent and stop attempting to awaken
 	RegisterSignal(parent, COMSIG_ATOM_RELAYMOVE, .proc/block_buckle_message)
-	RegisterSignal(parent, COMSIG_BIBLE_SMACKED, .proc/on_bible_smacked)
+	AddComponent(/datum/component/exorcisable, on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
 	attempting_awakening = FALSE
 
 ///signal fired from a mob moving inside the parent
 /datum/component/spirit_holding/proc/block_buckle_message(datum/source, mob/living/user, direction)
 	SIGNAL_HANDLER
+
 	return COMSIG_BLOCK_RELAYMOVE
 
-/datum/component/spirit_holding/proc/on_bible_smacked(datum/source, mob/living/user, direction)
-	SIGNAL_HANDLER
-	INVOKE_ASYNC(src, .proc/attempt_exorcism, user)
+/datum/component/spirit_holding/proc/on_exorcism(mob/living/exorcist)
+	if(!bound_spirit)
+		return FALSE
 
-/**
- * attempt_exorcism: called from on_bible_smacked, takes time and if successful
- * resets the item to a pre-possessed state
- *
- * Arguments:
- * * exorcist: user who is attempting to remove the spirit
- */
-/datum/component/spirit_holding/proc/attempt_exorcism(mob/exorcist)
-	var/atom/movable/exorcised_movable = parent
-	to_chat(exorcist, span_notice("You begin to exorcise [parent]..."))
-	playsound(parent, 'sound/hallucinations/veryfar_noise.ogg',40,TRUE)
-	if(!do_after(exorcist, 4 SECONDS, target = exorcised_movable))
-		return
-	playsound(parent, 'sound/effects/pray_chaplain.ogg',60,TRUE)
-	UnregisterSignal(exorcised_movable, list(COMSIG_ATOM_RELAYMOVE, COMSIG_BIBLE_SMACKED))
-	RegisterSignal(exorcised_movable, COMSIG_ITEM_ATTACK_SELF, .proc/on_attack_self)
 	to_chat(bound_spirit, span_userdanger("You were exorcised!"))
 	QDEL_NULL(bound_spirit)
-	exorcised_movable.name = initial(exorcised_movable.name)
-	exorcist.visible_message(span_notice("[exorcist] exorcises [exorcised_movable]!"), \
-						span_notice("You successfully exorcise [exorcised_movable]!"))
-	return COMSIG_END_BIBLE_CHAIN
+	parent.name = initial(parent.name)
+	exorcist.visible_message(span_notice("[exorcist] exorcises [parent]!"))
+	return TRUE
 
 ///signal fired from parent being destroyed
 /datum/component/spirit_holding/proc/on_destroy(datum/source)
