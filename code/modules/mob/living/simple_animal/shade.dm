@@ -41,10 +41,33 @@
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
+	RegisterSignal(src, COMSIG_SOULSTONE_HIT, .proc/on_soulstone_hit)
+
 /mob/living/simple_animal/shade/death()
 	if(deathmessage == initial(deathmessage))
 		deathmessage = "lets out a contented sigh as [p_their()] form unwinds."
-	..()
+	return ..()
+
+/mob/living/simple_animal/shade/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
+	SIGNAL_HANDLER
+
+	if(length(soulstone.contents))
+		to_chat(user, "[span_userdanger("Capture failed!")]: [soulstone] is full! Free an existing soul to make room.")
+		return SOULSTONE_HIT_HANDLED
+
+	to_chat(src, span_notice("Your soul has been captured by [soulstone]. \
+		Its arcane energies are reknitting your ethereal form."))
+
+	if(user && user != src)
+		to_chat(user, "[span_info("<b>Capture successful!</b>:")] [real_name]'s soul \
+			has been captured and stored within [soulstone].")
+
+	AddComponent(/datum/component/soulstoned, soulstone)
+	soulstone.update_appearance()
+	if(soulstone.theme == THEME_HOLY)
+		mind?.remove_antag_datum(/datum/antagonist/cult)
+
+	return SOULSTONE_HIT_HANDLED
 
 /mob/living/simple_animal/shade/canSuicide()
 	if(istype(loc, /obj/item/soulstone)) //do not suicide inside the soulstone
@@ -65,10 +88,3 @@
 			to_chat(user, span_cult("You cannot heal <b>[src]</b>, as [p_theyre()] unharmed!"))
 	else if(src != user)
 		return ..()
-
-/mob/living/simple_animal/shade/attackby(obj/item/item, mob/user, params)  //Marker -Agouri
-	if(istype(item, /obj/item/soulstone))
-		var/obj/item/soulstone/stone = item
-		stone.capture_shade(src, user)
-	else
-		. = ..()
