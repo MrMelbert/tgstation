@@ -14,11 +14,12 @@
 
 /obj/item/book/bible/examine(mob/user)
 	. = ..()
-	if(user?.mind?.holy_role)
-		if(GLOB.chaplain_altars.len)
-			. += span_notice("[src] has an expansion pack to replace any broken Altar.")
-		else
-			. += span_notice("[src] can be unpacked by hitting the floor of a holy area with it.")
+	if(!user.mind || !user.mind.holy_role)
+		return
+	if(GLOB.chaplain_altars.len)
+		. += span_notice("[src] has an expansion pack to replace any broken Altar.")
+	else
+		. += span_notice("[src] can be unpacked by hitting the floor of a holy area with it.")
 
 /obj/item/book/bible/Initialize(mapload)
 	starting_title = name
