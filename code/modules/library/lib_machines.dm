@@ -385,7 +385,7 @@
 			if(!bible_name)
 				bible_name = DEFAULT_BIBLE_REPLACE(reigion)
 			data["bible_name"] = bible_name
-			data["bible_sprite"] = "display-[GLOB.bible_icon_state || "bible"]"
+			data["bible_sprite"] = "display-[GLOB.current_bible_skin?.bible_icon_state || "bible"]"
 			data["posters"] = list()
 			for(var/poster_name in SSlibrary.printable_posters)
 				data["posters"] += poster_name
@@ -634,13 +634,10 @@
 	return TRUE
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/print_bible()
-	var/obj/item/storage/book/bible/holy_book = new(loc)
-	if(!GLOB.bible_icon_state || !GLOB.bible_inhand_icon_state)
+	var/obj/item/book/bible/holy_book = new(loc)
+	if(!GLOB.current_bible_skin)
 		return
-	holy_book.icon_state = GLOB.bible_icon_state
-	holy_book.inhand_icon_state = GLOB.bible_inhand_icon_state
-	holy_book.name = GLOB.bible_name
-	holy_book.deity_name = GLOB.deity
+	GLOB.current_bible_skin.apply_reskin(reskinned = holy_book)
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/print_poster(poster_name)
 	var/poster_type = SSlibrary.printable_posters[poster_name]

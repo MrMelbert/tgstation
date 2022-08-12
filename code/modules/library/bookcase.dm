@@ -27,10 +27,10 @@
 		return
 	set_anchored(TRUE)
 	state = BOOKCASE_FINISHED
-	for(var/obj/item/I in loc)
-		if(!isbook(I))
+	for(var/obj/item/book in loc)
+		if(!isbook(book))
 			continue
-		I.forceMove(src)
+		book.forceMove(src)
 	update_appearance()
 	SSlibrary.shelves_to_load += src
 
@@ -74,11 +74,11 @@
 		return
 	state = anchorvalue
 	if(!anchorvalue) //in case we were vareditted or uprooted by a hostile mob, ensure we drop all our books instead of having them disappear till we're rebuild.
-		var/atom/Tsec = drop_location()
-		for(var/obj/I in contents)
-			if(!isbook(I))
+		var/atom/below_us = drop_location()
+		for(var/obj/book in contents)
+			if(!isbook(book))
 				continue
-			I.forceMove(Tsec)
+			book.forceMove(below_us)
 	update_appearance()
 
 /obj/structure/bookcase/attackby(obj/item/I, mob/user, params)
@@ -160,12 +160,12 @@
 	update_appearance()
 
 /obj/structure/bookcase/deconstruct(disassembled = TRUE)
-	var/atom/Tsec = drop_location()
-	new /obj/item/stack/sheet/mineral/wood(Tsec, 4)
-	for(var/obj/item/I in contents)
-		if(!isbook(I)) //Wake me up inside
+	var/atom/below_us = drop_location()
+	new /obj/item/stack/sheet/mineral/wood(below_us, 4)
+	for(var/obj/item/book in contents)
+		if(!isbook(book)) //Wake me up inside
 			continue
-		I.forceMove(Tsec)
+		book.forceMove(below_us)
 	return ..()
 
 /obj/structure/bookcase/update_icon_state()

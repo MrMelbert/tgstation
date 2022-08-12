@@ -133,6 +133,7 @@
 /datum/reagents/New(maximum=100, new_flags=0)
 	maximum_volume = maximum
 	flags = new_flags
+	RegisterSignal(my_atom, COMSIG_BIBLE_SMACKED, .proc/on_reagent_container_blessed)
 
 /datum/reagents/Destroy()
 	//We're about to delete all reagents, so lets cleanup
@@ -145,6 +146,7 @@
 	previous_reagent_list = null
 	if(my_atom && my_atom.reagents == src)
 		my_atom.reagents = null
+	UnregisterSignal(my_atom, COMSIG_BIBLE_SMACKED)
 	my_atom = null
 	return ..()
 
@@ -1942,6 +1944,21 @@
 		if("update_ui")
 			return TRUE
 
+/// Signal proc for [COMSIG_BIBLE_SMACKED], our atom was blessed and we should try to swap all water / unholy water for holy water
+/datum/reagents/proc/on_reagent_container_blessed(datum/source, mob/user, proximity)
+	SIGNAL_HANDLER
+
+	var/amount_of_water = get_reagent_amount(/datum/reagent/water)
+	var/amount_of_unholywater = get_reagent_amount(/datum/reagent/fuel/unholywater)
+	if(amount_of_water <= 0 && amount_of_unholywater <= 0)
+		return
+
+	my_atom.balloon_alert(user, amount_of_unholywater ? "purified" : "blessed")
+
+	del_reagent(/datum/reagent/water)
+	del_reagent(/datum/reagent/fuel/unholywater)
+	add_reagent(/datum/reagent/water/holywater, amount_of_water + amount_of_unholywater)
+	return COMSIG_END_BIBLE_CHAIN
 
 ///////////////////////////////////////////////////////////////////////////////////
 

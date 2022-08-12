@@ -137,68 +137,31 @@
 	user.visible_message(span_notice("[user] opens a book titled \"[book_data.title]\" and begins reading intently."))
 	on_read(user)
 
-/obj/item/book/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/pen))
-		if(!user.canUseTopic(src, BE_CLOSE) || !user.can_write(I))
-			return
-		if(user.is_blind())
-			to_chat(user, span_warning("As you are trying to write on the book, you suddenly feel very stupid!"))
-			return
-		if(unique)
-			to_chat(user, span_warning("These pages don't seem to take the ink well! Looks like you can't modify it."))
-			return
+/obj/item/book/attackby(obj/item/attacking_item, mob/user, params)
+	if(flags_1 & HOLOGRAM_1)
+		return ..()
 
-		var/choice = tgui_input_list(usr, "What would you like to change?", "Book Alteration", list("Title", "Contents", "Author", "Cancel"))
-		if(isnull(choice))
-			return
-		if(!user.canUseTopic(src, BE_CLOSE) || !user.can_write(I))
-			return
-		switch(choice)
-			if("Title")
-				var/newtitle = reject_bad_text(tgui_input_text(user, "Write a new title", "Book Title", max_length = 30))
-				if(!user.canUseTopic(src, BE_CLOSE) || !user.can_write(I))
-					return
-				if (length_char(newtitle) > 30)
-					to_chat(user, span_warning("That title won't fit on the cover!"))
-					return
-				if(!newtitle)
-					to_chat(user, span_warning("That title is invalid."))
-					return
-				name = newtitle
-				book_data.set_title(html_decode(newtitle)) //Don't want to double encode here
-			if("Contents")
-				var/content = tgui_input_text(user, "Write your book's contents (HTML NOT allowed)", "Book Contents", multiline = TRUE)
-				if(!user.canUseTopic(src, BE_CLOSE) || !user.can_write(I))
-					return
-				if(!content)
-					to_chat(user, span_warning("The content is invalid."))
-					return
-				book_data.set_content(html_decode(content))
-			if("Author")
-				var/author = tgui_input_text(user, "Write the author's name", "Author Name")
-				if(!user.canUseTopic(src, BE_CLOSE) || !user.can_write(I))
-					return
-				if(!author)
-					to_chat(user, span_warning("The name is invalid."))
-					return
-				book_data.set_author(html_decode(author)) //Setting this encodes, don't want to double up
-			else
-				return
+	var/is_writing_tool = attacking_item.get_writing_implement_details()
+	if(is_writing_tool?["interaction_mode"] == MODE_WRITING)
+		try_edit_book(user, attacking_item)
+		return
 
-	else if(istype(I, /obj/item/barcodescanner))
-		var/obj/item/barcodescanner/scanner = I
+	if(istype(attacking_item, /obj/item/barcodescanner))
+		var/obj/item/barcodescanner/scanner = attacking_item
 		var/obj/machinery/computer/libraryconsole/bookmanagement/computer = scanner.computer_ref?.resolve()
 		if(!computer)
 			to_chat(user, span_alert("[scanner]'s screen flashes: 'No associated computer found!'"))
-			return ..()
+			return
 
 		scanner.book_data = book_data.return_copy()
 		switch(scanner.mode)
 			if(0)
 				to_chat(user, span_notice("[scanner]'s screen flashes: 'Book stored in buffer.'"))
+
 			if(1)
 				computer.buffer_book = book_data.return_copy()
 				to_chat(user, span_notice("[scanner]'s screen flashes: 'Book stored in buffer. Book title stored in associated computer buffer.'"))
+
 			if(2)
 				var/list/checkouts = computer.checkouts
 				for(var/checkout_ref in checkouts)
@@ -211,28 +174,85 @@
 					return
 
 				to_chat(user, span_notice("[scanner]'s screen flashes: 'Book stored in buffer. No active check-out record found for current title.'"))
+
 			if(3)
 				var/datum/book_info/our_copy = book_data.return_copy()
 				computer.inventory[ref(our_copy)] = our_copy
 				computer.inventory_update()
 				to_chat(user, span_notice("[scanner]'s screen flashes: 'Book stored in buffer. Title added to general inventory.'"))
 
-	else if((istype(I, /obj/item/knife) || I.tool_behaviour == TOOL_WIRECUTTER) && !(flags_1 & HOLOGRAM_1))
-		to_chat(user, span_notice("You begin to carve out [book_data.title]..."))
-		if(do_after(user, 30, target = src))
-			to_chat(user, span_notice("You carve out the pages from [book_data.title]! You didn't want to read it anyway."))
-			var/obj/item/storage/book/carved_out = new
-			carved_out.name = src.name
-			carved_out.title = book_data.title
-			carved_out.icon_state = src.icon_state
-			if(user.is_holding(src))
-				qdel(src)
-				user.put_in_hands(carved_out)
-				return
-			else
-				carved_out.forceMove(drop_location())
-				qdel(src)
-				return
 		return
-	else
-		..()
+
+	if((attacking_item.get_sharpness() || attacking_item.tool_behaviour == TOOL_WIRECUTTER) && !atom_storage)
+		balloon_alert(user, "carving pages...")
+		if(!do_after(user, 3 SECONDS, target = src))
+			return
+
+		if(!hollow_out_book())
+			return
+
+		balloon_alert("pages carved out")
+		book_data?.content = null // can't read it no more
+		return
+
+	return ..()
+
+/obj/item/book/proc/can_edit_book(mob/editor, obj/item/tool)
+	if(!editor.canUseTopic(src, BE_CLOSE) || !editor.can_write(tool))
+		return FALSE
+	if(editor.is_blind())
+		to_chat(editor, span_warning("As you are trying to write on the book, you suddenly feel very stupid!"))
+		return FALSE
+	if(unique)
+		to_chat(editor, span_warning("These pages don't seem to take the ink well! Looks like you can't modify it."))
+		return FALSE
+
+	return TRUE
+
+/obj/item/book/proc/try_edit_book(mob/editor, obj/item/tool)
+	if(!can_edit_book(editor, tool))
+		return
+
+	var/choice = tgui_input_list(usr, "What would you like to change?", "Book Alteration", list("Title", "Contents", "Author", "Cancel"))
+	if(isnull(choice))
+		return
+	if(!can_edit_book(editor, tool))
+		return
+
+	switch(choice)
+		if("Title")
+			var/newtitle = reject_bad_text(tgui_input_text(editor, "Write a new title", "Book Title", max_length = 30))
+			if(!can_edit_book(editor, tool))
+				return
+			if(length_char(newtitle) > 30)
+				to_chat(editor, span_warning("That title won't fit on the cover!"))
+				return
+			if(!newtitle)
+				to_chat(editor, span_warning("That title is invalid."))
+				return
+
+			name = newtitle
+			book_data.set_title(html_decode(newtitle)) //Don't want to double encode here
+
+		if("Contents")
+			var/content = tgui_input_text(editor, "Write your book's contents (HTML NOT allowed)", "Book Contents", multiline = TRUE)
+			if(!can_edit_book(editor, tool))
+				return
+			if(!content)
+				to_chat(editor, span_warning("The content is invalid."))
+				return
+
+			book_data.set_content(html_decode(content))
+
+		if("Author")
+			var/author = tgui_input_text(editor, "Write the author's name", "Author Name")
+			if(!can_edit_book(editor, tool))
+				return
+			if(!author)
+				to_chat(editor, span_warning("The name is invalid."))
+				return
+
+			book_data.set_author(html_decode(author)) //Setting this encodes, don't want to double up
+
+/obj/item/book/proc/hollow_out_book()
+	return create_storage(1, WEIGHT_CLASS_SMALL, 2)
