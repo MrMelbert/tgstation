@@ -89,7 +89,7 @@
 	SIGNAL_HANDLER
 	return COMSIG_BLOCK_RELAYMOVE
 
-/datum/component/spirit_holding/proc/on_bible_smacked(datum/source, mob/user)
+/datum/component/spirit_holding/proc/on_bible_smacked(obj/item/book/bible/source, mob/user, obj/item/book/bible/hit_us)
 	SIGNAL_HANDLER
 	INVOKE_ASYNC(src, .proc/attempt_exorcism, user)
 

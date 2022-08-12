@@ -1945,7 +1945,7 @@
 			return TRUE
 
 /// Signal proc for [COMSIG_BIBLE_SMACKED], our atom was blessed and we should try to swap all water / unholy water for holy water
-/datum/reagents/proc/on_reagent_container_blessed(datum/source, mob/user, proximity)
+/datum/reagents/proc/on_reagent_container_blessed(obj/item/book/bible/source, mob/user, obj/item/book/bible/hit_us)
 	SIGNAL_HANDLER
 
 	var/amount_of_water = get_reagent_amount(/datum/reagent/water)

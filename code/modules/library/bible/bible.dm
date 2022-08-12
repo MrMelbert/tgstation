@@ -32,7 +32,7 @@
 	user.visible_message(span_suicide("[user] is offering [user.p_them()]self to [deity_name]! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return (BRUTELOSS)
 
-/obj/item/book/bible/proc/on_bible_smack(obj/item/book/bible/source, mob/user)
+/obj/item/book/bible/proc/on_bible_smack(obj/item/book/bible/source, mob/user, obj/item/book/bible/hit_us)
 	SIGNAL_HANDLER
 
 	// Apply our global bible skin if we have it
@@ -44,17 +44,17 @@
 
 	// Otherwise just copy the name, icon_state, etc
 	else
-		if(icon_state == source.icon_state)
+		if(icon_state == hit_us.icon_state)
 			return
 
-		name = source.name
-		desc = source.desc
-		deity_name = source.deity_name
-		icon = source.icon
-		icon_state = source.icon_state
-		lefthand_file = source.lefthand_file
-		righthand_file = source.righthand_file
-		inhand_icon_state = source.inhand_icon_state
+		name = hit_us.name
+		desc = hit_us.desc
+		deity_name = hit_us.deity_name
+		icon = hit_us.icon
+		icon_state = hit_us.icon_state
+		lefthand_file = hit_us.lefthand_file
+		righthand_file = hit_us.righthand_file
+		inhand_icon_state = hit_us.inhand_icon_state
 
 	balloon_alert(user, "converted")
 	return COMSIG_END_BIBLE_CHAIN
@@ -194,7 +194,7 @@
 	if(!user.mind || !user.mind.holy_role)
 		return
 
-	if(SEND_SIGNAL(bible_smacked, COMSIG_BIBLE_SMACKED, user) & COMSIG_END_BIBLE_CHAIN)
+	if(SEND_SIGNAL(bible_smacked, COMSIG_BIBLE_SMACKED, user, src) & COMSIG_END_BIBLE_CHAIN)
 		return
 
 	if(isfloorturf(bible_smacked))
@@ -236,7 +236,7 @@
 	/// How many people can link to our bible?
 	var/uses = 1
 
-/obj/item/book/bible/syndicate/on_bible_smack(obj/item/book/bible/source, mob/user, proximity)
+/obj/item/book/bible/syndicate/on_bible_smack(obj/item/book/bible/source, mob/user, obj/item/book/bible/hit_us)
 	return
 
 /obj/item/book/bible/syndicate/attack_self(mob/living/carbon/human/user)
