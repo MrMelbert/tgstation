@@ -80,6 +80,43 @@
 	/// If FALSE, someone with a ensouled soulstone can sacrifice a spirit to change the sprite of this toolbox.
 	var/has_soul = FALSE
 
+/obj/item/storage/toolbox/mechanical/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_SOULSTONE_HIT, .proc/on_soulstone_hit)
+
+/obj/item/storage/toolbox/mechanical/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
+	SIGNAL_HANDLER
+
+	if(has_soul)
+		return
+
+	var/mob/living/simple_animal/shade/soul = locate() in soulstone
+	if(!soul)
+		return
+
+	user.visible_message(
+		span_notice("[user] holds [soulstone] above [user.p_their()] head and forces it into [target_toolbox] with a flash of light!"),
+		span_notice("You hold [src] above your head briefly, forcing \the [soul] into [target_toolbox]"),
+		ignored_mobs = occupant,
+	)
+
+	to_chat(soul, span_userdanger("[user] holds you up briefly, then forces you into [target_toolbox]!"))
+	to_chat(soul, span_deadsay(span_bold("Your eternal soul has been sacrificed to restore the soul of a toolbox. Them's the breaks!")))
+
+	soul.client?.give_award(/datum/award/achievement/misc/toolbox_soul, occupant)
+	soul.deathmessage = "shrieks out in unholy pain as [soul.p_their()] soul is absorbed into [target_toolbox]!"
+	soulstone.release_shades(user, silent = TRUE)
+	soul.forceMove(get_turf(src))
+	soul.death()
+
+	name = "soulful toolbox"
+	icon = 'icons/obj/storage.dmi'
+	icon_state = "toolbox_blue_old"
+	has_soul = TRUE
+	has_latches = FALSE
+
+	return SOULSTONE_HIT_HANDLED
+
 /obj/item/storage/toolbox/mechanical/PopulateContents()
 	new /obj/item/screwdriver(src)
 	new /obj/item/wrench(src)
