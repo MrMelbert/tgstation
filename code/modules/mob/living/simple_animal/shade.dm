@@ -48,6 +48,7 @@
 		death_message = "lets out a contented sigh as [p_their()] form unwinds."
 	return ..()
 
+/// Signal proc for [COMSIG_SOULSTONE_HIT]. Soulstones can capture us
 /mob/living/simple_animal/shade/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
 	SIGNAL_HANDLER
 
@@ -55,15 +56,16 @@
 		to_chat(user, "[span_userdanger("Capture failed!")]: [soulstone] is full! Free an existing soul to make room.")
 		return SOULSTONE_HIT_HANDLED
 
-	to_chat(src, span_notice("Your soul has been captured by [soulstone]. \
-		Its arcane energies are reknitting your ethereal form."))
+	to_chat(src, span_notice("Your soul has been captured by [soulstone]. Its arcane energies are reknitting your ethereal form."))
 
 	if(user && user != src)
-		to_chat(user, "[span_info("<b>Capture successful!</b>:")] [real_name]'s soul \
-			has been captured and stored within [soulstone].")
+		to_chat(user, "[span_info(span_bold("Capture successful!:"))] [real_name]'s soul has been captured and stored within [soulstone].")
 
+	// Forcemoves us into the rock, gives us godmode etc
 	AddComponent(/datum/component/soulstoned, soulstone)
+	// Handles making sure the soulstone is correct
 	soulstone.update_appearance()
+	// Deconverts us if it's holy
 	if(soulstone.theme == THEME_HOLY)
 		mind?.remove_antag_datum(/datum/antagonist/cult)
 

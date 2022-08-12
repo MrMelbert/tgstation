@@ -84,6 +84,7 @@
 	. = ..()
 	RegisterSignal(src, COMSIG_SOULSTONE_HIT, .proc/on_soulstone_hit)
 
+/// Signal proc for [COMSIG_SOULSTONE_HIT]. Someone can shove a soulstone (with a soul) into us to make a SOULFUL toolbox
 /obj/item/storage/toolbox/mechanical/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
 	SIGNAL_HANDLER
 
@@ -105,7 +106,7 @@
 
 	soul.client?.give_award(/datum/award/achievement/misc/toolbox_soul, soul)
 	soul.death_message = "shrieks out in unholy pain as [soul.p_their()] soul is absorbed into [src]!"
-	soulstone.release_shades(user, silent = TRUE)
+	soulstone.release_shade(user, silent = TRUE)
 	soul.forceMove(get_turf(src))
 	soul.death()
 

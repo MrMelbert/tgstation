@@ -149,6 +149,7 @@
 	my_atom = null
 	return ..()
 
+/// Setter for the my_atom var.
 /datum/reagents/proc/set_atom(atom/set_to)
 	if(my_atom)
 		UnregisterSignal(my_atom, COMSIG_BIBLE_SMACKED)

@@ -340,7 +340,7 @@
 	var/datum/reagents/invert_reagents = new (2100, NO_REACT)//I think the biggest size we can get is 2100?
 	var/datum/effect_system/fluid_spread/smoke/chem/smoke = new()
 	var/sum_volume = 0
-	invert_reagents.set_atom(holder.my_atom //Give the gas a fingerprint)
+	invert_reagents.set_atom(holder.my_atom) //Give the gas a fingerprint
 	for(var/datum/reagent/reagent as anything in holder.reagent_list) //make gas for reagents, has to be done this way, otherwise it never stops Exploding
 		if(!(reagent.type in required_reagents) || !(reagent.type in results))
 			continue
@@ -366,7 +366,7 @@
 /datum/chemical_reaction/proc/explode_smoke(datum/reagents/holder, datum/equilibrium/equilibrium, force_range = 0, clear_products = TRUE, clear_reactants = TRUE)
 	var/datum/reagents/reagents = new/datum/reagents(2100, NO_REACT)//Lets be safe first
 	var/datum/effect_system/fluid_spread/smoke/chem/smoke = new()
-	reagents.set_atom(holder.my_atom //fingerprint)
+	reagents.set_atom(holder.my_atom) //fingerprint
 	var/sum_volume = 0
 	for (var/datum/reagent/reagent as anything in holder.reagent_list)
 		if((reagent.type in required_reagents) || (reagent.type in results))
