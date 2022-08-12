@@ -210,6 +210,16 @@ GLOBAL_LIST_INIT(security_wintercoat_allowed, typecacheof(list(
 	/obj/item/storage/belt/holster/thermal,
 	)))
 
+GLOBAL_LIST_INIT(chaplain_armor_allowed, list(
+	/obj/item/book/bible,
+	/obj/item/nullrod,
+	/obj/item/reagent_containers/food/drinks/bottle/holywater,
+	/obj/item/storage/fancy/candle_box,
+	/obj/item/candle,
+	/obj/item/tank/internals/emergency_oxygen,
+	/obj/item/tank/internals/plasmaman,
+))
+
 /// String for items placed into the left pocket.
 #define LOCATION_LPOCKET "in your left pocket"
 /// String for items placed into the right pocket

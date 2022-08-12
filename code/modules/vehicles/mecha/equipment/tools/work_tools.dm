@@ -168,7 +168,7 @@
 		var/obj/effect/particle_effect/water/extinguisher/water = new /obj/effect/particle_effect/water/extinguisher(targetturf)
 		var/datum/reagents/water_reagents = new /datum/reagents(required_amount/8) //required_amount/8, because the water usage is split between eight sprays. As of this comment, required_amount/8 = 10u each.
 		water.reagents = water_reagents
-		water_reagents.my_atom = water
+		water_reagents.set_atom(water)
 		reagents.trans_to(water, required_amount/8)
 		water.move_at(get_step(chassis, get_dir(targetturf, chassis)), 2, 4) //Target is the tile opposite of the mech as the starting turf.
 

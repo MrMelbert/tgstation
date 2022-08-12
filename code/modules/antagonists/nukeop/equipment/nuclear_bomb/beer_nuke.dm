@@ -49,7 +49,7 @@
 
 /obj/machinery/nuclearbomb/beer/proc/local_foam()
 	var/datum/reagents/tmp_holder = new/datum/reagents(1000)
-	tmp_holder.my_atom = src
+	tmp_holder.set_atom(src)
 	tmp_holder.add_reagent(/datum/reagent/consumable/ethanol/beer, 100)
 
 	var/datum/effect_system/fluid_spread/foam/foam = new
@@ -66,7 +66,7 @@
 			continue
 
 		var/datum/reagents/beer = new /datum/reagents(1000)
-		beer.my_atom = vent
+		beer.set_atom(vent)
 		beer.add_reagent(/datum/reagent/consumable/ethanol/beer, 100)
 		beer.create_foam(/datum/effect_system/fluid_spread/foam, DIAMOND_AREA(10))
 

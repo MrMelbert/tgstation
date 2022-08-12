@@ -152,7 +152,7 @@
 		if(2)
 			visible_message(span_danger("[user] presses one of the colorful buttons on [src], and unknown chemicals flood out of it."))
 			var/datum/reagents/randomchems = new/datum/reagents(300)
-			randomchems.my_atom = src
+			randomchems.set_atom(src)
 			randomchems.add_reagent(get_random_reagent_id(), 100)
 			var/datum/effect_system/fluid_spread/foam/foam = new
 			foam.set_up(200, holder = src, location = loc, carry = randomchems)
@@ -165,7 +165,7 @@
 		if(4)
 			visible_message(span_danger("[user] presses one of the colorful buttons on [src], and the clown car spews out a cloud of laughing gas."))
 			var/datum/reagents/funnychems = new/datum/reagents(300)
-			funnychems.my_atom = src
+			funnychems.set_atom(src)
 			funnychems.add_reagent(/datum/reagent/consumable/superlaughter, 50)
 			var/datum/effect_system/fluid_spread/smoke/chem/smoke = new()
 			smoke.set_up(4, holder = src, location = src, carry = funnychems)

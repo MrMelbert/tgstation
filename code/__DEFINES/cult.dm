@@ -32,6 +32,9 @@
 #define THEME_WIZARD "wizard"
 #define THEME_HOLY "holy"
 
+/// For the exorcisable component, return from a pre-exorsicm callback to stop the exorcism
+#define STOP_EXORCISM 1
+
 /// Defines for cult item_dispensers.
 #define PREVIEW_IMAGE "preview"
 #define OUTPUT_ITEMS "output"

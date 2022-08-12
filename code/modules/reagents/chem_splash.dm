@@ -38,7 +38,7 @@
 	if (isnull(holder))
 		tmp_holder = TRUE
 		holder = new /datum/reagents(maximum_reagents * threatscale)
-		holder.my_atom = epicenter
+		holder.set_atom(epicenter)
 	else
 		tmp_holder = FALSE
 		original_max_volume = holder.maximum_volume

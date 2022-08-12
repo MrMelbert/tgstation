@@ -431,7 +431,7 @@
 
 		var/fraction = time_release/total_volume
 		var/datum/reagents/reactants = new(time_release)
-		reactants.my_atom = src
+		reactants.set_atom(src)
 		for(var/obj/item/reagent_containers/RC in beakers)
 			RC.reagents.trans_to(reactants, RC.reagents.total_volume*fraction, 1, 1, 1)
 		chem_splash(get_turf(src), reagents, spread_range, list(reactants), temp_boost)

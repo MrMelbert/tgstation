@@ -133,7 +133,6 @@
 /datum/reagents/New(maximum=100, new_flags=0)
 	maximum_volume = maximum
 	flags = new_flags
-	RegisterSignal(my_atom, COMSIG_BIBLE_SMACKED, .proc/on_reagent_container_blessed)
 
 /datum/reagents/Destroy()
 	//We're about to delete all reagents, so lets cleanup
@@ -149,6 +148,13 @@
 	UnregisterSignal(my_atom, COMSIG_BIBLE_SMACKED)
 	my_atom = null
 	return ..()
+
+/datum/reagents/proc/set_atom(atom/set_to)
+	if(my_atom)
+		UnregisterSignal(my_atom, COMSIG_BIBLE_SMACKED)
+
+	my_atom = set_to
+	RegisterSignal(my_atom, COMSIG_BIBLE_SMACKED, .proc/on_reagent_container_blessed)
 
 /**
  * Adds a reagent to this holder
@@ -1974,7 +1980,7 @@
 	if(reagents)
 		qdel(reagents)
 	reagents = new /datum/reagents(max_vol, flags)
-	reagents.my_atom = src
+	reagents.set_atom(src)
 
 /atom/movable/chem_holder
 	name = "This atom exists to hold chems. If you can see this, make an issue report"

@@ -226,7 +226,7 @@
 	var/obj/machinery/hydroponics/constructable/hydro_parent = parent
 
 	water_reagents = new(hydro_parent.maxwater)
-	water_reagents.my_atom = hydro_parent
+	water_reagents.set_atom(hydro_parent)
 
 	nutri_reagents = reagents
 

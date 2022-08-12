@@ -379,7 +379,7 @@
 		return
 	var/fraction = unit_spread/total_volume
 	var/datum/reagents/reactants = new(unit_spread)
-	reactants.my_atom = src
+	reactants.set_atom(src)
 	for(var/obj/item/reagent_containers/reagent_container in beakers)
 		reagent_container.reagents.trans_to(reactants, reagent_container.reagents.total_volume*fraction, threatscale, 1, 1)
 	chem_splash(get_turf(src), reagents, affected_area, list(reactants), ignition_temp, threatscale)

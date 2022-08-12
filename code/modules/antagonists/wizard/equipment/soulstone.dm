@@ -15,7 +15,11 @@
 	var/spent = FALSE
 	/// if TRUE, our soulstone will work on mobs which are in crit. if FALSE, the mob must be dead.
 	var/grab_sleeping = TRUE
+	/// This controls the color of the soulstone as well as restrictions for who can use it.
 	/// This controls the color of the soulstone as well as restrictions for who can use it. THEME_CULT is red and is the default of cultist THEME_WIZARD is purple and is the default of wizard and THEME_HOLY is for purified soul stone
+	/// THEME_CULT is red and is the default of cultist
+	/// THEME_WIZARD is purple and is the default of wizard
+	/// THEME_HOLY is for purified soul stone
 	var/theme = THEME_CULT
 	/// Role check, if any needed
 	var/required_role = /datum/antagonist/cult
@@ -145,6 +149,7 @@
 
 	return FALSE
 
+/// Called whenever the soulstone releases a shade from it.
 /obj/item/soulstone/proc/on_release_spirits()
 	if(!one_use)
 		return
@@ -314,6 +319,14 @@
 	INVOKE_ASYNC(src, .proc/get_ghost_to_replace_shade, victim, user)
 	return TRUE //it'll probably get someone
 
+/**
+ * Creates a new shade mob to inhabit the stone.
+ *
+ * victim - the body that's being shaded
+ * user - the person doing the shading. Optional.
+ * message_user - if TRUE, we send the user (if present) a message that a shade has been created / captured.
+ * shade_controller - the mob (usually, a ghost) that will take over control of the victim / new shade. Optional, if not passed the victim itself will take control.
+ */
 /obj/item/soulstone/proc/init_shade(mob/living/carbon/human/victim, mob/user, message_user = FALSE, mob/shade_controller)
 	if(!shade_controller)
 		shade_controller = victim
@@ -348,6 +361,17 @@
 
 	victim.dust(drop_items = TRUE)
 
+/**
+ * Gets a ghost from dead chat to replace a missing player when a shade is created.
+ *
+ * Gets ran if a soulstone is used on a body that has no client to take over the shade.
+ *
+ * victim - the body that's being shaded
+ * user - the mob shading the body
+ *
+ * Returns FALSE if no ghosts are available or the replacement fails.
+ * Returns TRUE otherwise.
+ */
 /obj/item/soulstone/proc/get_ghost_to_replace_shade(mob/living/carbon/victim, mob/user)
 	var/mob/dead/observer/chosen_ghost
 	var/list/consenting_candidates = poll_ghost_candidates("Would you like to play as a Shade?", "Cultist", ROLE_CULTIST, 5 SECONDS, POLL_IGNORE_SHADE)

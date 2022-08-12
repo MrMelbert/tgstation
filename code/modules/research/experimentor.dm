@@ -311,7 +311,7 @@
 			visible_message(span_danger("[src] destroys [exp_on], leaking dangerous gas!"))
 			chosenchem = pick(/datum/reagent/carbon,/datum/reagent/uranium/radium,/datum/reagent/toxin,/datum/reagent/consumable/condensedcapsaicin,/datum/reagent/drug/mushroomhallucinogen,/datum/reagent/drug/space_drugs,/datum/reagent/consumable/ethanol,/datum/reagent/consumable/ethanol/beepsky_smash)
 			var/datum/reagents/tmp_holder = new/datum/reagents(50)
-			tmp_holder.my_atom = src
+			tmp_holder.set_atom(src)
 			tmp_holder.add_reagent(chosenchem , 50)
 			investigate_log("Experimentor has released [chosenchem] smoke.", INVESTIGATE_EXPERIMENTOR)
 			var/datum/effect_system/fluid_spread/smoke/chem/smoke = new
@@ -324,7 +324,7 @@
 			visible_message(span_danger("[src]'s chemical chamber has sprung a leak!"))
 			chosenchem = pick(/datum/reagent/mutationtoxin/classic,/datum/reagent/cyborg_mutation_nanomachines,/datum/reagent/toxin/acid)
 			var/datum/reagents/tmp_holder = new/datum/reagents(50)
-			tmp_holder.my_atom = src
+			tmp_holder.set_atom(src)
 			tmp_holder.add_reagent(chosenchem , 50)
 			var/datum/effect_system/fluid_spread/smoke/chem/smoke = new
 			smoke.set_up(0, holder = src, location = src, carry = tmp_holder, silent = TRUE)
@@ -407,7 +407,7 @@
 		else if(prob(EFFECT_PROB_VERYLOW-malfunction_probability_coeff))
 			visible_message(span_danger("[src] malfunctions, shattering [exp_on] and releasing a dangerous cloud of coolant!"))
 			var/datum/reagents/tmp_holder = new/datum/reagents(50)
-			tmp_holder.my_atom = src
+			tmp_holder.set_atom(src)
 			tmp_holder.add_reagent(/datum/reagent/consumable/frostoil, 50)
 			investigate_log("Experimentor has released frostoil gas.", INVESTIGATE_EXPERIMENTOR)
 			var/datum/effect_system/fluid_spread/smoke/chem/smoke = new

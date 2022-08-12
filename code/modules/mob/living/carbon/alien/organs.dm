@@ -344,6 +344,6 @@
 		var/turf/my_target = pick_n_take(targets)
 		var/datum/reagents/acid_reagents = new /datum/reagents(5)
 		acid.reagents = acid_reagents
-		acid_reagents.my_atom = acid
+		acid_reagents.set_atom(acid)
 		acid_reagents.add_reagent(/datum/reagent/toxin/acid, 30)
 		acid.move_at(my_target, particle_delay, spit_range)
