@@ -95,16 +95,16 @@
 		return
 
 	user.visible_message(
-		span_notice("[user] holds [soulstone] above [user.p_their()] head and forces it into [target_toolbox] with a flash of light!"),
-		span_notice("You hold [src] above your head briefly, forcing \the [soul] into [target_toolbox]"),
-		ignored_mobs = occupant,
+		span_notice("[user] holds [soulstone] above [user.p_their()] head and forces it into [src] with a flash of light!"),
+		span_notice("You hold [soulstone] above your head briefly, forcing \the [soul] into [src]"),
+		ignored_mobs = soul,
 	)
 
-	to_chat(soul, span_userdanger("[user] holds you up briefly, then forces you into [target_toolbox]!"))
+	to_chat(soul, span_userdanger("[user] holds you up briefly, then forces you into [src]!"))
 	to_chat(soul, span_deadsay(span_bold("Your eternal soul has been sacrificed to restore the soul of a toolbox. Them's the breaks!")))
 
-	soul.client?.give_award(/datum/award/achievement/misc/toolbox_soul, occupant)
-	soul.deathmessage = "shrieks out in unholy pain as [soul.p_their()] soul is absorbed into [target_toolbox]!"
+	soul.client?.give_award(/datum/award/achievement/misc/toolbox_soul, soul)
+	soul.death_message = "shrieks out in unholy pain as [soul.p_their()] soul is absorbed into [src]!"
 	soulstone.release_shades(user, silent = TRUE)
 	soul.forceMove(get_turf(src))
 	soul.death()

@@ -228,7 +228,9 @@
 	var/area/A = get_area(src)
 	if(A.area_flags & BLOCK_SUICIDE)
 		to_chat(src, span_warning("You can't commit suicide here! You can ghost if you'd like."))
-		return
+		return FALSE
+	if(SEND_SIGNAL(src, COMSIG_LIVING_SUICIDE_CHECK) & COMPONENT_BLOCK_SUICIDE)
+		return FALSE
 	switch(stat)
 		if(CONSCIOUS)
 			return TRUE
@@ -238,7 +240,7 @@
 			to_chat(src, span_warning("You need to be conscious to commit suicide!"))
 		if(DEAD)
 			to_chat(src, span_warning("You're already dead!"))
-	return
+	return FALSE
 
 /mob/living/carbon/canSuicide()
 	if(!..())

@@ -96,3 +96,6 @@
 #define COMSIG_LIVING_MOB_PAINTED "living_mob_painted"
 ///From mob/living/proc/wabbajack_act
 #define COMSIG_LIVING_WABBAJACKED "living_wabbajacked"
+
+#define COMSIG_LIVING_SUICIDE_CHECK "living_suicide_check"
+	#define COMPONENT_BLOCK_SUICIDE (1<<0)

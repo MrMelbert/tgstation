@@ -69,11 +69,6 @@
 
 	return SOULSTONE_HIT_HANDLED
 
-/mob/living/simple_animal/shade/canSuicide()
-	if(istype(loc, /obj/item/soulstone)) //do not suicide inside the soulstone
-		return FALSE
-	return ..()
-
 /mob/living/simple_animal/shade/attack_animal(mob/living/simple_animal/user, list/modifiers)
 	if(isconstruct(user))
 		var/mob/living/simple_animal/hostile/construct/doll = user

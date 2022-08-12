@@ -1,5 +1,6 @@
 /datum/component/exorcisable
 	var/exorcise_time = 4 SECONDS
+	var/datum/callback/pre_exorcism_callback
 	var/datum/callback/on_exorcism_callback
 
 /datum/component/exorcisable/Initialize(exorcise_time = 4 SECONDS, datum/callback/pre_exorcism_callback, datum/callback/on_exorcism_callback)
@@ -15,15 +16,15 @@
 	src.on_exorcism_callback = on_exorcism_callback
 
 /datum/component/exorcisable/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_BIBLE_SMACKED, .proc/on_bible_smacked)
+	RegisterSignal(parent, COMSIG_BIBLE_SMACKED, .proc/on_bible_smack)
 
 /datum/component/exorcisable/UnregisterFromParent()
 	UnregisterSignal(parent, COMSIG_BIBLE_SMACKED)
 
-/datum/component/exorcisable/proc/on_bible_smacked(datum/source, mob/living/user, obj/item/storage/book/bible/bible, proximity)
+/datum/component/exorcisable/proc/on_bible_smack(datum/source, mob/living/user, obj/item/book/bible/bible)
 	SIGNAL_HANDLER
 
-	if(pre_exorcism_callback?.Invoke(user))
+	if(pre_exorcism_callback && pre_exorcism_callback.Invoke(user) == STOP_EXORCISM)
 		return
 
 	INVOKE_ASYNC(src, .proc/attempt_exorcism, user)
@@ -35,7 +36,7 @@
 	exorcised_atom.balloon_alert(exorcist, span_notice("exorcising [exorcised_atom]..."))
 	playsound(exorcised_atom, 'sound/hallucinations/veryfar_noise.ogg', 40, TRUE)
 
-	if(!do_after(exorcist, exorcise_time, target = exorcised_atom) || !on_exorcism_callback.Invoke(user))
+	if(!do_after(exorcist, exorcise_time, target = exorcised_atom) || !on_exorcism_callback.Invoke(exorcist))
 		exorcised_atom.balloon_alert(exorcist, span_notice("exorcism failed!"))
 		return
 

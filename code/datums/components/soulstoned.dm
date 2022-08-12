@@ -5,27 +5,47 @@
 /datum/component/soulstoned/Initialize(atom/movable/container)
 	if(!isanimal(parent))
 		return COMPONENT_INCOMPATIBLE
-	var/mob/living/simple_animal/S = parent
+	var/mob/living/simple_animal/shade = parent
 
 	src.container = container
 
-	S.forceMove(container)
-	S.fully_heal()
-	ADD_TRAIT(S, TRAIT_IMMOBILIZED, SOULSTONE_TRAIT)
-	ADD_TRAIT(S, TRAIT_HANDS_BLOCKED, SOULSTONE_TRAIT)
-	S.status_flags |= GODMODE
+	shade.forceMove(container)
+	shade.fully_heal()
 
-	RegisterSignal(S, COMSIG_MOVABLE_MOVED, .proc/free_prisoner)
+/datum/component/soulstoned/RegisterWithParent()
+	var/mob/living/simple_animal/shade = parent
 
-/datum/component/soulstoned/proc/free_prisoner()
-	SIGNAL_HANDLER
-
-	var/mob/living/simple_animal/S = parent
-	if(S.loc != container)
-		qdel(src)
+	RegisterSignal(shade, COMSIG_MOVABLE_MOVED, .proc/free_prisoner)
+	RegisterSignal(parent, COMSIG_ATOM_RELAYMOVE, .proc/block_buckle_message)
+	RegisterSignal(shade, COMSIG_LIVING_SUICIDE_CHECK, .proc/on_suicide_check)
+	ADD_TRAIT(shade, TRAIT_IMMOBILIZED, SOULSTONE_TRAIT)
+	ADD_TRAIT(shade, TRAIT_HANDS_BLOCKED, SOULSTONE_TRAIT)
+	shade.status_flags |= GODMODE
 
 /datum/component/soulstoned/UnregisterFromParent()
-	var/mob/living/simple_animal/S = parent
-	S.status_flags &= ~GODMODE
-	REMOVE_TRAIT(S, TRAIT_IMMOBILIZED, SOULSTONE_TRAIT)
-	REMOVE_TRAIT(S, TRAIT_HANDS_BLOCKED, SOULSTONE_TRAIT)
+	var/mob/living/simple_animal/shade = parent
+
+	UnregisterSignal(shade, list(COMSIG_MOVABLE_MOVED, COMSIG_ATOM_RELAYMOVE, COMSIG_LIVING_SUICIDE_CHECK))
+	REMOVE_TRAIT(shade, TRAIT_IMMOBILIZED, SOULSTONE_TRAIT)
+	ADD_TRAIT(shade, TRAIT_HANDS_BLOCKED, SOULSTONE_TRAIT)
+	shade.status_flags &= ~GODMODE
+
+/datum/component/soulstoned/proc/free_prisoner(datum/source)
+	SIGNAL_HANDLER
+
+	var/mob/living/simple_animal/shade = parent
+	if(shade.loc == container)
+		return
+
+	qdel(src)
+
+///signal fired from a mob moving inside the parent
+/datum/component/soulstoned/proc/block_buckle_message(datum/source)
+	SIGNAL_HANDLER
+
+	return COMSIG_BLOCK_RELAYMOVE
+
+/datum/component/soulstoned/proc/on_suicide_check(datum/source)
+	SIGNAL_HANDLER
+
+	return COMPONENT_BLOCK_SUICIDE
