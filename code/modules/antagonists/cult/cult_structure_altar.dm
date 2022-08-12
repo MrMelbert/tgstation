@@ -19,7 +19,7 @@
 			),
 		CONSTRUCT_SHELL = list(
 			PREVIEW_IMAGE = image(icon = 'icons/obj/wizard.dmi', icon_state = "construct_cult"),
-			OUTPUT_ITEMS = list(/obj/structure/constructshell),
+			OUTPUT_ITEMS = list(/obj/structure/construct_shell),
 			),
 		UNHOLY_WATER = list(
 			PREVIEW_IMAGE = image(icon = 'icons/obj/drinks.dmi', icon_state = "holyflask"),

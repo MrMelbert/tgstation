@@ -91,7 +91,7 @@
 	},
 /area/awaymission/caves/bmp_asteroid/level_four)
 "az" = (
-/obj/structure/constructshell,
+/obj/structure/construct_shell,
 /turf/open/floor/engine/cult{
 	initial_gas_mix = "n2=23;o2=14;TEMP=2.7"
 	},

@@ -12,7 +12,7 @@
 	spell_requirements = NONE
 
 	summon_radius = 0
-	summon_type = list(/obj/structure/constructshell)
+	summon_type = list(/obj/structure/construct_shell)
 
 /datum/action/cooldown/spell/conjure/construct/lesser // Used by artificers.
 	name = "Create Construct Shell"

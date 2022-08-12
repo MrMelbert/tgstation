@@ -1,1 +1,2 @@
 /obj/item/storage/book/@SUBTYPES : /obj/item/book/@SUBTYPES {@OLD}
+/obj/structure/constructshell : /obj/structure/construct_shell

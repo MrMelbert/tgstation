@@ -553,7 +553,7 @@
 			if(candidate.use(IRON_TO_CONSTRUCT_SHELL_CONVERSION))
 				uses--
 				to_chat(user, span_warning("A dark cloud emanates from your hand and swirls around the iron, twisting it into a construct shell!"))
-				new /obj/structure/constructshell(T)
+				new /obj/structure/construct_shell(T)
 				SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
 			else
 				to_chat(user, span_warning("You need [IRON_TO_CONSTRUCT_SHELL_CONVERSION] iron to produce a construct shell!"))
@@ -597,7 +597,7 @@
 			else
 				uses--
 				to_chat(user, span_warning("A dark cloud emanates from you hand and swirls around [candidate] - twisting it into a construct shell!"))
-				new /obj/structure/constructshell(T)
+				new /obj/structure/construct_shell(T)
 				SEND_SOUND(user, sound('sound/effects/magic.ogg',0,1,25))
 				qdel(candidate)
 		else if(istype(target,/obj/machinery/door/airlock))

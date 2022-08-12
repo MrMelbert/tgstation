@@ -233,13 +233,13 @@
 	return TRUE
 
 ///////////////////////////Transferring to constructs/////////////////////////////////////////////////////
-/obj/structure/constructshell
+/obj/structure/construct_shell
 	name = "empty shell"
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "construct_cult"
 	desc = "A wicked machine used by those skilled in magical arts. It is inactive."
 
-/obj/structure/constructshell/examine(mob/user)
+/obj/structure/construct_shell/examine(mob/user)
 	. = ..()
 	if(IS_CULTIST(user) || IS_WIZARD(user) || isobserver(user) || user.mind?.holy_role)
 		. += {"<span class='cult'>A construct shell, used to house bound souls from a soulstone.\n
@@ -248,17 +248,17 @@
 		A <b>Wraith</b>, which does high damage and can jaunt through walls, though it is quite fragile.\n
 		A <b>Juggernaut</b>, which is very hard to kill and can produce temporary walls, but is slow.</span>"}
 
-/obj/structure/constructshell/Initialize(mapload)
+/obj/structure/construct_shell/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_SOULSTONE_HIT, .proc/on_soulstone_hit)
 
-/obj/structure/constructshell/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
+/obj/structure/construct_shell/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
 	SIGNAL_HANDLER
 
 	INVOKE_ASYNC(src, .proc/transfer_to_construct, soulstone, user)
 	return SOULSTONE_HIT_HANDLED
 
-/obj/structure/constructshell/proc/transfer_to_construct(obj/item/soulstone/soulstone, mob/living/user)
+/obj/structure/construct_shell/proc/transfer_to_construct(obj/item/soulstone/soulstone, mob/living/user)
 	var/mob/living/simple_animal/shade/shade = locate() in src
 	if(!shade)
 		to_chat(user, "[span_userdanger("Creation failed!")]: [soulstone] is empty! Go kill someone!")
@@ -274,7 +274,7 @@
 	qdel(src)
 	return TRUE
 
-/obj/structure/constructshell/proc/check_menu(obj/item/soulstone/soulstone, mob/living/user)
+/obj/structure/construct_shell/proc/check_menu(obj/item/soulstone/soulstone, mob/living/user)
 	if(!istype(user))
 		return FALSE
 	if(user.incapacitated() || !user.is_holding(soulstone) || !user.CanReach(src, soulstone))
