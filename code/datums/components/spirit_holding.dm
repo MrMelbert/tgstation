@@ -15,15 +15,14 @@
 	if(!ismovable(parent)) //you may apply this to mobs, i take no responsibility for how that works out
 		return COMPONENT_INCOMPATIBLE
 
-	var/atom/movable/movable_parent = parent
-	movable_parent.AddComponent(/datum/component/exorcisable, \
+	// two-fer-one component deal - buy one get one free
+	parent.AddComponent(/datum/component/exorcisable, \
 			pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
 			on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
 
 /datum/component/spirit_holding/Destroy(force, silent)
-	. = ..()
-	if(bound_spirit)
-		QDEL_NULL(bound_spirit)
+	QDEL_NULL(bound_spirit)
+	return ..()
 
 /datum/component/spirit_holding/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/on_examine)
