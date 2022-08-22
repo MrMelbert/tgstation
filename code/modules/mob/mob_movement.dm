@@ -83,14 +83,10 @@
 	if(mob.stat == DEAD)
 		mob.ghostize()
 		return FALSE
-	if(SEND_SIGNAL(mob, COMSIG_MOB_CLIENT_PRE_LIVING_MOVE) & COMSIG_MOB_CLIENT_BLOCK_PRE_LIVING_MOVE)
+	if(SEND_SIGNAL(mob, COMSIG_MOB_CLIENT_PRE_LIVING_MOVE, direct) & COMSIG_MOB_CLIENT_BLOCK_PRE_LIVING_MOVE)
 		return FALSE
 
-	var/mob/living/L = mob //Already checked for isliving earlier
-	if(L.incorporeal_move && !is_secret_level(mob.z)) //Move though walls
-		Process_Incorpmove(direct)
-		return FALSE
-
+	var/mob/living/L = mob
 	if(mob.remote_control) //we're controlling something, our movement is relayed to it
 		return mob.remote_control.relaymove(mob, direct)
 
@@ -177,95 +173,6 @@
 		to_chat(src, span_warning("You're restrained! You can't move!"))
 		return TRUE
 	return mob.resist_grab(TRUE)
-
-
-/**
- * Allows mobs to ignore density and phase through objects
- *
- * Called by client/Move()
- *
- * The behaviour depends on the incorporeal_move value of the mob
- *
- * * INCORPOREAL_MOVE_BASIC - forceMoved to the next tile with no stop
- * * INCORPOREAL_MOVE_SHADOW  - the same but leaves a cool effect path
- * * INCORPOREAL_MOVE_JAUNT - the same but blocked by holy tiles
- *
- * You'll note this is another mob living level proc living at the client level
- */
-/client/proc/Process_Incorpmove(direct)
-	var/turf/mobloc = get_turf(mob)
-	if(!isliving(mob))
-		return
-	var/mob/living/L = mob
-	switch(L.incorporeal_move)
-		if(INCORPOREAL_MOVE_BASIC)
-			var/T = get_step(L,direct)
-			if(T)
-				L.forceMove(T)
-			L.setDir(direct)
-		if(INCORPOREAL_MOVE_SHADOW)
-			if(prob(50))
-				var/locx
-				var/locy
-				switch(direct)
-					if(NORTH)
-						locx = mobloc.x
-						locy = (mobloc.y+2)
-						if(locy>world.maxy)
-							return
-					if(SOUTH)
-						locx = mobloc.x
-						locy = (mobloc.y-2)
-						if(locy<1)
-							return
-					if(EAST)
-						locy = mobloc.y
-						locx = (mobloc.x+2)
-						if(locx>world.maxx)
-							return
-					if(WEST)
-						locy = mobloc.y
-						locx = (mobloc.x-2)
-						if(locx<1)
-							return
-					else
-						return
-				var/target = locate(locx,locy,mobloc.z)
-				if(target)
-					L.forceMove(target)
-					var/limit = 2//For only two trailing shadows.
-					for(var/turf/T in get_line(mobloc, L.loc))
-						new /obj/effect/temp_visual/dir_setting/ninja/shadow(T, L.dir)
-						limit--
-						if(limit<=0)
-							break
-			else
-				new /obj/effect/temp_visual/dir_setting/ninja/shadow(mobloc, L.dir)
-				var/T = get_step(L,direct)
-				if(T)
-					L.forceMove(T)
-			L.setDir(direct)
-		if(INCORPOREAL_MOVE_JAUNT) //Incorporeal move, but blocked by holy-watered tiles and salt piles.
-			var/turf/open/floor/stepTurf = get_step(L, direct)
-			if(stepTurf)
-				var/obj/effect/decal/cleanable/food/salt/salt = locate() in stepTurf
-				if(salt)
-					to_chat(L, span_warning("[salt] bars your passage!"))
-					if(isrevenant(L))
-						var/mob/living/simple_animal/revenant/R = L
-						R.reveal(20)
-						R.stun(20)
-					return
-				if(stepTurf.turf_flags & NOJAUNT)
-					to_chat(L, span_warning("Some strange aura is blocking the way."))
-					return
-				if(locate(/obj/effect/blessing) in stepTurf)
-					to_chat(L, span_warning("Holy energies block your path!"))
-					return
-
-				L.forceMove(stepTurf)
-			L.setDir(direct)
-	return TRUE
 
 /**
  * Handles mob/living movement in space (or no gravity)
@@ -521,6 +428,10 @@
 	set name = "Move Upwards"
 	set category = "IC"
 
+	if(ismovable(loc))
+		loc.relaymove(src, UP)
+		return
+
 	var/turf/current_turf = get_turf(src)
 	var/turf/above_turf = SSmapping.get_turf_above(current_turf)
 
@@ -544,10 +455,14 @@
 	set name = "Move Down"
 	set category = "IC"
 
+
+	if(ismovable(loc))
+		loc.relaymove(src, DOWN)
+		return
+
 	var/ventcrawling_flag = HAS_TRAIT(src, TRAIT_MOVE_VENTCRAWLING) ? ZMOVE_VENTCRAWLING : 0
 	if(zMove(DOWN, z_move_flags = ZMOVE_FLIGHT_FLAGS|ZMOVE_FEEDBACK|ventcrawling_flag))
 		to_chat(src, span_notice("You move down."))
-	return FALSE
 
 /mob/abstract_move(atom/destination)
 	var/turf/new_turf = get_turf(destination)

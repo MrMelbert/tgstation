@@ -242,15 +242,12 @@
 /// The dummy that holds people jaunting. Maybe one day we can replace it.
 /obj/effect/dummy/phased_mob/spell_jaunt
 	movespeed = 2 //quite slow.
+	incorporeal_move_flags = INCORPOREAL_MOVE_RESPECT_NOJAUNT|INCORPOREAL_MOVE_BLOCKBY_BLESSING
 	/// Whether we're currently reappearing - we can't move if so
 	var/reappearing = FALSE
 
 /obj/effect/dummy/phased_mob/spell_jaunt/phased_check(mob/living/user, direction)
 	if(reappearing)
 		return
-	. = ..()
-	if(!.)
-		return
-	if (locate(/obj/effect/blessing) in .)
-		to_chat(user, span_warning("Holy energies block your path!"))
-		return null
+
+	return ..()

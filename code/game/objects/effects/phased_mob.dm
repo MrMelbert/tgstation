@@ -11,6 +11,8 @@
 	var/movedelay = 0
 	/// The speed of movement while jaunted
 	var/movespeed = 0
+	/// What flags does our incorporeal moving uses?
+	var/incorporeal_move_flags = INCORPOREAL_MOVE_RESPECT_NOJAUNT
 
 /obj/effect/dummy/phased_mob/Initialize(mapload, atom/movable/jaunter)
 	. = ..()
@@ -68,23 +70,23 @@
 	var/turf/newloc = phased_check(user, direction)
 	if(!newloc)
 		return
-	setDir(direction)
+	if(direction != UP && direction != DOWN)
+		setDir(direction)
 	forceMove(newloc)
 
 /// Checks if the conditions are valid to be able to phase. Returns a turf destination if positive.
 /obj/effect/dummy/phased_mob/proc/phased_check(mob/living/user, direction)
 	RETURN_TYPE(/turf)
-	if (movedelay > world.time || !direction)
+
+	if(movedelay > world.time || !direction)
 		return
-	var/turf/newloc = get_step(src,direction)
-	if(!newloc)
+
+	var/turf/next_step = get_step_multiz(src, direction)
+	if(!next_step)
 		return
-	var/area/destination_area = newloc.loc
+
 	movedelay = world.time + movespeed
-	if(newloc.flags_1 & NOJAUNT)
-		to_chat(user, span_warning("Some strange aura is blocking the way."))
+	if(!user.incorporeal_move_check(next_step, user, incorporeal_move_flags = incorporeal_move_flags))
 		return
-	if(destination_area.area_flags & NOTELEPORT || SSmapping.level_trait(newloc.z, ZTRAIT_NOPHASE))
-		to_chat(user, span_danger("Some dull, universal force is blocking the way. It's overwhelmingly oppressive force feels dangerous."))
-		return
-	return newloc
+
+	return next_step

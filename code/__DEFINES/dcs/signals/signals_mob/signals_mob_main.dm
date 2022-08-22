@@ -30,6 +30,9 @@
 	/// Should we stop the current living movement attempt
 	#define COMSIG_MOB_CLIENT_BLOCK_PRE_LIVING_MOVE COMPONENT_MOVABLE_BLOCK_PRE_MOVE
 
+#define COMSIG_INCORPOREAL_MOVE_CHECK "mob_incorporeal_move"
+	#define BLOCK_INCORPOREAL_MOVE (1<<0)
+
 /// From base of /client/Move(): (list/move_args)
 #define COMSIG_MOB_CLIENT_PRE_MOVE "mob_client_pre_move"
 	/// Should always match COMPONENT_MOVABLE_BLOCK_PRE_MOVE as these are interchangeable and used to block movement.

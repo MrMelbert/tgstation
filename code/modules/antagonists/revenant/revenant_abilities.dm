@@ -22,7 +22,7 @@
 			Harvest(A)
 
 /mob/living/simple_animal/revenant/ranged_secondary_attack(atom/target, modifiers)
-	if(revealed || notransform || inhibited || !Adjacent(target) || !incorporeal_move_check(target))
+	if(revealed || notransform || inhibited || !Adjacent(target) || !incorporeal_move_check(target, incorporeal_move_flags = ALL))
 		return
 	var/icon/I = icon(target.icon,target.icon_state,target.dir)
 	var/orbitsize = (I.Width()+I.Height())*0.5

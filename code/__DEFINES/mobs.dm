@@ -140,7 +140,7 @@
 #define BEAT_FAST 1
 ///Heartbeat is beating slow for soft crit
 #define BEAT_SLOW 2
-///Heartbeat is gone... He's dead Jim :(
+///Heartbeat is gone... He's dead Jim :( // ) Close your parenthesis for the love of christ
 #define BEAT_NONE 0
 
 #define HUMAN_MAX_OXYLOSS 3
@@ -363,9 +363,13 @@
 ///The shock doesn't stun.
 #define SHOCK_NOSTUN (1 << 3)
 
-#define INCORPOREAL_MOVE_BASIC 1 /// normal movement, see: [/mob/living/var/incorporeal_move]
-#define INCORPOREAL_MOVE_SHADOW 2 /// leaves a trail of shadows
-#define INCORPOREAL_MOVE_JAUNT 3 /// is blocked by holy water/salt
+// Optional flags to be used in [/mob/living/proc/incorporeal_move_check].
+/// Salt stops us from travelling
+#define INCORPOREAL_MOVE_BLOCKBY_SALT (1<<0)
+/// Holy water blessings stop us from travelling
+#define INCORPOREAL_MOVE_BLOCKBY_BLESSING (1<<1)
+/// We respect nojaunt / noteleport flags of areas / turfs we're travelling to
+#define INCORPOREAL_MOVE_RESPECT_NOJAUNT (1<<2)
 
 //Secbot and ED209 judgement criteria bitflag values
 #define JUDGE_EMAGGED (1<<0)

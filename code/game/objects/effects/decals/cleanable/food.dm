@@ -32,6 +32,14 @@
 	icon_state = "salt_pile"
 	var/safepasses = 3 //how many times can this salt pile be passed before dissipating
 
+/obj/effect/decal/cleanable/food/salt/Initialize(mapload, list/datum/disease/diseases)
+	. = ..()
+	var/static/list/salt_loc_connections = list(
+		COMSIG_INCORPOREAL_MOVE_CHECK = .proc/on_incorporeal_move,
+	)
+	AddElement(/datum/element/connect_loc, salt_loc_connections)
+
+
 /obj/effect/decal/cleanable/food/salt/CanAllowThrough(atom/movable/mover, border_dir)
 	. = ..()
 	if(is_species(mover, /datum/species/snail))
@@ -53,6 +61,20 @@
 	safepasses--
 	if(safepasses <= 0 && !QDELETED(src))
 		qdel(src)
+
+/obj/effect/decal/cleanable/food/salt/proc/on_incorporeal_move(datum/source, mob/mover, incorporeal_move_flags)
+	SIGNAL_HANDLER
+
+	if(!(incorporeal_move_flags & INCORPOREAL_MOVE_BLOCKBY_SALT))
+		return
+
+	to_chat(mover, span_warning("[src] bars your passage!"))
+	if(isrevenant(mover))
+		var/mob/living/simple_animal/revenant/ghost = mover
+		ghost.reveal(20)
+		ghost.stun(20)
+
+	return BLOCK_INCORPOREAL_MOVE
 
 /obj/effect/decal/cleanable/food/flour
 	name = "flour"

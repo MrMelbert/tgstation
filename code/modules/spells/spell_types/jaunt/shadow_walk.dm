@@ -58,10 +58,12 @@
 		check_light_level()
 
 /obj/effect/dummy/phased_mob/shadow/phased_check(mob/living/user, direction)
-	. = ..()
-	if(. && isspaceturf(.))
+	var/turf/moving_to = ..()
+	if(isspaceturf(moving_to))
 		to_chat(user, span_warning("It really would not be wise to go into space."))
-		return FALSE
+		return
+
+	return moving_to
 
 /obj/effect/dummy/phased_mob/shadow/proc/check_light_level()
 	var/turf/T = get_turf(src)

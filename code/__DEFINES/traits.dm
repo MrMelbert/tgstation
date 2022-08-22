@@ -476,6 +476,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Disables the floating animation. See above.
 #define TRAIT_NO_FLOATING_ANIM "no-floating-animation"
 
+/// Our mob is moving incorporeally
+#define TRAIT_INCORPOREALLY_MOVING "incorporeal_moving"
+
 /// Weather immunities, also protect mobs inside them.
 #define TRAIT_LAVA_IMMUNE "lava_immune" //Used by lava turfs and The Floor Is Lava.
 #define TRAIT_ASHSTORM_IMMUNE "ashstorm_immune"
