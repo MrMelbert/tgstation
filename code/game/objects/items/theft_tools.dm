@@ -197,7 +197,7 @@
 	if(!isliving(hit_atom))
 		return ..()
 	var/mob/living/victim = hit_atom
-	if(victim.incorporeal_move || victim.status_flags & GODMODE) //try to keep this in sync with supermatter's consume fail conditions
+	if(IS_SUPERMATTER_IMMUNE(victim))
 		return ..()
 	if(throwingdatum?.thrower)
 		var/mob/user = throwingdatum.thrower
@@ -317,7 +317,7 @@
 		if(!isliving(AM))
 			return
 		var/mob/living/victim = AM
-		if(victim.incorporeal_move || victim.status_flags & GODMODE) //try to keep this in sync with supermatter's consume fail conditions
+		if(IS_SUPERMATTER_IMMUNE(victim))
 			return
 		victim.dust()
 		message_admins("[src] has consumed [key_name_admin(victim)] [ADMIN_JMP(src)].")

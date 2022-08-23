@@ -92,7 +92,7 @@
 /datum/component/supermatter_crystal/proc/hand_hit(datum/source, mob/living/user, list/modifiers)
 	SIGNAL_HANDLER
 	var/atom/atom_source = source
-	if(user.incorporeal_move || user.status_flags & GODMODE)
+	if(IS_SUPERMATTER_IMMUNE(user))
 		return
 
 	if(user.zone_selected != BODY_ZONE_PRECISE_MOUTH)
@@ -214,7 +214,7 @@
 
 /datum/component/supermatter_crystal/proc/dust_mob(datum/source, mob/living/nom, vis_msg, mob_msg, cause)
 	var/atom/atom_source = source
-	if(nom.incorporeal_move || nom.status_flags & GODMODE) //try to keep supermatter sliver's + hemostat's dust conditions in sync with this too
+	if(IS_SUPERMATTER_IMMUNE(nom))
 		return
 	if(!vis_msg)
 		vis_msg = span_danger("[nom] reaches out and touches [atom_source], inducing a resonance... [nom.p_their()] body starts to glow and burst into flames before flashing into dust!")

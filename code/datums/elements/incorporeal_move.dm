@@ -1,11 +1,11 @@
 /// This mob can walk through walls incorporeally.
-/datum/element/more_incorporeally
+/datum/element/move_incorporeally
 	element_flags = ELEMENT_BESPOKE
 	id_arg_index = 2
 	/// Flags used when checking if an incorporeal move is possible.
 	var/incorporeal_move_flags = NONE
 
-/datum/element/more_incorporeally/Attach(datum/target, incorporeal_move_flags = NONE)
+/datum/element/move_incorporeally/Attach(datum/target, incorporeal_move_flags = NONE)
 	. = ..()
 	if(!isliving(target))
 		return ELEMENT_INCOMPATIBLE
@@ -17,7 +17,7 @@
 	ADD_TRAIT(target, TRAIT_MOVE_FLOATING, ELEMENT_TRAIT(type))
 	ADD_TRAIT(target, TRAIT_INCORPOREALLY_MOVING, ELEMENT_TRAIT(type))
 
-/datum/element/more_incorporeally/Detach(datum/source, ...)
+/datum/element/move_incorporeally/Detach(datum/source, ...)
 	. = ..()
 	UnregisterSignal(source, COMSIG_MOB_CLIENT_PRE_LIVING_MOVE)
 
@@ -26,7 +26,7 @@
 	REMOVE_TRAIT(source, TRAIT_INCORPOREALLY_MOVING, ELEMENT_TRAIT(type))
 
 /// Signal proc for [COMSIG_MOB_CLIENT_PRE_LIVING_MOVE].
-/datum/element/more_incorporeally/proc/on_pre_living_move(mob/living/source, direction)
+/datum/element/move_incorporeally/proc/on_pre_living_move(mob/living/source, direction)
 	SIGNAL_HANDLER
 
 	var/turf/move_to_turf = get_step(source, direction)

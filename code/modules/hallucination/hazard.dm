@@ -88,15 +88,16 @@
 	if(target.client)
 		target.client.images += image
 
-/obj/effect/hallucination/danger/chasm/proc/on_entered(datum/source, atom/movable/AM)
+/obj/effect/hallucination/danger/chasm/proc/on_entered(datum/source, atom/movable/entered)
 	SIGNAL_HANDLER
-	if(AM == target)
-		if(istype(target, /obj/effect/dummy/phased_mob))
-			return
-		to_chat(target, span_userdanger("You fall into the chasm!"))
-		target.Paralyze(40)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/to_chat, target, span_notice("It's surprisingly shallow.")), 15)
-		QDEL_IN(src, 30)
+	if(entered != target)
+		return
+	if(HAS_TRAIT(entered, TRAIT_INCORPOREALLY_MOVING))
+		return
+	to_chat(target, span_userdanger("You fall into the chasm!"))
+	target.Paralyze(40)
+	addtimer(CALLBACK(GLOBAL_PROC, .proc/to_chat, target, span_notice("It's surprisingly shallow.")), 15)
+	QDEL_IN(src, 30)
 
 /obj/effect/hallucination/danger/anomaly
 	name = "flux wave anomaly"

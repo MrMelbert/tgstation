@@ -376,7 +376,7 @@
 	if(user.incapacitated() || (istype(L) && L.body_position == LYING_DOWN))
 		return
 
-	if(!istype(AM) || isdead(AM) || iscameramob(AM) || istype(AM, /obj/effect/dummy/phased_mob))
+	if(!istype(AM) || isdead(AM) || iscameramob(AM) || HAS_TRAIT(AM, TRAIT_INCORPOREALLY_MOVING))
 		return
 
 	load(AM)
@@ -801,7 +801,7 @@
 	if(user.incapacitated() || (istype(L) && L.body_position == LYING_DOWN))
 		return
 
-	if(!istype(AM) || iscameramob(AM) || istype(AM, /obj/effect/dummy/phased_mob)) //allows ghosts!
+	if(!istype(AM) || iscameramob(AM) || HAS_TRAIT(AM, TRAIT_INCORPOREALLY_MOVING)) //allows ghosts!
 		return
 
 	load(AM)

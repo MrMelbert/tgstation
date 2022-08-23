@@ -370,7 +370,7 @@
 		if(!isliving(to_insert)) //let's not put ghosts or camera mobs inside
 			return FALSE
 		var/mob/living/mob_to_insert = to_insert
-		if(mob_to_insert.anchored || mob_to_insert.incorporeal_move)
+		if(mob_to_insert.anchored || HAS_TRAIT(mob_to_insert, TRAIT_INCORPOREALLY_MOVING))
 			return FALSE
 		mob_to_insert.stop_pulling()
 

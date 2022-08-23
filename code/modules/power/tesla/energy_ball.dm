@@ -188,7 +188,7 @@
 /obj/energy_ball/proc/dust_mobs(atom/A)
 	if(isliving(A))
 		var/mob/living/L = A
-		if(L.incorporeal_move || L.status_flags & GODMODE)
+		if(IS_SUPERMATTER_IMMUNE(L)) // not quite the supermatter but close enough
 			return
 	if(!iscarbon(A))
 		return

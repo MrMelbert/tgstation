@@ -374,7 +374,7 @@ GLOBAL_LIST_INIT(mimic_blacklist, list(/obj/structure/table, /obj/structure/cabl
 		if(!isliving(AM))  //Don't let ghosts and such get trapped in the beast.
 			return FALSE
 		var/mob/living/L = AM
-		if(L.anchored || L.buckled || L.incorporeal_move || L.has_buckled_mobs())
+		if(L.anchored || L.buckled || HAS_TRAIT(L, TRAIT_INCORPOREALLY_MOVING) || L.has_buckled_mobs())
 			return FALSE
 		if(L.mob_size > MOB_SIZE_TINY) // Tiny mobs are treated as items.
 			if(L.density || L.mob_size > max_mob_size)

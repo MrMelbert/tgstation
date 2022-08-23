@@ -20,7 +20,7 @@
 	if(!isliving(arrived))
 		return
 	var/mob/living/L = arrived
-	if(!L.client || L.incorporeal_move || !L.mind)
+	if(!L.client || HAS_TRAIT(L, TRAIT_INCORPOREALLY_MOVING) || !L.mind)
 		return
 	if(HAS_TRAIT(L.mind, TRAIT_HOT_SPRING_CURSED)) // no double dipping
 		return

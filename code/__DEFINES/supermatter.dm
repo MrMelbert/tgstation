@@ -125,11 +125,11 @@
 
 /// Means it's not forced, sm decides itself by checking the [/datum/sm_delam/proc/can_select]
 #define SM_DELAM_PRIO_NONE 0
-/// In-game factors like the destabilizing crystal [/obj/item/destabilizing_crystal]. 
+/// In-game factors like the destabilizing crystal [/obj/item/destabilizing_crystal].
 /// Purged when SM heals to 100
 #define SM_DELAM_PRIO_IN_GAME 1
 
-/// Purge the current forced delam and make it zero again (back to normal). 
+/// Purge the current forced delam and make it zero again (back to normal).
 /// Needs to be higher priority than current forced_delam though.
 #define SM_DELAM_STRATEGY_PURGE null
 
@@ -141,7 +141,7 @@
 #define SUPERMATTER_INACTIVE 0
 /// Normal operation
 #define SUPERMATTER_NORMAL 1
-/// Ambient temp 80% of the default temp for SM to take damage. 
+/// Ambient temp 80% of the default temp for SM to take damage.
 #define SUPERMATTER_NOTIFY 2
 /// Integrity below [/obj/machinery/power/supermatter_crystal/var/warning_point]. Start complaining on comms.
 #define SUPERMATTER_WARNING 3
@@ -151,3 +151,6 @@
 #define SUPERMATTER_EMERGENCY 5
 /// Currently counting down to delamination. True [/obj/machinery/power/supermatter_crystal/var/final_countdown]
 #define SUPERMATTER_DELAMINATING 6
+
+/// Helper to check if the passed mob shouldn't be afflicted by interacting with a supermatter.
+#define IS_SUPERMATTER_IMMUNE(mob) (HAS_TRAIT(mob, TRAIT_INCORPOREALLY_MOVING) || (mob.status_flags & GODMODE) || (mob.flags_1 & SUPERMATTER_IGNORES_1))

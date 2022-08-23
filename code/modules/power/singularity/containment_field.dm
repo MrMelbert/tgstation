@@ -79,7 +79,7 @@
 	SIGNAL_HANDLER
 	if(isliving(considered_atom))
 		var/mob/living/living_moving_through_field = considered_atom
-		if(!living_moving_through_field.incorporeal_move)
+		if(!HAS_TRAIT(living_moving_through_field, TRAIT_INCORPOREALLY_MOVING))
 			shock(considered_atom)
 
 	if(ismachinery(considered_atom) || isstructure(considered_atom) || ismecha(considered_atom))

@@ -81,7 +81,7 @@
 			to_chat(rider || src, span_warning("[rider ? src : "You"] can't do that right now!"))
 		return FALSE
 	if(!buckled || !(z_move_flags & ZMOVE_ALLOW_BUCKLED))
-		if(!(z_move_flags & ZMOVE_FALL_CHECKS) && incorporeal_move && (!rider || rider.incorporeal_move))
+		if(!(z_move_flags & ZMOVE_FALL_CHECKS) && HAS_TRAIT(src, TRAIT_INCORPOREALLY_MOVING) && (!rider || HAS_TRAIT(rider, TRAIT_INCORPOREALLY_MOVING)))
 			//An incorporeal mob will ignore obstacles unless it's a potential fall (it'd suck hard) or is carrying corporeal mobs.
 			//Coupled with flying/floating, this allows the mob to move up and down freely.
 			//By itself, it only allows the mob to move down.

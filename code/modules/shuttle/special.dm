@@ -228,7 +228,7 @@
 /obj/structure/table/wood/shuttle_bar/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
 	var/mob/living/M = AM
-	if(istype(M) && !M.incorporeal_move && !is_barstaff(M))
+	if(istype(M) && !HAS_TRAIT(M, TRAIT_INCORPOREALLY_MOVING) && !is_barstaff(M))
 		// No climbing on the bar please
 		var/throwtarget = get_edge_target_turf(src, boot_dir)
 		M.Paralyze(40)

@@ -135,17 +135,17 @@ GLOBAL_LIST_EMPTY(bodycontainers) //Let them act as spawnpoints for revenants an
 /obj/structure/bodycontainer/proc/close()
 	playsound(src, 'sound/effects/roll.ogg', 5, TRUE)
 	playsound(src, 'sound/items/deconstruct.ogg', 50, TRUE)
-	for(var/atom/movable/AM in connected.loc)
-		if(!AM.anchored || AM == connected)
-			if(ismob(AM))
-				if(!isliving(AM))
-					continue
-				var/mob/living/living_mob = AM
-				if(living_mob.incorporeal_move)
-					continue
-			else if(istype(AM, /obj/effect/dummy/phased_mob))
-				continue
-			AM.forceMove(src)
+
+	for(var/atom/movable/thing_to_stuff_in in connected.loc)
+		if(thing_to_stuff_in == connected || thing_to_stuff_in.anchored)
+			continue
+		if(isdead(thing_to_stuff_in)) // Observers, not dead bodies
+			continue
+		if(HAS_TRAIT(thing_to_stuff_in, TRAIT_INCORPOREALLY_MOVING))
+			continue
+
+		thing_to_stuff_in.forceMove(src)
+
 	recursive_organ_check(src)
 	update_appearance()
 
@@ -270,7 +270,7 @@ GLOBAL_LIST_EMPTY(crematoriums)
 		update_appearance()
 
 		for(var/mob/living/M in conts)
-			if(M.incorporeal_move) //can't cook revenants!
+			if(HAS_TRAIT(M, TRAIT_INCORPOREALLY_MOVING)) //can't cook revenants!
 				continue
 			if (M.stat != DEAD)
 				M.emote("scream")
@@ -284,10 +284,10 @@ GLOBAL_LIST_EMPTY(crematoriums)
 				M.ghostize()
 				qdel(M)
 
-		for(var/obj/O in conts) //conts defined above, ignores crematorium and tray
-			if(istype(O, /obj/effect/dummy/phased_mob)) //they're not physical, don't burn em.
+		for(var/obj/to_burn in conts) //conts defined above, ignores crematorium and tray
+			if(HAS_TRAIT(to_burn, TRAIT_INCORPOREALLY_MOVING)) //they're not physical, don't burn em.
 				continue
-			qdel(O)
+			qdel(to_burn)
 
 		if(!locate(/obj/effect/decal/cleanable/ash) in get_step(src, dir))//prevent pile-up
 			new/obj/effect/decal/cleanable/ash/crematorium(src)

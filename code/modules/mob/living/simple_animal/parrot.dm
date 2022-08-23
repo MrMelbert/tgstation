@@ -990,17 +990,17 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 	speak_chance = 20
 	status_flags = GODMODE
 	sentience_type = SENTIENCE_BOSS //This is so players can't mindswap into ghost poly to become a literal god
-	incorporeal_move = INCORPOREAL_MOVE_BASIC
 	butcher_results = list(/obj/item/ectoplasm = 1)
 
 /mob/living/simple_animal/parrot/poly/ghost/Initialize(mapload)
 	memory_saved = TRUE //At this point nothing is saved
-	. = ..()
+	AddElement(/datum/element/move_incorporeally)
+	return ..()
 
 /mob/living/simple_animal/parrot/poly/ghost/handle_automated_speech()
 	if(ismob(loc))
 		return
-	..()
+	return ..()
 
 /mob/living/simple_animal/parrot/poly/ghost/handle_automated_movement()
 	if(isliving(parrot_interest))

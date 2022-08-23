@@ -133,14 +133,14 @@
 	return
 
 /mob/living/simple_animal/hostile/guardian/ranged/Manifest(forced)
-	if (toggle)
-		incorporeal_move = INCORPOREAL_MOVE_BASIC
-	. = ..()
+	if(toggle)
+		AddElement(/datum/element/move_incorporeally)
+	return ..()
 
 /mob/living/simple_animal/hostile/guardian/ranged/Recall(forced)
 	// To stop scout mode from moving when recalled
-	incorporeal_move = FALSE
-	. = ..()
+	RemoveElement(/datum/element/move_incorporeally)
+	return..()
 
 /mob/living/simple_animal/hostile/guardian/ranged/AttackingTarget()
 	if(toggle)

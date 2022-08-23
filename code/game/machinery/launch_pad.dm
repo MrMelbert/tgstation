@@ -200,7 +200,7 @@
 	for(var/atom/movable/ROI in source)
 		if(ROI == src)
 			continue
-		if(!istype(ROI) || isdead(ROI) || iscameramob(ROI) || istype(ROI, /obj/effect/dummy/phased_mob))
+		if(!istype(ROI) || isdead(ROI) || iscameramob(ROI) || HAS_TRAIT(ROI, TRAIT_INCORPOREALLY_MOVING))
 			continue//don't teleport these
 		var/on_chair = ""
 		if(ROI.anchored)// if it's anchored, don't teleport

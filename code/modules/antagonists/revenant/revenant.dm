@@ -17,7 +17,6 @@
 	var/icon_drain = "revenant_draining"
 	var/stasis = FALSE
 	mob_biotypes = MOB_SPIRIT
-	incorporeal_move = INCORPOREAL_MOVE_JAUNT
 	invisibility = INVISIBILITY_REVENANT
 	health = INFINITY //Revenants don't use health, they use essence instead
 	maxHealth = INFINITY
@@ -75,6 +74,7 @@
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_SIXTHSENSE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_ALERT_GHOSTS_ON_DEATH, INNATE_TRAIT)
+	make_incorporeal()
 
 	// Starting spells
 	var/datum/action/cooldown/spell/night_vision/revenant/vision = new(src)
@@ -110,6 +110,16 @@
 	built_name += pick(strings(REVENANT_NAME_FILE, "theme"))
 	name = built_name
 
+/mob/living/simple_animal/revenant/proc/make_incorporeal()
+	AddElement(/datum/element/move_incorporeally, INCORPOREAL_MOVE_BLOCKBY_SALT|INCORPOREAL_MOVE_BLOCKBY_BLESSING)
+	invisibility = INVISIBILITY_REVENANT
+	revealed = FALSE
+
+/mob/living/simple_animal/revenant/proc/make_corporeal()
+	RemoveElement(/datum/element/move_incorporeally, INCORPOREAL_MOVE_BLOCKBY_SALT|INCORPOREAL_MOVE_BLOCKBY_BLESSING)
+	invisibility = 0
+	revealed = TRUE
+
 /mob/living/simple_animal/revenant/Login()
 	. = ..()
 	if(!. || !client)
@@ -136,9 +146,7 @@
 		death()
 	if(unreveal_time && world.time >= unreveal_time)
 		unreveal_time = 0
-		revealed = FALSE
-		incorporeal_move = INCORPOREAL_MOVE_JAUNT
-		invisibility = INVISIBILITY_REVENANT
+		make_incorporeal()
 		to_chat(src, span_revenboldnotice("You are once more concealed."))
 	if(unstun_time && world.time >= unstun_time)
 		unstun_time = 0
@@ -243,8 +251,7 @@
 	stasis = TRUE
 	to_chat(src, span_revendanger("NO! No... it's too late, you can feel your essence [pick("breaking apart", "drifting away")]..."))
 	notransform = TRUE
-	revealed = TRUE
-	invisibility = 0
+	make_corporeal()
 	playsound(src, 'sound/effects/screech.ogg', 100, TRUE)
 	visible_message(span_warning("[src] lets out a waning screech as violet mist swirls around its dissolving body!"))
 	icon_state = "revenant_draining"
@@ -268,9 +275,7 @@
 		return
 	if(time <= 0)
 		return
-	revealed = TRUE
-	invisibility = 0
-	incorporeal_move = FALSE
+	make_corporeal()
 	if(!unreveal_time)
 		to_chat(src, span_revendanger("You have been revealed!"))
 		unreveal_time = world.time + time
@@ -352,16 +357,14 @@
 	return 1
 
 /mob/living/simple_animal/revenant/proc/death_reset()
-	revealed = FALSE
 	unreveal_time = 0
 	notransform = 0
 	unstun_time = 0
 	inhibited = FALSE
 	draining = FALSE
-	incorporeal_move = INCORPOREAL_MOVE_JAUNT
-	invisibility = INVISIBILITY_REVENANT
-	alpha=255
+	alpha = 255
 	stasis = FALSE
+	make_incorporeal()
 
 /mob/living/simple_animal/revenant/orbit(atom/target)
 	setDir(SOUTH) // reset dir so the right directional sprites show up

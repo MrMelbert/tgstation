@@ -12,7 +12,7 @@
 
 /datum/element/shadow_trail/Detach(datum/source, ...)
 	. = ..()
-	UnregisterSignal(target, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(source, COMSIG_MOVABLE_MOVED)
 
 /// Signal proc for [COMSIG_MOVABLE_MOVED].
 /datum/element/shadow_trail/proc/on_moved(mob/living/carbon/human/source, old_loc, movement_dir, forced, old_locs, momentum_change)

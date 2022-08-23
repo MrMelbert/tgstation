@@ -19,6 +19,8 @@
 	if(jaunter)
 		set_jaunter(jaunter)
 
+	ADD_TRAIT(src, TRAIT_INCORPOREALLY_MOVING, INNATE_TRAIT)
+
 /// Sets [new_jaunter] as our jaunter, forcemoves them into our contents
 /obj/effect/dummy/phased_mob/proc/set_jaunter(atom/movable/new_jaunter)
 	jaunter = new_jaunter
@@ -26,6 +28,7 @@
 	if(ismob(jaunter))
 		var/mob/mob_jaunter = jaunter
 		mob_jaunter.reset_perspective(src)
+	ADD_TRAIT(jaunter, TRAIT_INCORPOREALLY_MOVING, REF(src))
 
 /obj/effect/dummy/phased_mob/Destroy()
 	jaunter = null // If a mob was left in the jaunter on qdel, they'll be dumped into nullspace
@@ -53,11 +56,14 @@
 
 	else
 		jaunter.forceMove(eject_spot)
+
+	REMOVE_TRAIT(jaunter, TRAIT_INCORPOREALLY_MOVING, REF(src))
 	qdel(src)
 
 /obj/effect/dummy/phased_mob/Exited(atom/movable/gone, direction)
 	. = ..()
 	if(gone == jaunter)
+		REMOVE_TRAIT(jaunter, TRAIT_INCORPOREALLY_MOVING, REF(src))
 		jaunter = null
 
 /obj/effect/dummy/phased_mob/ex_act()
