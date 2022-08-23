@@ -28,6 +28,9 @@
 	if(ismob(jaunter))
 		var/mob/mob_jaunter = jaunter
 		mob_jaunter.reset_perspective(src)
+
+	// Our mob is also moving incorporeally by extension
+	// (This is added for easy of trait checks)
 	ADD_TRAIT(jaunter, TRAIT_INCORPOREALLY_MOVING, REF(src))
 
 /obj/effect/dummy/phased_mob/Destroy()
