@@ -57,23 +57,60 @@
 
 /obj/item/bodybag/bluespace/examine(mob/user)
 	. = ..()
-	if(contents.len)
-		var/s = contents.len == 1 ? "" : "s"
-		. += span_notice("You can make out the shape[s] of [contents.len] object[s] through the fabric.")
+	if(contents.len <= 0)
+		return
 
-/obj/item/bodybag/bluespace/Destroy()
-	for(var/atom/movable/A in contents)
-		A.forceMove(get_turf(src))
-		if(isliving(A))
-			to_chat(A, span_notice("You suddenly feel the space around you torn apart! You're free!"))
+	var/plural = contents.len == 1 ? "" : "s"
+	. += span_notice("You can make out the shape[plural] of [contents.len] object[plural] through the fabric.")
+
+/obj/item/bodybag/bluespace/deconstruct(disassembled)
+	free_contents(message = "You suddenly feel the space around you torn apart! You're free!")
 	return ..()
+
+/obj/item/bodybag/bluespace/suicide_act(mob/living/user)
+	if(!isliving(user)) // why is suicide_act not casted to living by default ? are there ghosts dying out there
+		return
+
+	// No bringing friends to the grave
+	free_contents(message = "You tumble out of [src] just as [user] jumps in behind you, alone!")
+
+	// Reference to a bug with BS bags that allowed the user to fold them up while they were inside it. (See: PR #69529)
+	user.visible_message(span_suicide("[user] gets inside the bluespace bodybag and starts folding it up while inside! \
+		It looks like [user.p_theyre()] about to fold themselves out of existence!"))
+	user.dropItemToGround(src, TRUE)
+	user.forceMove(src)
+	user.Paralyze(2 SECONDS, ignore_canstun = TRUE)
+	animate(src, 1 SECONDS, alpha = 0)
+	stoplag(1 SECONDS)
+	// We got killed during the sleep
+	if(QDELETED(src))
+		return QDELETED(user) ? MANUAL_SUICIDE : SHAME
+	// The user escaped it during the sleep
+	if(!(user in contents))
+		alpha = 255
+		return SHAME
+
+	// You have folded yourself into the bag. Goodbye.
+	user.death(TRUE)
+	qdel(user)
+	// Just in case that some people or items have joined us somehow during the deed.
+	deconstruct()
+	return MANUAL_SUICIDE
+
+/// Helper to free all of the contents within the bag.
+/// You can optionally provide a message that is sent to any living mobs that were located within.
+/obj/item/bodybag/bluespace/proc/free_contents(message)
+	var/turf/below_us = get_turf(src)
+	for(var/atom/movable/thing as anything in contents)
+		thing.forceMove(below_us)
+		if(isnull(message) || !isliving(thing))
+			continue
+
+		to_chat(thing, span_notice(message))
 
 /obj/item/bodybag/bluespace/deploy_bodybag(mob/user, atom/location)
 	var/obj/structure/closet/body_bag/item_bag = new unfoldedbag_path(location)
-	for(var/atom/movable/inside in contents)
-		inside.forceMove(item_bag)
-		if(isliving(inside))
-			to_chat(inside, span_notice("You suddenly feel air around you! You're free!"))
+	free_contents(message = "You suddenly feel air around you! You're free!")
 	item_bag.open(user)
 	item_bag.add_fingerprint(user)
 	item_bag.foldedbag_instance = src
@@ -96,7 +133,7 @@
 		to_chat(loc, span_warning("The pressure subsides. It seems that they've stopped resisting..."))
 		return
 	loc.visible_message(span_warning("[user] suddenly appears in front of [loc]!"), span_userdanger("[user] breaks free of [src]!"))
-	qdel(src)
+	deconstruct()
 
 /obj/item/bodybag/environmental
 	name = "environmental protection bag"
