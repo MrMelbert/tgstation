@@ -9,8 +9,8 @@
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	custom_materials = list(/datum/material/iron=250, /datum/material/glass=500)
-	var/max_duration = 3000
-	var/duration = 300
+	var/max_duration = 5 MINUTES
+	var/duration = 30 SECONDS
 	var/last_use = 0
 	var/next_use = 0
 	var/obj/effect/abstract/sync_holder/sync_holder
@@ -64,6 +64,13 @@
 		resync_timer = null
 	icon_state = initial(icon_state)
 	next_use = world.time + (world.time - last_use) // Could be 2*world.time-last_use but that would just be confusing
+
+/obj/item/desynchronizer/dropped(mob/user, silent)
+	. = ..()
+	if(!sync_holder)
+		return
+	if((user in sync_holder) && (src in sync_holder))
+		to_chat(user, span_warning("As you drop [src] to the \"ground\" of [sync_holder], you suddenly realize what a foolish idea that was.[duration > 1 MINUTES ? " Better get comfortable.":""]"))
 
 /obj/item/desynchronizer/Destroy()
 	if(sync_holder)
