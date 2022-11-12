@@ -1,42 +1,65 @@
-/proc/generate_bible_skins_by_images()
+/**
+ * Generates a list of [bible names] to [bible skin singletons]
+ */
+/proc/generate_bible_skins_by_name()
 	RETURN_TYPE(/list)
 
 	var/list/skins = list()
 	for(var/skin_type in typesof(/datum/bible_skin))
 		var/datum/bible_skin/skin_singleton = new skin_type()
-		skins[skin_singleton] = image(icon = skin_singleton.bible_icon, icon_state = skin_singleton.bible_icon_state)
-		GLOB.bible_skins_to_names[skin_singleton.name] = skin_singleton
+		skins[skin_singleton.name] = skin_singleton
 
 	return skins
 
-/proc/generate_bible_skins_by_name()
-	RETURN_TYPE(/list)
-
-	var/list/skins = list()
-	for(var/datum/bible_skin/skin as anything in GLOB.bible_skins_to_images)
-		skins[skin.name] = skin
-
-	return skins
-
+/**
+ * # Bible skin
+ *
+ * These singletons reskin the bible! Yes, that's it.
+ *
+ * Also lets you apply side effects when the skin is selected.
+ */
 /datum/bible_skin
+	/// The name the bible becomes when this skin is selected, if a global bible name is not set.
+	/// This is also used for keying the global list, for use in the prefs menu.
 	var/name = "Bible"
+	/// The diety name that comes with the skin, if a global diety name is not set.
 	var/deity_name = "God"
+	/// The icon file to use for the bible
 	var/bible_icon = 'icons/obj/bibles.dmi'
+	/// The icon state to use for the bible
 	var/bible_icon_state = "bible"
-	var/bible_lefthand_icon = 'icons/mob/inhands/items/bibles_lefthand.dmi'
-	var/bible_righthand_icon = 'icons/mob/inhands/items/bibles_righthand.dmi'
+	/// The lefthand icon file to use for the bible
+	var/bible_lefthand_icon = 'icons/mob/inhands/items/books_lefthand.dmi'
+	/// The righthand icon file to use for the bible
+	var/bible_righthand_icon = 'icons/mob/inhands/items/books_righthand.dmi'
+	/// The inhand icon state to use for the bible
 	var/bible_inhand_icon_state = "bible"
+	/// Preview image, used in radials
+	var/image/preview_image
 
+/datum/bible_skin/New()
+	. = ..()
+	preview_image = image(icon = bible_icon, icon_state = bible_icon_state)
+
+/**
+ * Applies this bible skin to the target bible
+ *
+ * Arguments
+ * * Reskinner - optional, who's doing the reskin. Some skins apply effects when selected
+ * * Reskinned - required, what's being reskinnied. It's a bible.
+ */
 /datum/bible_skin/proc/apply_reskin(mob/living/carbon/human/reskinner, obj/item/book/bible/reskinned)
-
+	// If there's a global name, don't override it, use it instead
 	if(GLOB.bible_name)
 		reskinned.name = GLOB.bible_name
-
+	// Otherwise use our name if set
 	else if(name)
 		reskinned.name = name
 
+	// If there's a global diety, don't override it, use it instead
 	if(GLOB.deity)
 		reskinned.deity_name = GLOB.deity
+	// Otherwise use our diety if set
 	else if(deity_name)
 		reskinned.deity_name = deity_name
 

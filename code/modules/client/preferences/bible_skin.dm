@@ -9,8 +9,9 @@
 
 	values[DEFAULT_BIBLE_SKIN] = image(icon = 'icons/obj/bibles.dmi', icon_state = "bible")
 
-	for(var/datum/bible_skin/skin as anything in GLOB.bible_skins_to_images)
-		values[skin.name] = GLOB.bible_skins_to_images[skin]
+	for(var/skin_name in GLOB.bible_skins_to_names)
+		var/datum/bible_skin/skin = GLOB.bible_skins_to_names[skin_name]
+		values[skin_name] = skin.preview_image
 
 	return values
 

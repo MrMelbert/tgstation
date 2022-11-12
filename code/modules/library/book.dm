@@ -128,14 +128,20 @@
 /obj/item/book/proc/gen_random_icon_state()
 	icon_state = "book[rand(1, maximum_book_state)]"
 
-/obj/item/book/attack_self(mob/user)
+/obj/item/book/interact(mob/user)
+	. = ..()
 	if(user.is_blind())
 		to_chat(user, span_warning("You are blind and can't read anything!"))
 		return
 	if(!user.can_read(src))
 		return
+	if(atom_storage)
+		to_chat(user, span_notice("All the pages of [src] are hollowed out!"))
+		return
+
 	user.visible_message(span_notice("[user] opens a book titled \"[book_data.title]\" and begins reading intently."))
 	on_read(user)
+	return TRUE
 
 /obj/item/book/attackby(obj/item/attacking_item, mob/user, params)
 	if(flags_1 & HOLOGRAM_1)
@@ -254,5 +260,10 @@
 
 			book_data.set_author(html_decode(author)) //Setting this encodes, don't want to double up
 
+/// Hollows out the book, making it able to hold small things
 /obj/item/book/proc/hollow_out_book()
-	return create_storage(1, WEIGHT_CLASS_SMALL, 2)
+	return create_storage(max_slots = 1, max_specific_storage = WEIGHT_CLASS_SMALL, max_total_storage = 2)
+
+// Don't insert books into books. (This is mainly for bibles.)
+/obj/item/book/attackby_storage_insert(datum/storage, atom/storage_holder, mob/user)
+	return !istype(storage_holder, /obj/item/book)

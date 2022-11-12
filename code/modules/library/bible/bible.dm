@@ -66,8 +66,9 @@
 		return FALSE
 
 	var/static/list/skins_to_images = list()
-	for(var/datum/bible_skin/skin as anything in GLOB.bible_skins_to_images)
-		skins_to_images[skin.name] = GLOB.bible_skins_to_images[skin]
+	for(var/skin_name in GLOB.bible_skins_to_names)
+		var/datum/bible_skin/skin = GLOB.bible_skins_to_names[skin_name]
+		skins_to_images[skin_name] = skins_to_images.preview_image
 
 	var/choice = show_radial_menu(user, src, skins_to_images, custom_check = CALLBACK(src, .proc/check_menu, user), radius = 40, require_near = TRUE)
 	if(!choice)
@@ -211,6 +212,8 @@
 				revealed_runes = TRUE
 				bible_smacked.balloon_alert(user, "runes revealed!") // "!" is normally reserved for failure, but this is an "oh shit" moment
 
+// The bible is too boring to read.
+// Future idea: Allow chaplains to fill their bibles with text!
 /obj/item/book/bible/on_read(mob/reader)
 	return
 
