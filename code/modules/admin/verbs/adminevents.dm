@@ -410,9 +410,9 @@
 	var/new_god = tgui_input_text(usr, "Change global deity name", "Deity name", GLOB.deity)
 	if(!new_god)
 		return
-	message_admins("[key_name_admin(usr)] changed global deity from [GLOB.diety] to [new_god].")
-	log_admin("[key_name(usr)] changed global deity from [GLOB.diety] to [new_god].")
-	GLOB.diety = new_god
+	message_admins("[key_name_admin(usr)] changed global deity from [GLOB.deity] to [new_god].")
+	log_admin("[key_name(usr)] changed global deity from [GLOB.deity] to [new_god].")
+	GLOB.deity = new_god
 
 	var/new_bible = tgui_input_text(usr, "Change global bible name", "Bible name", GLOB.bible_name)
 	if(!new_bible)
@@ -432,11 +432,11 @@
 
 	if(GLOB.holy_armor_type)
 		var/reset_armor = tgui_alert(usr, "Reset picked Holy Armor varient? Existing ones remain unchanged", "Holy Armor", list("Yes", "No"))
-		if(reset_nullrod == "Yes")
+		if(reset_armor == "Yes")
 			message_admins("[key_name_admin(usr)] reset the picked holy armor varient.")
 			log_admin("[key_name(usr)] reset the picked holy armor varient.")
 			GLOB.holy_armor_type = null
-		else if(isnull(reset_nullrod))
+		else if(isnull(reset_armor))
 			return
 
 	if(GLOB.current_bible_skin)

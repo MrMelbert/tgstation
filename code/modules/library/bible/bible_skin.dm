@@ -32,7 +32,7 @@
 	/// The name the bible becomes when this skin is selected, if a global bible name is not set.
 	/// This is also used for keying the global list, for use in the prefs menu.
 	var/name = "Bible"
-	/// The diety name that comes with the skin, if a global diety name is not set.
+	/// The deity name that comes with the skin, if a global deity name is not set.
 	var/deity_name = "God"
 	/// The icon file to use for the bible
 	var/bible_icon = 'icons/obj/bibles.dmi'
@@ -60,10 +60,10 @@
 	else if(name)
 		reskinned.name = name
 
-	// If there's a global diety, don't override it, use it instead
+	// If there's a global deity, don't override it, use it instead
 	if(GLOB.deity)
 		reskinned.deity_name = GLOB.deity
-	// Otherwise use our diety if set
+	// Otherwise use our deity if set
 	else if(deity_name)
 		reskinned.deity_name = deity_name
 

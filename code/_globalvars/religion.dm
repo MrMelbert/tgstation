@@ -28,7 +28,7 @@ GLOBAL_VAR(holy_armor_type)
 
 /// Default religion name
 #define DEFAULT_RELIGION "Christianity"
-/// Default diety name
+/// Default deity name
 #define DEFAULT_DEITY "Space Jesus"
 /// Default bible skin, this one doesn't show up anywhere - just used as a key
 #define DEFAULT_BIBLE_SKIN "Default Bible Skin"

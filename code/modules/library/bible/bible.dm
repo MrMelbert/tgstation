@@ -14,7 +14,7 @@
 
 /obj/item/book/bible/examine(mob/user)
 	. = ..()
-	if(!user?mind.holy_role)
+	if(!user.mind?.holy_role)
 		return
 	if(length(GLOB.chaplain_altars))
 		. += span_notice("[src] has an expansion pack to replace any broken Altar.")
@@ -57,7 +57,7 @@
 		inhand_icon_state = hit_us.inhand_icon_state
 
 	balloon_alert(user, "converted")
-	playsound(src, 'sound/effects/magic.ogg', 50, vary = FALSE, extrarrange = SHORT_RANGE_SOUND_EXTRARANGE, frequency = 2)
+	playsound(src, 'sound/effects/magic.ogg', 50, vary = FALSE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE, frequency = 2)
 	do_smoke(range = 0, holder = src, location = drop_location(), smoke_type = /obj/effect/particle_effect/fluid/smoke/quick)
 	return COMSIG_END_BIBLE_CHAIN
 

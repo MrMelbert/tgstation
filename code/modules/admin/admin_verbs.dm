@@ -990,7 +990,7 @@ GLOBAL_PROTECT(admin_verbs_poll)
 
 	if(!check_rights(R_DEBUG))
 		return
-	for(var/obj/structure/altar_of_gods/altar as anything in GLOB.chapolain_altars)
+	for(var/obj/structure/altar_of_gods/altar as anything in GLOB.chaplain_altars)
 		altar.sect_to_altar = null
 		altar.icon = initial(altar.icon)
 		altar.icon_state = initial(altar.icon_state)
