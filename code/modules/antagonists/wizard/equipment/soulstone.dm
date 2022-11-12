@@ -24,32 +24,40 @@
 	/// Role check, if any needed
 	var/required_role = /datum/antagonist/cult
 
+	var/mob/living/simple_animal/shade/captured_shade
+
 /obj/item/soulstone/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/exorcisable, \
-			pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
-			on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
+		pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
+		on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
+
+/obj/item/soulstone/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == captured_shade)
+		captured_shade = null
 
 // We'll shamelessly use update_appearance to also handle updating the shade inside depending on what theme we are
 /obj/item/soulstone/update_appearance(updates)
 	. = ..()
-	var/mob/living/simple_animal/shade/captured_shade = locate() in src
-	if(!captured_shade)
-		return
+	if(captured_shade)
+		update_shade()
+
+/obj/item/soulstone/proc/update_shade()
 
 	switch(theme)
 		if(THEME_HOLY)
-			sharded_shade.name = "Purified [sharded_shade.real_name]"
-			sharded_shade.icon_state = "shade_holy"
-			sharded_shade.loot = list(/obj/item/ectoplasm/angelic)
+			captured_shade.name = "Purified [captured_shade.real_name]"
+			captured_shade.icon_state = "shade_holy"
+			captured_shade.loot = list(/obj/item/ectoplasm/angelic)
 		if(THEME_CULT)
-			sharded_shade.name = sharded_shade.real_name
-			sharded_shade.icon_state = "shade_cult"
-			sharded_shade.loot = list(/obj/item/ectoplasm)
+			captured_shade.name = captured_shade.real_name
+			captured_shade.icon_state = "shade_cult"
+			captured_shade.loot = list(/obj/item/ectoplasm)
 		if(THEME_WIZARD)
-			sharded_shade.name = sharded_shade.real_name
-			sharded_shade.icon_state = "shade_wizard"
-			sharded_shade.loot = list(/obj/item/ectoplasm/mystic)
+			captured_shade.name = captured_shade.real_name
+			captured_shade.icon_state = "shade_wizard"
+			captured_shade.loot = list(/obj/item/ectoplasm/mystic)
 
 /obj/item/soulstone/update_icon_state()
 	. = ..()
@@ -61,17 +69,14 @@
 		if(THEME_WIZARD)
 			icon_state = "mystic_soulstone"
 
-	if(locate(/mob/living/simple_animal/shade) in src)
+	if(captured_shade)
 		icon_state = "[icon_state]2"
 
 /obj/item/soulstone/update_name(updates)
 	. = ..()
 	if(spent)
 		name = "dull [name]"
-		return
-
-	var/mob/living/simple_animal/shade/captured_shade = locate() in src
-	if(captured_shade)
+	else if(captured_shade)
 		name = "[name]: [captured_shade.real_name]"
 	else
 		name = initial(name)
@@ -95,11 +100,7 @@
 	required_role = null
 	theme = THEME_HOLY
 	update_appearance()
-
-	var/mob/living/simple_animal/shade/captured_shade = locate() in src
-	if(captured_shade)
-		captured_shade.mind?.remove_antag_datum(/datum/antagonist/cult)
-
+	captured_shade?.mind?.remove_antag_datum(/datum/antagonist/cult)
 	exorcist.visible_message(span_notice("[exorcist] purifies [src]!"))
 	return TRUE
 
@@ -114,9 +115,8 @@
 	theme = THEME_CULT
 	update_appearance()
 
-	var/mob/living/simple_animal/shade/captured_shade = locate() in src
-	if(!IS_CULTIST(captured_shade))
-		captured_shade.mind?.add_antag_datum(/datum/antagonist/cult)
+	if(captured_shade?.mind && !IS_CULTIST(captured_shade))
+		captured_shade.mind.add_antag_datum(/datum/antagonist/cult)
 
 	return TRUE
 
@@ -164,10 +164,8 @@
 
 /// Called whenever the soulstone releases a shade from it.
 /obj/item/soulstone/proc/on_release_spirits()
-	if(!one_use)
-		return
-
-	spent = TRUE
+	if(one_use)
+		spent = TRUE
 	update_appearance()
 
 /obj/item/soulstone/pickup(mob/living/user)
@@ -192,9 +190,9 @@
 // Muh side effects in Destroy()
 // This stops the shade from being qdel'd immediately, and their ghost being sent back to the arrival shuttle.
 /obj/item/soulstone/Destroy()
-	var/mob/living/simple_animal/shade/captured_shade = locate() in src
 	if(captured_shade)
 		INVOKE_ASYNC(captured_shade, /mob/living/proc/death)
+		captured_shade = null
 	return ..()
 
 /obj/item/soulstone/attack_self(mob/living/user)
@@ -203,9 +201,8 @@
 		return TRUE
 	if(!role_check_with_side_effects(user))
 		return TRUE
-	if(locate(/mob/living/simple_animal/shade) in src)
-		release_shade(user)
-		return TRUE
+
+	return release_shade(user)
 
 /**
  * Releases the shade within our soulstone, if present.
@@ -214,9 +211,8 @@
  * silent - should we send messages on release? Only matters if we pass a user
  */
 /obj/item/soulstone/proc/release_shade(mob/user, silent = FALSE)
-	var/mob/living/simple_animal/shade/captured_shade = locate() in src
 	if(!captured_shade)
-		return
+		return FALSE
 
 	captured_shade.forceMove(get_turf(user))
 	captured_shade.cancel_camera()
@@ -232,6 +228,7 @@
 				[user.p_their()] goals at all costs."))
 
 	on_release_spirits()
+	return TRUE
 
 /obj/item/soulstone/pre_attack(atom/hit_atom, mob/living/user, params)
 	. = ..()
@@ -289,17 +286,16 @@
 
 /// Handles transferring a soulstone shade to this construct shell.
 /obj/structure/construct_shell/proc/transfer_to_construct(obj/item/soulstone/soulstone, mob/living/user)
-	var/mob/living/simple_animal/shade/shade = locate() in src
-	if(!shade)
+	if(!soulstone.captured_shade)
 		to_chat(user, "[span_userdanger("Creation failed!")]: [soulstone] is empty! Go kill someone!")
 		return FALSE
 
 	var/construct_class = show_radial_menu(user, src, GLOB.construct_radial_images, custom_check = CALLBACK(src, .proc/check_menu, soulstone, user), require_near = TRUE, tooltips = TRUE)
-	if(QDELETED(src) || !construct_class)
+	if(QDELETED(src) || QDELETED(soulstone.captured_shade) || !construct_class)
 		return FALSE
 
-	shade.mind?.remove_antag_datum(/datum/antagonist/cult)
-	make_new_construct_from_class(construct_class, soulstone.theme, shade, user, FALSE, loc)
+	soulstone.captured_shade.mind?.remove_antag_datum(/datum/antagonist/cult)
+	make_new_construct_from_class(construct_class, soulstone.theme, soulstone.captured_shade, user, FALSE, loc)
 	qdel(soulstone)
 	qdel(src)
 	return TRUE
@@ -308,7 +304,7 @@
 /obj/structure/construct_shell/proc/check_menu(obj/item/soulstone/soulstone, mob/living/user)
 	if(!istype(user))
 		return FALSE
-	if(user.incapacitated() || !user.is_holding(soulstone) || !user.CanReach(src, soulstone))
+	if(user.incapacitated() || !user.is_holding(soulstone) || !user.CanReach(src, soulstone) || QDELETED(soulstone.captured_shade))
 		return FALSE
 	if(!soulstone.role_check(user))
 		return FALSE
@@ -319,7 +315,7 @@
 /obj/item/soulstone/proc/capture_soul(mob/living/carbon/victim, mob/user, forced = FALSE)
 	if(!iscarbon(victim)) //TODO: Add sacrifice stoning for non-organics, just because you have no body doesnt mean you dont have a soul
 		return FALSE
-	if(locate(/mob/living/simple_animal/shade) in src)
+	if(captured_shade)
 		return FALSE
 
 	if(!forced)
@@ -355,7 +351,7 @@
 	if(!shade_controller)
 		shade_controller = victim
 	victim.stop_sound_channel(CHANNEL_HEARTBEAT)
-	var/mob/living/simple_animal/shade/soulstone_spirit = new /mob/living/simple_animal/shade(src)
+	var/mob/living/simple_animal/shade/soulstone_spirit = new(src)
 	soulstone_spirit.AddComponent(/datum/component/soulstoned, src)
 	soulstone_spirit.name = "Shade of [victim.real_name]"
 	soulstone_spirit.real_name = "Shade of [victim.real_name]"
@@ -371,6 +367,7 @@
 			soulstone_spirit.mind.add_antag_datum(/datum/antagonist/cult)
 
 	soulstone_spirit.cancel_camera()
+	captured_shade = soulstone_spirit
 	update_appearance()
 	if(user)
 		if(IS_CULTIST(user))

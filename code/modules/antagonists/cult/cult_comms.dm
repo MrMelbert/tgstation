@@ -200,7 +200,7 @@
 								var/turf/final = pick(destinations)
 								if(istype(B.current.loc, /obj/item/soulstone))
 									var/obj/item/soulstone/S = B.current.loc
-									S.release_shade(owner)
+									S.release_shade(owner, silent = TRUE)
 								B.current.setDir(SOUTH)
 								new /obj/effect/temp_visual/cult/blood(final)
 								addtimer(CALLBACK(B.current, /mob/.proc/reckon, final), 10)
