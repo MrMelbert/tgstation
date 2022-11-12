@@ -979,9 +979,10 @@ GLOBAL_PROTECT(admin_verbs_poll)
 	popup.open()
 
 /**
- * Resets the global religous sect the best we can
+ * Resets the global religous sect the best we can.
  *
- * Only checks all altar of the gods in existence. Any other religious tools will not be counted
+ * Effects apllied on sect conversion will not be reverted, so this is
+ * not an all encompassing thing - mainly use for debugging.
  */
 /client/proc/reset_sects()
 	set name = "Reset Chaplain Sect"
