@@ -88,7 +88,7 @@
 	pixel_x = -2;
 	pixel_y = 2
 	},
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/port/aft)
 "L" = (

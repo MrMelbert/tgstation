@@ -185,7 +185,7 @@
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/structure/table/reinforced,
-/obj/item/storage/book/bible/booze{
+/obj/item/book/bible/booze{
 	pixel_x = -3;
 	pixel_y = 4
 	},

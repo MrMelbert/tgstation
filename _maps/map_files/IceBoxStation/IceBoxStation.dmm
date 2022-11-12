@@ -46680,7 +46680,7 @@
 /turf/open/floor/plating,
 /area/station/security/courtroom)
 "onR" = (
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -53992,7 +53992,7 @@
 	pixel_x = -7;
 	pixel_y = 3
 	},
-/obj/item/storage/book{
+/obj/item/book{
 	name = "Tales from the First";
 	pixel_x = 5;
 	pixel_y = 5
@@ -58976,7 +58976,7 @@
 /area/station/maintenance/starboard/lesser)
 "sie" = (
 /obj/structure/table/glass,
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /turf/open/floor/iron/chapel,
 /area/station/service/chapel)
 "sil" = (
@@ -59226,7 +59226,7 @@
 "slB" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /obj/structure/altar_of_gods,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)
@@ -65452,7 +65452,7 @@
 /area/station/maintenance/department/medical/central)
 "uhJ" = (
 /obj/structure/table/wood,
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/office)
 "uhO" = (
@@ -77990,7 +77990,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},

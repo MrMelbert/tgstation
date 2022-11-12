@@ -5137,7 +5137,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /turf/open/floor/carpet/red,
 /area/station/service/chapel)
 "bzS" = (
@@ -36348,7 +36348,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /turf/open/floor/carpet/red,
 /area/station/service/chapel)
 "kqs" = (
@@ -77731,15 +77731,15 @@
 	dir = 8
 	},
 /obj/structure/table/wood/fancy/black,
-/obj/item/storage/book/bible{
+/obj/item/book/bible{
 	pixel_x = 6;
 	pixel_y = 6
 	},
-/obj/item/storage/book/bible{
+/obj/item/book/bible{
 	pixel_x = -6;
 	pixel_y = 6
 	},
-/obj/item/storage/book/bible,
+/obj/item/book/bible,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)
 "wae" = (
