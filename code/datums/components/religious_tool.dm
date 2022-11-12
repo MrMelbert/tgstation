@@ -133,6 +133,7 @@
 	if(GLOB.religious_sect)
 		return
 	GLOB.religious_sect = new path()
+	log_game("[key_name(user)] selected the \"[GLOB.religious_sect]\" religious sect.")
 	for(var/i in GLOB.player_list)
 		if(!isliving(i))
 			continue
