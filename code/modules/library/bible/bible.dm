@@ -5,8 +5,8 @@
 	icon_state = "bible"
 	inhand_icon_state = "bible"
 	worn_icon_state = "bible"
-	lefthand_file = 'icons/mob/inhands/misc/books_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/misc/books_righthand.dmi'
+	lefthand_file = 'icons/mob/inhands/items/books_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items/books_righthand.dmi'
 	force_string = "holy"
 	unique = TRUE
 	starting_author = "Unknown"
@@ -219,7 +219,7 @@
 
 /obj/item/book/bible/booze/Initialize(mapload)
 	. = ..()
-	new /obj/item/reagent_containers/food/drinks/bottle/whiskey(src)
+	new /obj/item/reagent_containers/cup/glass/bottle/whiskey(src)
 
 /obj/item/book/bible/syndicate
 	name = "Syndicate Tome"

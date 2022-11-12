@@ -381,6 +381,7 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 	// Let's gib the last person to have selected a room number in it.
 	if(unforeseen_consequences)
 		to_chat(unforeseen_consequences, span_warning("\The [H] starts to resonate. Forcing it to enter itself induces a bluespace paradox, violently tearing your body apart."))
+		unforeseen_consequences.investigate_log("has been gibbed by using [H] while inside of it.", INVESTIGATE_DEATHS)
 		unforeseen_consequences.gib()
 
 	var/turf/targetturf = find_safe_turf()
@@ -541,7 +542,6 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 	name = "note to the institute"
 
 /obj/item/paper/crumpled/ruins/note_institute/Initialize(mapload)
-	. = ..()
 	default_raw_text = {"Note to the Institute<br>
 	If you're reading this, I hope you're from the Institute. First things first, I should apologise. I won't be coming back to teach in the new semester.<br>
 	We've made some powerful enemies. Very powerful. More powerful than any of you can imagine, and so we can't come back.<br>
@@ -549,6 +549,8 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 	I've left some of our effects in the Hotel. Room number <u>[uppertext(num2hex(GLOB.hhMysteryRoomNumber, 0))]</u>. To anyone who should know, that should make sense.<br>
 	Best of luck with the research. From all of us in the Hilbert Group, it's been a pleasure working with you.<br>
 	- David, Phil, Fiona and Jen"}
+
+	return ..()
 
 /obj/item/paper/crumpled/ruins/postdocs_memo
 	name = "memo to the postdocs"

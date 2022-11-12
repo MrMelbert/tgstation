@@ -5,8 +5,8 @@
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "soulstone"
 	inhand_icon_state = "electronic"
-	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
+	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	layer = HIGH_OBJ_LAYER
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_BELT
@@ -100,7 +100,7 @@
 	required_role = null
 	theme = THEME_HOLY
 	update_appearance()
-	captured_shade?.mind?.remove_antag_datum(/datum/antagonist/cult)
+	assign_master(captured_shade, exorcist)
 	exorcist.visible_message(span_notice("[exorcist] purifies [src]!"))
 	return TRUE
 
@@ -377,12 +377,35 @@
 		else if(role_check(user))
 			to_chat(soulstone_spirit, span_bold("Your soul has been captured! You are now bound to [user.real_name]'s will. \
 				Help [user.p_them()] succeed in [user.p_their()] goals at all costs."))
+			assign_master(soulstone_spirit, user)
 
 		if(message_user)
 			to_chat(user, "[span_info("<b>Capture successful!</b>:")] [victim.real_name]'s soul has been ripped \
 				from [victim.p_their()] body and stored within [src].")
 
 	victim.dust(drop_items = TRUE)
+
+/**
+ * Assigns the bearer as the new master of a shade.
+ */
+/obj/item/soulstone/proc/assign_master(mob/shade, mob/user)
+	if (!shade || !user || !shade.mind)
+		return
+
+	// Cult shades get cult datum
+	if (user.mind.has_antag_datum(/datum/antagonist/cult))
+		shade.mind.remove_antag_datum(/datum/antagonist/shade_minion)
+		shade.mind.add_antag_datum(/datum/antagonist/cult)
+		return
+
+	// Only blessed soulstones can de-cult shades
+	if(theme == THEME_HOLY)
+		shade.mind.remove_antag_datum(/datum/antagonist/cult)
+
+	var/datum/antagonist/shade_minion/shade_datum = shade.mind.has_antag_datum(/datum/antagonist/shade_minion)
+	if (!shade_datum)
+		shade_datum = shade.mind.add_antag_datum(/datum/antagonist/shade_minion)
+	shade_datum.update_master(user.real_name)
 
 /**
  * Gets a ghost from dead chat to replace a missing player when a shade is created.

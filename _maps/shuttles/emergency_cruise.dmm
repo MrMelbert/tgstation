@@ -58,10 +58,6 @@
 /obj/machinery/door/airlock/shuttle,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"dR" = (
-/obj/structure/shuttle/engine/heater,
-/turf/closed/wall/mineral/titanium/nodiagonal,
-/area/shuttle/escape)
 "eb" = (
 /obj/effect/turf_decal/tile/yellow,
 /obj/effect/turf_decal/tile/yellow{
@@ -185,6 +181,20 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"le" = (
+/obj/effect/turf_decal/tile/blue/fourcorners,
+/obj/effect/turf_decal/tile/blue/fourcorners,
+/obj/structure/table/reinforced,
+/obj/item/book/bible/booze{
+	pixel_x = -3;
+	pixel_y = 4
+	},
+/obj/item/taperecorder{
+	pixel_x = 15;
+	pixel_y = 4
+	},
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
 "lJ" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -227,6 +237,10 @@
 /area/shuttle/escape)
 "ni" = (
 /turf/open/floor/light/colour_cycle/dancefloor_b,
+/area/shuttle/escape)
+"ny" = (
+/obj/machinery/power/shuttle_engine/heater,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "nU" = (
 /obj/structure/chair/comfy/brown{
@@ -282,6 +296,16 @@
 	},
 /obj/machinery/computer/warrant,
 /turf/open/floor/iron/white,
+/area/shuttle/escape)
+"qp" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/rag{
+	pixel_y = 7
+	},
+/obj/effect/fun_balloon/sentience/emergency_shuttle{
+	group_name = "bar staff on the NTSS Independence"
+	},
+/turf/open/floor/wood,
 /area/shuttle/escape)
 "qr" = (
 /obj/effect/turf_decal/tile/yellow,
@@ -390,10 +414,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"sW" = (
-/obj/structure/shuttle/engine/huge,
-/turf/open/floor/plating/airless,
-/area/shuttle/escape)
 "tx" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -408,19 +428,6 @@
 	anchored = 1;
 	name = "statue of an AI hologram"
 	},
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
-"tJ" = (
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/food/drinks/britcup{
-	pixel_x = 8;
-	pixel_y = -1
-	},
-/obj/item/storage/medkit/regular{
-	pixel_x = -9;
-	pixel_y = 3
-	},
-/obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "uV" = (
@@ -524,6 +531,19 @@
 	pixel_x = 5;
 	pixel_y = 10
 	},
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
+"ym" = (
+/obj/structure/table/reinforced,
+/obj/item/reagent_containers/cup/glass/britcup{
+	pixel_x = 8;
+	pixel_y = -1
+	},
+/obj/item/storage/medkit/regular{
+	pixel_x = -9;
+	pixel_y = 3
+	},
+/obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "yn" = (
@@ -910,32 +930,6 @@
 "KD" = (
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"Lo" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass{
-	pixel_x = -3;
-	pixel_y = 6
-	},
-/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass{
-	pixel_x = 6;
-	pixel_y = 14
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
-"LM" = (
-/obj/effect/turf_decal/tile/blue/fourcorners,
-/obj/effect/turf_decal/tile/blue/fourcorners,
-/obj/structure/table/reinforced,
-/obj/item/book/bible/booze{
-	pixel_x = -3;
-	pixel_y = 4
-	},
-/obj/item/taperecorder{
-	pixel_x = 15;
-	pixel_y = 4
-	},
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
 "Me" = (
 /obj/structure/chair/comfy/brown{
 	dir = 1
@@ -986,6 +980,18 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"QI" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/glass/drinkingglass/shotglass{
+	pixel_x = -3;
+	pixel_y = 6
+	},
+/obj/item/reagent_containers/cup/glass/drinkingglass/shotglass{
+	pixel_x = 6;
+	pixel_y = 14
+	},
+/turf/open/floor/wood,
+/area/shuttle/escape)
 "So" = (
 /obj/item/storage/cans/sixbeer,
 /turf/open/floor/wood,
@@ -1010,6 +1016,10 @@
 	pixel_y = 6
 	},
 /turf/open/floor/wood,
+/area/shuttle/escape)
+"SG" = (
+/obj/machinery/power/shuttle_engine/huge,
+/turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "SK" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -1062,16 +1072,6 @@
 /area/shuttle/escape)
 "UJ" = (
 /obj/machinery/light/directional/south,
-/turf/open/floor/wood,
-/area/shuttle/escape)
-"UN" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/glass/rag{
-	pixel_y = 7
-	},
-/obj/effect/fun_balloon/sentience/emergency_shuttle{
-	group_name = "bar staff on the NTSS Independence"
-	},
 /turf/open/floor/wood,
 /area/shuttle/escape)
 "Vk" = (
@@ -1439,10 +1439,10 @@ wf
 cz
 Me
 uV
-dR
+ny
 xj
 xj
-sW
+SG
 "}
 (8,1,1) = {"
 jt
@@ -1485,7 +1485,7 @@ NH
 NH
 UJ
 uV
-dR
+ny
 xj
 xj
 xj
@@ -1531,7 +1531,7 @@ WT
 WT
 WT
 uV
-dR
+ny
 xj
 xj
 xj
@@ -1609,7 +1609,7 @@ dQ
 qw
 qw
 Nv
-LM
+le
 Cn
 Dn
 SK
@@ -1657,7 +1657,7 @@ qw
 Nv
 VO
 Gv
-tJ
+ym
 SK
 cf
 tB
@@ -1761,10 +1761,10 @@ WT
 WT
 WT
 uV
-dR
+ny
 xj
 xj
-sW
+SG
 "}
 (15,1,1) = {"
 jt
@@ -1807,7 +1807,7 @@ nU
 nU
 UJ
 uV
-dR
+ny
 xj
 xj
 xj
@@ -1848,12 +1848,12 @@ Vm
 WT
 WT
 gQ
-Lo
-UN
+QI
+qp
 gQ
 wF
 uV
-dR
+ny
 xj
 xj
 xj

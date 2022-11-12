@@ -16,29 +16,23 @@
 	pass_flags_self = PASSGLASS
 	can_atmos_pass = ATMOS_PASS_PROC
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
-	network_id = NETWORK_DOOR_AIRLOCKS
 	set_dir_on_move = FALSE
 	var/obj/item/electronics/airlock/electronics = null
 	var/reinf = 0
 	var/shards = 2
 	var/rods = 2
 	var/cable = 1
-	var/list/debris = list()
+	var/associated_lift = null
 
 /obj/machinery/door/window/Initialize(mapload, set_dir, unres_sides)
 	. = ..()
+	init_network_id(NETWORK_DOOR_AIRLOCKS)
 	flags_1 &= ~PREVENT_CLICK_UNDER_1
 	if(set_dir)
 		setDir(set_dir)
 	if(LAZYLEN(req_access))
 		icon_state = "[icon_state]"
 		base_state = icon_state
-	for(var/i in 1 to shards)
-		debris += new /obj/item/shard(src)
-	if(rods)
-		debris += new /obj/item/stack/rods(src, rods)
-	if(cable)
-		debris += new /obj/item/stack/cable_coil(src, cable)
 
 	if(unres_sides)
 		//remove unres_sides from directions it can't be bumped from
@@ -61,14 +55,10 @@
 
 	AddElement(/datum/element/connect_loc, loc_connections)
 	AddElement(/datum/element/atmos_sensitive, mapload)
-
-/obj/machinery/door/window/ComponentInitialize()
-	. = ..()
 	AddComponent(/datum/component/ntnet_interface)
 
 /obj/machinery/door/window/Destroy()
 	set_density(FALSE)
-	QDEL_LIST(debris)
 	if(atom_integrity == 0)
 		playsound(src, SFX_SHATTER, 70, TRUE)
 	electronics = null
@@ -117,9 +107,9 @@
 		return
 	autoclose = TRUE
 	if(check_access(null))
-		sleep(50)
+		sleep(5 SECONDS)
 	else //secure doors close faster
-		sleep(20)
+		sleep(2 SECONDS)
 	if(!density && autoclose) //did someone change state while we slept?
 		close()
 
@@ -212,7 +202,7 @@
 	do_animate("opening")
 	playsound(src, 'sound/machines/windowdoor.ogg', 100, TRUE)
 	icon_state ="[base_state]open"
-	sleep(10)
+	sleep(1 SECONDS)
 	set_density(FALSE)
 	air_update_turf(TRUE, FALSE)
 	update_freelook_sight()
@@ -238,7 +228,7 @@
 	set_density(TRUE)
 	air_update_turf(TRUE, TRUE)
 	update_freelook_sight()
-	sleep(10)
+	sleep(1 SECONDS)
 
 	operating = FALSE
 	return 1
@@ -253,11 +243,17 @@
 
 /obj/machinery/door/window/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1) && !disassembled)
-		for(var/obj/fragment in debris)
-			fragment.forceMove(get_turf(src))
-			transfer_fingerprints_to(fragment)
-			debris -= fragment
+		for(var/i in 1 to shards)
+			drop_debris(new /obj/item/shard(src))
+		if(rods)
+			drop_debris(new /obj/item/stack/rods(src, rods))
+		if(cable)
+			drop_debris(new /obj/item/stack/cable_coil(src, cable))
 	qdel(src)
+
+/obj/machinery/door/window/proc/drop_debris(obj/item/debris)
+	debris.forceMove(loc)
+	transfer_fingerprints_to(debris)
 
 /obj/machinery/door/window/narsie_act()
 	add_atom_colour("#7D1919", FIXED_COLOUR_PRIORITY)
@@ -275,7 +271,7 @@
 		operating = TRUE
 		flick("[base_state]spark", src)
 		playsound(src, SFX_SPARKS, 75, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
-		sleep(6)
+		sleep(0.6 SECONDS)
 		operating = FALSE
 		desc += "<BR>[span_warning("Its access panel is smoking slightly.")]"
 		open(2)

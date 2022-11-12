@@ -38,7 +38,7 @@
 /obj/item/analyzer/AltClick(mob/user) //Barometer output for measuring when the next storm happens
 	..()
 
-	if(!user.canUseTopic(src, BE_CLOSE) || !user.can_read(src))
+	if(!user.canUseTopic(src, be_close = TRUE) || !user.can_read(src))
 		return
 
 	if(cooldown)
@@ -202,6 +202,6 @@
 
 /obj/item/analyzer/ranged/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!can_see(user, target, 7))
+	if(!can_see(user, target, 15))
 		return
-	atmos_scan(user, target)
+	atmos_scan(user, (target.return_analyzable_air() ? target : get_turf(target)))

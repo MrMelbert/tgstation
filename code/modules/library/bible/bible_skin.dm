@@ -161,7 +161,12 @@
 	insuls.siemens_coefficient = 0.99999
 	reskinner.equip_to_slot(insuls, ITEM_SLOT_GLOVES)
 
-/datum/bible_skin/insuls
+/datum/bible_skin/guru
 	name = "Guru Granth Sahib"
 	bible_icon_state = "gurugranthsahib"
 	bible_inhand_icon_state = "gurugranthsahib"
+
+/datum/bible_skin/japanese
+	name = "Koijiki"
+	bible_icon_state = "koijiki"
+	bible_inhand_icon_state = "koijiki"

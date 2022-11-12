@@ -1,3 +1,5 @@
+#define ORE_BAG_BALOON_COOLDOWN (2 SECONDS)
+
 /*
  * These absorb the functionality of the plant bag, ore satchel, etc.
  * They use the use_to_pickup, quick_gather, and quick_empty functions
@@ -48,10 +50,10 @@
 	atom_storage.max_slots = 30
 	atom_storage.set_holdable(cant_hold_list = list(/obj/item/disk/nuclear))
 
-/obj/item/storage/bag/trash/suicide_act(mob/user)
+/obj/item/storage/bag/trash/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] puts [src] over [user.p_their()] head and starts chomping at the insides! Disgusting!"))
 	playsound(loc, 'sound/items/eatfood.ogg', 50, TRUE, -1)
-	return (TOXLOSS)
+	return TOXLOSS
 
 /obj/item/storage/bag/trash/update_icon_state()
 	switch(contents.len)
@@ -104,8 +106,11 @@
 	worn_icon_state = "satchel"
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_POCKETS
 	w_class = WEIGHT_CLASS_NORMAL
-	var/spam_protection = FALSE //If this is TRUE, the holder won't receive any messages when they fail to pick up ore through crossing it
+	///If this is TRUE, the holder won't receive any messages when they fail to pick up ore through crossing it
+	var/spam_protection = FALSE
 	var/mob/listeningTo
+	///Cooldown on balloon alerts when picking ore
+	COOLDOWN_DECLARE(ore_bag_balloon_cooldown)
 
 /obj/item/storage/bag/ore/Initialize(mapload)
 	. = ..()
@@ -115,6 +120,7 @@
 	atom_storage.allow_quick_empty = TRUE
 	atom_storage.allow_quick_gather = TRUE
 	atom_storage.set_holdable(list(/obj/item/stack/ore))
+	atom_storage.silent_for_user = TRUE
 
 /obj/item/storage/bag/ore/equipped(mob/user)
 	. = ..()
@@ -151,7 +157,7 @@
 			if(box)
 				user.transferItemToLoc(thing, box)
 				show_message = TRUE
-			else if(atom_storage.attempt_insert(src, thing, user))
+			else if(atom_storage.attempt_insert(thing, user))
 				show_message = TRUE
 			else
 				if(!spam_protection)
@@ -160,13 +166,22 @@
 					continue
 	if(show_message)
 		playsound(user, SFX_RUSTLE, 50, TRUE)
+		if(!COOLDOWN_FINISHED(src, ore_bag_balloon_cooldown))
+			return
 
+		COOLDOWN_START(src, ore_bag_balloon_cooldown, ORE_BAG_BALOON_COOLDOWN)
 		if (box)
-			user.visible_message(span_notice("[user] offloads the ores beneath [user.p_them()] into [box]."), \
-				span_notice("You offload the ores beneath you into your [box]."))
+			balloon_alert(user, "scoops ore into box")
+			user.visible_message(
+				span_notice("[user] offloads the ores beneath [user.p_them()] into [box]."),
+				ignored_mobs = user
+			)
 		else
-			user.visible_message(span_notice("[user] scoops up the ores beneath [user.p_them()]."), \
-				span_notice("You scoop up the ores beneath you with your [name]."))
+			balloon_alert(user, "scoops ore into bag")
+			user.visible_message(
+				span_notice("[user] scoops up the ores beneath [user.p_them()]."),
+				ignored_mobs = user
+			)
 
 	spam_protection = FALSE
 
@@ -323,8 +338,8 @@
 		/obj/item/lighter,
 		/obj/item/organ,
 		/obj/item/plate,
-		/obj/item/reagent_containers/food,
-		/obj/item/reagent_containers/glass,
+		/obj/item/reagent_containers/condiment,
+		/obj/item/reagent_containers/cup,
 		/obj/item/rollingpaper,
 		/obj/item/storage/box/gum,
 		/obj/item/storage/box/matches,
@@ -394,7 +409,7 @@
 
 /obj/item/storage/bag/chemistry
 	name = "chemistry bag"
-	icon = 'icons/obj/chemical.dmi'
+	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "bag"
 	worn_icon_state = "chembag"
 	desc = "A bag for storing pills, patches, and bottles."
@@ -407,9 +422,9 @@
 	atom_storage.set_holdable(list(
 		/obj/item/reagent_containers/chem_pack,
 		/obj/item/reagent_containers/dropper,
-		/obj/item/reagent_containers/food/drinks/waterbottle,
-		/obj/item/reagent_containers/glass/beaker,
-		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/cup/glass/waterbottle,
+		/obj/item/reagent_containers/cup/beaker,
+		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/medigel,
 		/obj/item/reagent_containers/pill,
 		/obj/item/reagent_containers/syringe,
@@ -421,7 +436,7 @@
 
 /obj/item/storage/bag/bio
 	name = "bio bag"
-	icon = 'icons/obj/chemical.dmi'
+	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "biobag"
 	worn_icon_state = "biobag"
 	desc = "A bag for the safe transportation and disposal of biowaste and other virulent materials."
@@ -438,8 +453,8 @@
 		/obj/item/organ,
 		/obj/item/reagent_containers/blood,
 		/obj/item/reagent_containers/dropper,
-		/obj/item/reagent_containers/glass/beaker,
-		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/cup/beaker,
+		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/hypospray/medipen,
 		/obj/item/reagent_containers/syringe,
 		))
@@ -450,7 +465,7 @@
 
 /obj/item/storage/bag/xeno
 	name = "science bag"
-	icon = 'icons/obj/chemical.dmi'
+	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "xenobag"
 	worn_icon_state = "xenobag"
 	desc = "A bag for the storage and transport of anomalous materials."
@@ -467,8 +482,8 @@
 		/obj/item/organ,
 		/obj/item/petri_dish,
 		/obj/item/reagent_containers/dropper,
-		/obj/item/reagent_containers/glass/beaker,
-		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/cup/beaker,
+		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/syringe,
 		/obj/item/slime_extract,
 		/obj/item/swab,
@@ -496,7 +511,7 @@
 		/obj/item/assembly,
 		/obj/item/circuitboard,
 		/obj/item/electronics,
-		/obj/item/reagent_containers/glass/beaker,
+		/obj/item/reagent_containers/cup/beaker,
 		/obj/item/stack/cable_coil,
 		/obj/item/stack/ore/bluespace_crystal,
 		/obj/item/stock_parts,
@@ -507,7 +522,7 @@
 	name = "harpoon quiver"
 	desc = "A quiver for holding harpoons."
 	icon_state = "quiver"
-	inhand_icon_state = "quiver"
+	inhand_icon_state = null
 	worn_icon_state = "harpoon_quiver"
 
 /obj/item/storage/bag/harpoon_quiver/Initialize(mapload)
@@ -522,3 +537,5 @@
 /obj/item/storage/bag/harpoon_quiver/PopulateContents()
 	for(var/i in 1 to 40)
 		new /obj/item/ammo_casing/caseless/harpoon(src)
+
+#undef ORE_BAG_BALOON_COOLDOWN

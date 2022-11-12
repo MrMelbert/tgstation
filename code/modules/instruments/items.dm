@@ -4,7 +4,7 @@
 	force = 10
 	max_integrity = 100
 	resistance_flags = FLAMMABLE
-	icon = 'icons/obj/musician.dmi'
+	icon = 'icons/obj/art/musician.dmi'
 	lefthand_file = 'icons/mob/inhands/equipment/instruments_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/instruments_righthand.dmi'
 	/// Our song datum.
@@ -30,9 +30,9 @@
 	if(user.incapacitated() || !((loc == user) || (isturf(loc) && Adjacent(user)))) // sorry, no more TK playing.
 		return STOP_PLAYING
 
-/obj/item/instrument/suicide_act(mob/user)
+/obj/item/instrument/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] begins to play 'Gloomy Sunday'! It looks like [user.p_theyre()] trying to commit suicide!"))
-	return (BRUTELOSS)
+	return BRUTELOSS
 
 /obj/item/instrument/attack_self(mob/user)
 	if(!ISADVANCEDTOOLUSER(user))

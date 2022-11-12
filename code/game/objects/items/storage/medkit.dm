@@ -12,6 +12,7 @@
 	name = "medkit"
 	desc = "It's an emergency medical kit for those serious boo-boos."
 	icon_state = "medkit"
+	inhand_icon_state = "medkit"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	throw_speed = 3
@@ -69,8 +70,8 @@
 		/obj/item/healthanalyzer,
 		/obj/item/dnainjector,
 		/obj/item/reagent_containers/dropper,
-		/obj/item/reagent_containers/glass/beaker,
-		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/cup/beaker,
+		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/pill,
 		/obj/item/reagent_containers/syringe,
 		/obj/item/reagent_containers/medigel,
@@ -256,6 +257,7 @@
 	name = "combat medical kit"
 	desc = "I hope you've got insurance."
 	icon_state = "medkit_tactical"
+	inhand_icon_state = "medkit-tactical"
 	damagetype_healed = "all"
 
 /obj/item/storage/medkit/tactical/Initialize(mapload)
@@ -276,7 +278,7 @@
 
 //medibot assembly
 /obj/item/storage/medkit/attackby(obj/item/bodypart/bodypart, mob/user, params)
-	if((!istype(bodypart, /obj/item/bodypart/l_arm/robot)) && (!istype(bodypart, /obj/item/bodypart/r_arm/robot)))
+	if((!istype(bodypart, /obj/item/bodypart/arm/left/robot)) && (!istype(bodypart, /obj/item/bodypart/arm/right/robot)))
 		return ..()
 
 	//Making a medibot!
@@ -310,7 +312,7 @@
 	name = "pill bottle"
 	desc = "It's an airtight container for storing medication."
 	icon_state = "pill_canister"
-	icon = 'icons/obj/chemical.dmi'
+	icon = 'icons/obj/medical/chemical.dmi'
 	inhand_icon_state = "contsolid"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
@@ -321,9 +323,9 @@
 	atom_storage.allow_quick_gather = TRUE
 	atom_storage.set_holdable(list(/obj/item/reagent_containers/pill))
 
-/obj/item/storage/pill_bottle/suicide_act(mob/user)
+/obj/item/storage/pill_bottle/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is trying to get the cap off [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	return (TOXLOSS)
+	return TOXLOSS
 
 /obj/item/storage/pill_bottle/multiver
 	name = "bottle of multiver pills"
@@ -572,7 +574,7 @@
 		var/obj/item/organ/internal/int_organ = I
 		int_organ.organ_flags |= ORGAN_FROZEN
 		return
-	if(istype(I, /obj/item/bodypart))
+	if(isbodypart(I))
 		var/obj/item/bodypart/B = I
 		for(var/obj/item/organ/internal/int_organ in B.contents)
 			int_organ.organ_flags |= ORGAN_FROZEN
@@ -584,13 +586,13 @@
 		var/obj/item/organ/internal/int_organ = I
 		int_organ.organ_flags &= ~ORGAN_FROZEN
 		return
-	if(istype(I, /obj/item/bodypart))
+	if(isbodypart(I))
 		var/obj/item/bodypart/B = I
 		for(var/obj/item/organ/internal/int_organ in B.contents)
 			int_organ.organ_flags &= ~ORGAN_FROZEN
 
 /obj/item/storage/organbox/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/reagent_containers) && I.is_open_container())
+	if(is_reagent_container(I) && I.is_open_container())
 		var/obj/item/reagent_containers/RC = I
 		var/units = RC.reagents.trans_to(src, RC.amount_per_transfer_from_this, transfered_by = user)
 		if(units)

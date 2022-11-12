@@ -189,6 +189,8 @@
 /// Updates the mobs mood.
 /// Called after mood events have been added/removed.
 /datum/mood/proc/update_mood()
+	if(QDELETED(mob_parent)) //don't bother updating their mood if they're about to be salty anyway. (in other words, we're about to be destroyed too anyway.)
+		return
 	mood = 0
 	shown_mood = 0
 
@@ -443,6 +445,13 @@
 			mob_parent.remove_movespeed_modifier(MOVESPEED_ID_SANITY)
 			mob_parent.add_actionspeed_modifier(/datum/actionspeed_modifier/high_sanity)
 			sanity_level = SANITY_LEVEL_GREAT
+
+	// Crazy or insane = add some uncommon hallucinations
+	if(sanity_level >= SANITY_CRAZY)
+		mob_parent.apply_status_effect(/datum/status_effect/hallucination/sanity)
+	else
+		mob_parent.remove_status_effect(/datum/status_effect/hallucination/sanity)
+
 	update_mood_icon()
 
 /// Sets the insanity effect on the mob

@@ -21,11 +21,6 @@
 /obj/item/shard,
 /turf/open/misc/asteroid/airless,
 /area/ruin/unpowered/no_grav)
-"g" = (
-/obj/structure/grille,
-/obj/structure/window/fulltile,
-/turf/open/floor/plating,
-/area/ruin/unpowered/no_grav)
 "h" = (
 /obj/structure/grille/broken,
 /obj/structure/barricade/wooden/crude,
@@ -54,11 +49,6 @@
 /area/ruin/unpowered/no_grav)
 "n" = (
 /turf/open/floor/carpet/royalblack/airless,
-/area/ruin/unpowered/no_grav)
-"o" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/food/drinks/bottle/holywater,
-/turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
 "p" = (
 /obj/structure/table/wood/fancy,
@@ -158,11 +148,6 @@
 /obj/item/clothing/mask/breath,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/unpowered/no_grav)
-"K" = (
-/obj/structure/grille,
-/obj/structure/window/fulltile,
-/turf/open/floor/plating/airless,
-/area/ruin/unpowered/no_grav)
 "L" = (
 /obj/machinery/door/airlock/wood,
 /turf/open/floor/plating/airless,
@@ -174,17 +159,6 @@
 /area/ruin/unpowered/no_grav)
 "N" = (
 /mob/living/simple_animal/hostile/construct/proteon,
-/turf/open/misc/asteroid/airless,
-/area/ruin/unpowered/no_grav)
-"O" = (
-/obj/structure/grille,
-/obj/structure/window/fulltile,
-/obj/structure/barricade/wooden/crude,
-/turf/open/floor/plating/airless,
-/area/ruin/unpowered/no_grav)
-"Q" = (
-/obj/item/book/bible,
-/obj/effect/decal/cleanable/blood,
 /turf/open/misc/asteroid/airless,
 /area/ruin/unpowered/no_grav)
 "R" = (
@@ -200,6 +174,29 @@
 /obj/effect/decal/remains/human,
 /obj/item/paper/fluff/ruins/clericsden/warning,
 /turf/open/misc/asteroid/airless,
+/area/ruin/unpowered/no_grav)
+"V" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/glass/bottle/holywater,
+/turf/open/floor/carpet/airless,
+/area/ruin/unpowered/no_grav)
+"W" = (
+/obj/effect/spawner/structure/window,
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered/no_grav)
+"X" = (
+/obj/effect/spawner/structure/window,
+/turf/open/floor/plating,
+/area/ruin/unpowered/no_grav)
+"Y" = (
+/obj/item/book/bible,
+/obj/effect/decal/cleanable/blood,
+/turf/open/misc/asteroid/airless,
+/area/ruin/unpowered/no_grav)
+"Z" = (
+/obj/effect/spawner/structure/window,
+/obj/structure/barricade/wooden/crude,
+/turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
 
 (1,1,1) = {"
@@ -290,7 +287,7 @@ d
 e
 d
 e
-K
+W
 d
 d
 d
@@ -347,7 +344,7 @@ a
 f
 h
 m
-o
+V
 q
 u
 u
@@ -365,7 +362,7 @@ c
 (9,1,1) = {"
 a
 b
-g
+X
 m
 p
 r
@@ -430,7 +427,7 @@ e
 d
 d
 e
-O
+Z
 d
 d
 d
@@ -474,7 +471,7 @@ b
 c
 b
 c
-Q
+Y
 b
 b
 b

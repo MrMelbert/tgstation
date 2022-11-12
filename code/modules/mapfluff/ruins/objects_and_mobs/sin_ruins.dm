@@ -25,6 +25,7 @@
 	user.adjustCloneLoss(20)
 	if(user.stat)
 		to_chat(user, span_userdanger("No... just one more try..."))
+		user.investigate_log("has been gibbed by [src].", INVESTIGATE_DEATHS)
 		user.gib()
 	else
 		user.visible_message(span_warning("[user] pulls [src]'s lever with a glint in [user.p_their()] eyes!"), "<span class='warning'>You feel a draining as you pull the lever, but you \
@@ -52,12 +53,12 @@
 	. = ..()
 	var/overlay_state = icon_screen
 	. += mutable_appearance(icon, overlay_state)
-	. += emissive_appearance(icon, overlay_state)
+	. += emissive_appearance(icon, overlay_state, src)
 
 /obj/structure/cursed_money
 	name = "bag of money"
 	desc = "RICH! YES! YOU KNEW IT WAS WORTH IT! YOU'RE RICH! RICH! RICH!"
-	icon = 'icons/obj/storage.dmi'
+	icon = 'icons/obj/storage/storage.dmi'
 	icon_state = "moneybag"
 	anchored = FALSE
 	density = TRUE
@@ -91,7 +92,7 @@
 	anchored = TRUE
 	density = TRUE
 	icon_state = "blob"
-	icon = 'icons/mob/blob.dmi'
+	icon = 'icons/mob/nonhuman-player/blob.dmi'
 	color = rgb(145, 150, 0)
 
 /obj/effect/gluttony/CanAllowThrough(atom/movable/mover, border_dir)//So bullets will fly over and stuff.

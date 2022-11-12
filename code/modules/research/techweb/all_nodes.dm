@@ -15,27 +15,68 @@
 		"basic_micro_laser",
 		"basic_scanning",
 		"bepis",
+		"blast",
+		"bounced_radio",
+		"bowl",
 		"bucket",
-		"c38_rubber",
 		"c-reader",
-		"circuit_imprinter",
+		"c38_rubber",
+		"camera_assembly",
+		"camera_film",
+		"camera",
+		"capbox",
+		"chisel",
 		"circuit_imprinter_offstation",
+		"circuit_imprinter",
+		"circuit",
+		"circuitgreen",
+		"circuitred",
+		"coffee_cartridge",
+		"coffeemaker",
+		"coffeepot",
+		"condenser",
 		"conveyor_belt",
 		"conveyor_switch",
+		"custom_vendor_refill",
 		"design_disk",
 		"destructive_analyzer",
 		"destructive_scanner",
 		"desttagger",
 		"doppler_array",
+		"drinking_glass",
+		"earmuffs",
+		"electropack",
 		"experi_scanner",
 		"experimentor",
+		"extinguisher",
+		"fax",
+		"fishing_rod",
+		"flashlight",
+		"fluid_ducts",
+		"foam_dart",
+		"fork",
 		"gas_filter",
+		"handcuffs_s",
 		"handlabel",
+		"health_sensor",
+		"holodisk",
+		"igniter",
+		"infrared_emitter",
+		"intercom_frame",
+		"kitchen_knife",
+		"laptop",
+		"light_bulb",
+		"light_replacer",
+		"light_tube",
 		"mechfab",
 		"micro_mani",
+		"miniature_power_cell",
+		"newscaster_frame",
 		"oven_tray",
 		"packagewrap",
+		"pet_carrier",
 		"plasmaglass",
+		"plasmaman_gas_filter",
 		"plasmareinforcedglass",
 		"plasteel",
 		"plastic_fork",
@@ -43,27 +84,48 @@
 		"plastic_spoon",
 		"plastitanium",
 		"plastitaniumglass",
-		"plasmaman_gas_filter",
+		"plate",
+		"prox_sensor",
+		"radio_headset",
 		"rdconsole",
 		"rdserver",
 		"rdservercontrol",
-		"restaurant_portal",
+		"receiver",
+		"recorder",
 		"rglass",
 		"roll",
-		"salestagger",
 		"sec_38",
-		"sec_Islug",
 		"sec_beanbag_slug",
 		"sec_dart",
+		"sec_Islug",
 		"sec_rshot",
+		"servingtray",
+		"shaker",
+		"shot_glass",
+		"signaler",
+		"slime_scanner",
+		"solar_panel",
+		"solar_tracker",
 		"space_heater",
+		"spoon",
+		"status_display_frame",
+		"sticky_tape",
+		"tablet",
+		"tape",
 		"tech_disk",
+		"timer",
 		"titaniumglass",
-		"toner",
 		"toner_large",
+		"toner",
+		"toy_armblade",
+		"toy_balloon",
+		"toygun",
+		"trapdoor_electronics",
 		"turbine_part_compressor",
 		"turbine_part_rotor",
 		"turbine_part_stator",
+		"turret_control",
+		"voice_analyzer",
 		"watering_can",
 	)
 
@@ -161,6 +223,7 @@
 	design_ids = list(
 		"airlock_painter",
 		"analyzer",
+		"boxcutter",
 		"cable_coil",
 		"cable_coil",
 		"crowbar",
@@ -210,10 +273,12 @@
 		"dropper",
 		"hemostat",
 		"large_beaker",
+		"mmi_m",
 		"operating",
 		"petri_dish",
 		"pillbottle",
 		"plumbing_rcd",
+		"plumbing_rcd_service",
 		"plumbing_rcd_sci",
 		"portable_chem_mixer",
 		"retractor",
@@ -343,7 +408,6 @@
 	design_ids = list(
 		"crewpinpointer",
 		"defibrillator_compact",
-		"detective_scanner",
 		"harvester",
 		"healthanalyzer_advanced",
 		"holobarrier_med",
@@ -356,7 +420,7 @@
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	required_experiments = list(/datum/experiment/dissection/nonhuman)
-	discount_experiments = list(/datum/experiment/scanning/random/material/meat = 4000) //Big discount to reinforce doing it.
+	discount_experiments = list(/datum/experiment/scanning/random/material/meat = 4000)
 
 /datum/techweb_node/xenoorgan_biotech
 	id = "xenoorgan_bio"
@@ -523,6 +587,7 @@
 		"welding_goggles",
 		"anomaly_refinery",
 		"tank_compressor",
+		"atmos_thermal",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 12500)
 	discount_experiments = list(/datum/experiment/scanning/random/material/easy = 7500)
@@ -543,13 +608,16 @@
 		"forcefield_projector",
 		"magboots",
 		"rcd_loaded",
+		"rcd_ammo",
 		"rpd_loaded",
 		"sheetifier",
 		"weldingmask",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
-	required_experiments = list(/datum/experiment/ordnance/gaseous/bz)
-	discount_experiments = list(/datum/experiment/scanning/random/material/medium/one = 4000)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
+	discount_experiments = list(
+		/datum/experiment/scanning/random/material/medium/one = 4000,
+		/datum/experiment/ordnance/gaseous/bz = 10000,
+	)
 
 /datum/techweb_node/anomaly
 	id = "anomaly_research"
@@ -659,6 +727,7 @@
 	design_ids = list(
 		"bluespacebeaker",
 		"bluespacesyringe",
+		"bluespace_coffeepot",
 		"bs_rped",
 		"minerbag_holding",
 		"ore_silo",
@@ -738,6 +807,7 @@
 		"dispenser_shell",
 		"door_shell",
 		"gun_shell",
+		"keyboard_shell",
 		"module_shell",
 		"money_bot_shell",
 		"scanner_gate_shell",
@@ -806,6 +876,17 @@
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
+/datum/techweb_node/adv_bots
+	id = "adv_bots"
+	display_name = "Advanced Bots Research"
+	description = "Grants access to a special launchpad designed for bots."
+	prereq_ids = list("robotics")
+	design_ids = list(
+		"botpad",
+		"botpad_remote",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+
 /datum/techweb_node/exodrone_tech
 	id = "exodrone"
 	display_name = "Exploration Drone Research"
@@ -861,6 +942,7 @@
 		"borg_upgrade_holding",
 		"borg_upgrade_lavaproof",
 		"borg_upgrade_rped",
+		"borg_upgrade_hypermod",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 
@@ -982,9 +1064,11 @@
 	design_ids = list(
 		"quadultra_micro_laser",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
-	discount_experiments = list(/datum/experiment/scanning/points/machinery_pinpoint_scan/tier3_microlaser = 4000)
-	required_experiments = list(/datum/experiment/ordnance/gaseous/noblium)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 15000)
+	discount_experiments = list(
+		/datum/experiment/scanning/points/machinery_pinpoint_scan/tier3_microlaser = 4000,
+		/datum/experiment/ordnance/gaseous/noblium = 10000,
+	)
 
 /////////////////////////Clown tech/////////////////////////
 /datum/techweb_node/clown
@@ -1038,8 +1122,6 @@
 	description = "How computer hardware is made."
 	prereq_ids = list("comptech")
 	design_ids = list(
-		"APClink",
-		"aislot",
 		"bat_advanced",
 		"bat_control",
 		"bat_micro",
@@ -1047,19 +1129,9 @@
 		"bat_normal",
 		"bat_super",
 		"cardslot",
-		"hdd_advanced",
-		"hdd_basic",
-		"hdd_cluster",
-		"hdd_super",
-		"miniprinter",
-		"netcard_advanced",
-		"netcard_basic",
-		"netcard_wired",
 		"portadrive_advanced",
 		"portadrive_basic",
 		"portadrive_super",
-		"ssd_micro",
-		"ssd_small",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)  //they are really shitty
 
@@ -1267,17 +1339,20 @@
 	description = "Better than Efficiency V."
 	prereq_ids = list("engineering", "basic_plasma")
 	design_ids = list(
+		"borg_upgrade_cooldownmod",
+		"borg_upgrade_damagemod",
+		"borg_upgrade_rangemod",
 		"cargoexpress",
 		"cooldownmod",
 		"damagemod",
 		"drill",
+		"mecha_kineticgun",
 		"mining_equipment_vendor",
 		"ore_redemption",
 		"plasmacutter",
 		"rangemod",
 		"superresonator",
 		"triggermod",
-		"mecha_kineticgun",
 	)//e a r l y    g a  m e)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
@@ -1307,7 +1382,7 @@
 		"buffer",
 		"vacuum",
 		"holobarrier_jani",
-		"light_replacer",
+		"light_replacer_blue",
 		"paint_remover",
 		"spraybottle",
 	)
@@ -1401,8 +1476,8 @@
 		"pin_testing",
 		"tele_shield",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
-	required_experiments = list(/datum/experiment/ordnance/explosive/pressurebomb)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 20000)
+	discount_experiments = list(/datum/experiment/ordnance/explosive/pressurebomb = 10000)
 
 /datum/techweb_node/adv_weaponry
 	id = "adv_weaponry"
@@ -1551,8 +1626,21 @@
 		"mod_injector",
 		"mod_organ_thrower",
 		"mod_dna_lock",
+		"mod_patienttransport",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+
+/datum/techweb_node/mod_advanced_medical
+	id = "mod_advanced_medical"
+	display_name = "Advanced Medical Modular Suits"
+	description = "Advanced medical suits for quicker rescue purposes."
+	prereq_ids = list("mod_medical", "adv_biotech")
+	design_ids = list(
+		"mod_defib",
+		"mod_threadripper",
+		"mod_surgicalprocessor",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3500)
 
 /datum/techweb_node/mod_security
 	id = "mod_security"
@@ -1568,6 +1656,7 @@
 		"mod_holster",
 		"mod_sonar",
 		"mod_projectile_dampener",
+		"mod_criminalcapture",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
@@ -1985,8 +2074,8 @@
 		/obj/item/wrench/abductor,
 	)
 
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	required_experiments = list(/datum/experiment/scanning/points/slime/hard)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 12500)
+	discount_experiments = list(/datum/experiment/scanning/points/slime/hard = 10000)
 	hidden = TRUE
 
 /datum/techweb_node/alien_engi

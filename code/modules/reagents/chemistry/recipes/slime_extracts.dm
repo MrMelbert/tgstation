@@ -147,9 +147,7 @@
 	for(var/i in 1 to 4 + rand(1,2))
 		var/chosen = getbork()
 		var/obj/item/food_item = new chosen(T)
-		if(istype(food_item, /obj/item/food))
-			var/obj/item/food/foody = food_item
-			foody.mark_silver_slime_reaction()
+		ADD_TRAIT(food_item, TRAIT_FOOD_SILVER, INNATE_TRAIT)
 		if(prob(5))//Fry it!
 			var/obj/item/food/deepfryholder/fried
 			fried = new(T, food_item)
@@ -608,5 +606,5 @@
 	required_container = /obj/item/slime_extract/rainbow
 
 /datum/chemical_reaction/slime/flight_potion/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
-	new /obj/item/reagent_containers/glass/bottle/potion/flight(get_turf(holder.my_atom))
+	new /obj/item/reagent_containers/cup/bottle/potion/flight(get_turf(holder.my_atom))
 	..()

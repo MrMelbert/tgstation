@@ -2,7 +2,7 @@
  * Makes anything that it attaches to incapable of producing light
  */
 /datum/element/light_eaten
-	element_flags = ELEMENT_DETACH
+	element_flags = ELEMENT_DETACH_ON_HOST_DESTROY // Detach for turfs
 
 /datum/element/light_eaten/Attach(atom/target)
 	if(!isatom(target))
@@ -67,6 +67,6 @@
 	if(isliving(examiner) && prob(20))
 		var/mob/living/target = examiner
 		examine_text += span_danger("You can feel something in [eaten_light.p_them()] gnash at your eyes!")
-		target.blind_eyes(5)
+		target.adjust_blindness(5)
 		target.blur_eyes(10)
 	return NONE

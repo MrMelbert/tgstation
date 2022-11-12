@@ -6,7 +6,7 @@
 	var/t_has = p_have()
 	var/t_is = p_are()
 
-	. = list("<span class='info'>This is [icon2html(src, user)] \a <EM>[src]</EM>!>")
+	. = list("<span class='info'>This is [icon2html(src, user)] \a <EM>[src]</EM>!")
 	var/obscured = check_obscured_slots()
 
 	if (handcuffed)
@@ -66,7 +66,7 @@
 
 
 	var/temp = getBruteLoss()
-	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
+	if(!(user == src && has_status_effect(/datum/status_effect/grouped/screwy_hud/fake_healthy))) //fake healthy
 		if(temp)
 			if (temp < 25)
 				msg += "[t_He] [t_has] minor bruising.\n"
@@ -157,13 +157,14 @@
 	. = ..()
 	. += span_notice("<i>You examine [src] closer, and note the following...</i>")
 
-	//On closer inspection, this man isnt a man at all!
-	var/list/covered_zones = get_covered_body_zones()
-	for(var/obj/item/bodypart/part as anything in bodyparts)
-		if(part.body_zone in covered_zones)
-			continue
-		if(part.limb_id != (dna.species.examine_limb_id ? dna.species.examine_limb_id : dna.species.id))
-			. += "[span_info("[p_they(TRUE)] [p_have()] \an [part.name].")]"
+	if(dna) //not all carbons have it. eg - xenos
+		//On closer inspection, this man isnt a man at all!
+		var/list/covered_zones = get_covered_body_zones()
+		for(var/obj/item/bodypart/part as anything in bodyparts)
+			if(part.body_zone in covered_zones)
+				continue
+			if(part.limb_id != (dna.species.examine_limb_id ? dna.species.examine_limb_id : dna.species.id))
+				. += "[span_info("[p_they(TRUE)] [p_have()] \an [part.name].")]"
 
 	var/list/visible_scars
 	for(var/i in all_scars)

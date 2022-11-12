@@ -643,9 +643,7 @@
 	var/poster_type = SSlibrary.printable_posters[poster_name]
 	if(!poster_type)
 		return
-
-	var/obj/item/poster/random_official/poster = new(loc, new poster_type)
-	poster.name = poster_name
+	new /obj/item/poster(loc, new poster_type)
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/print_book(id)
 	if (!SSdbcore.Connect())
@@ -676,6 +674,7 @@
 			fill.set_content(content, trusted = TRUE)
 			printed_book.gen_random_icon_state()
 			visible_message(span_notice("[src]'s printer hums as it produces a completely bound book. How did it do that?"))
+			log_paper("[key_name(usr)] has printed \"[title]\" (id: [id]) by [author] from a book management console.")
 		break
 	qdel(query_library_print)
 
@@ -740,6 +739,8 @@
 				say("This book is already in my internal cache")
 				return
 			cache = held_book.book_data.return_copy()
+			flick("bigscanner1", src)
+			playsound(src, 'sound/machines/scanner.ogg', vol = 50, vary = TRUE)
 			return TRUE
 		if("clear")
 			cache = null

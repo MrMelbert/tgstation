@@ -1,5 +1,5 @@
 /datum/element/art
-	element_flags = ELEMENT_BESPOKE|ELEMENT_DETACH
+	element_flags = ELEMENT_BESPOKE | ELEMENT_DETACH_ON_HOST_DESTROY // Detach for turfs
 	id_arg_index = 2
 	var/impressiveness = 0
 
@@ -37,7 +37,8 @@
 
 /datum/element/art/proc/on_examine(atom/source, mob/user, list/examine_texts)
 	SIGNAL_HANDLER
-
+	if(!isliving(user))
+		return
 	if(!DOING_INTERACTION_WITH_TARGET(user, source))
 		INVOKE_ASYNC(src, .proc/appraise, source, user) //Do not sleep the proc.
 

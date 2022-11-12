@@ -7,7 +7,7 @@
 	name = "external organ"
 	desc = "An external organ that is too external."
 
-	organ_flags = ORGAN_EXTERNAL | ORGAN_EDIBLE
+	organ_flags = ORGAN_EDIBLE
 	visual = TRUE
 
 	///Sometimes we need multiple layers, for like the back, middle and front of the person
@@ -159,6 +159,8 @@
 /obj/item/organ/external/proc/set_sprite(sprite_name)
 	stored_feature_id = sprite_name
 	sprite_datum = get_sprite_datum(sprite_name)
+	if(!sprite_datum && sprite_name)
+		CRASH("External organ attempted to load with an invalid sprite datum. Sprite key: [sprite_name].")
 	cache_key = jointext(generate_icon_cache(), "_")
 
 ///Generate a unique key based on our sprites. So that if we've aleady drawn these sprites, they can be found in the cache and wont have to be drawn again (blessing and curse)
@@ -380,6 +382,9 @@
 	dna_block = DNA_POD_HAIR_BLOCK
 
 	color_source = ORGAN_COLOR_OVERRIDE
+
+/obj/item/organ/external/pod_hair/get_global_feature_list()
+	return GLOB.pod_hair_list
 
 /obj/item/organ/external/pod_hair/can_draw_on_bodypart(mob/living/carbon/human/human)
 	if(!(human.head?.flags_inv & HIDEHAIR) || (human.wear_mask?.flags_inv & HIDEHAIR))

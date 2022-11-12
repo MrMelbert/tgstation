@@ -9,7 +9,6 @@
 
 	src.container = container
 
-	shade.forceMove(container)
 	shade.fully_heal()
 
 /datum/component/soulstoned/RegisterWithParent()

@@ -3,7 +3,7 @@
 	real_name = "Shade"
 	desc = "A bound spirit."
 	gender = PLURAL
-	icon = 'icons/mob/cult.dmi'
+	icon = 'icons/mob/nonhuman-player/cult.dmi'
 	icon_state = "shade_cult"
 	icon_living = "shade_cult"
 	mob_biotypes = MOB_SPIRIT
@@ -52,7 +52,7 @@
 /mob/living/simple_animal/shade/proc/on_soulstone_hit(datum/source, obj/item/soulstone/soulstone, mob/living/user)
 	SIGNAL_HANDLER
 
-	if(length(soulstone.contents))
+	if(soulstone.captured_shade)
 		to_chat(user, "[span_userdanger("Capture failed!")]: [soulstone] is full! Free an existing soul to make room.")
 		return SOULSTONE_HIT_HANDLED
 
@@ -63,10 +63,14 @@
 
 	// Forcemoves us into the rock, gives us godmode etc
 	AddComponent(/datum/component/soulstoned, soulstone)
+	forceMove(soulstone)
+	soulstone.captured_shade = src
 	// Handles making sure the soulstone is correct
 	soulstone.update_appearance()
+	if(user && user != src)
+		assign_master(shade, user)
 	// Deconverts us if it's holy
-	if(soulstone.theme == THEME_HOLY)
+	else if(soulstone.theme == THEME_HOLY)
 		mind?.remove_antag_datum(/datum/antagonist/cult)
 
 	return SOULSTONE_HIT_HANDLED

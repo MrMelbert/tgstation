@@ -1,6 +1,6 @@
 /obj/item/storage/belt
-	name = "belt"
-	desc = "Can hold various things."
+	name = "not actually a toolbelt"
+	desc = "Can hold various things. This is the base type of /belt, are you sure you should have this?"
 	icon = 'icons/obj/clothing/belts.dmi'
 	icon_state = "utility"
 	inhand_icon_state = "utility"
@@ -28,6 +28,7 @@
 
 /obj/item/storage/belt/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/attack_equip)
 	update_appearance()
 
 /obj/item/storage/belt/utility
@@ -240,8 +241,8 @@
 		/obj/item/radio,
 		/obj/item/reagent_containers/blood,
 		/obj/item/reagent_containers/dropper,
-		/obj/item/reagent_containers/glass/beaker,
-		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/cup/beaker,
+		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/hypospray,
 		/obj/item/reagent_containers/medigel,
 		/obj/item/reagent_containers/pill,
@@ -271,8 +272,8 @@
 	SSwardrobe.provide_type(/obj/item/stack/medical/bone_gel, src)
 	SSwardrobe.provide_type(/obj/item/stack/sticky_tape/surgical, src)
 	SSwardrobe.provide_type(/obj/item/reagent_containers/syringe, src)
-	SSwardrobe.provide_type(/obj/item/reagent_containers/glass/bottle/calomel, src)
-	SSwardrobe.provide_type(/obj/item/reagent_containers/glass/bottle/formaldehyde, src)
+	SSwardrobe.provide_type(/obj/item/reagent_containers/cup/bottle/calomel, src)
+	SSwardrobe.provide_type(/obj/item/reagent_containers/cup/bottle/formaldehyde, src)
 	update_appearance()
 
 /obj/item/storage/belt/medical/paramedic/get_types_to_preload()
@@ -282,8 +283,8 @@
 	to_preload += /obj/item/stack/medical/bone_gel
 	to_preload += /obj/item/stack/sticky_tape/surgical
 	to_preload += /obj/item/reagent_containers/syringe
-	to_preload += /obj/item/reagent_containers/glass/bottle/calomel
-	to_preload += /obj/item/reagent_containers/glass/bottle/formaldehyde
+	to_preload += /obj/item/reagent_containers/cup/bottle/calomel
+	to_preload += /obj/item/reagent_containers/cup/bottle/formaldehyde
 	return to_preload
 
 /obj/item/storage/belt/medical/ert
@@ -381,16 +382,17 @@
 		/obj/item/extinguisher/mini,
 		/obj/item/flashlight,
 		/obj/item/gps,
+		/obj/item/mining_stabilizer,
 		/obj/item/key/lasso,
 		/obj/item/knife,
 		/obj/item/lighter,
 		/obj/item/mining_scanner,
 		/obj/item/multitool,
-		/obj/item/organ/internal/regenerative_core,
+		/obj/item/organ/internal/monster_core,
 		/obj/item/pickaxe,
 		/obj/item/radio,
-		/obj/item/reagent_containers/food/drinks,
-		/obj/item/reagent_containers/food/drinks/bottle,
+		/obj/item/reagent_containers/cup/glass,
+		/obj/item/reagent_containers/cup/glass/bottle,
 		/obj/item/reagent_containers/hypospray,
 		/obj/item/reagent_containers/pill,
 		/obj/item/resonator,
@@ -475,7 +477,7 @@
 	name = "cummerbund"
 	desc = "A pleated sash that pairs well with a suit jacket."
 	icon_state = "cummerbund"
-	inhand_icon_state = "cummerbund"
+	inhand_icon_state = null
 	worn_icon_state = "cummerbund"
 
 /obj/item/storage/belt/military
@@ -504,7 +506,7 @@
 	atom_storage.max_specific_storage = WEIGHT_CLASS_SMALL
 	atom_storage.set_holdable(list(
 		/obj/item/food,
-		/obj/item/reagent_containers/food/drinks
+		/obj/item/reagent_containers/cup/glass
 		))
 
 	var/amount = 5
@@ -524,15 +526,15 @@
 		/obj/item/food/spacetwinkie,
 		/obj/item/food/spaghetti/pastatomato,
 		/obj/item/food/syndicake,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/filled/nuka_cola,
-		/obj/item/reagent_containers/food/drinks/dry_ramen,
-		/obj/item/reagent_containers/food/drinks/soda_cans/cola,
-		/obj/item/reagent_containers/food/drinks/soda_cans/dr_gibb,
-		/obj/item/reagent_containers/food/drinks/soda_cans/lemon_lime,
-		/obj/item/reagent_containers/food/drinks/soda_cans/pwr_game,
-		/obj/item/reagent_containers/food/drinks/soda_cans/space_mountain_wind,
-		/obj/item/reagent_containers/food/drinks/soda_cans/space_up,
-		/obj/item/reagent_containers/food/drinks/soda_cans/starkist,
+		/obj/item/reagent_containers/cup/glass/drinkingglass/filled/nuka_cola,
+		/obj/item/reagent_containers/cup/glass/dry_ramen,
+		/obj/item/reagent_containers/cup/soda_cans/cola,
+		/obj/item/reagent_containers/cup/soda_cans/dr_gibb,
+		/obj/item/reagent_containers/cup/soda_cans/lemon_lime,
+		/obj/item/reagent_containers/cup/soda_cans/pwr_game,
+		/obj/item/reagent_containers/cup/soda_cans/space_mountain_wind,
+		/obj/item/reagent_containers/cup/soda_cans/space_up,
+		/obj/item/reagent_containers/cup/soda_cans/starkist,
 		))
 		new rig_snacks(src)
 
@@ -598,7 +600,7 @@
 		/obj/item/grenade/c4,
 		/obj/item/lighter,
 		/obj/item/multitool,
-		/obj/item/reagent_containers/food/drinks/bottle/molotov,
+		/obj/item/reagent_containers/cup/glass/bottle/molotov,
 		/obj/item/screwdriver,
 		))
 
@@ -699,7 +701,7 @@
 	name = "fannypack"
 	desc = "A dorky fannypack for keeping small items in."
 	icon_state = "fannypack_leather"
-	inhand_icon_state = "fannypack_leather"
+	inhand_icon_state = null
 	worn_icon_state = "fannypack_leather"
 	dying_key = DYE_REGISTRY_FANNYPACK
 	custom_price = PAYCHECK_CREW * 2
@@ -712,61 +714,51 @@
 /obj/item/storage/belt/fannypack/black
 	name = "black fannypack"
 	icon_state = "fannypack_black"
-	inhand_icon_state = "fannypack_black"
 	worn_icon_state = "fannypack_black"
 
 /obj/item/storage/belt/fannypack/red
 	name = "red fannypack"
 	icon_state = "fannypack_red"
-	inhand_icon_state = "fannypack_red"
 	worn_icon_state = "fannypack_red"
 
 /obj/item/storage/belt/fannypack/purple
 	name = "purple fannypack"
 	icon_state = "fannypack_purple"
-	inhand_icon_state = "fannypack_purple"
 	worn_icon_state = "fannypack_purple"
 
 /obj/item/storage/belt/fannypack/blue
 	name = "blue fannypack"
 	icon_state = "fannypack_blue"
-	inhand_icon_state = "fannypack_blue"
 	worn_icon_state = "fannypack_blue"
 
 /obj/item/storage/belt/fannypack/orange
 	name = "orange fannypack"
 	icon_state = "fannypack_orange"
-	inhand_icon_state = "fannypack_orange"
 	worn_icon_state = "fannypack_orange"
 
 /obj/item/storage/belt/fannypack/white
 	name = "white fannypack"
 	icon_state = "fannypack_white"
-	inhand_icon_state = "fannypack_white"
 	worn_icon_state = "fannypack_white"
 
 /obj/item/storage/belt/fannypack/green
 	name = "green fannypack"
 	icon_state = "fannypack_green"
-	inhand_icon_state = "fannypack_green"
 	worn_icon_state = "fannypack_green"
 
 /obj/item/storage/belt/fannypack/pink
 	name = "pink fannypack"
 	icon_state = "fannypack_pink"
-	inhand_icon_state = "fannypack_pink"
 	worn_icon_state = "fannypack_pink"
 
 /obj/item/storage/belt/fannypack/cyan
 	name = "cyan fannypack"
 	icon_state = "fannypack_cyan"
-	inhand_icon_state = "fannypack_cyan"
 	worn_icon_state = "fannypack_cyan"
 
 /obj/item/storage/belt/fannypack/yellow
 	name = "yellow fannypack"
 	icon_state = "fannypack_yellow"
-	inhand_icon_state = "fannypack_yellow"
 	worn_icon_state = "fannypack_yellow"
 
 /obj/item/storage/belt/sabre
@@ -779,14 +771,16 @@
 
 /obj/item/storage/belt/sabre/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob)
+	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_BELT)
 
 	atom_storage.max_slots = 1
 	atom_storage.rustle_sound = FALSE
 	atom_storage.max_specific_storage = WEIGHT_CLASS_BULKY
-	atom_storage.set_holdable(list(
-		/obj/item/melee/sabre,
-		))
+	atom_storage.set_holdable(
+		list(
+			/obj/item/melee/sabre,
+		)
+	)
 
 /obj/item/storage/belt/sabre/examine(mob/user)
 	. = ..()
@@ -794,7 +788,7 @@
 		. += span_notice("Alt-click it to quickly draw the blade.")
 
 /obj/item/storage/belt/sabre/AltClick(mob/user)
-	if(!user.canUseTopic(src, BE_CLOSE, NO_DEXTERITY, FALSE, TRUE))
+	if(!user.canUseTopic(src, be_close = TRUE, no_dexterity = TRUE, no_tk = FALSE, need_hands = TRUE))
 		return
 	if(length(contents))
 		var/obj/item/I = contents[1]
@@ -822,7 +816,7 @@
 	name = "botanical belt"
 	desc = "A belt used to hold most hydroponics supplies. Suprisingly, not green."
 	icon_state = "plantbelt"
-	inhand_icon_state = "plantbelt"
+	inhand_icon_state = "championbelt"
 	worn_icon_state = "plantbelt"
 	content_overlays = TRUE
 
@@ -837,8 +831,8 @@
 		/obj/item/gun/energy/floragun,
 		/obj/item/hatchet,
 		/obj/item/plant_analyzer,
-		/obj/item/reagent_containers/glass/beaker,
-		/obj/item/reagent_containers/glass/bottle,
+		/obj/item/reagent_containers/cup/beaker,
+		/obj/item/reagent_containers/cup/bottle,
 		/obj/item/reagent_containers/spray/pestspray,
 		/obj/item/reagent_containers/spray/plantbgone,
 		/obj/item/secateurs,
