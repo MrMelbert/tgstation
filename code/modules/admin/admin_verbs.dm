@@ -86,6 +86,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/list_dna,
 	/client/proc/list_fingerprints,
 	/client/proc/message_pda, /*send a message to somebody on PDA*/
+	/client/proc/religious_vars, /* Easy access to modify global religion vars */
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -215,6 +216,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/validate_puzzgrids,
 	/client/proc/debug_spell_requirements,
 	/client/proc/debug_hallucination_weighted_list_per_type,
+	/client/proc/reset_sects,
 	)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, /proc/release))
 GLOBAL_PROTECT(admin_verbs_possess)
@@ -975,3 +977,28 @@ GLOBAL_PROTECT(admin_verbs_poll)
 	var/datum/browser/popup = new(mob, "spellreqs", "Spell Requirements", 600, 400)
 	popup.set_content(page_contents)
 	popup.open()
+
+/**
+ * Resets the global religous sect the best we can
+ *
+ * Only checks all altar of the gods in existence. Any other religious tools will not be counted
+ */
+/client/proc/reset_sects()
+	set name = "Reset Chaplain Sect"
+	set category = "Debug"
+
+	if(!check_rights(R_DEBUG))
+		return
+	for(var/obj/structure/altar_of_gods/altar as anything in GLOB.chapolain_altars)
+		altar.sect_to_altar = null
+		altar.icon = initial(altar.icon)
+		altar.icon_state = initial(altar.icon_state)
+		altar.update_appearance()
+
+	for(var/datum/component/religious_tool/tool as anything in GLOB.religious_tools)
+		tool.easy_access_sect = null
+		QDEL_NULL(tool.performing_rite)
+
+	QDEL_NULL(GLOB.religious_sect)
+	message_admins("[key_name_admin(usr)] reset the current religious sect.")
+	log_admin("[key_name(usr)] reset the current religious sect.")

@@ -27,6 +27,11 @@
 	after_sect_select_cb = _after_sect_select_cb
 	if(override_catalyst_type)
 		catalyst_type = override_catalyst_type
+	GLOB.religious_tools += src
+
+/datum/component/religious_tool/Destroy(force, silent)
+	GLOB.religious_tools -= src
+	return ..()
 
 /datum/component/religious_tool/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY,.proc/AttemptActions)

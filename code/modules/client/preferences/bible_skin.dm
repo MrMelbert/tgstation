@@ -7,11 +7,11 @@
 /datum/preference/choiced/bible_skin/init_possible_values()
 	var/list/values = list()
 
-	values[DEFAULT_BIBLE_SKIN] = image(icon = 'icons/obj/bibles.dmi', icon_state = "bible")
+	values[DEFAULT_BIBLE_SKIN] = icon('icons/obj/bibles.dmi', "bible")
 
-	for(var/skin_name in GLOB.bible_skins_to_names)
-		var/datum/bible_skin/skin = GLOB.bible_skins_to_names[skin_name]
-		values[skin_name] = skin.preview_image
+	for(var/skin_name in GLOB.bible_names_to_skins)
+		var/datum/bible_skin/skin = GLOB.bible_names_to_skins[skin_name]
+		values[skin_name] = icon(skin.bible_icon, skin.bible_icon_state)
 
 	return values
 

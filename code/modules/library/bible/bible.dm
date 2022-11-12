@@ -1,7 +1,7 @@
 /obj/item/book/bible
 	name = "bible"
 	desc = "Apply to head repeatedly."
-	icon = 'icons/obj/storage.dmi'
+	icon = 'icons/obj/bibles.dmi'
 	icon_state = "bible"
 	inhand_icon_state = "bible"
 	worn_icon_state = "bible"
@@ -14,9 +14,9 @@
 
 /obj/item/book/bible/examine(mob/user)
 	. = ..()
-	if(!user.mind || !user.mind.holy_role)
+	if(!user?mind.holy_role)
 		return
-	if(GLOB.chaplain_altars.len)
+	if(length(GLOB.chaplain_altars))
 		. += span_notice("[src] has an expansion pack to replace any broken Altar.")
 	else
 		. += span_notice("[src] can be unpacked by hitting the floor of a holy area with it.")
@@ -57,24 +57,28 @@
 		inhand_icon_state = hit_us.inhand_icon_state
 
 	balloon_alert(user, "converted")
+	playsound(src, 'sound/effects/magic.ogg', 50, vary = FALSE, extrarrange = SHORT_RANGE_SOUND_EXTRARANGE, frequency = 2)
+	do_smoke(range = 0, holder = src, location = drop_location(), smoke_type = /obj/effect/particle_effect/fluid/smoke/quick)
 	return COMSIG_END_BIBLE_CHAIN
 
 /obj/item/book/bible/attack_self(mob/living/carbon/human/user)
-	if(user?.mind?.holy_role != HOLY_ROLE_HIGHPRIEST)
+	if(user.mind?.holy_role != HOLY_ROLE_HIGHPRIEST)
 		return ..()
 	if(GLOB.current_bible_skin)
 		return FALSE
 
-	var/static/list/skins_to_images = list()
-	for(var/skin_name in GLOB.bible_skins_to_names)
-		var/datum/bible_skin/skin = GLOB.bible_skins_to_names[skin_name]
-		skins_to_images[skin_name] = skins_to_images.preview_image
+	var/static/list/skins_to_images
+	if(!skins_to_images)
+		skins_to_images = list()
+		for(var/skin_name in GLOB.bible_names_to_skins)
+			var/datum/bible_skin/skin = GLOB.bible_names_to_skins[skin_name]
+			skins_to_images[skin_name] = image(icon = skin.bible_icon, icon_state = skin.bible_icon_state)
 
 	var/choice = show_radial_menu(user, src, skins_to_images, custom_check = CALLBACK(src, .proc/check_menu, user), radius = 40, require_near = TRUE)
 	if(!choice)
 		return FALSE
 
-	var/datum/bible_skin/picked_skin = GLOB.bible_skins_to_names[choice]
+	var/datum/bible_skin/picked_skin = GLOB.bible_names_to_skins[choice]
 	if(!istype(picked_skin))
 		return FALSE
 
@@ -94,9 +98,7 @@
 		return FALSE
 	if(!istype(user) || !user.is_holding(src))
 		return FALSE
-	if(!user.can_read(src) || user.is_blind() || user.incapacitated())
-		return FALSE
-	if(user.mind?.holy_role != HOLY_ROLE_HIGHPRIEST)
+	if(user.incapacitated() || user.mind?.holy_role != HOLY_ROLE_HIGHPRIEST)
 		return FALSE
 	return TRUE
 
@@ -105,8 +107,10 @@
 
 	balloon_alert(user, "unpacking bible...")
 	if(!do_after(user, 15 SECONDS, new_altar_area))
+		balloon_alert(user, "interrupted!")
 		return
-	new /obj/structure/altar_of_gods(new_altar_area)
+	var/obj/structure/altar_of_gods/altar = new(new_altar_area)
+	altar.balloon_alert(user, "altar created")
 	qdel(src)
 
 /obj/item/book/bible/proc/bless(mob/living/L, mob/living/user)
@@ -145,7 +149,7 @@
 		user.Unconscious(40 SECONDS)
 		return
 
-	if (!user.mind || !user.mind.holy_role)
+	if (!user.mind?.holy_role)
 		to_chat(user, span_danger("The book sizzles in your hands."))
 		user.take_bodypart_damage(burn = 10)
 		return
@@ -200,7 +204,7 @@
 
 	if(isfloorturf(bible_smacked))
 		var/area/current_area = get_area(bible_smacked)
-		if(!GLOB.chaplain_altars.len && istype(current_area, /area/station/service/chapel))
+		if(!length(GLOB.chaplain_altars) && istype(current_area, /area/station/service/chapel))
 			make_new_altar(bible_smacked, user)
 			return
 

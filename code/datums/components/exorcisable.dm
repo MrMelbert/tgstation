@@ -41,7 +41,7 @@
 /datum/component/exorcisable/proc/attempt_exorcism(mob/living/exorcist)
 	var/atom/exorcised_atom = parent
 
-	exorcised_atom.balloon_alert(exorcist, span_notice("exorcising [exorcised_atom]..."))
+	exorcised_atom.balloon_alert(exorcist, span_notice("exorcising..."))
 	playsound(exorcised_atom, 'sound/hallucinations/veryfar_noise.ogg', 40, TRUE)
 
 	if(!do_after(exorcist, exorcise_time, target = exorcised_atom) || !on_exorcism_callback.Invoke(exorcist))
@@ -49,4 +49,4 @@
 		return
 
 	playsound(exorcised_atom, 'sound/effects/pray_chaplain.ogg', 60, TRUE)
-	exorcised_atom.balloon_alert(exorcist, span_notice("[exorcised_atom] exorcised"))
+	exorcised_atom.balloon_alert(exorcist, span_notice("exorcised"))

@@ -46,8 +46,7 @@
 
 	// There's an existing religion on station
 	if(GLOB.religion)
-		if(our_father.mind)
-			our_father.mind.holy_role = HOLY_ROLE_PRIEST
+		our_father.mind?.holy_role = HOLY_ROLE_PRIEST
 
 		if(GLOB.current_bible_skin)
 			GLOB.current_bible_skin.apply_reskin(our_father, holy_book)
@@ -67,19 +66,19 @@
 			GLOB.religious_sect.on_conversion(our_father)
 		return
 
-	if(our_father.mind)
-		our_father.mind.holy_role = HOLY_ROLE_HIGHPRIEST
+	our_father.mind?.holy_role = HOLY_ROLE_HIGHPRIEST
 
-	var/bible_skin = player_client?.prefs?.read_preference(/datum/preference/choiced/bible_skin) || DEFAULT_BIBLE_SKIN
-	var/datum/bible_skin/skin_to_use = GLOB.bible_skins_to_names[bible_skin]
+	var/bible_skin = player_client?.prefs.read_preference(/datum/preference/choiced/bible_skin) || DEFAULT_BIBLE_SKIN
+	var/datum/bible_skin/skin_to_use = GLOB.bible_names_to_skins[bible_skin]
 	if(skin_to_use)
 		skin_to_use.apply_reskin(our_father, holy_book)
 		GLOB.current_bible_skin = skin_to_use
 
-	var/new_religion = player_client?.prefs?.read_preference(/datum/preference/name/religion) || DEFAULT_RELIGION
-	var/new_deity = player_client?.prefs?.read_preference(/datum/preference/name/deity) || DEFAULT_DEITY
-	var/new_bible = player_client?.prefs?.read_preference(/datum/preference/name/bible) || DEFAULT_BIBLE
+	var/new_religion = player_client?.prefs.read_preference(/datum/preference/name/religion) || DEFAULT_RELIGION
+	var/new_deity = player_client?.prefs.read_preference(/datum/preference/name/deity) || DEFAULT_DEITY
+	var/new_bible = player_client?.prefs.read_preference(/datum/preference/name/bible) || DEFAULT_BIBLE
 
+	// Ideally(?) these could be bible skins as well but I think they're fine here
 	switch(lowertext(new_religion))
 		if("homosexuality", "gay", "penis", "ass", "cock", "cocks")
 			new_bible = pick("Guys Gone Wild", "Coming Out of The Closet", "War of Cocks")

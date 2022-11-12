@@ -7,6 +7,16 @@
 	var/list/skins = list()
 	for(var/skin_type in typesof(/datum/bible_skin))
 		var/datum/bible_skin/skin_singleton = new skin_type()
+		if(isnull(skin_singleton.name))
+			stack_trace("Hey! Why is there a bible skin with no name? Set up your skin correctly! ([skin_type])")
+			qdel(skin_singleton)
+			continue
+		else if(skin_singleton.name in skins)
+			var/datum/bible_skin/existing_singleton = skins[skin_singleton.name]
+			stack_trace("Hey! [skin_type] has a duplicate bible name with [existing_singleton.type]! Please amend this!")
+			qdel(skin_singleton)
+			continue
+
 		skins[skin_singleton.name] = skin_singleton
 
 	return skins
@@ -34,12 +44,6 @@
 	var/bible_righthand_icon = 'icons/mob/inhands/items/books_righthand.dmi'
 	/// The inhand icon state to use for the bible
 	var/bible_inhand_icon_state = "bible"
-	/// Preview image, used in radials
-	var/image/preview_image
-
-/datum/bible_skin/New()
-	. = ..()
-	preview_image = image(icon = bible_icon, icon_state = bible_icon_state)
 
 /**
  * Applies this bible skin to the target bible
@@ -63,20 +67,11 @@
 	else if(deity_name)
 		reskinned.deity_name = deity_name
 
-	if(bible_icon)
-		reskinned.icon = bible_icon
-
-	if(bible_icon_state)
-		reskinned.icon_state = bible_icon_state
-
-	if(bible_lefthand_icon)
-		reskinned.lefthand_file = bible_lefthand_icon
-
-	if(bible_righthand_icon)
-		reskinned.righthand_file = bible_righthand_icon
-
-	if(bible_inhand_icon_state)
-		reskinned.inhand_icon_state = bible_inhand_icon_state
+	reskinned.icon = bible_icon
+	reskinned.icon_state = bible_icon_state
+	reskinned.lefthand_file = bible_lefthand_icon
+	reskinned.righthand_file = bible_righthand_icon
+	reskinned.inhand_icon_state = bible_inhand_icon_state
 
 /datum/bible_skin/quran
 	name = "Quran"

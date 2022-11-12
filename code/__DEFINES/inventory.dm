@@ -210,6 +210,7 @@ GLOBAL_LIST_INIT(security_wintercoat_allowed, typecacheof(list(
 	/obj/item/storage/belt/holster/thermal,
 	)))
 
+/// List of all things a chaplain's armor vest can carry.
 GLOBAL_LIST_INIT(chaplain_armor_allowed, list(
 	/obj/item/book/bible,
 	/obj/item/nullrod,

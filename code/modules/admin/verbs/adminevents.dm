@@ -386,3 +386,64 @@
 	log_admin("[key_name(usr)] removed mob ability [ability_name] from mob [marked_mob].")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Remove Mob Ability") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/**
+ * Basically an easy access verb for admins to change religion names and stuff
+ */
+/client/proc/religious_vars()
+	set name = "Modify Religions"
+	set category = "Admin.Events"
+
+	if(!check_rights(R_ADMIN))
+		return
+	if(tgui_alert(usr, "Note that these are set by the station's chaplain, messing with these will override what they have chosen.", "Notice", list("I know", "Oh shoot")) != "I know")
+		return
+
+	var/religion_name = tgui_input_text(usr, "Change global religion name", "Religion name", GLOB.religion)
+	if(!religion_name)
+		return
+	// These logs are kind of meaningless since they could just modify the global vars,
+	// but yknow it's the thought that counts.
+	message_admins("[key_name_admin(usr)] changed global religion name from [GLOB.religion] to [religion_name].")
+	log_admin("[key_name(usr)] changed global religion name from [GLOB.religion] to [religion_name].")
+	GLOB.religion = religion_name
+
+	var/new_god = tgui_input_text(usr, "Change global deity name", "Deity name", GLOB.deity)
+	if(!new_god)
+		return
+	message_admins("[key_name_admin(usr)] changed global deity from [GLOB.diety] to [new_god].")
+	log_admin("[key_name(usr)] changed global deity from [GLOB.diety] to [new_god].")
+	GLOB.diety = new_god
+
+	var/new_bible = tgui_input_text(usr, "Change global bible name", "Bible name", GLOB.bible_name)
+	if(!new_bible)
+		return
+	message_admins("[key_name_admin(usr)] changed global bible name from [GLOB.bible_name] to [new_bible].")
+	log_admin("[key_name(usr)] changed global bible name from [GLOB.bible_name] to [new_bible].")
+	GLOB.bible_name = new_bible
+
+	if(GLOB.holy_weapon_type)
+		var/reset_nullrod = tgui_alert(usr, "Reset picked Null Rod varient? Existing ones remain unchanged", "Null rod", list("Yes", "No"))
+		if(reset_nullrod == "Yes")
+			message_admins("[key_name_admin(usr)] reset the picked null rod varient.")
+			log_admin("[key_name(usr)] reset the picked null rod varient.")
+			GLOB.holy_weapon_type = null
+		else if(isnull(reset_nullrod))
+			return
+
+	if(GLOB.holy_armor_type)
+		var/reset_armor = tgui_alert(usr, "Reset picked Holy Armor varient? Existing ones remain unchanged", "Holy Armor", list("Yes", "No"))
+		if(reset_nullrod == "Yes")
+			message_admins("[key_name_admin(usr)] reset the picked holy armor varient.")
+			log_admin("[key_name(usr)] reset the picked holy armor varient.")
+			GLOB.holy_armor_type = null
+		else if(isnull(reset_nullrod))
+			return
+
+	if(GLOB.current_bible_skin)
+		var/reset_bible = tgui_alert(usr, "Reset picked Bible varient? Existing ones remain unchanged", "Bible Skin", list("Yes", "No"))
+		if(reset_bible == "Yes")
+			message_admins("[key_name_admin(usr)] reset the picked bible varient.")
+			log_admin("[key_name(usr)] reset the picked bible varient.")
+			GLOB.current_bible_skin = null
+		else if(isnull(reset_bible))
+			return

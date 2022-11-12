@@ -10,13 +10,15 @@ GLOBAL_DATUM(religious_sect, /datum/religion_sect)
 /// The chaplain's preferred bible name
 GLOBAL_VAR(bible_name)
 /// A global list of [bible names] to [blible skin singletons]
-GLOBAL_LIST_INIT(bible_skins_to_names, generate_bible_skins_by_name())
+GLOBAL_LIST_INIT(bible_names_to_skins, generate_bible_skins_by_name())
 /// The currently selected bible skin by the chaplain, or null if unselected
 GLOBAL_DATUM(current_bible_skin, /datum/bible_skin)
 
 // Religious altars
-/// A list of all altars in existence
+/// A list of all chaplain altar of gods
 GLOBAL_LIST_EMPTY(chaplain_altars)
+/// A list of all religious tools, these are components
+GLOBAL_LIST_EMPTY(religious_tools)
 
 // Equipment
 /// The holy weapon the chaplain selected out of their null rod

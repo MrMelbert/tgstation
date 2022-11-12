@@ -27,19 +27,12 @@
 	if(!length(display_names))
 		return
 	var/choice = tgui_input_list(M, "Which item would you like to order?", "Select an Item", display_names)
-	if(isnull(choice))
+	if(isnull(choice) || isnull(display_names[choice]))
 		return
-	if(isnull(display_names[choice]))
-		return
-	if(!M.canUseTopic(src, be_close = TRUE, no_dexterity = FALSE, no_tk = TRUE))
+	if(!canUseBeacon(M))
 		return
 
 	spawn_option(display_names[choice],M)
-	uses--
-	if(!uses)
-		qdel(src)
-	else
-		to_chat(M, span_notice("[uses] use[uses > 1 ? "s" : ""] remaining on the [src]."))
 
 /obj/item/choice_beacon/proc/spawn_option(obj/choice,mob/living/M)
 	podspawn(list(
@@ -53,6 +46,10 @@
 		if(istype(H.ears, /obj/item/radio/headset))
 			msg = "You hear something crackle in your ears for a moment before a voice speaks.  \"Please stand by for a message from Central Command.  Message as follows: [span_bold("Item request received. Your package is inbound, please stand back from the landing site.")] Message ends.\""
 	to_chat(M, msg)
+	if(--uses <= 0)
+		qdel(src)
+	else
+		to_chat(M, span_notice("[uses] use[uses > 1 ? "s" : ""] remaining on the [src]."))
 
 /obj/item/choice_beacon/ingredient
 	name = "ingredient delivery beacon"
@@ -118,28 +115,44 @@
 	desc = "Contains a set of armaments for the chaplain."
 
 /obj/item/choice_beacon/holy/canUseBeacon(mob/living/user)
-	if(user.mind && user.mind.holy_role)
+	if(user.mind?.holy_role)
 		return ..()
-	else
-		playsound(src, 'sound/machines/buzz-sigh.ogg', 40, TRUE)
-		return FALSE
 
-/obj/item/choice_beacon/holy/generate_display_names()
-	var/static/list/holy_item_list
-	if(!holy_item_list)
-		holy_item_list = list()
-		var/list/templist = typesof(/obj/item/storage/box/holy)
-		for(var/V in templist)
-			var/atom/A = V
-			holy_item_list[initial(A.name)] = A
-	return holy_item_list
+	playsound(src, 'sound/machines/buzz-sigh.ogg', 40, TRUE)
+	return FALSE
 
-/obj/item/choice_beacon/holy/spawn_option(obj/choice,mob/living/M)
-	if(!GLOB.holy_armor_type)
-		..()
-		playsound(src, 'sound/effects/pray_chaplain.ogg', 40, TRUE)
-		SSblackbox.record_feedback("tally", "chaplain_armor", 1, "[choice]")
-		GLOB.holy_armor_type = choice
-	else
-		to_chat(M, span_warning("A selection has already been made. Self-Destructing..."))
+// Overrides generate options so that we can show a neat radial instead
+/obj/item/choice_beacon/holy/generate_options(mob/living/M)
+	if(GLOB.holy_armor_type)
+		to_chat(M, span_warning("A selection has already been made."))
+		spawn_option(GLOB.holy_armor_type, M)
 		return
+
+	var/list/armament_names_to_images = list()
+	var/list/armament_names_to_typepaths = list()
+	for(var/obj/item/storage/box/holy/holy_box as anything in typesof(/obj/item/storage/box/holy))
+		var/box_name = initial(holy_box.name)
+		var/obj/item/preview_item = initial(holy_box.typepath_for_preview)
+		armament_names_to_typepaths[box_name] = holy_box
+		armament_names_to_images[box_name] = image(icon = initial(preview_item.icon), icon_state = initial(preview_item.icon_state))
+
+	var/chosen_name = show_radial_menu(
+		user = M,
+		anchor = src,
+		choices = armament_names_to_images,
+		custom_check = CALLBACK(src, .proc/canUseBeacon, M),
+		require_near = TRUE,
+	)
+	if(!canUseBeacon(M))
+		return
+	var/chosen_type = armament_names_to_typepaths[chosen_name]
+	if(!ispath(chosen_type, /obj/item/storage/box/holy))
+		return
+
+	spawn_option(chosen_type, M)
+
+/obj/item/choice_beacon/holy/spawn_option(obj/choice, mob/living/M)
+	playsound(src, 'sound/effects/pray_chaplain.ogg', 40, TRUE)
+	SSblackbox.record_feedback("tally", "chaplain_armor", 1, "[choice]")
+	GLOB.holy_armor_type = choice
+	return ..()
