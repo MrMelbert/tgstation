@@ -245,7 +245,7 @@
 /area/shuttle/escape)
 "dD" = (
 /obj/structure/table/wood/fancy,
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /turf/open/floor/carpet,
 /area/shuttle/escape)
 "dF" = (
@@ -664,7 +664,7 @@
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "je" = (
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /obj/structure/cable,
 /obj/structure/altar_of_gods,
 /turf/open/floor/carpet,
@@ -1421,9 +1421,9 @@
 "ub" = (
 /obj/structure/closet,
 /obj/machinery/light/small/directional/south,
-/obj/item/book/bible,
-/obj/item/book/bible,
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
+/obj/item/storage/book/bible,
+/obj/item/storage/book/bible,
 /turf/open/floor/carpet,
 /area/shuttle/escape)
 "uc" = (

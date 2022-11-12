@@ -4203,7 +4203,7 @@
 /area/ruin/space/ks13/hallway/aft)
 "Fm" = (
 /obj/structure/table/wood,
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small/directional/east,
 /obj/structure/cable,

@@ -23291,7 +23291,7 @@
 	desc = "A memorial wall for pinning mementos upon.";
 	name = "memorial board"
 	},
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /obj/structure/table/wood,
 /turf/open/floor/carpet,
 /area/station/service/chapel/funeral)
@@ -27853,7 +27853,7 @@
 /turf/open/floor/iron/white,
 /area/station/security/prison/mess)
 "jQY" = (
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /obj/machinery/light/small/directional/north,
 /obj/machinery/newscaster/directional/north,
 /obj/machinery/camera/directional/north{
@@ -61938,7 +61938,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "vMk" = (
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /obj/structure/altar_of_gods,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)

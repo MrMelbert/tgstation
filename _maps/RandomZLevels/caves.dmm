@@ -1271,7 +1271,7 @@
 	},
 /area/awaymission/caves/bmp_asteroid/level_two)
 "iD" = (
-/obj/structure/construct_shell,
+/obj/structure/constructshell,
 /turf/open/floor/engine/cult{
 	initial_gas_mix = "n2=23;o2=14;TEMP=2.7"
 	},

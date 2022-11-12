@@ -284,7 +284,7 @@
 	pixel_x = -3;
 	pixel_y = 3
 	},
-/obj/item/book/bible{
+/obj/item/storage/book/bible{
 	pixel_y = 5
 	},
 /obj/item/candle{

@@ -4,7 +4,7 @@
 /area/space)
 "ab" = (
 /obj/structure/table/wood/fancy/royalblack,
-/obj/item/book/bible,
+/obj/item/storage/book/bible,
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/holding)
 "ac" = (
