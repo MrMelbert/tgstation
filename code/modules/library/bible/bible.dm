@@ -66,6 +66,10 @@
 	if(GLOB.current_bible_skin)
 		return FALSE
 
+	return reskin_bible(user)
+
+/obj/item/book/bible/proc/reskin_bible(mob/living/carbon/human/user)
+
 	var/static/list/skins_to_images
 	if(!skins_to_images)
 		skins_to_images = list()
@@ -245,9 +249,12 @@
 /obj/item/book/bible/syndicate/on_bible_smack(obj/item/book/bible/source, mob/user, obj/item/book/bible/hit_us)
 	return
 
+/obj/item/book/bible/syndicate/reskin_bible(mob/living/carbon/human/user)
+	return
+
 /obj/item/book/bible/syndicate/attack_self(mob/living/carbon/human/user)
-	if(!uses)
-		return FALSE
+	if(uses <= 0)
+		return ..()
 
 	user.mind.holy_role = HOLY_ROLE_PRIEST
 	uses -= 1
@@ -256,6 +263,7 @@
 	user.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 	to_chat(user, span_notice("Your name appears on the inside cover, in blood."))
 	desc += span_warning("The name [user.real_name] is written in blood inside the cover.")
+	return TRUE
 
 /obj/item/book/bible/syndicate/attack(mob/living/hit_mob, mob/living/carbon/human/user, params, heal_mode = TRUE)
 	// Combat mode = TRUE, then pass down heal = FALSE

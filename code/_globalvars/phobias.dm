@@ -341,6 +341,7 @@ GLOBAL_LIST_INIT(phobia_objs, list(
 		/obj/item/clothing/suit/hooded/cultrobes,
 		/obj/item/clothing/suit/wizrobe,
 		/obj/item/clothing/under/rank/civilian/chaplain,
+		/obj/item/cult_bastard,
 		/obj/item/gun/magic/staff,
 		/obj/item/gun/magic/wand,
 		/obj/item/melee/cultblade,

@@ -118,12 +118,7 @@
 /// From /datum/status_effect/shapechange_mob/after_unchange(): (mob/living/caster)
 #define COMSIG_LIVING_UNSHAPESHIFTED "living_unshapeshifted"
 
-///From /obj/effect/rune/convert/do_sacrifice() : (list/invokers)
-#define COMSIG_LIVING_CULT_SACRIFICED "living_cult_sacrificed"
-	/// Return to stop the sac from occurring
-	#define STOP_SACRIFICE (1<<0)
-	/// Don't send a message for sacrificing this thing, we have our own
-	#define SILENCE_SACRIFICE_MESSAGE (1<<1)
-
+/// From /mob/living/canSuicide
 #define COMSIG_LIVING_SUICIDE_CHECK "living_suicide_check"
+	/// Return to block a suicide
 	#define COMPONENT_BLOCK_SUICIDE (1<<0)
