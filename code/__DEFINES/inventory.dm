@@ -213,7 +213,7 @@ GLOBAL_LIST_INIT(security_wintercoat_allowed, typecacheof(list(
 GLOBAL_LIST_INIT(chaplain_armor_allowed, list(
 	/obj/item/book/bible,
 	/obj/item/nullrod,
-	/obj/item/reagent_containers/food/drinks/bottle/holywater,
+	/obj/item/reagent_containers/cup/glass/bottle/holywater,
 	/obj/item/storage/fancy/candle_box,
 	/obj/item/candle,
 	/obj/item/tank/internals/emergency_oxygen,

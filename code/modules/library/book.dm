@@ -198,7 +198,7 @@
 	return ..()
 
 /obj/item/book/proc/can_edit_book(mob/editor, obj/item/tool)
-	if(!editor.canUseTopic(src, be_close = BE_CLOSE) || !editor.can_write(tool))
+	if(!editor.canUseTopic(src, be_close = TRUE) || !editor.can_write(tool))
 		return FALSE
 	if(editor.is_blind())
 		to_chat(editor, span_warning("As you are trying to write on the book, you suddenly feel very stupid!"))

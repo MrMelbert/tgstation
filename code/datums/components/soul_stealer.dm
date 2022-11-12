@@ -6,7 +6,7 @@
  */
 /datum/component/soul_stealer
 	/// weakref list of soulstones captured by this item.
-	var/list/weak_souls = list()
+	var/list/datum/weakref/weak_souls = list()
 
 /datum/component/soul_stealer/Initialize()
 	if(!isitem(parent))
@@ -32,9 +32,9 @@
 		if(0)
 			examine_list += span_notice("It has not consumed any souls yet.")
 		if(1 to 9)
-			examine_list += span_notice("There are <b>[souls.len]</b> souls trapped within it.")
+			examine_list += span_notice("There are <b>[length(souls)]</b> souls trapped within it.")
 		if(10 to INFINITY)
-			examine_list += span_notice("A staggering <b>[souls.len]</b> souls have been claimed by it! And it hungers for more!")
+			examine_list += span_notice("A staggering <b>[length(souls)]</b> souls have been claimed by it! And it hungers for more!")
 
 /datum/component/soul_stealer/proc/on_afterattack(obj/item/source, atom/target, mob/living/user, proximity_flag, click_parameters)
 	SIGNAL_HANDLER
@@ -43,21 +43,28 @@
 		return
 
 	if(ishuman(target))
-		INVOKE_ASYNC(src, .proc/try_capture, target, user)
+		var/mob/living/carbon/human/human_target = target
+		if(human_target.stat == CONSCIOUS || !human_target.mind)
+			return
 
-	var/list/souls = recursive_list_resolve(weak_souls)
-
-	if(istype(target, /obj/structure/constructshell) && souls.len)
-		var/obj/item/soulstone/soulstone = souls[1]
-		INVOKE_ASYNC(soulstone, /obj/item/soulstone/proc/transfer_to_construct, target, user)
-		///soulstone will be deleted from souls if successful
-
-/datum/component/soul_stealer/proc/try_capture(mob/living/carbon/human/victim, mob/living/captor)
-	if(victim.stat == CONSCIOUS)
+		INVOKE_ASYNC(src, .proc/try_soulstone_capture, target, user)
 		return
-	var/obj/item/soulstone/soulstone = new /obj/item/soulstone(parent)
-	soulstone.attack(victim, captor)
-	if(!LAZYLEN(soulstone.contents))
+
+	var/list/obj/item/soulstone/souls = recursive_list_resolve(weak_souls)
+	list_clear_nulls(souls)
+	if(!length(souls))
+		return
+
+	INVOKE_ASYNC(src, .proc/try_soulstone_interaction, souls[1], target, user)
+
+/datum/component/soul_stealer/proc/try_soulstone_capture(mob/living/carbon/human/victim, mob/living/captor)
+	var/obj/item/soulstone/soulstone = new(parent)
+	try_soulstone_interaction(soulstone, victim, captor)
+	if(!soulstone.captured_shade)
 		qdel(soulstone)
 		return
+
 	weak_souls += WEAKREF(soulstone)
+
+/datum/component/soul_stealer/proc/try_soulstone_interaction(obj/item/soulstone/soulstone, atom/hit_atom, mob/living/user)
+	return soulstone.pre_attack(hit_atom, user)

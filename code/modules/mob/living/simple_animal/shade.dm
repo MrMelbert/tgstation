@@ -68,10 +68,7 @@
 	// Handles making sure the soulstone is correct
 	soulstone.update_appearance()
 	if(user && user != src)
-		assign_master(shade, user)
-	// Deconverts us if it's holy
-	else if(soulstone.theme == THEME_HOLY)
-		mind?.remove_antag_datum(/datum/antagonist/cult)
+		soulstone.assign_master(src, user)
 
 	return SOULSTONE_HIT_HANDLED
 

@@ -23,8 +23,8 @@
 	var/deity_name = "God"
 	var/bible_icon = 'icons/obj/bibles.dmi'
 	var/bible_icon_state = "bible"
-	var/bible_lefthand_icon = 'icons/mob/inhands/misc/bibles_lefthand.dmi'
-	var/bible_righthand_icon = 'icons/mob/inhands/misc/bibles_righthand.dmi'
+	var/bible_lefthand_icon = 'icons/mob/inhands/items/bibles_lefthand.dmi'
+	var/bible_righthand_icon = 'icons/mob/inhands/items/bibles_righthand.dmi'
 	var/bible_inhand_icon_state = "bible"
 
 /datum/bible_skin/proc/apply_reskin(mob/living/carbon/human/reskinner, obj/item/book/bible/reskinned)
