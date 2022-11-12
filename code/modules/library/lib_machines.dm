@@ -385,7 +385,7 @@
 			if(!bible_name)
 				bible_name = DEFAULT_BIBLE_REPLACE(reigion)
 			data["bible_name"] = bible_name
-			data["bible_sprite"] = "display-[GLOB.current_bible_skin?.bible_icon_state || "bible"]"
+			data["bible_sprite"] = "[GLOB.current_bible_skin?.name || "bible"]"
 			data["posters"] = list()
 			for(var/poster_name in SSlibrary.printable_posters)
 				data["posters"] += poster_name

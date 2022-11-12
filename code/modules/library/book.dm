@@ -177,7 +177,7 @@
 			to_chat(user, span_alert("[scanner]'s screen flashes: 'No associated computer found!'"))
 			return
 		if(!book_data)
-			to_chat(User, span_warning("[src] doesn't seem to have anything to scan."))
+			to_chat(user, span_warning("[src] doesn't seem to have anything to scan."))
 			return
 
 		scanner.book_data = book_data.return_copy()

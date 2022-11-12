@@ -90,7 +90,7 @@
 	if(has_soul)
 		return
 
-	var/mob/living/simple_animal/shade/soul = soulstone.capture_soul
+	var/mob/living/simple_animal/shade/soul = soulstone.captured_shade
 	if(!soul)
 		return
 
