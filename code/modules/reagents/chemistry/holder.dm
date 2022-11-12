@@ -1996,6 +1996,8 @@
 	del_reagent(/datum/reagent/water)
 	del_reagent(/datum/reagent/fuel/unholywater)
 	add_reagent(/datum/reagent/water/holywater, amount_of_water + amount_of_unholywater)
+	playsound(my_atom, 'sound/effects/magic.ogg', 50, vary = FALSE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE)
+	my_atom.do_smoke(range = 0, holder = my_atom, location = my_atom.drop_location(), smoke_type = /obj/effect/particle_effect/fluid/smoke/quick)
 	return COMSIG_END_BIBLE_CHAIN
 
 ///////////////////////////////////////////////////////////////////////////////////
