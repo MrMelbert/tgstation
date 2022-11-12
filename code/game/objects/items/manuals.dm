@@ -240,7 +240,7 @@
 	var/page_link = ""
 	window_size = "970x710"
 
-/obj/item/book/manual/wiki/attack_self()
+/obj/item/book/manual/wiki/on_read()
 	if(!book_data.content)
 		initialize_wikibook()
 	return ..()

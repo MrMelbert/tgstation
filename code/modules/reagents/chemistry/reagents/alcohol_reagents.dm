@@ -62,8 +62,8 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		paperaffected.clear_paper()
 		to_chat(usr, span_notice("[paperaffected]'s ink washes away."))
 	if(istype(exposed_obj, /obj/item/book))
-		if(reac_volume >= 5)
-			var/obj/item/book/affectedbook = exposed_obj
+		var/obj/item/book/affectedbook = exposed_obj
+		if(reac_volume >= 5 && affectedbook.book_data?.content)
 			affectedbook.book_data.set_content("")
 			exposed_obj.visible_message(span_notice("[exposed_obj]'s writing is washed away by [name]!"))
 		else

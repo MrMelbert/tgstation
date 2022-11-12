@@ -4,8 +4,7 @@
  * (Intrinsic actions like bar flinging, spells like fireball or smoke, or martial arts)
  */
 /obj/item/book/granter
-	due_date = 0
-	unique = 1
+	unique = TRUE
 	/// Flavor messages displayed to mobs reading the granter
 	var/list/remarks = list()
 	/// Controls how long a mob must keep the book in his hand to actually successfully learn
@@ -21,21 +20,23 @@
 		'sound/effects/pageturn3.ogg',
 	)
 
-/obj/item/book/granter/attack_self(mob/living/user)
+/obj/item/book/granter/can_read_book(mob/user)
+	. = ..()
+	if(!.)
+		return FALSE
 	if(reading)
 		to_chat(user, span_warning("You're already reading this!"))
 		return FALSE
-	if(user.is_blind())
-		to_chat(user, span_warning("You are blind and can't read anything!"))
-		return FALSE
-	if(!isliving(user) || !user.can_read(src))
-		return FALSE
 	if(!can_learn(user))
 		return FALSE
+	if(!isliving(user))
+		return FALSE
+	return TRUE
 
+/obj/item/book/granter/on_read(mob/living/user)
 	if(uses <= 0)
 		recoil(user)
-		return FALSE
+		return
 
 	on_reading_start(user)
 	reading = TRUE
@@ -48,8 +49,6 @@
 		uses--
 		on_reading_finished(user)
 	reading = FALSE
-
-	return TRUE
 
 /// Called when the user starts to read the granter.
 /obj/item/book/granter/proc/on_reading_start(mob/living/user)

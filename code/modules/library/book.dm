@@ -108,8 +108,32 @@
 
 /obj/item/book/Initialize(mapload)
 	. = ..()
-	book_data = new(starting_title, starting_author, starting_content)
+	if(!unique)
+		book_data = new(starting_title, starting_author, starting_content)
 
+/**
+ * Can the passed mob actually read this book?
+ *
+ * Return TRUE if we can, FALSE otherwise
+ */
+/obj/item/book/proc/can_read_book(mob/user)
+	if(user.is_blind())
+		to_chat(user, span_warning("You are blind and can't read anything!"))
+		return FALSE
+	if(!user.can_read(src))
+		return FALSE
+	if(atom_storage)
+		to_chat(user, span_notice("All the pages of [src] are hollowed out!"))
+		return FALSE
+
+	return TRUE
+
+/**
+ * This is called when this book is read.
+ * It applies effects when read, or handles the actual reading process.
+ *
+ * By default it will open up a browser window containing the book's contents.
+ */
 /obj/item/book/proc/on_read(mob/living/user)
 	if(book_data?.content)
 		user << browse("<meta charset=UTF-8><TT><I>Penned by [book_data.author].</I></TT> <BR>" + "[book_data.content]", "window=book[window_size != null ? ";size=[window_size]" : ""]")
@@ -130,16 +154,10 @@
 
 /obj/item/book/interact(mob/user)
 	. = ..()
-	if(user.is_blind())
-		to_chat(user, span_warning("You are blind and can't read anything!"))
-		return
-	if(!user.can_read(src))
-		return
-	if(atom_storage)
-		to_chat(user, span_notice("All the pages of [src] are hollowed out!"))
-		return
+	if(!can_read_book(user))
+		return FALSE
 
-	user.visible_message(span_notice("[user] opens a book titled \"[book_data.title]\" and begins reading intently."))
+	user.visible_message(span_notice("[user] opens a book titled \"[book_data?.title || name]\" and begins reading intently."))
 	on_read(user)
 	return TRUE
 
@@ -157,6 +175,9 @@
 		var/obj/machinery/computer/libraryconsole/bookmanagement/computer = scanner.computer_ref?.resolve()
 		if(!computer)
 			to_chat(user, span_alert("[scanner]'s screen flashes: 'No associated computer found!'"))
+			return
+		if(!book_data)
+			to_chat(User, span_warning("[src] doesn't seem to have anything to scan."))
 			return
 
 		scanner.book_data = book_data.return_copy()
@@ -203,6 +224,13 @@
 
 	return ..()
 
+/**
+ * Checks if the passed mob can edit this book with the passed tool
+ *
+ * Unique books are always un-edit-able
+ *
+ * Return TRUE if we can edit, FALSE otherwise
+ */
 /obj/item/book/proc/can_edit_book(mob/editor, obj/item/tool)
 	if(!editor.canUseTopic(src, be_close = TRUE) || !editor.can_write(tool))
 		return FALSE
@@ -215,6 +243,9 @@
 
 	return TRUE
 
+/**
+ * Attempts to edit the book's contents, allowing a mob to change the contents of the book's data
+ */
 /obj/item/book/proc/try_edit_book(mob/editor, obj/item/tool)
 	if(!can_edit_book(editor, tool))
 		return

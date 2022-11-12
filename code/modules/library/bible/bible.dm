@@ -22,7 +22,6 @@
 		. += span_notice("[src] can be unpacked by hitting the floor of a holy area with it.")
 
 /obj/item/book/bible/Initialize(mapload)
-	starting_title = name
 	. = ..()
 	AddComponent(/datum/component/anti_magic, MAGIC_RESISTANCE_HOLY)
 	RegisterSignal(src, COMSIG_BIBLE_SMACKED, .proc/on_bible_smack)
