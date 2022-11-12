@@ -90,7 +90,7 @@
 	if(has_soul)
 		return
 
-	var/mob/living/simple_animal/shade/soul = locate() in soulstone
+	var/mob/living/simple_animal/shade/soul = soulstone.capture_soul
 	if(!soul)
 		return
 
