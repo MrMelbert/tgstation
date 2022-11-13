@@ -23,7 +23,7 @@
 	var/theme = THEME_CULT
 	/// Role check, if any needed
 	var/required_role = /datum/antagonist/cult
-
+	/// The shade in the stone
 	var/mob/living/simple_animal/shade/captured_shade
 
 /obj/item/soulstone/Initialize(mapload)

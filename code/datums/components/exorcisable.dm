@@ -31,7 +31,7 @@
 	SIGNAL_HANDLER
 
 	// We have a pre_exorcism callback and it returns STOP_EXORCISM? Well, stop the exorcism
-	if(pre_exorcism_callback && pre_exorcism_callback.Invoke(user) == STOP_EXORCISM)
+	if(pre_exorcism_callback?.Invoke(user) == STOP_EXORCISM)
 		return
 
 	INVOKE_ASYNC(src, .proc/attempt_exorcism, user)

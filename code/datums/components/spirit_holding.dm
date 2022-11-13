@@ -17,8 +17,8 @@
 
 	// two-fer-one component deal - buy one get one free
 	parent.AddComponent(/datum/component/exorcisable, \
-			pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
-			on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
+		pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
+		on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
 
 /datum/component/spirit_holding/Destroy(force, silent)
 	QDEL_NULL(bound_spirit)
