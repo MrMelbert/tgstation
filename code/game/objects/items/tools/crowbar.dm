@@ -22,7 +22,6 @@
 	tool_behaviour = TOOL_CROWBAR
 	toolspeed = 1
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 50, ACID = 30)
-	var/force_opens = FALSE
 
 /obj/item/crowbar/Initialize(mapload)
 	. = ..()
@@ -97,7 +96,6 @@
 	force = 15
 	w_class = WEIGHT_CLASS_NORMAL
 	toolspeed = 0.7
-	force_opens = TRUE
 
 /obj/item/crowbar/power/Initialize(mapload)
 	. = ..()
@@ -106,10 +104,18 @@
 		throwforce_on = throwforce, \
 		hitsound_on = hitsound, \
 		w_class_on = w_class, \
-		clumsy_check = FALSE)
+		clumsy_check = FALSE, \
+	)
+	AddElement( \
+		/datum/element/airlock_prying, \
+		pry_time = 5 SECONDS, \
+		pry_time_unpowered = 0 SECONDS, \
+		pry_depowered = FALSE, /* Handled by crowbar behavior */ \
+		try_pry_proccall = PROC_REF(try_pry), \
+	)
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 
-/*
+/**
  * Signal proc for [COMSIG_TRANSFORMING_ON_TRANSFORM].
  *
  * Toggles between crowbar and wirecutters and gives feedback to the user.
@@ -122,13 +128,16 @@
 	playsound(user ? user : src, 'sound/items/change_jaws.ogg', 50, TRUE)
 	return COMPONENT_NO_DEFAULT_MESSAGE
 
+/// For airlock prying element so we only pry on crowbar mode
+/obj/item/crowbar/power/proc/try_pry()
+	return tool_behaviour == TOOL_CROWBAR
+
 /obj/item/crowbar/power/syndicate
 	name = "Syndicate jaws of life"
 	desc = "A pocket sized re-engineered copy of Nanotrasen's standard jaws of life. Can be used to force open airlocks in its crowbar configuration."
 	icon_state = "jaws_syndie"
 	w_class = WEIGHT_CLASS_SMALL
 	toolspeed = 0.5
-	force_opens = TRUE
 
 /obj/item/crowbar/power/examine()
 	. = ..()

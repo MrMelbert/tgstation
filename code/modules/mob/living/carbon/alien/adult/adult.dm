@@ -34,6 +34,14 @@ GLOBAL_LIST_INIT(strippable_alien_humanoid_items, create_strippable_list(list(
 	. = ..()
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_CLAW, 0.5, -11)
 	AddElement(/datum/element/strippable, GLOB.strippable_alien_humanoid_items)
+	AddElement( \
+		/datum/element/airlock_prying, \
+		detailed_failure_descriptions = FALSE, \
+		mob_pry_noun = "claws", \
+		pry_depowered = TRUE, \
+		pry_time = 5 SECONDS, \
+		pry_time_unpowered = 1 SECONDS, \
+	)
 
 /mob/living/carbon/alien/adult/create_internal_organs()
 	internal_organs += new /obj/item/organ/internal/stomach/alien()

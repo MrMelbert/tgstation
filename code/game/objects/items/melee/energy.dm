@@ -33,16 +33,26 @@
 /obj/item/melee/energy/Initialize(mapload)
 	. = ..()
 	make_transformable()
-	AddComponent(/datum/component/butchering, \
-	speed = 5 SECONDS, \
-	butcher_sound = active_hitsound, \
+	AddComponent(
+		/datum/component/butchering, \
+		speed = 5 SECONDS, \
+		butcher_sound = active_hitsound, \
+	)
+	AddElement(
+		/datum/element/airlock_prying, \
+		depowered_pry_sound = 'sound/items/welder2.ogg', \
+		powered_pry_sound = 'sound/items/welder2.ogg', \
+		pry_time = 20 SECONDS, \
+		pry_time_unpowered = 20 SECONDS, \
+		pry_depowered = TRUE, \
+		try_pry_proccall = PROC_REF(try_pry), \
 	)
 
 /obj/item/melee/energy/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
-/*
+/**
  * Gives our item the transforming component, passing in our various vars.
  */
 /obj/item/melee/energy/proc/make_transformable()
@@ -56,6 +66,10 @@
 		attack_verb_continuous_on = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts"), \
 		attack_verb_simple_on = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut"))
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
+
+/// For airlock pryer element so we can only pry while active
+/obj/item/melee/energy/proc/try_pry()
+	return blade_active
 
 /obj/item/melee/energy/suicide_act(mob/living/user)
 	if(!blade_active)

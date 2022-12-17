@@ -1038,6 +1038,7 @@
 		if(I.use_tool(src, user, 40, volume=100))
 			deconstruct(TRUE, user)
 			return
+	// melbert todo: kill
 	if(seal)
 		to_chat(user, span_warning("Remove the seal first!"))
 		return
@@ -1245,31 +1246,6 @@
 		locked = TRUE
 		loseMainPower()
 		loseBackupPower()
-
-/obj/machinery/door/airlock/attack_alien(mob/living/carbon/alien/adult/user, list/modifiers)
-	if(isElectrified() && shock(user, 100)) //Mmm, fried xeno!
-		add_fingerprint(user)
-		return
-	if(!density) //Already open
-		return ..()
-	if(locked || welded || seal) //Extremely generic, as aliens only understand the basics of how airlocks work.
-		if(user.combat_mode)
-			return ..()
-		to_chat(user, span_warning("[src] refuses to budge!"))
-		return
-	add_fingerprint(user)
-	user.visible_message(span_warning("[user] begins prying open [src]."),\
-						span_noticealien("You begin digging your claws into [src] with all your might!"),\
-						span_warning("You hear groaning metal..."))
-	var/time_to_open = 5 //half a second
-	if(hasPower())
-		time_to_open = 5 SECONDS //Powered airlocks take longer to open, and are loud.
-		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
-
-
-	if(do_after(user, time_to_open, src))
-		if(density && !open(2)) //The airlock is still closed, but something prevented it opening. (Another player noticed and bolted/welded the airlock in time!)
-			to_chat(user, span_warning("Despite your efforts, [src] managed to resist your attempts to open it!"))
 
 /obj/machinery/door/airlock/hostile_lockdown(mob/origin)
 	// Must be powered and have working AI wire.

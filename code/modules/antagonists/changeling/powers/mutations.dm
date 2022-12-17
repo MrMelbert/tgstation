@@ -178,9 +178,17 @@
 		loc.visible_message(span_warning("A grotesque blade forms around [loc.name]\'s arm!"), span_warning("Our arm twists and mutates, transforming it into a deadly blade."), span_hear("You hear organic matter ripping and tearing!"))
 	if(synthetic)
 		can_drop = TRUE
-	AddComponent(/datum/component/butchering, \
-	speed = 6 SECONDS, \
-	effectiveness = 80, \
+
+	AddComponent(
+		/datum/component/butchering, \
+		speed = 6 SECONDS, \
+		effectiveness = 80, \
+	)
+	AddElement( \
+		/datum/element/airlock_prying, \
+		pry_time = 10 SECONDS, \
+		pry_time_unpowered = 0 SECONDS, \
+		pry_depowered = TRUE, \
 	)
 
 /obj/item/melee/arm_blade/afterattack(atom/target, mob/user, proximity)
@@ -194,26 +202,6 @@
 	else if(istype(target, /obj/machinery/computer))
 		var/obj/machinery/computer/C = target
 		C.attack_alien(user) //muh copypasta
-
-	else if(istype(target, /obj/machinery/door/airlock))
-		var/obj/machinery/door/airlock/A = target
-
-		if((!A.requiresID() || A.allowed(user)) && A.hasPower()) //This is to prevent stupid shit like hitting a door with an arm blade, the door opening because you have acces and still getting a "the airlocks motors resist our efforts to force it" message, power requirement is so this doesn't stop unpowered doors from being pried open if you have access
-			return
-		if(A.locked)
-			to_chat(user, span_warning("The airlock's bolts prevent it from being forced!"))
-			return
-
-		if(A.hasPower())
-			user.visible_message(span_warning("[user] jams [src] into the airlock and starts prying it open!"), span_warning("We start forcing the [A] open."), \
-			span_hear("You hear a metal screeching sound."))
-			playsound(A, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
-			if(!do_after(user, 100, target = A))
-				return
-		//user.say("Heeeeeeeeeerrre's Johnny!")
-		user.visible_message(span_warning("[user] forces the airlock to open with [user.p_their()] [src]!"), span_warning("We force the [A] to open."), \
-		span_hear("You hear a metal screeching sound."))
-		A.open(2)
 
 /obj/item/melee/arm_blade/dropped(mob/user)
 	..()

@@ -41,6 +41,14 @@
 	domain.Grant(src)
 	riot.Grant(src)
 	AddElement(/datum/element/waddling)
+	AddElement( \
+		/datum/element/airlock_prying, \
+		detailed_failure_descriptions = FALSE, \
+		mob_pry_noun = "claws", \
+		pry_depowered = TRUE, \
+		pry_time = 5 SECONDS, \
+		pry_time_unpowered = 0.5 SECONDS, \
+	)
 
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
@@ -119,9 +127,6 @@
 		return
 	if (QDELETED(target))
 		return
-	if(istype(target, /obj/machinery/door/airlock) && !opening_airlock)
-		pry_door(target)
-		return
 
 	if (target.reagents && target.is_injectable(src, allowmobs = TRUE) && !istype(target, /obj/item/food/cheese))
 		src.visible_message(span_warning("[src] starts licking [target] passionately!"),span_notice("You start licking [target]..."))
@@ -155,36 +160,6 @@
 		qdel(target)
 	else
 		to_chat(src, span_warning("You feel fine, no need to eat anything!"))
-
-/**
- * Allows rat king to pry open an airlock if it isn't locked.
- *
- * A proc used for letting the rat king pry open airlocks instead of just attacking them.
- * This allows the rat king to traverse the station when there is a lack of vents or
- * accessible doors, something which is common in certain rat king spawn points.
- */
-/mob/living/simple_animal/hostile/regalrat/proc/pry_door(target)
-	var/obj/machinery/door/airlock/prying_door = target
-	if(!prying_door.density || prying_door.locked || prying_door.welded || prying_door.seal)
-		return FALSE
-	opening_airlock = TRUE
-	visible_message(
-		span_warning("[src] begins prying open the airlock..."),
-		span_notice("You begin digging your claws into the airlock..."),
-		span_warning("You hear groaning metal..."),
-	)
-	var/time_to_open = 0.5 SECONDS
-	if(prying_door.hasPower())
-		time_to_open = 5 SECONDS
-		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, vary = TRUE)
-	if(do_after(src, time_to_open, prying_door))
-		opening_airlock = FALSE
-		if(prying_door.density && !prying_door.open(2))
-			to_chat(src, span_warning("Despite your efforts, the airlock managed to resist your attempts to open it!"))
-			return FALSE
-		prying_door.open()
-		return FALSE
-	opening_airlock = FALSE
 
 /mob/living/simple_animal/hostile/regalrat/controlled/Initialize(mapload)
 	. = ..()

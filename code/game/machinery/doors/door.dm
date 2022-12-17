@@ -266,11 +266,7 @@
 	if(user.combat_mode)
 		return
 
-	var/forced_open = FALSE
-	if(istype(tool, /obj/item/crowbar))
-		var/obj/item/crowbar/crowbar = tool
-		forced_open = crowbar.force_opens
-	try_to_crowbar(tool, user, forced_open)
+	try_to_crowbar(tool, user)
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/door/attackby(obj/item/I, mob/living/user, params)
@@ -290,11 +286,7 @@
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/door/crowbar_act_secondary(mob/living/user, obj/item/tool)
-	var/forced_open = FALSE
-	if(istype(tool, /obj/item/crowbar))
-		var/obj/item/crowbar/crowbar = tool
-		forced_open = crowbar.force_opens
-	try_to_crowbar_secondary(tool, user, forced_open)
+	try_to_crowbar_secondary(tool, user)
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/door/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
