@@ -1123,9 +1123,9 @@
 	dir = 8;
 	dwidth = 3;
 	height = 15;
+	shuttle_id = "arrival_stationary";
 	name = "arrivals";
 	roundstart_template = /datum/map_template/shuttle/arrival/box;
-	shuttle_id = "arrival_stationary";
 	width = 7
 	},
 /turf/open/floor/engine,
@@ -1243,8 +1243,8 @@
 	dir = 8;
 	dwidth = 2;
 	height = 13;
-	name = "port bay 2";
 	shuttle_id = "ferry_home";
+	name = "port bay 2";
 	width = 5
 	},
 /turf/open/space/basic,
@@ -1274,8 +1274,8 @@
 	dir = 4;
 	dwidth = 4;
 	height = 7;
-	name = "Cargo Bay";
 	shuttle_id = "cargo_home";
+	name = "Cargo Bay";
 	width = 12
 	},
 /turf/open/space/basic,
@@ -1424,8 +1424,8 @@
 	dir = 2;
 	dwidth = 11;
 	height = 15;
-	name = "SS13: Auxiliary Dock, Station-Port";
 	shuttle_id = "whiteship_home";
+	name = "SS13: Auxiliary Dock, Station-Port";
 	width = 28
 	},
 /turf/open/space/basic,
@@ -1476,8 +1476,8 @@
 	dir = 2;
 	dwidth = 9;
 	height = 25;
-	name = "Runtimestation emergency evac bay";
 	shuttle_id = "emergency_home";
+	name = "Runtimestation emergency evac bay";
 	width = 29
 	},
 /turf/open/space/basic,
@@ -2028,6 +2028,10 @@
 /obj/machinery/door/airlock,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
+"qN" = (
+/obj/machinery/status_display/supply,
+/turf/closed/wall,
+/area/station/cargo/storage)
 "qQ" = (
 /turf/open/floor/engine,
 /area/station/cargo/miningoffice)
@@ -2064,8 +2068,8 @@
 /area/station/construction)
 "tG" = (
 /obj/docking_port/stationary/random{
-	name = "lavaland";
-	shuttle_id = "pod_lavaland"
+	shuttle_id = "pod_lavaland";
+	name = "lavaland"
 	},
 /turf/open/space/basic,
 /area/space)
@@ -8735,7 +8739,7 @@ aa
 aa
 aa
 et
-fB
+qN
 fh
 fh
 fh

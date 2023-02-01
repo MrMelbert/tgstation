@@ -120,7 +120,7 @@
 /area/shuttle/escape)
 "y" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
-/obj/item/flashlight/flare/candle/infinite,
+/obj/item/candle/infinite,
 /turf/open/floor/cult,
 /area/shuttle/escape)
 "z" = (
@@ -128,7 +128,7 @@
 /turf/open/floor/cult,
 /area/shuttle/escape)
 "A" = (
-/obj/item/flashlight/flare/candle/infinite,
+/obj/item/candle/infinite,
 /turf/open/floor/cult,
 /area/shuttle/escape)
 "B" = (

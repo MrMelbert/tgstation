@@ -86,7 +86,7 @@
 /turf/open/floor/iron/airless,
 /area/ruin/space/has_grav)
 "ax" = (
-/mob/living/basic/ghost,
+/mob/living/simple_animal/hostile/retaliate/ghost,
 /turf/open/floor/iron/airless,
 /area/ruin/space/has_grav)
 "az" = (
@@ -250,10 +250,6 @@
 /obj/item/shard,
 /turf/template_noop,
 /area/template_noop)
-"ba" = (
-/mob/living/basic/ghost,
-/turf/open/floor/iron/cafeteria/airless,
-/area/ruin/space/has_grav)
 "bb" = (
 /obj/item/food/donkpocket,
 /turf/open/floor/iron/cafeteria/airless,
@@ -433,6 +429,10 @@
 	name = "broken plating"
 	},
 /turf/template_noop,
+/area/ruin/space/has_grav)
+"Be" = (
+/mob/living/simple_animal/hostile/retaliate/ghost,
+/turf/open/floor/iron/cafeteria/airless,
 /area/ruin/space/has_grav)
 
 (1,1,1) = {"
@@ -678,8 +678,8 @@ ag
 ai
 aK
 aR
-ba
 aR
+Be
 bj
 bg
 ah

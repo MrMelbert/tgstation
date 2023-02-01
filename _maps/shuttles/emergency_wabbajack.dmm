@@ -63,7 +63,7 @@
 /area/shuttle/escape/brig)
 "an" = (
 /obj/structure/table/wood,
-/obj/item/flashlight/flare/candle/infinite,
+/obj/item/candle/infinite,
 /turf/open/floor/cult,
 /area/shuttle/escape)
 "ao" = (

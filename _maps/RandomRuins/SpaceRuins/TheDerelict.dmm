@@ -917,7 +917,7 @@
 /area/ruin/space/ks13/science/ordnance)
 "nr" = (
 /obj/structure/closet/crate/bin,
-/obj/item/clothing/gloves/latex,
+/obj/item/clothing/gloves/color/latex,
 /turf/open/floor/iron/dark,
 /area/ruin/space/ks13/medical/morgue)
 "nw" = (

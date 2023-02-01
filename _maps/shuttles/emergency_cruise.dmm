@@ -11,8 +11,11 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue,
+/obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/item/folder/red,
+/obj/item/pen/red,
 /obj/machinery/light/directional/north,
-/obj/machinery/computer/secure_data,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "aY" = (
@@ -75,6 +78,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -82,9 +86,7 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
-/obj/machinery/modular_computer/console/preset/research{
-	dir = 4
-	},
+/obj/item/reactive_armour_shell,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "fB" = (
@@ -355,7 +357,7 @@
 /area/shuttle/escape)
 "tG" = (
 /obj/structure/table/wood/fancy,
-/obj/item/flashlight/flare/candle/infinite{
+/obj/item/candle/infinite{
 	desc = "A synthetic candle that won't melt down.";
 	name = "crimson red candle";
 	pixel_x = 1;
@@ -518,6 +520,9 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/obj/machinery/modular_computer/console/preset/research{
+	dir = 1
+	},
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
@@ -525,8 +530,6 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
-/obj/item/reactive_armour_shell,
-/obj/structure/table/reinforced,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "zm" = (
@@ -642,8 +645,11 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/structure/table/reinforced,
-/obj/item/clothing/head/collectable/welding,
+/obj/machinery/computer/station_alert{
+	desc = "Used to access the shuttle's automated alert system.";
+	dir = 1;
+	name = "ship alert console"
+	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "El" = (
@@ -953,10 +959,9 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/structure/table/reinforced,
-/obj/item/clipboard,
-/obj/item/folder/white,
-/obj/item/pen/blue,
+/obj/machinery/computer/med_data{
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "TI" = (
@@ -972,8 +977,11 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/item/folder/white,
+/obj/item/pen/blue,
 /obj/machinery/light/directional/north,
-/obj/machinery/computer/med_data,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "Ud" = (
@@ -1016,10 +1024,9 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/machinery/computer/station_alert{
-	desc = "Used to access the shuttle's automated alert system.";
-	dir = 8;
-	name = "ship alert console"
+/obj/structure/table/reinforced,
+/obj/item/clothing/head/collectable/welding{
+	pixel_y = 5
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
@@ -1037,10 +1044,9 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/structure/table/reinforced,
-/obj/item/clipboard,
-/obj/item/folder/red,
-/obj/item/pen/red,
+/obj/machinery/computer/secure_data{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "UF" = (

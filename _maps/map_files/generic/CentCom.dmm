@@ -636,6 +636,10 @@
 	heat_capacity = 1e+006
 	},
 /area/centcom/tdome/observation)
+"ej" = (
+/obj/machinery/button/showtime,
+/turf/closed/indestructible/fakeglass,
+/area/centcom/tdome/administration)
 "el" = (
 /obj/structure/filingcabinet/medical,
 /obj/machinery/firealarm/directional/west,
@@ -3975,7 +3979,9 @@
 /area/centcom/central_command_areas/admin)
 "tm" = (
 /obj/item/cardboard_cutout{
-	starting_cutout = "Private Security Officer"
+	desc = "They seem to be ignoring you... Typical.";
+	icon_state = "cutout_ntsec";
+	name = "Private Security Officer"
 	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
@@ -6407,7 +6413,7 @@
 /obj/item/hemostat{
 	pixel_x = -4
 	},
-/obj/item/clothing/gloves/latex,
+/obj/item/clothing/gloves/color/latex,
 /obj/item/clothing/mask/surgical,
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/blue{
@@ -6535,16 +6541,6 @@
 /obj/effect/mapping_helpers/airlock/access/all/admin/captain,
 /turf/open/floor/iron,
 /area/centcom/central_command_areas/prison)
-"Hs" = (
-/obj/structure/table/wood/fancy/royalblack,
-/obj/item/book/bible,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/turf/open/space/basic,
-/area/space)
 "Hv" = (
 /turf/closed/indestructible/riveted,
 /area/centcom/central_command_areas/courtroom)
@@ -6870,7 +6866,10 @@
 /area/centcom/central_command_areas/evacuation/ship)
 "JG" = (
 /obj/item/cardboard_cutout{
-	starting_cutout = "Private Security Officer"
+	desc = "They seem to be ignoring you... Typical.";
+	dir = 1;
+	icon_state = "cutout_ntsec";
+	name = "Private Security Officer"
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -36402,7 +36401,7 @@ aa
 aa
 aa
 aa
-Hs
+aa
 aa
 aa
 aa
@@ -52366,7 +52365,7 @@ IG
 IG
 IG
 It
-Pj
+ej
 Xn
 Sz
 Sz

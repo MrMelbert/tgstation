@@ -780,7 +780,7 @@
 /area/awaymission/cabin)
 "cK" = (
 /obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/cup/glass/bottle/juice/smallcarton{
+/obj/item/reagent_containers/cup/glass/sillycup/smallcarton{
 	pixel_y = 4
 	},
 /turf/open/floor/wood,
@@ -4831,7 +4831,7 @@
 /turf/open/floor/iron/white,
 /area/awaymission/cabin)
 "WF" = (
-/obj/item/flashlight/flare/candle/infinite,
+/obj/item/candle/infinite,
 /turf/open/floor/plating/snowed,
 /area/awaymission/cabin/caves)
 "WH" = (
