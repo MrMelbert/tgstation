@@ -33,6 +33,7 @@
 	AddComponent(/datum/component/exorcisable, \
 		pre_exorcism_callback = CALLBACK(src, PROC_REF(pre_exorcism)), \
 		on_exorcism_callback = CALLBACK(src, PROC_REF(on_exorcism)))
+	AddElement(/datum/element/godmode_container)
 
 	base_name ||= initial(name)
 
@@ -358,7 +359,6 @@
 		shade_controller = victim
 	victim.stop_sound_channel(CHANNEL_HEARTBEAT)
 	var/mob/living/simple_animal/shade/soulstone_spirit = new(src)
-	soulstone_spirit.AddComponent(/datum/component/soulstoned, src)
 	soulstone_spirit.name = "Shade of [victim.real_name]"
 	soulstone_spirit.real_name = "Shade of [victim.real_name]"
 	soulstone_spirit.key = shade_controller.key

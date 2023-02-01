@@ -61,8 +61,6 @@
 	if(user && user != src)
 		to_chat(user, "[span_info(span_bold("Capture successful!:"))] [real_name]'s soul has been captured and stored within [soulstone].")
 
-	// Forcemoves us into the rock, gives us godmode etc
-	AddComponent(/datum/component/soulstoned, soulstone)
 	forceMove(soulstone)
 	soulstone.captured_shade = src
 	// Handles making sure the soulstone is correct

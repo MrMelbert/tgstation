@@ -4,8 +4,6 @@
  * Used for the possessed blade and fantasy affixes
  */
 /datum/component/spirit_holding
-	/// What's the spirit's name?
-	var/spirit_name
 	///bool on if this component is currently polling for observers to inhabit the item
 	var/attempting_awakening = FALSE
 	///mob contained in the item.
@@ -20,6 +18,8 @@
 		pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
 		on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
 
+	parent.AddElement(/datum/element/godmode_container)
+
 /datum/component/spirit_holding/Destroy(force, silent)
 	QDEL_NULL(bound_spirit)
 	return ..()
@@ -29,9 +29,10 @@
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_attack_self))
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_destroy))
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_NAME, PROC_REF(on_update_name))
+	RegisterSignal(parent, COMSIG_ATOM_RELAYMOVE, PROC_REF(block_buckle_message))
 
 /datum/component/spirit_holding/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_ATTACK_SELF, COMSIG_PARENT_QDELETING, COMSIG_ATOM_UPDATE_NAME))
+	UnregisterSignal(parent, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_ATTACK_SELF, COMSIG_PARENT_QDELETING, COMSIG_ATOM_UPDATE_NAME, COMSIG_ATOM_RELAYMOVE))
 
 ///signal fired on examining the parent
 /datum/component/spirit_holding/proc/on_examine(datum/source, mob/user, list/examine_list)
@@ -44,6 +45,8 @@
 ///signal fired on self attacking parent
 /datum/component/spirit_holding/proc/on_attack_self(datum/source, mob/user)
 	SIGNAL_HANDLER
+	if(bound_spirit)
+		return
 	INVOKE_ASYNC(src, PROC_REF(attempt_spirit_awaken), user)
 
 /**
@@ -64,14 +67,11 @@
 	attempting_awakening = TRUE
 	to_chat(awakener, span_notice("You attempt to wake the spirit of [parent]..."))
 
-	var/mob/dead/observer/candidates = poll_ghost_candidates("Do you want to play as the spirit of [awakener.real_name]'s blade?", ROLE_PAI, FALSE, 100, POLL_IGNORE_POSSESSED_BLADE)
+	var/mob/dead/observer/candidates = poll_ghost_candidates("Do you want to play as the spirit of [awakener.real_name]'s blade?", ROLE_PAI, FALSE, 10 SECONDS, POLL_IGNORE_POSSESSED_BLADE)
 	if(!LAZYLEN(candidates))
 		to_chat(awakener, span_warning("[parent] is dormant. Maybe you can try again later."))
 		attempting_awakening = FALSE
 		return
-
-	//Immediately unregister to prevent making a new spirit
-	UnregisterSignal(parent, COMSIG_ITEM_ATTACK_SELF)
 
 	var/atom/movable/movable_parent = parent
 	var/mob/dead/observer/chosen_spirit = pick(candidates)
@@ -121,18 +121,9 @@
 		return FALSE
 
 	var/atom/movable/exorcised_movable = parent
-	to_chat(exorcist, span_notice("You begin to exorcise [parent]..."))
-	playsound(parent, 'sound/hallucinations/veryfar_noise.ogg',40,TRUE)
-	if(!do_after(exorcist, 4 SECONDS, target = exorcised_movable))
-		return
-	playsound(parent, 'sound/effects/pray_chaplain.ogg',60,TRUE)
-	UnregisterSignal(exorcised_movable, list(COMSIG_ATOM_RELAYMOVE, COMSIG_BIBLE_SMACKED))
-	RegisterSignal(exorcised_movable, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_attack_self))
 	to_chat(bound_spirit, span_userdanger("You were exorcised!"))
 	exorcist.visible_message(span_notice("[exorcist] exorcises [parent]!"))
 	QDEL_NULL(bound_spirit)
-	spirit_name = null
-
 	exorcised_movable.update_appearance(UPDATE_NAME)
 	return TRUE
 
@@ -141,12 +132,3 @@
 
 	to_chat(bound_spirit, span_userdanger("You were destroyed!"))
 	QDEL_NULL(bound_spirit)
-
-/datum/component/spirit_holding/proc/on_update_name(datum/source)
-	SIGNAL_HANDLER
-
-	var/atom/movable/movable_parent = parent
-	if(spirit_name)
-		movable_parent.name = spirit_name
-	else
-		movable_parent.name = initial(movable_parent.name)
