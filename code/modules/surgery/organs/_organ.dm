@@ -57,7 +57,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 			initial_reagents = food_reagents,\
 			foodtypes = RAW | MEAT | GORE,\
 			volume = reagent_vol,\
-			after_eat = CALLBACK(src, .proc/OnEatFrom))
+			after_eat = CALLBACK(src, PROC_REF(OnEatFrom)))
 
 /*
  * Insert the organ into the select mob.
@@ -78,17 +78,19 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		else
 			qdel(replaced)
 
+	reciever.internal_organs |= src
+	reciever.internal_organs_slot[slot] = src
+
 	SEND_SIGNAL(src, COMSIG_ORGAN_IMPLANTED, reciever)
 	SEND_SIGNAL(reciever, COMSIG_CARBON_GAIN_ORGAN, src, special)
 
 	owner = reciever
 	moveToNullspace()
-	RegisterSignal(owner, COMSIG_PARENT_EXAMINE, .proc/on_owner_examine)
+	RegisterSignal(owner, COMSIG_PARENT_EXAMINE, PROC_REF(on_owner_examine))
 	update_organ_traits(reciever)
 	for(var/datum/action/action as anything in actions)
 		action.Grant(reciever)
 	return TRUE
-
 
 /*
  * Remove the organ from the select mob.
@@ -99,6 +101,10 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 /obj/item/organ/proc/Remove(mob/living/carbon/organ_owner, special = FALSE)
 
 	UnregisterSignal(owner, COMSIG_PARENT_EXAMINE)
+
+	organ_owner.internal_organs -= src
+	if(organ_owner.internal_organs_slot[slot] == src)
+		organ_owner.internal_organs_slot.Remove(slot)
 
 	owner = null
 	for(var/datum/action/action as anything in actions)
@@ -170,21 +176,28 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	return //so we don't grant the organ's action to mobs who pick up the organ.
 
 ///Adjusts an organ's damage by the amount "damage_amount", up to a maximum amount, which is by default max damage
-/obj/item/organ/proc/applyOrganDamage(damage_amount, maximum = maxHealth) //use for damaging effects
+/obj/item/organ/proc/applyOrganDamage(damage_amount, maximum = maxHealth, required_organtype) //use for damaging effects
 	if(!damage_amount) //Micro-optimization.
 		return
 	if(maximum < damage)
 		return
+	if(required_organtype && (status != required_organtype))
+		return
 	damage = clamp(damage + damage_amount, 0, maximum)
 	var/mess = check_damage_thresholds(owner)
-	check_failing_thresholds()
 	prev_damage = damage
+
+	if(damage >= maxHealth)
+		organ_flags |= ORGAN_FAILING
+	else
+		organ_flags &= ~ORGAN_FAILING
+
 	if(mess && owner && owner.stat <= SOFT_CRIT)
 		to_chat(owner, mess)
 
 ///SETS an organ's damage to the amount "damage_amount", and in doing so clears or sets the failing flag, good for when you have an effect that should fix an organ if broken
-/obj/item/organ/proc/setOrganDamage(damage_amount) //use mostly for admin heals
-	applyOrganDamage(damage_amount - damage)
+/obj/item/organ/proc/setOrganDamage(damage_amount, required_organtype) //use mostly for admin heals
+	applyOrganDamage(damage_amount - damage, required_organtype = required_organtype)
 
 /** check_damage_thresholds
  * input: mob/organ_owner (a mob, the owner of the organ we call the proc on)
@@ -211,54 +224,56 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		if(prev_damage == maxHealth)
 			return now_fixed
 
-///Checks if an organ should/shouldn't be failing and gives the appropriate organ flag
-/obj/item/organ/proc/check_failing_thresholds()
-	if(damage >= maxHealth)
-		organ_flags |= ORGAN_FAILING
-	if(damage < maxHealth)
-		organ_flags &= ~ORGAN_FAILING
-
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm
 
-/mob/living/proc/regenerate_organs()
-	return FALSE
-
-/mob/living/carbon/regenerate_organs()
+/**
+ * Recreates all of this mob's organs, and heals them to full.
+ */
+/mob/living/carbon/proc/regenerate_organs()
+	// Delegate to species if possible.
 	if(dna?.species)
 		dna.species.regenerate_organs(src)
+		// Species regenerate organs doesn't handling healing the organs here,
+		// it's more concerned with just putting the necessary organs back in.
+		for(var/obj/item/organ/organ as anything in internal_organs)
+			organ.setOrganDamage(0)
+		set_heartattack(FALSE)
 		return
 
+	// Default organ fixing handling
+	// May result in kinda cursed stuff for mobs which don't need these organs
+	var/obj/item/organ/internal/lungs/lungs = getorganslot(ORGAN_SLOT_LUNGS)
+	if(!lungs)
+		lungs = new()
+		lungs.Insert(src)
+	lungs.setOrganDamage(0)
+
+	var/obj/item/organ/internal/heart/heart = getorganslot(ORGAN_SLOT_HEART)
+	if(heart)
+		set_heartattack(FALSE)
 	else
-		var/obj/item/organ/internal/lungs/lungs = getorganslot(ORGAN_SLOT_LUNGS)
-		if(!lungs)
-			lungs = new()
-			lungs.Insert(src)
-		lungs.setOrganDamage(0)
+		heart = new()
+		heart.Insert(src)
+	heart.setOrganDamage(0)
 
-		var/obj/item/organ/internal/heart/heart = getorganslot(ORGAN_SLOT_HEART)
-		if(!heart)
-			heart = new()
-			heart.Insert(src)
-		heart.setOrganDamage(0)
+	var/obj/item/organ/internal/tongue/tongue = getorganslot(ORGAN_SLOT_TONGUE)
+	if(!tongue)
+		tongue = new()
+		tongue.Insert(src)
+	tongue.setOrganDamage(0)
 
-		var/obj/item/organ/internal/tongue/tongue = getorganslot(ORGAN_SLOT_TONGUE)
-		if(!tongue)
-			tongue = new()
-			tongue.Insert(src)
-		tongue.setOrganDamage(0)
+	var/obj/item/organ/internal/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
+	if(!eyes)
+		eyes = new()
+		eyes.Insert(src)
+	eyes.setOrganDamage(0)
 
-		var/obj/item/organ/internal/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
-		if(!eyes)
-			eyes = new()
-			eyes.Insert(src)
-		eyes.setOrganDamage(0)
-
-		var/obj/item/organ/internal/ears/ears = getorganslot(ORGAN_SLOT_EARS)
-		if(!ears)
-			ears = new()
-			ears.Insert(src)
-		ears.setOrganDamage(0)
+	var/obj/item/organ/internal/ears/ears = getorganslot(ORGAN_SLOT_EARS)
+	if(!ears)
+		ears = new()
+		ears.Insert(src)
+	ears.setOrganDamage(0)
 
 /obj/item/organ/proc/handle_failing_organs(delta_time)
 	return
@@ -280,9 +295,10 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
  * For example, lungs won't be given if you have NO_BREATH, stomachs check for NO_HUNGER, and livers check for NO_METABOLISM.
  * If you want a carbon to have a trait that normally blocks an organ but still want the organ. Attach the trait to the organ using the organ_traits var
  * Arguments:
- * owner_species - species, needed to return whether the species has an organ specific trait
+ * owner_species - species, needed to return the mutant slot as true or false. stomach set to null means it shouldn't have one.
+ * owner_mob - for more specific checks, like nightmares.
  */
-/obj/item/organ/proc/get_availability(datum/species/owner_species)
+/obj/item/organ/proc/get_availability(datum/species/owner_species, mob/living/owner_mob)
 	return TRUE
 
 /// Called before organs are replaced in regenerate_organs with new ones

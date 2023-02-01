@@ -12,8 +12,12 @@
 	attack_verb_continuous = list("bans")
 	attack_verb_simple = list("ban")
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 100, ACID = 70)
+	armor_type = /datum/armor/item_banhammer
 	resistance_flags = FIRE_PROOF
+
+/datum/armor/item_banhammer
+	fire = 100
+	acid = 70
 
 /obj/item/banhammer/Initialize(mapload)
 	. = ..()
@@ -74,8 +78,12 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	block_chance = 50
 	sharpness = SHARP_EDGED
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 100, ACID = 50)
+	armor_type = /datum/armor/item_claymore
 	resistance_flags = FIRE_PROOF
+
+/datum/armor/item_claymore
+	fire = 100
+	acid = 50
 
 /obj/item/claymore/Initialize(mapload)
 	. = ..()
@@ -131,7 +139,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	if(ishuman(loc))
 		var/mob/living/carbon/human/holder = loc
 		SET_PLANE_EXPLICIT(holder, GAME_PLANE_UPPER_FOV_HIDDEN, src) //NO HIDING BEHIND PLANTS FOR YOU, DICKWEED (HA GET IT, BECAUSE WEEDS ARE PLANTS)
-		ADD_TRAIT(holder, TRAIT_NOBLEED, HIGHLANDER_TRAIT) //AND WE WON'T BLEED OUT LIKE COWARDS
+		ADD_TRAIT(holder, TRAIT_NOBLOOD, HIGHLANDER_TRAIT) //AND WE WON'T BLEED OUT LIKE COWARDS
 	else
 		if(!(flags_1 & ADMIN_SPAWNED_1))
 			qdel(src)
@@ -156,7 +164,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/claymore/highlander/attack(mob/living/target, mob/living/user)
 	. = ..()
 	if(!QDELETED(target) && target.stat == DEAD && target.mind && target.mind.special_role == "highlander")
-		user.fully_heal(admin_revive = FALSE) //STEAL THE LIFE OF OUR FALLEN FOES
+		user.fully_heal() //STEAL THE LIFE OF OUR FALLEN FOES
 		add_notch(user)
 		target.visible_message(span_warning("[target] crumbles to dust beneath [user]'s blows!"), span_userdanger("As you fall, your body crumbles to dust!"))
 		target.investigate_log("has been dusted by a highlander claymore.", INVESTIGATE_DEATHS)
@@ -269,8 +277,12 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	block_chance = 50
 	sharpness = SHARP_EDGED
 	max_integrity = 200
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 100, ACID = 50)
+	armor_type = /datum/armor/item_katana
 	resistance_flags = FIRE_PROOF
+
+/datum/armor/item_katana
+	fire = 100
+	acid = 50
 
 /obj/item/katana/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is slitting [user.p_their()] stomach open with [src]! It looks like [user.p_theyre()] trying to commit seppuku!"))
@@ -401,6 +413,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	speed = 7 SECONDS, \
 	effectiveness = 100, \
 	)
+
 	AddComponent(/datum/component/transforming, \
 		start_transformed = start_extended, \
 		force_on = 20, \
@@ -410,7 +423,16 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		hitsound_on = 'sound/weapons/bladeslice.ogg', \
 		w_class_on = WEIGHT_CLASS_NORMAL, \
 		attack_verb_continuous_on = list("slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts"), \
-		attack_verb_simple_on = list("slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut"))
+		attack_verb_simple_on = list("slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut"), \
+	)
+
+	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
+
+/obj/item/switchblade/proc/on_transform(obj/item/source, mob/user, active)
+	SIGNAL_HANDLER
+
+	tool_behaviour = (active ? TOOL_KNIFE : NONE)
+	return COMPONENT_NO_DEFAULT_MESSAGE
 
 /obj/item/switchblade/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is slitting [user.p_their()] own throat with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
@@ -475,8 +497,8 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		clumsy_check = FALSE, \
 		attack_verb_continuous_on = list("smacks", "strikes", "cracks", "beats"), \
 		attack_verb_simple_on = list("smack", "strike", "crack", "beat"))
-	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, .proc/on_transform)
-	ADD_TRAIT(src, TRAIT_BLIND_TOOL, ITEM_BLIND_TRAIT)
+	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
+	ADD_TRAIT(src, TRAIT_BLIND_TOOL, INNATE_TRAIT)
 
 /*
  * Signal proc for [COMSIG_TRANSFORMING_ON_TRANSFORM].
@@ -493,7 +515,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/staff
 	name = "wizard staff"
 	desc = "Apparently a staff used by the wizard."
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/obj/weapons/guns/magic.dmi'
 	icon_state = "staff"
 	inhand_icon_state = "staff"
 	lefthand_file = 'icons/mob/inhands/weapons/staves_lefthand.dmi'
@@ -511,7 +533,6 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/staff/broom
 	name = "broom"
 	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included."
-	icon = 'icons/obj/wizard.dmi'
 	icon_state = "broom"
 	inhand_icon_state = "broom"
 	resistance_flags = FLAMMABLE
@@ -788,7 +809,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	playsound(src, 'sound/items/baseballhit.ogg', 100, TRUE)
 	user.do_attack_animation(target, used_item = src)
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, type)
-	addtimer(CALLBACK(src, .proc/launch_back, target, user, return_to_sender, datum_throw_speed), 0.5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(launch_back), target, user, return_to_sender, datum_throw_speed), 0.5 SECONDS)
 	return TRUE
 
 /obj/item/melee/baseball_bat/proc/launch_back(atom/movable/target, mob/living/user, turf/target_turf, datum_throw_speed)
@@ -797,7 +818,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	target.mouse_opacity = initial(target.mouse_opacity)
 	target.add_filter("baseball_launch", 3, motion_blur_filter(1, 3))
 	target.throwforce *= 2
-	target.throw_at(target_turf, get_dist(target, target_turf), datum_throw_speed + 1, user, callback = CALLBACK(src, .proc/on_hit, target))
+	target.throw_at(target_turf, get_dist(target, target_turf), datum_throw_speed + 1, user, callback = CALLBACK(src, PROC_REF(on_hit), target))
 	thrown_datums[target] = target.throwing
 
 /obj/item/melee/baseball_bat/proc/on_hit(atom/movable/target)
@@ -882,7 +903,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		var/mob/living/living_target = target
 		living_target.adjustBruteLoss(extra_strength_damage)
 
-/obj/item/proc/can_trigger_gun(mob/living/user)
+/obj/item/proc/can_trigger_gun(mob/living/user, akimbo_usage)
 	if(!user.can_use_guns(src))
 		return FALSE
 	return TRUE
@@ -976,8 +997,8 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/highfrequencyblade/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, \
-		wield_callback = CALLBACK(src, .proc/on_wield), \
-		unwield_callback = CALLBACK(src, .proc/on_unwield), \
+		wield_callback = CALLBACK(src, PROC_REF(on_wield)), \
+		unwield_callback = CALLBACK(src, PROC_REF(on_unwield)), \
 	)
 	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_HANDS)
 
@@ -997,7 +1018,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		return TRUE
 
 /obj/item/highfrequencyblade/attack(mob/living/target, mob/living/user, params)
-	if(!HAS_TRAIT(src, TRAIT_WIELDED))
+	if(!HAS_TRAIT(src, TRAIT_WIELDED) || HAS_TRAIT(src, TRAIT_PACIFISM))
 		return ..()
 	slash(target, user, params)
 
@@ -1012,6 +1033,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	if(!proximity_flag || !(isclosedturf(target) || isitem(target) || ismachinery(target) || isstructure(target) || isvehicle(target)))
 		return
 	slash(target, user, params)
+	return AFTERATTACK_PROCESSED_ITEM
 
 /// triggered on wield of two handed item
 /obj/item/highfrequencyblade/proc/on_wield(obj/item/source, mob/user)

@@ -57,10 +57,6 @@
 
 	update_appearance(UPDATE_ICON)
 
-/obj/machinery/microwave/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
-	ingredients += arrived
-	return ..()
-
 /obj/machinery/microwave/Exited(atom/movable/gone, direction)
 	if(gone in ingredients)
 		ingredients -= gone
@@ -89,10 +85,10 @@
 /obj/machinery/microwave/RefreshParts()
 	. = ..()
 	efficiency = 0
-	for(var/obj/item/stock_parts/micro_laser/M in component_parts)
-		efficiency += M.rating
-	for(var/obj/item/stock_parts/matter_bin/M in component_parts)
-		max_n_of_items = 10 * M.rating
+	for(var/datum/stock_part/micro_laser/micro_laser in component_parts)
+		efficiency += micro_laser.tier
+	for(var/datum/stock_part/matter_bin/matter_bin in component_parts)
+		max_n_of_items = 10 * matter_bin.tier
 		break
 
 /obj/machinery/microwave/examine(mob/user)
@@ -264,7 +260,7 @@
 				update_appearance()
 				return FALSE //to use some fuel
 		else
-			to_chat(user, span_warning("It's broken!"))
+			balloon_alert(user, "it's broken!")
 			return TRUE
 		return
 
@@ -293,7 +289,7 @@
 		return TRUE
 
 	if(dirty >= MAX_MICROWAVE_DIRTINESS) // The microwave is all dirty so can't be used!
-		to_chat(user, span_warning("\The [src] is dirty!"))
+		balloon_alert(user, "it's too dirty!")
 		return TRUE
 
 	if(istype(O, /obj/item/storage/bag/tray))
@@ -303,22 +299,24 @@
 			if(!IS_EDIBLE(S))
 				continue
 			if(ingredients.len >= max_n_of_items)
-				to_chat(user, span_warning("\The [src] is full, you can't put anything in!"))
+				balloon_alert(user, "it's full!")
 				return TRUE
 			if(T.atom_storage.attempt_remove(S, src))
 				loaded++
+				ingredients += S
 		if(loaded)
 			to_chat(user, span_notice("You insert [loaded] items into \the [src]."))
 		return
 
 	if(O.w_class <= WEIGHT_CLASS_NORMAL && !istype(O, /obj/item/storage) && !user.combat_mode)
 		if(ingredients.len >= max_n_of_items)
-			to_chat(user, span_warning("\The [src] is full, you can't put anything in!"))
+			balloon_alert(user, "it's full!")
 			return TRUE
 		if(!user.transferItemToLoc(O, src))
-			to_chat(user, span_warning("\The [O] is stuck to your hand!"))
+			balloon_alert(user, "it's stuck to your hand!")
 			return FALSE
 
+		ingredients += O
 		user.visible_message(span_notice("[user] adds \a [O] to \the [src]."), span_notice("You add [O] to \the [src]."))
 		update_appearance()
 		return
@@ -327,7 +325,10 @@
 
 /obj/machinery/microwave/attack_hand_secondary(mob/user, list/modifiers)
 	if(user.canUseTopic(src, !issilicon(usr)))
-		cook()
+		if(!length(ingredients))
+			balloon_alert(user, "it's empty!")
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		cook(user)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/machinery/microwave/ui_interact(mob/user)
@@ -342,7 +343,7 @@
 		if(isAI(user))
 			examine(user)
 		else
-			to_chat(user, span_warning("\The [src] is empty."))
+			balloon_alert(user, "it's empty!")
 		return
 
 	var/choice = show_radial_menu(user, src, isAI(user) ? ai_radial_options : radial_options, require_near = !issilicon(user))
@@ -381,6 +382,9 @@
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
 		return
 
+	if(HAS_TRAIT(cooker, TRAIT_CURSED) && prob(7))
+		muck()
+		return
 	if(prob(max((5 / efficiency) - 5, dirty * 5))) //a clean unupgraded microwave has no risk of failure
 		muck()
 		return
@@ -443,7 +447,7 @@
 		return
 	time--
 	use_power(active_power_usage)
-	addtimer(CALLBACK(src, .proc/loop, type, time, wait, cooker), wait)
+	addtimer(CALLBACK(src, PROC_REF(loop), type, time, wait, cooker), wait)
 
 /obj/machinery/microwave/power_change()
 	. = ..()
@@ -466,12 +470,16 @@
 
 		metal_amount += (cooked_item.custom_materials?[GET_MATERIAL_REF(/datum/material/iron)] || 0)
 
+	if(HAS_TRAIT(cooker, TRAIT_CURSED) && prob(5))
+		spark()
+		broken = REALLY_BROKEN
+		explosion(src, light_impact_range = 2, flame_range = 1)
+
 	if(metal_amount)
 		spark()
 		broken = REALLY_BROKEN
-		if(prob(max(metal_amount / 2, 33)))
+		if(HAS_TRAIT(cooker, TRAIT_CURSED) || prob(max(metal_amount / 2, 33))) // If we're unlucky and have metal, we're guaranteed to explode
 			explosion(src, heavy_impact_range = 1, light_impact_range = 2)
-
 	else
 		dump_inventory_contents()
 
@@ -503,7 +511,7 @@
 /obj/machinery/microwave/proc/open()
 	open = TRUE
 	update_appearance()
-	addtimer(CALLBACK(src, .proc/close), 0.8 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(close)), 0.8 SECONDS)
 
 /obj/machinery/microwave/proc/close()
 	open = FALSE
@@ -530,7 +538,7 @@
 	//We want there to be some chance of them getting a working microwave (eventually).
 	if(prob(95))
 		//The microwave should turn off asynchronously from any other microwaves that initialize at the same time. Keep in mind this will not turn off, since there is nothing to call the proc that ends this microwave's looping
-		addtimer(CALLBACK(src, .proc/wzhzhzh), rand(0.5 SECONDS, 3 SECONDS))
+		addtimer(CALLBACK(src, PROC_REF(wzhzhzh)), rand(0.5 SECONDS, 3 SECONDS))
 
 #undef MICROWAVE_NORMAL
 #undef MICROWAVE_MUCK

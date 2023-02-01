@@ -1,4 +1,20 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aX" = (
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue,
+/obj/machinery/light/directional/north,
+/obj/machinery/computer/secure_data,
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
 "aY" = (
 /obj/machinery/door/airlock/shuttle,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -38,50 +54,38 @@
 	},
 /turf/open/floor/wood,
 /area/shuttle/escape)
-"dd" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
-	},
-/obj/structure/table/reinforced,
-/obj/item/clipboard,
-/obj/item/folder/white,
-/obj/item/pen/blue,
-/obj/machinery/light/directional/north,
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
 "dQ" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/machinery/door/airlock/shuttle,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"eb" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/machinery/computer/station_alert{
-	desc = "Used to access the shuttle's automated alert system.";
-	dir = 1;
-	name = "ship alert console"
-	},
-/turf/open/floor/iron/white,
+"dR" = (
+/obj/machinery/power/shuttle_engine/heater,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "en" = (
 /obj/effect/spawner/structure/window/reinforced/shuttle,
 /turf/open/floor/plating,
+/area/shuttle/escape)
+"fd" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/purple,
+/obj/effect/turf_decal/tile/purple{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/purple{
+	dir = 1
+	},
+/obj/machinery/modular_computer/console/preset/research{
+	dir = 4
+	},
+/turf/open/floor/iron/white,
 /area/shuttle/escape)
 "fB" = (
 /obj/structure/table/wood,
@@ -118,25 +122,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"jP" = (
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/tile/blue,
-/obj/structure/table/reinforced,
-/obj/item/clipboard,
-/obj/item/folder/red,
-/obj/item/pen/red,
-/obj/machinery/light/directional/north,
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
 "jT" = (
 /obj/item/kirbyplants/photosynthetic,
 /turf/open/floor/iron/white,
@@ -161,39 +146,6 @@
 	pixel_y = 9
 	},
 /turf/open/floor/wood,
-/area/shuttle/escape)
-"kQ" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/machinery/computer/secure_data{
-	dir = 4
-	},
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
-"le" = (
-/obj/effect/turf_decal/tile/blue/fourcorners,
-/obj/effect/turf_decal/tile/blue/fourcorners,
-/obj/structure/table/reinforced,
-/obj/item/book/bible/booze{
-	pixel_x = -3;
-	pixel_y = 4
-	},
-/obj/item/taperecorder{
-	pixel_x = 15;
-	pixel_y = 4
-	},
-/turf/open/floor/iron/white,
 /area/shuttle/escape)
 "lJ" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -237,10 +189,6 @@
 /area/shuttle/escape)
 "ni" = (
 /turf/open/floor/light/colour_cycle/dancefloor_b,
-/area/shuttle/escape)
-"ny" = (
-/obj/machinery/power/shuttle_engine/heater,
-/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "nU" = (
 /obj/structure/chair/comfy/brown{
@@ -297,36 +245,6 @@
 /obj/machinery/computer/warrant,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"qp" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/cup/rag{
-	pixel_y = 7
-	},
-/obj/effect/fun_balloon/sentience/emergency_shuttle{
-	group_name = "bar staff on the NTSS Independence"
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
-"qr" = (
-/obj/effect/turf_decal/tile/yellow,
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/structure/table/reinforced,
-/obj/item/clothing/head/collectable/welding{
-	pixel_y = 5
-	},
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
 "qw" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -372,6 +290,19 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"rA" = (
+/obj/structure/table/reinforced,
+/obj/item/reagent_containers/cup/glass/mug/britcup{
+	pixel_x = 8;
+	pixel_y = -1
+	},
+/obj/item/storage/medkit/regular{
+	pixel_x = -9;
+	pixel_y = 3
+	},
+/obj/effect/turf_decal/tile/blue/fourcorners,
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
 "rX" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -402,17 +333,9 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"sv" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/machinery/computer/med_data{
-	dir = 8
-	},
-/turf/open/floor/iron/white,
+"sW" = (
+/obj/machinery/power/shuttle_engine/huge,
+/turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "tx" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -429,6 +352,26 @@
 	name = "statue of an AI hologram"
 	},
 /turf/open/floor/iron/white,
+/area/shuttle/escape)
+"tG" = (
+/obj/structure/table/wood/fancy,
+/obj/item/flashlight/flare/candle/infinite{
+	desc = "A synthetic candle that won't melt down.";
+	name = "crimson red candle";
+	pixel_x = 1;
+	pixel_y = 6
+	},
+/turf/open/floor/wood,
+/area/shuttle/escape)
+"tI" = (
+/obj/machinery/door/airlock/shuttle,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/docking_port/mobile/emergency{
+	name = "The NTSS Independence"
+	},
+/turf/open/floor/wood,
 /area/shuttle/escape)
 "uV" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
@@ -488,6 +431,20 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"we" = (
+/obj/effect/turf_decal/tile/blue/fourcorners,
+/obj/effect/turf_decal/tile/blue/fourcorners,
+/obj/structure/table/reinforced,
+/obj/item/book/bible/booze{
+	pixel_x = -3;
+	pixel_y = 4
+	},
+/obj/item/taperecorder{
+	pixel_x = 15;
+	pixel_y = 4
+	},
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
 "wf" = (
 /obj/structure/table/wood/fancy,
 /obj/item/food/salad/fruit{
@@ -533,19 +490,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"ym" = (
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/cup/glass/britcup{
-	pixel_x = 8;
-	pixel_y = -1
-	},
-/obj/item/storage/medkit/regular{
-	pixel_x = -9;
-	pixel_y = 3
-	},
-/obj/effect/turf_decal/tile/blue/fourcorners,
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
 "yn" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
@@ -567,22 +511,22 @@
 /obj/machinery/vending/snack/green,
 /turf/open/floor/wood,
 /area/shuttle/escape)
-"yH" = (
+"yY" = (
 /obj/effect/turf_decal/tile/blue{
-	dir = 4
+	dir = 1
 	},
 /obj/effect/turf_decal/tile/blue{
-	dir = 4
+	dir = 1
 	},
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/purple{
-	dir = 1
+	dir = 4
 	},
 /obj/item/reactive_armour_shell,
+/obj/structure/table/reinforced,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "zm" = (
@@ -610,25 +554,6 @@
 	},
 /turf/open/floor/wood,
 /area/shuttle/escape)
-"Bp" = (
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/obj/machinery/modular_computer/console/preset/research{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/purple,
-/obj/effect/turf_decal/tile/purple{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/purple{
-	dir = 4
-	},
-/turf/open/floor/iron/white,
-/area/shuttle/escape)
 "BB" = (
 /obj/item/kirbyplants/photosynthetic,
 /obj/machinery/light/directional/north,
@@ -653,18 +578,6 @@
 /obj/item/kirbyplants/photosynthetic,
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron/white,
-/area/shuttle/escape)
-"CR" = (
-/obj/machinery/door/airlock/shuttle,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
-/obj/docking_port/mobile/emergency{
-	height = 22;
-	name = "The NTSS Independence";
-	width = 44
-	},
-/turf/open/floor/wood,
 /area/shuttle/escape)
 "Dn" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -713,6 +626,24 @@
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/machinery/light/directional/north,
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
+"DT" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/structure/table/reinforced,
+/obj/item/clothing/head/collectable/welding,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "El" = (
@@ -822,16 +753,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"Hi" = (
-/obj/structure/table/wood/fancy,
-/obj/item/candle/infinite{
-	desc = "A synthetic candle that won't melt down.";
-	name = "crimson red candle";
-	pixel_x = 1;
-	pixel_y = 6
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
 "Ho" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
@@ -930,6 +851,18 @@
 "KD" = (
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"Lo" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/glass/drinkingglass/shotglass{
+	pixel_x = -3;
+	pixel_y = 6
+	},
+/obj/item/reagent_containers/cup/glass/drinkingglass/shotglass{
+	pixel_x = 6;
+	pixel_y = 14
+	},
+/turf/open/floor/wood,
+/area/shuttle/escape)
 "Me" = (
 /obj/structure/chair/comfy/brown{
 	dir = 1
@@ -980,18 +913,6 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
-"QI" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/cup/glass/drinkingglass/shotglass{
-	pixel_x = -3;
-	pixel_y = 6
-	},
-/obj/item/reagent_containers/cup/glass/drinkingglass/shotglass{
-	pixel_x = 6;
-	pixel_y = 14
-	},
-/turf/open/floor/wood,
-/area/shuttle/escape)
 "So" = (
 /obj/item/storage/cans/sixbeer,
 /turf/open/floor/wood,
@@ -1017,10 +938,6 @@
 	},
 /turf/open/floor/wood,
 /area/shuttle/escape)
-"SG" = (
-/obj/machinery/power/shuttle_engine/huge,
-/turf/open/floor/plating/airless,
-/area/shuttle/escape)
 "SK" = (
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/turf_decal/tile/blue/fourcorners,
@@ -1029,10 +946,34 @@
 	},
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"Tl" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/item/folder/white,
+/obj/item/pen/blue,
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
 "TI" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
+"TO" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/light/directional/north,
+/obj/machinery/computer/med_data,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
 "Ud" = (
@@ -1061,6 +1002,47 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron/white,
 /area/shuttle/escape)
+"Ut" = (
+/obj/effect/turf_decal/tile/yellow,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/machinery/computer/station_alert{
+	desc = "Used to access the shuttle's automated alert system.";
+	dir = 8;
+	name = "ship alert console"
+	},
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
+"Uu" = (
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/item/folder/red,
+/obj/item/pen/red,
+/turf/open/floor/iron/white,
+/area/shuttle/escape)
 "UF" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -1072,6 +1054,16 @@
 /area/shuttle/escape)
 "UJ" = (
 /obj/machinery/light/directional/south,
+/turf/open/floor/wood,
+/area/shuttle/escape)
+"UN" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/rag{
+	pixel_y = 7
+	},
+/obj/effect/fun_balloon/sentience/emergency_shuttle{
+	group_name = "bar staff on the NTSS Independence"
+	},
 /turf/open/floor/wood,
 /area/shuttle/escape)
 "Vk" = (
@@ -1134,7 +1126,7 @@ kd
 kd
 jt
 qE
-CR
+tI
 jt
 kd
 kd
@@ -1239,7 +1231,7 @@ en
 jt
 jt
 EC
-Hi
+tG
 Me
 jt
 aY
@@ -1268,7 +1260,7 @@ kd
 kd
 en
 EC
-Hi
+tG
 WT
 WT
 WT
@@ -1292,7 +1284,7 @@ WT
 WT
 WT
 EC
-Hi
+tG
 Me
 jt
 jt
@@ -1404,7 +1396,7 @@ jt
 en
 qw
 FR
-yH
+fd
 Vm
 jT
 qw
@@ -1439,18 +1431,18 @@ wf
 cz
 Me
 uV
-ny
+dR
 xj
 xj
-SG
+sW
 "}
 (8,1,1) = {"
 jt
-jP
-kQ
+aX
+Uu
 qw
 Ud
-Bp
+yY
 Vm
 Pr
 qw
@@ -1485,7 +1477,7 @@ NH
 NH
 UJ
 uV
-ny
+dR
 xj
 xj
 xj
@@ -1531,7 +1523,7 @@ WT
 WT
 WT
 uV
-ny
+dR
 xj
 xj
 xj
@@ -1609,7 +1601,7 @@ dQ
 qw
 qw
 Nv
-le
+we
 Cn
 Dn
 SK
@@ -1657,7 +1649,7 @@ qw
 Nv
 VO
 Gv
-ym
+rA
 SK
 cf
 tB
@@ -1761,18 +1753,18 @@ WT
 WT
 WT
 uV
-ny
+dR
 xj
 xj
-SG
+sW
 "}
 (15,1,1) = {"
 jt
-dd
-sv
+TO
+Tl
 qw
 IL
-eb
+DT
 Vm
 Pr
 qw
@@ -1807,7 +1799,7 @@ nU
 nU
 UJ
 uV
-ny
+dR
 xj
 xj
 xj
@@ -1818,7 +1810,7 @@ jt
 en
 qw
 uX
-qr
+Ut
 Vm
 jT
 qw
@@ -1848,12 +1840,12 @@ Vm
 WT
 WT
 gQ
-QI
-qp
+Lo
+UN
 gQ
 wF
 uV
-ny
+dR
 xj
 xj
 xj
@@ -1958,7 +1950,7 @@ kd
 kd
 en
 EC
-Hi
+tG
 WT
 WT
 WT
@@ -1982,7 +1974,7 @@ WT
 WT
 WT
 EC
-Hi
+tG
 Me
 jt
 jt
@@ -2021,7 +2013,7 @@ en
 jt
 jt
 EC
-Hi
+tG
 Me
 jt
 qE

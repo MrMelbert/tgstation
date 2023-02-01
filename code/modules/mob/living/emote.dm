@@ -5,7 +5,7 @@
 	mob_type_blacklist_typecache = list(/mob/living/brain)
 
 /// The time it takes for the blush visual to be removed
-#define BLUSH_DURATION 5.2 SECONDS
+#define BLUSH_DURATION (5.2 SECONDS)
 
 /datum/emote/living/blush
 	key = "blush"
@@ -23,7 +23,7 @@
 		var/list/key_emotes = GLOB.emote_list["blush"]
 		for(var/datum/emote/living/blush/living_emote in key_emotes)
 			// The existing timer restarts if it is already running
-			addtimer(CALLBACK(living_emote, .proc/end_blush, human_user), BLUSH_DURATION, TIMER_UNIQUE | TIMER_OVERRIDE)
+			addtimer(CALLBACK(living_emote, PROC_REF(end_blush), human_user), BLUSH_DURATION, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /datum/emote/living/blush/proc/end_blush(mob/living/carbon/human/human_user)
 	if(!QDELETED(human_user))
@@ -162,7 +162,7 @@
 				wings.close_wings()
 			else
 				wings.open_wings()
-			addtimer(CALLBACK(wings, open ? /obj/item/organ/external/wings/functional.proc/open_wings : /obj/item/organ/external/wings/functional.proc/close_wings), wing_time)
+			addtimer(CALLBACK(wings,  open ? TYPE_PROC_REF(/obj/item/organ/external/wings/functional, open_wings) : TYPE_PROC_REF(/obj/item/organ/external/wings/functional, close_wings)), wing_time)
 
 /datum/emote/living/flap/aflap
 	key = "aflap"
@@ -261,13 +261,14 @@
 	return ..() && user.can_speak(allow_mimes = TRUE)
 
 /datum/emote/living/laugh/get_sound(mob/living/user)
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if(H.dna.species.id == SPECIES_HUMAN && (!H.mind || !H.mind.miming))
-			if(user.gender == FEMALE)
-				return 'sound/voice/human/womanlaugh.ogg'
-			else
-				return pick('sound/voice/human/manlaugh1.ogg', 'sound/voice/human/manlaugh2.ogg')
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/human_user = user
+	if(human_user.dna.species.id == SPECIES_HUMAN && !HAS_TRAIT(human_user, TRAIT_MIMING))
+		if(human_user.gender == FEMALE)
+			return 'sound/voice/human/womanlaugh.ogg'
+		else
+			return pick('sound/voice/human/manlaugh1.ogg', 'sound/voice/human/manlaugh2.ogg')
 
 /datum/emote/living/look
 	key = "look"
@@ -492,7 +493,7 @@
 			continue
 
 		var/yawn_delay = rand(0.25 SECONDS, 0.75 SECONDS) * dist_between
-		addtimer(CALLBACK(src, .proc/propagate_yawn, iter_living), yawn_delay)
+		addtimer(CALLBACK(src, PROC_REF(propagate_yawn), iter_living), yawn_delay)
 
 /// This yawn has been triggered by someone else yawning specifically, likely after a delay. Check again if they don't have the yawned recently trait
 /datum/emote/living/yawn/proc/propagate_yawn(mob/user)
@@ -588,4 +589,5 @@
 	key = "swear"
 	key_third_person = "swears"
 	message = "says a swear word!"
+	message_mime = "makes a rude gesture!"
 	emote_type = EMOTE_AUDIBLE

@@ -111,7 +111,7 @@
 	throw_speed = 3
 	throw_range = 5
 	custom_materials = list(/datum/material/iron=10000)
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 30, BIO = 0, FIRE = 100, ACID = 100)
+	armor_type = /datum/armor/item_hand_tele
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/list/active_portal_pairs
 	var/max_portal_pairs = 3
@@ -124,6 +124,11 @@
 	 * - A weakref to a /obj/machinery/computer/teleporter, meaning the last place it teleported to was a pre-setup location.
 	*/
 	var/last_portal_location
+
+/datum/armor/item_hand_tele
+	bomb = 30
+	fire = 100
+	acid = 100
 
 /obj/item/hand_tele/Initialize(mapload)
 	. = ..()
@@ -200,7 +205,7 @@
 			if (about_to_replace_location)
 				UnregisterSignal(about_to_replace_location, COMSIG_TELEPORTER_NEW_TARGET)
 
-		RegisterSignal(teleport_location, COMSIG_TELEPORTER_NEW_TARGET, .proc/on_teleporter_new_target)
+		RegisterSignal(teleport_location, COMSIG_TELEPORTER_NEW_TARGET, PROC_REF(on_teleporter_new_target))
 
 		last_portal_location = WEAKREF(teleport_location)
 
@@ -251,8 +256,8 @@
 	var/obj/effect/portal/portal1 = created[1]
 	var/obj/effect/portal/portal2 = created[2]
 
-	RegisterSignal(portal1, COMSIG_PARENT_QDELETING, .proc/on_portal_destroy)
-	RegisterSignal(portal2, COMSIG_PARENT_QDELETING, .proc/on_portal_destroy)
+	RegisterSignal(portal1, COMSIG_PARENT_QDELETING, PROC_REF(on_portal_destroy))
+	RegisterSignal(portal2, COMSIG_PARENT_QDELETING, PROC_REF(on_portal_destroy))
 
 	try_move_adjacent(portal1, user.dir)
 	active_portal_pairs[portal1] = portal2

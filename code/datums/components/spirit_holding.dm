@@ -25,10 +25,10 @@
 	return ..()
 
 /datum/component/spirit_holding/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/on_examine)
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, .proc/on_attack_self)
-	RegisterSignal(parent, COMSIG_PARENT_QDELETING, .proc/on_destroy)
-	RegisterSignal(parent, COMSIG_ATOM_UPDATE_NAME, .proc/on_update_name)
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_attack_self))
+	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_destroy))
+	RegisterSignal(parent, COMSIG_ATOM_UPDATE_NAME, PROC_REF(on_update_name))
 
 /datum/component/spirit_holding/UnregisterFromParent()
 	UnregisterSignal(parent, list(COMSIG_PARENT_EXAMINE, COMSIG_ITEM_ATTACK_SELF, COMSIG_PARENT_QDELETING, COMSIG_ATOM_UPDATE_NAME))
@@ -44,7 +44,7 @@
 ///signal fired on self attacking parent
 /datum/component/spirit_holding/proc/on_attack_self(datum/source, mob/user)
 	SIGNAL_HANDLER
-	INVOKE_ASYNC(src, .proc/attempt_spirit_awaken, user)
+	INVOKE_ASYNC(src, PROC_REF(attempt_spirit_awaken), user)
 
 /**
  * attempt_spirit_awaken: called from on_attack_self, polls ghosts to possess the item in the form
@@ -83,18 +83,34 @@
 	// Make sure the sword can understand and communicate with the awakener.
 	bound_spirit.copy_languages(awakener, LANGUAGE_MASTER)
 	bound_spirit.update_atom_languages()
-	// Also give them omnitingue so they can speak it
-	bound_spirit.grant_all_languages(FALSE, FALSE, TRUE)
-	// Give them soulstone component (godmode, inability to move, etc)
-	bound_spirit.AddComponent(/datum/component/soulstoned, parent)
+	bound_spirit.grant_all_languages(FALSE, FALSE, TRUE) //Grants omnitongue
 
-	var/input = sanitize_name(tgui_input_text(bound_spirit, "What are you named?", "Spectral Nomenclature", max_length = MAX_NAME_LEN))
-	if(input)
-		spirit_name = input
-		bound_spirit.fully_replace_character_name(null, "The spirit of [input]")
+	// Now that all of the important things are in place for our spirit, it's time for them to choose their name.
+	var/valid_input_name = custom_name(awakener)
+	if(valid_input_name)
+		bound_spirit.fully_replace_character_name(null, "The spirit of [valid_input_name]")
 
-	movable_parent.update_name()
+	movable_parent.update_appearance(UPDATE_NAME)
 	attempting_awakening = FALSE
+
+/**
+ * custom_name : Simply sends a tgui input text box to the blade asking what name they want to be called, and retries it if the input is invalid.
+ *
+ * Arguments:
+ * * awakener: user who interacted with the blade
+ */
+/datum/component/spirit_holding/proc/custom_name(mob/awakener)
+	var/chosen_name = sanitize_name(tgui_input_text(bound_spirit, "What are you named?", "Spectral Nomenclature", max_length = MAX_NAME_LEN))
+	if(!chosen_name) // with the way that sanitize_name works, it'll actually send the error message to the awakener as well.
+		to_chat(awakener, span_warning("Your blade did not select a valid name! Please wait as they try again.")) // more verbose than what sanitize_name might pass in it's error message
+		return custom_name(awakener)
+	return chosen_name
+
+///signal fired from a mob moving inside the parent
+/datum/component/spirit_holding/proc/block_buckle_message(datum/source, mob/living/user, direction)
+	SIGNAL_HANDLER
+
+	return COMSIG_BLOCK_RELAYMOVE
 
 /datum/component/spirit_holding/proc/pre_exorcism(mob/living/exorcist)
 	if(!bound_spirit)
@@ -104,14 +120,20 @@
 	if(!bound_spirit) // Spirit died sometime during the exorcism, shrug
 		return FALSE
 
+	var/atom/movable/exorcised_movable = parent
+	to_chat(exorcist, span_notice("You begin to exorcise [parent]..."))
+	playsound(parent, 'sound/hallucinations/veryfar_noise.ogg',40,TRUE)
+	if(!do_after(exorcist, 4 SECONDS, target = exorcised_movable))
+		return
+	playsound(parent, 'sound/effects/pray_chaplain.ogg',60,TRUE)
+	UnregisterSignal(exorcised_movable, list(COMSIG_ATOM_RELAYMOVE, COMSIG_BIBLE_SMACKED))
+	RegisterSignal(exorcised_movable, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_attack_self))
 	to_chat(bound_spirit, span_userdanger("You were exorcised!"))
 	exorcist.visible_message(span_notice("[exorcist] exorcises [parent]!"))
 	QDEL_NULL(bound_spirit)
 	spirit_name = null
 
-	var/atom/movable/movable_parent = parent
-	movable_parent.update_name()
-
+	exorcised_movable.update_appearance(UPDATE_NAME)
 	return TRUE
 
 /datum/component/spirit_holding/proc/on_destroy(datum/source)

@@ -10,6 +10,8 @@
 	layer = HIGH_OBJ_LAYER
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_BELT
+	/// The base name of the soulstone, set to the initial name by default. Used in name updating
+	var/base_name
 	/// if TRUE, we can only be used once.
 	var/one_use = FALSE
 	/// Only used if one_use is TRUE. Whether it's used.
@@ -29,8 +31,10 @@
 /obj/item/soulstone/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/exorcisable, \
-		pre_exorcism_callback = CALLBACK(src, .proc/pre_exorcism), \
-		on_exorcism_callback = CALLBACK(src, .proc/on_exorcism))
+		pre_exorcism_callback = CALLBACK(src, PROC_REF(pre_exorcism)), \
+		on_exorcism_callback = CALLBACK(src, PROC_REF(on_exorcism)))
+
+	base_name ||= initial(name)
 
 /obj/item/soulstone/Exited(atom/movable/gone, direction)
 	. = ..()
@@ -74,12 +78,14 @@
 
 /obj/item/soulstone/update_name(updates)
 	. = ..()
+	name = base_name
 	if(spent)
+		// "dull soulstone"
 		name = "dull [name]"
-	else if(captured_shade)
+
+	if(captured_shade)
+		// "(dull) soulstone: Urist McCaptain"
 		name = "[name]: [captured_shade.real_name]"
-	else
-		name = initial(name)
 
 /obj/item/soulstone/update_desc(updates)
 	. = ..()
@@ -191,7 +197,7 @@
 // This stops the shade from being qdel'd immediately, and their ghost being sent back to the arrival shuttle.
 /obj/item/soulstone/Destroy()
 	if(captured_shade)
-		INVOKE_ASYNC(captured_shade, /mob/living/proc/death)
+		INVOKE_ASYNC(captured_shade, TYPE_PROC_REF(/mob/living, death))
 		captured_shade = null
 	return ..()
 
@@ -336,7 +342,7 @@
 		return TRUE
 
 	to_chat(user, "[span_userdanger("Capture failed!")]: The soul has already fled its mortal frame. You attempt to bring it back...")
-	INVOKE_ASYNC(src, .proc/get_ghost_to_replace_shade, victim, user)
+	INVOKE_ASYNC(src, PROC_REF(get_ghost_to_replace_shade), victim, user)
 	return TRUE //it'll probably get someone
 
 /**
@@ -528,7 +534,7 @@
 	var/atom/movable/screen/alert/bloodsense/blood_sense
 
 	if(new_construct.mind && (IS_CULTIST(stoner) || cultoverride))
-		new_construct.mind.add_antag_datum(/datum/antagonist/cult)
+		new_construct.mind.add_antag_datum(/datum/antagonist/cult/construct)
 
 	var/who_to_follow = stoner?.p_their() || "their"
 	if(IS_CULTIST(stoner) || cultoverride)
@@ -576,6 +582,7 @@
 		return
 
 	name = "[GLOB.deity]'s punishment"
+	base_name = name
 	desc = "A prison for those who lost [GLOB.deity]'s game."
 
 /obj/item/soulstone/anybody/mining

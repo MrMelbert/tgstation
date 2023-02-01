@@ -33,7 +33,7 @@
 /obj/item/soap/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/slippery, 80)
-	AddComponent(/datum/component/cleaner, cleanspeed, 0.1, pre_clean_callback=CALLBACK(src, .proc/should_clean), on_cleaned_callback=CALLBACK(src, .proc/decreaseUses)) //less scaling for soapies
+	AddComponent(/datum/component/cleaner, cleanspeed, 0.1, pre_clean_callback=CALLBACK(src, PROC_REF(should_clean)), on_cleaned_callback=CALLBACK(src, PROC_REF(decreaseUses))) //less scaling for soapies
 
 /obj/item/soap/examine(mob/user)
 	. = ..()
@@ -144,10 +144,11 @@
 	to_chat(user, span_warning("The soap has ran out of chemicals"))
 
 /obj/item/soap/nanotrasen/cyborg/afterattack(atom/target, mob/user, proximity)
+	. = isitem(target) ? AFTERATTACK_PROCESSED_ITEM : NONE
 	if(uses <= 0)
 		to_chat(user, span_warning("No good, you need to recharge!"))
-		return
-	return ..()
+		return .
+	return ..() | .
 
 /obj/item/soap/attackby_storage_insert(datum/storage, atom/storage_holder, mob/living/user)
 	return !user?.combat_mode  // only cleans a storage item if on combat
@@ -233,4 +234,5 @@
 	name = "Canned Laughter"
 	desc = "Just looking at this makes you want to giggle."
 	icon_state = "laughter"
+	volume = 50
 	list_reagents = list(/datum/reagent/consumable/laughter = 50)

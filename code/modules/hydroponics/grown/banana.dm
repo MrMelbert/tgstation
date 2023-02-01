@@ -28,9 +28,9 @@
 	juice_results = list(/datum/reagent/consumable/banana = 0)
 	distill_reagent = /datum/reagent/consumable/ethanol/bananahonk
 
-/obj/item/food/grown/banana/MakeEdible()
+/obj/item/food/grown/banana/make_edible()
 	. = ..()
-	AddComponent(/datum/component/edible, check_liked = CALLBACK(src, .proc/check_liked))
+	AddComponent(/datum/component/edible, check_liked = CALLBACK(src, PROC_REF(check_liked)))
 
 /obj/item/food/grown/banana/Initialize(mapload)
 	. = ..()
@@ -180,7 +180,7 @@
 
 	animate(src, time = 1, pixel_z = 12, easing = ELASTIC_EASING)
 	animate(time = 1, pixel_z = 0, easing = BOUNCE_EASING)
-	addtimer(CALLBACK(src, .proc/explosive_ripening), 3 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(explosive_ripening)), 3 SECONDS)
 	for(var/i in 1 to 32)
 		animate(color = (i % 2) ? "#ffffff": "#ff6739", time = 1, easing = QUAD_EASING)
 

@@ -13,17 +13,15 @@
 
 /datum/component/soulstoned/RegisterWithParent()
 	var/mob/living/simple_animal/shade = parent
-
-	RegisterSignal(shade, COMSIG_MOVABLE_MOVED, .proc/free_prisoner)
-	RegisterSignal(parent, COMSIG_ATOM_RELAYMOVE, .proc/block_buckle_message)
-	RegisterSignal(shade, COMSIG_LIVING_SUICIDE_CHECK, .proc/on_suicide_check)
+	RegisterSignal(shade, COMSIG_MOVABLE_MOVED, PROC_REF(free_prisoner))
+	RegisterSignal(shade, COMSIG_ATOM_RELAYMOVE, PROC_REF(block_buckle_message))
+	RegisterSignal(shade, COMSIG_LIVING_SUICIDE_CHECK, PROC_REF(on_suicide_check))
 	ADD_TRAIT(shade, TRAIT_IMMOBILIZED, SOULSTONE_TRAIT)
 	ADD_TRAIT(shade, TRAIT_HANDS_BLOCKED, SOULSTONE_TRAIT)
 	shade.status_flags |= GODMODE
 
 /datum/component/soulstoned/UnregisterFromParent()
 	var/mob/living/simple_animal/shade = parent
-
 	UnregisterSignal(shade, list(COMSIG_MOVABLE_MOVED, COMSIG_ATOM_RELAYMOVE, COMSIG_LIVING_SUICIDE_CHECK))
 	REMOVE_TRAIT(shade, TRAIT_IMMOBILIZED, SOULSTONE_TRAIT)
 	ADD_TRAIT(shade, TRAIT_HANDS_BLOCKED, SOULSTONE_TRAIT)

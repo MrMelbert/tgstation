@@ -111,6 +111,8 @@
 	if(!unique)
 		book_data = new(starting_title, starting_author, starting_content)
 
+	AddElement(/datum/element/falling_hazard, damage = 5, wound_bonus = 0, hardhat_safety = TRUE, crushes = FALSE, impact_sound = drop_sound)
+
 /**
  * Can the passed mob actually read this book?
  *

@@ -34,8 +34,8 @@
 	max_integrity = 100
 	integrity_failure = 0.33
 	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = list(SMOOTH_GROUP_TABLES)
-	canSmoothWith = list(SMOOTH_GROUP_TABLES)
+	smoothing_groups = SMOOTH_GROUP_TABLES
+	canSmoothWith = SMOOTH_GROUP_TABLES
 
 /obj/structure/table/Initialize(mapload, _buildstack)
 	. = ..()
@@ -44,7 +44,7 @@
 	AddElement(/datum/element/climbable)
 
 	var/static/list/loc_connections = list(
-		COMSIG_CARBON_DISARM_COLLIDE = .proc/table_carbon,
+		COMSIG_CARBON_DISARM_COLLIDE = PROC_REF(table_carbon),
 	)
 
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -356,7 +356,7 @@
 /obj/structure/table/rolling/AfterPutItemOnTable(obj/item/I, mob/living/user)
 	. = ..()
 	attached_items += I
-	RegisterSignal(I, COMSIG_MOVABLE_MOVED, .proc/RemoveItemFromTable) //Listen for the pickup event, unregister on pick-up so we aren't moved
+	RegisterSignal(I, COMSIG_MOVABLE_MOVED, PROC_REF(RemoveItemFromTable)) //Listen for the pickup event, unregister on pick-up so we aren't moved
 
 /obj/structure/table/rolling/proc/RemoveItemFromTable(datum/source, newloc, dir)
 	SIGNAL_HANDLER
@@ -387,16 +387,20 @@
 	base_icon_state = "glass_table"
 	custom_materials = list(/datum/material/glass = 2000)
 	buildstack = /obj/item/stack/sheet/glass
-	smoothing_groups = list(SMOOTH_GROUP_GLASS_TABLES)
-	canSmoothWith = list(SMOOTH_GROUP_GLASS_TABLES)
+	smoothing_groups = SMOOTH_GROUP_GLASS_TABLES
+	canSmoothWith = SMOOTH_GROUP_GLASS_TABLES
 	max_integrity = 70
 	resistance_flags = ACID_PROOF
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 80, ACID = 100)
+	armor_type = /datum/armor/table_glass
+
+/datum/armor/table_glass
+	fire = 80
+	acid = 100
 
 /obj/structure/table/glass/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -408,7 +412,7 @@
 		return
 	// Don't break if they're just flying past
 	if(AM.throwing)
-		addtimer(CALLBACK(src, .proc/throw_check, AM), 5)
+		addtimer(CALLBACK(src, PROC_REF(throw_check), AM), 5)
 	else
 		check_break(AM)
 
@@ -477,8 +481,8 @@
 	buildstack = /obj/item/stack/sheet/mineral/wood
 	resistance_flags = FLAMMABLE
 	max_integrity = 70
-	smoothing_groups = list(SMOOTH_GROUP_WOOD_TABLES) //Don't smooth with SMOOTH_GROUP_TABLES
-	canSmoothWith = list(SMOOTH_GROUP_WOOD_TABLES)
+	smoothing_groups = SMOOTH_GROUP_WOOD_TABLES //Don't smooth with SMOOTH_GROUP_TABLES
+	canSmoothWith = SMOOTH_GROUP_WOOD_TABLES
 
 /obj/structure/table/wood/narsie_act(total_override = TRUE)
 	if(!total_override)
@@ -504,8 +508,8 @@
 	frame = /obj/structure/table_frame
 	framestack = /obj/item/stack/rods
 	buildstack = /obj/item/stack/tile/carpet
-	smoothing_groups = list(SMOOTH_GROUP_FANCY_WOOD_TABLES) //Don't smooth with SMOOTH_GROUP_TABLES or SMOOTH_GROUP_WOOD_TABLES
-	canSmoothWith = list(SMOOTH_GROUP_FANCY_WOOD_TABLES)
+	smoothing_groups = SMOOTH_GROUP_FANCY_WOOD_TABLES //Don't smooth with SMOOTH_GROUP_TABLES or SMOOTH_GROUP_WOOD_TABLES
+	canSmoothWith = SMOOTH_GROUP_FANCY_WOOD_TABLES
 	var/smooth_icon = 'icons/obj/smooth_structures/fancy_table.dmi' // see Initialize()
 
 /obj/structure/table/wood/fancy/Initialize(mapload)
@@ -583,7 +587,16 @@
 	buildstack = /obj/item/stack/sheet/plasteel
 	max_integrity = 200
 	integrity_failure = 0.25
-	armor = list(MELEE = 10, BULLET = 30, LASER = 30, ENERGY = 100, BOMB = 20, BIO = 0, FIRE = 80, ACID = 70)
+	armor_type = /datum/armor/table_reinforced
+
+/datum/armor/table_reinforced
+	melee = 10
+	bullet = 30
+	laser = 30
+	energy = 100
+	bomb = 20
+	fire = 80
+	acid = 70
 
 /obj/structure/table/reinforced/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	. = ..()
@@ -629,8 +642,8 @@
 	base_icon_state = "brass_table"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	buildstack = /obj/item/stack/sheet/bronze
-	smoothing_groups = list(SMOOTH_GROUP_BRONZE_TABLES) //Don't smooth with SMOOTH_GROUP_TABLES
-	canSmoothWith = list(SMOOTH_GROUP_BRONZE_TABLES)
+	smoothing_groups = SMOOTH_GROUP_BRONZE_TABLES //Don't smooth with SMOOTH_GROUP_TABLES
+	canSmoothWith = SMOOTH_GROUP_BRONZE_TABLES
 
 /obj/structure/table/bronze/tablepush(mob/living/user, mob/living/pushed_mob)
 	..()
@@ -659,7 +672,7 @@
 	name = "titanium glass table"
 	desc = "A titanium reinforced glass table, with a fresh coat of NT white paint."
 	icon = 'icons/obj/smooth_structures/titaniumglass_table.dmi'
-	icon_state = "titaniumglass_table-o"
+	icon_state = "titaniumglass_table-0"
 	base_icon_state = "titaniumglass_table"
 	custom_materials = list(/datum/material/alloy/titaniumglass = 2000)
 	buildstack = /obj/item/stack/sheet/titaniumglass
@@ -702,8 +715,8 @@
 		if(computer)
 			computer.table = src
 			break
-	RegisterSignal(loc, COMSIG_ATOM_ENTERED, .proc/mark_patient)
-	RegisterSignal(loc, COMSIG_ATOM_EXITED, .proc/unmark_patient)
+	RegisterSignal(loc, COMSIG_ATOM_ENTERED, PROC_REF(mark_patient))
+	RegisterSignal(loc, COMSIG_ATOM_EXITED, PROC_REF(unmark_patient))
 
 /obj/structure/table/optable/Destroy()
 	if(computer && computer.table == src)
@@ -723,7 +736,7 @@
 	SIGNAL_HANDLER
 	if(!istype(potential_patient))
 		return
-	RegisterSignal(potential_patient, COMSIG_LIVING_SET_BODY_POSITION, .proc/recheck_patient)
+	RegisterSignal(potential_patient, COMSIG_LIVING_SET_BODY_POSITION, PROC_REF(recheck_patient))
 	recheck_patient(potential_patient) // In case the mob is already lying down before they entered.
 
 /// Unmark the potential patient.
@@ -864,9 +877,10 @@
 	if(do_after(user, 50, target = user, progress=TRUE))
 		if(!user.temporarilyRemoveItemFromInventory(src))
 			return
-		var/obj/structure/rack/R = new /obj/structure/rack(user.loc)
+		var/obj/structure/rack/R = new /obj/structure/rack(get_turf(src))
 		user.visible_message("<span class='notice'>[user] assembles \a [R].\
 			</span>", span_notice("You assemble \a [R]."))
 		R.add_fingerprint(user)
 		qdel(src)
 	building = FALSE
+

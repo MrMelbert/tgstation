@@ -42,7 +42,7 @@
 
 /obj/item/universal_scanner/attack_self(mob/user, modifiers)
 	. = ..()
-	var/choice = show_radial_menu(user, src, scale_mode, custom_check = CALLBACK(src, .proc/check_menu, user), radius = 36, require_near = TRUE)
+	var/choice = show_radial_menu(user, src, scale_mode, custom_check = CALLBACK(src, PROC_REF(check_menu), user), radius = 36, require_near = TRUE)
 	if(!choice)
 		return FALSE
 	if(icon_state == "[choice]")
@@ -61,11 +61,13 @@
 	. = ..()
 	if(!istype(object) || !proximity)
 		return
+	. |= AFTERATTACK_PROCESSED_ITEM
 	if(scanning_mode == SCAN_EXPORTS)
 		export_scan(object, user)
-		return
+		return .
 	if(scanning_mode == SCAN_PRICE_TAG)
 		price_tag(target = object, user = user)
+	return .
 
 /obj/item/universal_scanner/attackby(obj/item/attacking_item, mob/user, params)
 	. = ..()

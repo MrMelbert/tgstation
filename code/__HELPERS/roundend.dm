@@ -614,7 +614,7 @@
 	var/currrent_category
 	var/datum/antagonist/previous_category
 
-	sortTim(all_antagonists, /proc/cmp_antag_category)
+	sortTim(all_antagonists, GLOBAL_PROC_REF(cmp_antag_category))
 
 	for(var/datum/antagonist/antagonists in all_antagonists)
 		if(!antagonists.show_in_roundend)
@@ -651,6 +651,7 @@
 /datum/action/report
 	name = "Show roundend report"
 	button_icon_state = "round_end"
+	show_to_observers = FALSE
 
 /datum/action/report/Trigger(trigger_flags)
 	if(owner && GLOB.common_report && SSticker.current_state == GAME_STATE_FINISHED)

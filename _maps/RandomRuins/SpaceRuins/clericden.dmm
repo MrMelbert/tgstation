@@ -1,581 +1,777 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"a" = (
+"aa" = (
 /turf/template_noop,
 /area/template_noop)
-"b" = (
+"ab" = (
 /turf/closed/mineral/random,
 /area/ruin/unpowered/no_grav)
-"c" = (
+"ac" = (
 /turf/open/misc/asteroid/airless,
 /area/ruin/unpowered/no_grav)
-"d" = (
+"ad" = (
 /turf/closed/wall,
 /area/ruin/unpowered/no_grav)
-"e" = (
+"ae" = (
 /turf/closed/wall/rust,
 /area/ruin/unpowered/no_grav)
-"f" = (
+"af" = (
 /obj/item/stack/rods{
 	amount = 2
 	},
 /obj/item/shard,
 /turf/open/misc/asteroid/airless,
 /area/ruin/unpowered/no_grav)
-"h" = (
+"ag" = (
+/obj/effect/spawner/structure/window,
+/turf/open/floor/plating,
+/area/ruin/unpowered/no_grav)
+"ah" = (
 /obj/structure/grille/broken,
 /obj/structure/barricade/wooden/crude,
 /obj/structure/trap/cult,
 /obj/effect/decal/cleanable/glass,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"i" = (
+"ai" = (
 /obj/structure/light_prism,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/unpowered/no_grav)
-"j" = (
+"aj" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"k" = (
+"ak" = (
 /obj/item/ectoplasm,
 /turf/open/misc/asteroid/airless,
 /area/ruin/unpowered/no_grav)
-"l" = (
+"al" = (
 /obj/structure/closet/crate/coffin,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/unpowered/no_grav)
-"m" = (
+"am" = (
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"n" = (
+"an" = (
 /turf/open/floor/carpet/royalblack/airless,
 /area/ruin/unpowered/no_grav)
-"p" = (
+"ao" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/glass/bottle/holywater,
+/turf/open/floor/carpet/airless,
+/area/ruin/unpowered/no_grav)
+"ap" = (
 /obj/structure/table/wood/fancy,
 /obj/item/melee/cleric_mace,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"q" = (
+"aq" = (
 /obj/effect/decal/cleanable/shreds,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"r" = (
+"ar" = (
 /obj/effect/decal/cleanable/shreds,
 /obj/effect/decal/remains/human,
 /obj/item/disk/design_disk/adv/cleric_mace,
 /obj/structure/trap/cult,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"s" = (
+"as" = (
 /obj/effect/decal/cleanable/shreds,
 /turf/open/floor/carpet/royalblack/airless,
 /area/ruin/unpowered/no_grav)
-"t" = (
+"at" = (
 /turf/open/floor/carpet/royalblue/airless,
 /area/ruin/unpowered/no_grav)
-"u" = (
+"au" = (
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"v" = (
+"av" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /obj/effect/decal/cleanable/blood/footprints,
 /obj/effect/decal/cleanable/shreds,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"w" = (
+"aw" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/carpet/royalblack/airless,
 /area/ruin/unpowered/no_grav)
-"x" = (
+"ax" = (
 /obj/structure/bonfire,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/unpowered/no_grav)
-"y" = (
+"ay" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"z" = (
+"az" = (
 /obj/item/paper/fluff/ruins/clericsden/contact,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"A" = (
+"aA" = (
 /obj/structure/table/wood{
 	layer = 3.3
 	},
 /turf/open/floor/carpet/royalblack/airless,
 /area/ruin/unpowered/no_grav)
-"B" = (
+"aB" = (
 /obj/effect/decal/cleanable/blood/footprints,
 /obj/effect/decal/cleanable/blood/tracks,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"C" = (
+"aC" = (
 /obj/structure/chair/wood{
 	dir = 1
 	},
 /turf/open/floor/carpet/royalblue/airless,
 /area/ruin/unpowered/no_grav)
-"D" = (
+"aD" = (
 /obj/effect/decal/remains/human,
 /obj/structure/trap/cult,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"E" = (
+"aE" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /mob/living/simple_animal/hostile/construct/proteon/hostile,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"F" = (
+"aF" = (
 /obj/item/flashlight/flare/torch,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"G" = (
+"aG" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /obj/structure/trap/cult,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"H" = (
+"aH" = (
 /obj/structure/light_prism,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"I" = (
+"aI" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/carpet/airless,
 /area/ruin/unpowered/no_grav)
-"J" = (
+"aJ" = (
 /obj/structure/rack,
 /obj/item/tank/internals/emergency_oxygen,
 /obj/item/clothing/mask/breath,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/unpowered/no_grav)
-"L" = (
+"aK" = (
+/obj/effect/spawner/structure/window,
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered/no_grav)
+"aL" = (
 /obj/machinery/door/airlock/wood,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"M" = (
+"aM" = (
 /obj/effect/decal/cleanable/blood/tracks,
 /obj/machinery/door/airlock/wood,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
-"N" = (
+"aN" = (
 /mob/living/simple_animal/hostile/construct/proteon,
 /turf/open/misc/asteroid/airless,
 /area/ruin/unpowered/no_grav)
-"R" = (
-/obj/structure/closet/crate/coffin,
-/obj/item/gps/spaceruin,
-/turf/open/floor/iron/dark/airless,
-/area/ruin/unpowered/no_grav)
-"S" = (
-/obj/effect/decal/cleanable/blood/drip,
-/turf/open/misc/asteroid/airless,
-/area/ruin/unpowered/no_grav)
-"U" = (
-/obj/effect/decal/remains/human,
-/obj/item/paper/fluff/ruins/clericsden/warning,
-/turf/open/misc/asteroid/airless,
-/area/ruin/unpowered/no_grav)
-"V" = (
-/obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/cup/glass/bottle/holywater,
-/turf/open/floor/carpet/airless,
-/area/ruin/unpowered/no_grav)
-"W" = (
-/obj/effect/spawner/structure/window,
-/turf/open/floor/plating/airless,
-/area/ruin/unpowered/no_grav)
-"X" = (
-/obj/effect/spawner/structure/window,
-/turf/open/floor/plating,
-/area/ruin/unpowered/no_grav)
-"Y" = (
-/obj/item/book/bible,
-/obj/effect/decal/cleanable/blood,
-/turf/open/misc/asteroid/airless,
-/area/ruin/unpowered/no_grav)
-"Z" = (
+"aO" = (
 /obj/effect/spawner/structure/window,
 /obj/structure/barricade/wooden/crude,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered/no_grav)
+"aP" = (
+/obj/machinery/door/airlock/wood,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"aQ" = (
+/obj/item/storage/book/bible,
+/obj/effect/decal/cleanable/blood,
+/turf/open/misc/asteroid/airless,
+/area/ruin/unpowered/no_grav)
+"aR" = (
+/obj/structure/closet/crate/coffin,
+/obj/item/gps/spaceruin,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/unpowered/no_grav)
+"aS" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/misc/asteroid/airless,
+/area/ruin/unpowered/no_grav)
+"aT" = (
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"aU" = (
+/obj/effect/decal/remains/human,
+/obj/item/paper/fluff/ruins/clericsden/warning,
+/turf/open/misc/asteroid/airless,
+/area/ruin/unpowered/no_grav)
+"aV" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"aW" = (
+/turf/closed/mineral/random,
+/area/ruin/space)
+"aX" = (
+/turf/closed/wall,
+/area/ruin/space)
+"aY" = (
+/obj/effect/decal/remains/human,
+/obj/item/paper/fluff/ruins/clericsden/warning,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"aZ" = (
+/turf/closed/wall/rust,
+/area/ruin/space)
+"cs" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"di" = (
+/obj/effect/decal/cleanable/blood/tracks,
+/obj/machinery/door/airlock/wood,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"gi" = (
+/obj/structure/rack,
+/obj/item/tank/internals/emergency_oxygen,
+/obj/item/clothing/mask/breath,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/space)
+"hf" = (
+/turf/open/floor/carpet/royalblack/airless,
+/area/ruin/space)
+"jU" = (
+/obj/structure/bonfire,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/space)
+"oE" = (
+/obj/structure/light_prism,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/space)
+"pe" = (
+/obj/effect/decal/cleanable/blood/tracks,
+/obj/structure/trap/cult,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"qe" = (
+/obj/effect/decal/cleanable/shreds,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"qx" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/floor/carpet/royalblack/airless,
+/area/ruin/space)
+"rA" = (
+/obj/effect/decal/cleanable/shreds,
+/obj/effect/decal/remains/human,
+/obj/item/disk/design_disk/adv/cleric_mace,
+/obj/structure/trap/cult,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"rK" = (
+/obj/structure/table/wood/fancy,
+/obj/item/reagent_containers/cup/glass/bottle/holywater,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"tP" = (
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/space)
+"vu" = (
+/obj/item/flashlight/flare/torch,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"vN" = (
+/obj/effect/spawner/structure/window,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"wQ" = (
+/obj/item/stack/rods{
+	amount = 2
+	},
+/obj/item/shard,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"xA" = (
+/obj/effect/decal/cleanable/blood/tracks,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"zF" = (
+/obj/structure/table/wood{
+	layer = 3.3
+	},
+/turf/open/floor/carpet/royalblack/airless,
+/area/ruin/space)
+"Ds" = (
+/obj/effect/spawner/structure/window,
+/obj/structure/barricade/wooden/crude,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"Es" = (
+/obj/effect/decal/cleanable/blood/splatter,
+/obj/effect/decal/cleanable/blood/footprints,
+/obj/effect/decal/cleanable/shreds,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"GB" = (
+/obj/structure/chair/wood{
+	dir = 1
+	},
+/turf/open/floor/carpet/royalblue/airless,
+/area/ruin/space)
+"IH" = (
+/obj/effect/decal/cleanable/blood/footprints,
+/obj/effect/decal/cleanable/blood/tracks,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"Jd" = (
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"Jg" = (
+/obj/item/ectoplasm,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"JU" = (
+/obj/item/paper/fluff/ruins/clericsden/contact,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"Le" = (
+/obj/effect/decal/cleanable/shreds,
+/turf/open/floor/carpet/royalblack/airless,
+/area/ruin/space)
+"Ns" = (
+/turf/open/floor/carpet/royalblue/airless,
+/area/ruin/space)
+"Os" = (
+/mob/living/simple_animal/hostile/construct/proteon,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"Ox" = (
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"PS" = (
+/obj/structure/grille/broken,
+/obj/structure/barricade/wooden/crude,
+/obj/structure/trap/cult,
+/obj/effect/decal/cleanable/glass,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"RE" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"Sm" = (
+/obj/structure/table/wood/fancy,
+/obj/item/melee/cleric_mace,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"SV" = (
+/obj/structure/light_prism,
+/turf/open/floor/plating/airless,
+/area/ruin/space)
+"VF" = (
+/obj/effect/spawner/structure/window,
+/turf/open/floor/plating,
+/area/ruin/space)
+"WT" = (
+/obj/effect/decal/remains/human,
+/obj/structure/trap/cult,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
+"Xc" = (
+/obj/item/book/bible,
+/obj/effect/decal/cleanable/blood,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space)
+"XM" = (
+/obj/structure/closet/crate/coffin,
+/obj/item/gps/spaceruin,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/space)
+"ZO" = (
+/obj/effect/decal/cleanable/blood/tracks,
+/mob/living/simple_animal/hostile/construct/proteon/hostile,
+/turf/open/floor/carpet/airless,
+/area/ruin/space)
 
 (1,1,1) = {"
-a
-a
-a
-a
-a
-a
-a
-a
-c
-b
-c
-c
-c
-c
-a
-a
-a
-a
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aT
+aW
+aT
+aT
+aT
+aT
+aa
+aa
+aa
+aa
 "}
 (2,1,1) = {"
-a
-a
-a
-c
-c
-c
-c
-c
-c
-c
-c
-b
-c
-c
-b
-c
-c
-a
+aa
+aa
+aa
+aT
+aT
+aT
+aT
+aT
+aT
+aT
+aT
+aW
+aT
+aT
+aW
+aT
+aT
+aa
 "}
 (3,1,1) = {"
-a
-c
-b
-c
-c
-b
-c
-b
-c
-c
-b
-b
-b
-c
-b
-b
-b
-a
+aa
+aT
+aW
+aT
+aT
+aW
+aT
+aW
+aT
+aT
+aW
+aW
+aW
+aT
+aW
+aW
+aW
+aa
 "}
 (4,1,1) = {"
-a
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-c
-a
+aa
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aT
+aa
 "}
 (5,1,1) = {"
-a
-b
-d
-d
-e
-d
-e
-W
-d
-d
-d
-d
-d
-d
-e
-c
-c
-a
+aa
+aW
+aX
+aX
+aZ
+aX
+aZ
+vN
+aX
+aX
+aX
+aX
+aX
+aX
+aZ
+aT
+aT
+aa
 "}
 (6,1,1) = {"
-a
-b
-e
-i
-R
-e
-x
-m
-e
-x
-m
-e
-m
-J
-d
-e
-b
-a
+aa
+aW
+aZ
+oE
+XM
+aZ
+jU
+Ox
+aZ
+jU
+Ox
+aZ
+Ox
+gi
+aX
+aZ
+aW
+aa
 "}
 (7,1,1) = {"
-a
-a
-e
-j
-n
-n
-t
-w
-A
-C
-n
-A
-C
-n
-H
-e
-d
-a
+aa
+aa
+aZ
+RE
+hf
+hf
+Ns
+qx
+zF
+GB
+hf
+zF
+GB
+hf
+SV
+aZ
+aX
+aa
 "}
 (8,1,1) = {"
-a
-f
-h
-m
-V
-q
-u
-u
-u
-D
-u
-u
-u
-u
-I
-L
-c
-c
+aa
+wQ
+PS
+Ox
+rK
+qe
+Jd
+Jd
+Jd
+WT
+Jd
+Jd
+Jd
+Jd
+cs
+aP
+aT
+aT
 "}
 (9,1,1) = {"
-a
-b
-X
-m
-p
-r
-v
-y
-B
-E
-B
-y
-B
-G
-B
-M
-U
-S
+aa
+aW
+VF
+Ox
+Sm
+rA
+Es
+xA
+IH
+ZO
+IH
+xA
+IH
+pe
+IH
+di
+aY
+aV
 "}
 (10,1,1) = {"
-a
-b
-d
-m
-n
-s
-t
-n
-A
-C
-n
-A
-C
-n
-H
-d
-e
-c
+aa
+aW
+aX
+Ox
+hf
+Le
+Ns
+hf
+zF
+GB
+hf
+zF
+GB
+hf
+SV
+aX
+aZ
+aT
 "}
 (11,1,1) = {"
-a
-c
-e
-i
-l
-d
-x
-z
-e
-x
-F
-e
-m
-J
-e
-d
-b
-b
+aa
+aT
+aZ
+oE
+tP
+aX
+jU
+JU
+aZ
+jU
+vu
+aZ
+Ox
+gi
+aZ
+aX
+aW
+aW
 "}
 (12,1,1) = {"
-a
-a
-e
-e
-d
-d
-e
-Z
-d
-d
-d
-e
-e
-d
-d
-b
-b
-c
+aa
+aa
+aZ
+aZ
+aX
+aX
+aZ
+Ds
+aX
+aX
+aX
+aZ
+aZ
+aX
+aX
+aW
+aW
+aT
 "}
 (13,1,1) = {"
-a
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-b
-c
-c
+aa
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aT
+aT
 "}
 (14,1,1) = {"
-a
-c
-b
-b
-b
-c
-b
-b
-c
-b
-c
-Y
-b
-b
-b
-c
-S
-a
+aa
+aT
+aW
+aW
+aW
+aT
+aW
+aW
+aT
+aW
+aT
+Xc
+aW
+aW
+aW
+aT
+aV
+aa
 "}
 (15,1,1) = {"
-a
-a
-c
-c
-c
-c
-c
-c
-N
-c
-c
-c
-c
-S
-c
-c
-a
-a
+aa
+aa
+aT
+aT
+aT
+aT
+aT
+aT
+Os
+aT
+aT
+aT
+aT
+aV
+aT
+aT
+aa
+aa
 "}
 (16,1,1) = {"
-a
-a
-k
-c
-b
-b
-c
-c
-b
-c
-c
-b
-c
-b
-b
-b
-a
-a
+aa
+aa
+Jg
+aT
+aW
+aW
+aT
+aT
+aW
+aT
+aT
+aW
+aT
+aW
+aW
+aW
+aa
+aa
 "}
 (17,1,1) = {"
-a
-b
-c
-b
-c
-b
-b
-b
-b
-b
-b
-b
-b
-b
-c
-a
-a
-a
+aa
+aW
+aT
+aW
+aT
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aW
+aT
+aa
+aa
+aa
 "}
 (18,1,1) = {"
-b
-b
-b
-a
-a
-c
-c
-c
-c
-c
-c
-c
-c
-a
-a
-a
-a
-a
+aW
+aW
+aW
+aa
+aa
+aT
+aT
+aT
+aT
+aT
+aT
+aT
+aT
+aa
+aa
+aa
+aa
+aa
 "}
 (19,1,1) = {"
-a
-b
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
+aa
+aW
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 "}

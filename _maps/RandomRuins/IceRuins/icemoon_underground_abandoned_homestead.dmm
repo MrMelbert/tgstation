@@ -1,9 +1,5 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"aV" = (
-/obj/structure/railing{
-	color = "#8a7453";
-	dir = 8
-	},
+"bf" = (
 /obj/machinery/hydroponics/soil,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
@@ -13,11 +9,13 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"dZ" = (
-/obj/structure/railing{
-	color = "#8a7453"
+"dy" = (
+/obj/item/grown/log,
+/obj/item/grown/log,
+/obj/item/grown/log,
+/obj/item/hatchet/wooden{
+	pixel_y = -19
 	},
-/obj/structure/flora/tree/pine/style_random,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "fd" = (
@@ -30,21 +28,22 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"fJ" = (
+"ht" = (
+/obj/structure/flora/tree/dead/style_random,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"kj" = (
 /obj/structure/railing{
-	color = "#8a7453"
-	},
-/obj/machinery/hydroponics/soil,
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
-"kC" = (
-/obj/item/grown/log,
-/obj/item/grown/log{
-	pixel_y = 13
+	color = "#8a7453";
+	dir = 4
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
-"mw" = (
+"mq" = (
+/obj/structure/railing{
+	color = "#8a7453";
+	dir = 8
+	},
 /obj/machinery/hydroponics/soil,
 /turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
@@ -53,23 +52,18 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"nL" = (
-/obj/structure/fluff/fokoff_sign{
-	name = "Homestead Sign";
-	pixel_y = 7
+"nq" = (
+/obj/item/grown/log{
+	pixel_y = -6
+	},
+/obj/item/grown/log{
+	pixel_y = 6
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "ol" = (
 /turf/closed/wall/mineral/wood,
 /area/ruin/powered/shuttle)
-"pH" = (
-/obj/structure/railing{
-	color = "#8a7453"
-	},
-/obj/machinery/hydroponics/soil,
-/turf/open/floor/plating/snowed/smoothed/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
 "pU" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
@@ -78,22 +72,37 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"qw" = (
-/obj/structure/railing{
-	color = "#8a7453";
-	dir = 4
-	},
+"qd" = (
+/mob/living/simple_animal/hostile/tree,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
-"rg" = (
-/obj/machinery/hydroponics/soil,
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
-"su" = (
+"sF" = (
 /turf/open/openspace/icemoon/keep_below,
 /area/icemoon/surface/outdoors/nospawn)
-"un" = (
-/turf/open/floor/plating/snowed/smoothed/icemoon,
+"tD" = (
+/obj/structure/flora/rock/pile/icy/style_random,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"uc" = (
+/obj/structure/table/bronze{
+	color = "#666666"
+	},
+/obj/item/knife/hunting,
+/obj/item/reagent_containers/cup/glass/mug/coco{
+	desc = "Still hot!";
+	pixel_x = 6;
+	pixel_y = 11
+	},
+/turf/open/floor/wood/large{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/powered/shuttle)
+"uG" = (
+/obj/item/grown/log,
+/obj/item/grown/log{
+	pixel_y = 13
+	},
+/turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "uH" = (
 /obj/structure/closet/cabinet,
@@ -106,23 +115,14 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"vI" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 8
+"vk" = (
+/obj/structure/railing{
+	color = "#8a7453";
+	dir = 10
 	},
-/obj/structure/table/wood,
-/obj/item/candle{
-	pixel_x = -8;
-	pixel_y = 13
-	},
-/obj/item/food/soup/stew{
-	name = "porridge";
-	pixel_y = 3
-	},
-/turf/open/floor/wood/large{
-	initial_gas_mix = "ICEMOON_ATMOS"
-	},
-/area/ruin/powered/shuttle)
+/obj/machinery/hydroponics/soil,
+/turf/open/floor/plating/snowed/smoothed/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
 "wl" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -144,14 +144,15 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"yR" = (
-/obj/item/grown/log{
-	pixel_y = -6
-	},
-/obj/item/grown/log{
-	pixel_y = 6
+"yO" = (
+/obj/structure/fluff/fokoff_sign{
+	name = "Homestead Sign";
+	pixel_y = 7
 	},
 /turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"zd" = (
+/turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "zT" = (
 /obj/structure/bed/dogbed,
@@ -159,14 +160,6 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"Bl" = (
-/obj/structure/railing{
-	color = "#8a7453";
-	dir = 10
-	},
-/obj/machinery/hydroponics/soil,
-/turf/open/floor/plating/snowed/smoothed/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
 "Cv" = (
 /obj/structure/bookcase/random/religion,
 /turf/open/floor/stone{
@@ -182,12 +175,24 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"Fd" = (
+"Ez" = (
 /obj/structure/railing{
-	color = "#8a7453";
-	dir = 1
+	color = "#8a7453"
 	},
-/obj/item/reagent_containers/cup/bucket/wooden,
+/obj/machinery/hydroponics/soil,
+/turf/open/floor/plating/snowed/smoothed/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"Fg" = (
+/obj/structure/flora/rock/icy/style_random,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"FS" = (
+/obj/structure/railing{
+	color = "#8a7453"
+	},
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"Ht" = (
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "Hv" = (
@@ -217,10 +222,6 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"Il" = (
-/obj/structure/flora/tree/dead/style_random,
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
 "Iz" = (
 /obj/structure/fireplace{
 	pixel_x = -21
@@ -233,15 +234,28 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"JB" = (
-/obj/structure/flora/rock/pile/icy/style_random,
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
-"JJ" = (
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
-"Mq" = (
-/obj/structure/flora/rock/icy/style_random,
+"LB" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8
+	},
+/obj/structure/table/wood,
+/obj/item/flashlight/flare/candle{
+	pixel_x = -8;
+	pixel_y = 13
+	},
+/obj/item/food/soup/stew{
+	name = "porridge";
+	pixel_y = 3
+	},
+/turf/open/floor/wood/large{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/powered/shuttle)
+"Mf" = (
+/obj/structure/railing{
+	color = "#8a7453"
+	},
+/obj/structure/flora/tree/pine/style_random,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "Nz" = (
@@ -255,16 +269,6 @@
 /obj/item/wallframe/picture,
 /turf/closed/wall/mineral/wood,
 /area/ruin/powered/shuttle)
-"NT" = (
-/obj/structure/bonfire,
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
-"Oa" = (
-/obj/structure/railing{
-	color = "#8a7453"
-	},
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
 "Of" = (
 /obj/structure/closet/cabinet{
 	name = "Pantry"
@@ -279,7 +283,12 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"OX" = (
+"QI" = (
+/turf/open/floor/stone{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/powered/shuttle)
+"QO" = (
 /obj/structure/table/wood{
 	pixel_x = -3;
 	pixel_y = 3
@@ -291,29 +300,34 @@
 	pixel_x = -10;
 	pixel_y = 5
 	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/table/wood{
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/item/storage/book/bible{
+	pixel_y = 5
+	},
+/obj/item/flashlight/flare/candle{
+	pixel_x = -10;
+	pixel_y = 5
+	},
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"Qi" = (
-/obj/structure/table/bronze{
-	color = "#666666"
+"Rf" = (
+/obj/structure/railing{
+	color = "#8a7453";
+	dir = 1
 	},
-/obj/item/knife/hunting,
-/obj/item/reagent_containers/cup/glass/mug/coco{
-	desc = "Still hot!";
-	pixel_x = 6;
-	pixel_y = 11
-	},
-/turf/open/floor/wood/large{
-	initial_gas_mix = "ICEMOON_ATMOS"
-	},
-/area/ruin/powered/shuttle)
-"QI" = (
-/turf/open/floor/stone{
-	initial_gas_mix = "ICEMOON_ATMOS"
-	},
-/area/ruin/powered/shuttle)
+/obj/item/reagent_containers/cup/bucket/wooden,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
 "RO" = (
 /obj/effect/turf_decal/siding/wood,
 /obj/effect/turf_decal/siding/wood{
@@ -328,17 +342,24 @@
 "Sv" = (
 /turf/open/genturf,
 /area/icemoon/underground/unexplored/rivers)
-"TS" = (
+"SJ" = (
 /obj/structure/railing{
 	color = "#8a7453";
 	dir = 8
 	},
 /obj/machinery/hydroponics/soil,
-/turf/open/floor/plating/snowed/smoothed/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
-"Ua" = (
-/mob/living/simple_animal/hostile/tree,
 /turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"Tf" = (
+/obj/structure/railing{
+	color = "#8a7453"
+	},
+/obj/machinery/hydroponics/soil,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
+"TP" = (
+/obj/machinery/hydroponics/soil,
+/turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/surface/outdoors/nospawn)
 "Vf" = (
 /obj/structure/barricade/wooden/snowed,
@@ -347,6 +368,10 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
+"VV" = (
+/obj/structure/bonfire,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/surface/outdoors/nospawn)
 "XZ" = (
 /obj/structure/toilet{
 	dir = 8
@@ -355,15 +380,6 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
-"Yb" = (
-/obj/item/grown/log,
-/obj/item/grown/log,
-/obj/item/grown/log,
-/obj/item/hatchet/wooden{
-	pixel_y = -19
-	},
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/surface/outdoors/nospawn)
 "Zg" = (
 /obj/effect/turf_decal/siding/wood,
 /obj/effect/turf_decal/siding/wood{
@@ -413,11 +429,11 @@ ol
 ol
 Hy
 ol
-TS
-TS
-aV
-Bl
-Ua
+mq
+mq
+SJ
+vk
+qd
 Sv
 Sv
 "}
@@ -432,25 +448,25 @@ ol
 ol
 ol
 NP
-OX
+QO
 Cv
 Cv
 ol
-un
-JJ
-un
-JJ
-JJ
-JJ
+zd
+Ht
+zd
+Ht
+Ht
+Ht
 Sv
 "}
 (4,1,1) = {"
 Sv
-su
+sF
 Sv
 Sv
-Ua
-JJ
+qd
+Ht
 Vf
 El
 zT
@@ -459,21 +475,21 @@ Iz
 QI
 QI
 wl
-JJ
-un
-JJ
-JJ
-JJ
-JJ
+Ht
+zd
+Ht
+Ht
+Ht
+Ht
 Sv
 "}
 (5,1,1) = {"
 Sv
 Sv
-su
-su
-su
-JJ
+sF
+sF
+sF
+Ht
 ol
 Nz
 ng
@@ -482,35 +498,35 @@ HF
 ym
 QI
 wl
-JJ
-JJ
-JJ
-Oa
-nL
-JJ
+Ht
+Ht
+Ht
+FS
+yO
+Ht
 Sv
 "}
 (6,1,1) = {"
 Sv
 Sv
 Sv
-su
-su
-su
+sF
+sF
+sF
 ol
 uH
 ng
 ol
 pU
-vI
+LB
 pU
 ol
-JJ
-rg
-rg
-pH
-JJ
-JB
+Ht
+bf
+bf
+Ez
+Ht
+tD
 Sv
 "}
 (7,1,1) = {"
@@ -518,8 +534,8 @@ Sv
 Sv
 Sv
 Sv
-su
-su
+sF
+sF
 ol
 ol
 ol
@@ -528,12 +544,12 @@ cP
 Hv
 ng
 Vf
-un
-rg
-rg
-fJ
-Il
-JJ
+zd
+bf
+bf
+Tf
+ht
+Ht
 Sv
 "}
 (8,1,1) = {"
@@ -541,9 +557,9 @@ Sv
 Sv
 Sv
 Sv
-su
-su
-su
+sF
+sF
+sF
 Hy
 wN
 Zg
@@ -551,12 +567,12 @@ ng
 ng
 ng
 ol
-JJ
-un
-JJ
-JJ
-JJ
-JJ
+Ht
+zd
+Ht
+Ht
+Ht
+Ht
 Sv
 "}
 (9,1,1) = {"
@@ -564,21 +580,21 @@ Sv
 Sv
 Sv
 Sv
-JJ
-JJ
-JJ
+Ht
+Ht
+Ht
 ol
 XZ
 ol
 fd
-Qi
+uc
 Of
 ol
-JJ
-rg
-rg
-rg
-JJ
+Ht
+bf
+bf
+bf
+Ht
 Sv
 Sv
 "}
@@ -588,8 +604,8 @@ Sv
 Sv
 Sv
 Sv
-NT
-JJ
+VV
+Ht
 ol
 ol
 ol
@@ -597,10 +613,10 @@ Vf
 ol
 ol
 ol
-JJ
-mw
-rg
-fJ
+Ht
+TP
+bf
+Tf
 Sv
 Sv
 Sv
@@ -611,19 +627,19 @@ Sv
 Sv
 Sv
 Sv
-JJ
-JJ
-dZ
-Yb
-yR
-kC
-Fd
-Il
-JJ
-JJ
-JJ
-JJ
-JJ
+Ht
+Ht
+Mf
+dy
+nq
+uG
+Rf
+ht
+Ht
+Ht
+Ht
+Ht
+Ht
 Sv
 Sv
 Sv
@@ -635,16 +651,16 @@ Sv
 Sv
 Sv
 Sv
-Mq
-JJ
-JJ
-JJ
-JJ
-JJ
-qw
-qw
-qw
-JJ
+Fg
+Ht
+Ht
+Ht
+Ht
+Ht
+kj
+kj
+kj
+Ht
 Sv
 Sv
 Sv

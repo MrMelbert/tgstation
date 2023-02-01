@@ -44,13 +44,48 @@
 		return 1
 	return 0
 
-/mob/living/proc/is_mouth_covered(head_only = 0, mask_only = 0)
-	return FALSE
+/**
+ * Checks if our mob has their mouth covered.
+ *
+ * Note that we only care about [ITEM_SLOT_HEAD] and [ITEM_SLOT_MASK].
+ *  (so if you check all slots, it'll return head, then mask)
+ *That is also the priority order
+ * Arguments
+ * * check_flags: What item slots should we check?
+ *
+ * Retuns a truthy value (a ref to what is covering mouth), or a falsy value (null)
+ */
+/mob/living/proc/is_mouth_covered(check_flags = ALL)
+	return null
 
-/mob/living/proc/is_eyes_covered(check_glasses = 1, check_head = 1, check_mask = 1)
-	return FALSE
-/mob/living/proc/is_pepper_proof(check_head = TRUE, check_mask = TRUE)
-	return FALSE
+/**
+ * Checks if our mob has their eyes covered.
+ *
+ * Note that we only care about [ITEM_SLOT_HEAD], [ITEM_SLOT_MASK], and [ITEM_SLOT_GLASSES].
+ * That is also the priority order (so if you check all slots, it'll return head, then mask, then glasses)
+ *
+ * Arguments
+ * * check_flags: What item slots should we check?
+ *
+ * Retuns a truthy value (a ref to what is covering eyes), or a falsy value (null)
+ */
+/mob/living/proc/is_eyes_covered(check_flags = ALL)
+	return null
+
+/**
+ * Checks if our mob is protected from pepper spray.
+ *
+ * Note that we only care about [ITEM_SLOT_HEAD] and [ITEM_SLOT_MASK].
+ * That is also the priority order (so if you check all slots, it'll return head, then mask)
+ *
+ * Arguments
+ * * check_flags: What item slots should we check?
+ *
+ * Retuns a truthy value (a ref to what is protecting us), or a falsy value (null)
+ */
+/mob/living/proc/is_pepper_proof(check_flags = ALL)
+	return null
+
 /mob/living/proc/on_hit(obj/projectile/P)
 	return BULLET_ACT_HIT
 
@@ -63,7 +98,7 @@
 		var/armor_check = check_projectile_armor(def_zone, P, is_silent = TRUE)
 		armor_check = min(ARMOR_MAX_BLOCK, armor_check) //cap damage reduction at 90%
 		apply_damage(P.damage, P.damage_type, def_zone, armor_check, wound_bonus=P.wound_bonus, bare_wound_bonus=P.bare_wound_bonus, sharpness = P.sharpness, attack_direction = attack_direction)
-		apply_effects(P.stun, P.knockdown, P.unconscious, P.slur, P.stutter, P.eyeblur, P.drowsy, armor, P.stamina, P.jitter, P.paralyze, P.immobilize)
+		apply_effects(P.stun, P.knockdown, P.unconscious, P.slur, P.stutter, P.eyeblur, P.drowsy, armor_check, P.stamina, P.jitter, P.paralyze, P.immobilize)
 		if(P.dismemberment)
 			check_projectile_dismemberment(P, def_zone)
 	return . ? BULLET_ACT_HIT : BULLET_ACT_BLOCK
@@ -100,7 +135,7 @@
 	if(isitem(AM))
 		var/obj/item/thrown_item = AM
 		var/zone = get_random_valid_zone(BODY_ZONE_CHEST, 65)//Hits a random part of the body, geared towards the chest
-		var/nosell_hit = SEND_SIGNAL(thrown_item, COMSIG_MOVABLE_IMPACT_ZONE, src, zone, throwingdatum) // TODO: find a better way to handle hitpush and skipcatch for humans
+		var/nosell_hit = SEND_SIGNAL(thrown_item, COMSIG_MOVABLE_IMPACT_ZONE, src, zone, blocked, throwingdatum) // TODO: find a better way to handle hitpush and skipcatch for humans
 		if(nosell_hit)
 			skipcatch = TRUE
 			hitpush = FALSE
@@ -230,26 +265,6 @@
 		to_chat(M, span_danger("You glomp [src]!"))
 		return TRUE
 
-/mob/living/attack_basic_mob(mob/living/basic/user, list/modifiers)
-	if(user.melee_damage_upper == 0)
-		if(user != src)
-			visible_message(span_notice("\The [user] [user.friendly_verb_continuous] [src]!"), \
-							span_notice("\The [user] [user.friendly_verb_continuous] you!"), null, COMBAT_MESSAGE_RANGE, user)
-			to_chat(user, span_notice("You [user.friendly_verb_simple] [src]!"))
-		return FALSE
-	if(HAS_TRAIT(user, TRAIT_PACIFISM))
-		to_chat(user, span_warning("You don't want to hurt anyone!"))
-		return FALSE
-
-	if(user.attack_sound)
-		playsound(loc, user.attack_sound, 50, TRUE, TRUE)
-	user.do_attack_animation(src)
-	visible_message(span_danger("\The [user] [user.attack_verb_continuous] [src]!"), \
-					span_userdanger("\The [user] [user.attack_verb_continuous] you!"), null, COMBAT_MESSAGE_RANGE, user)
-	to_chat(user, span_danger("You [user.attack_verb_simple] [src]!"))
-	log_combat(user, src, "attacked")
-	return TRUE
-
 /mob/living/attack_animal(mob/living/simple_animal/user, list/modifiers)
 	. = ..()
 	user.face_atom(src)
@@ -297,7 +312,7 @@
 		to_chat(user, span_warning("You don't want to hurt anyone!"))
 		return FALSE
 
-	if(user.is_muzzled() || user.is_mouth_covered(FALSE, TRUE))
+	if(user.is_muzzled() || user.is_mouth_covered(ITEM_SLOT_MASK))
 		to_chat(user, span_warning("You can't bite with your mouth covered!"))
 		return FALSE
 	user.do_attack_animation(src, ATTACK_EFFECT_BITE)
@@ -404,7 +419,7 @@
 
 ///Logs, gibs and returns point values of whatever mob is unfortunate enough to get eaten.
 /mob/living/singularity_act()
-	investigate_log("([key_name(src)]) has been consumed by the singularity.", INVESTIGATE_ENGINE) //Oh that's where the clown ended up!
+	investigate_log("has been consumed by the singularity.", INVESTIGATE_ENGINE) //Oh that's where the clown ended up!
 	investigate_log("has been gibbed by the singularity.", INVESTIGATE_DEATHS)
 	gib()
 	return 20
@@ -419,8 +434,8 @@
 		if((GLOB.cult_narsie.souls == GLOB.cult_narsie.soul_goal) && (GLOB.cult_narsie.resolved == FALSE))
 			GLOB.cult_narsie.resolved = TRUE
 			sound_to_playing_players('sound/machines/alarm.ogg')
-			addtimer(CALLBACK(GLOBAL_PROC, .proc/cult_ending_helper, CULT_VICTORY_MASS_CONVERSION), 120)
-			addtimer(CALLBACK(GLOBAL_PROC, .proc/ending_helper), 270)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cult_ending_helper), CULT_VICTORY_MASS_CONVERSION), 120)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)), 270)
 	if(client)
 		make_new_construct(/mob/living/simple_animal/hostile/construct/harvester, src, cultoverride = TRUE)
 	else
@@ -454,7 +469,7 @@
 		type = /atom/movable/screen/fullscreen/flash/black
 
 	overlay_fullscreen("flash", type)
-	addtimer(CALLBACK(src, .proc/clear_fullscreen, "flash", length), length)
+	addtimer(CALLBACK(src, PROC_REF(clear_fullscreen), "flash", length), length)
 	SEND_SIGNAL(src, COMSIG_MOB_FLASHED, intensity, override_blindness_check, affect_silicon, visual, type, length)
 	return TRUE
 
@@ -485,7 +500,7 @@
 	var/image/gloveimg = image('icons/effects/effects.dmi', slapped, "slapglove", slapped.layer + 0.1)
 	gloveimg.pixel_y = 10 // should line up with head
 	gloveimg.pixel_x = 10
-	flick_overlay(gloveimg, GLOB.clients, 10)
+	flick_overlay_global(gloveimg, GLOB.clients, 10)
 
 	// And animate the attack!
 	animate(gloveimg, alpha = 175, transform = matrix() * 0.75, pixel_x = 0, pixel_y = 10, pixel_z = 0, time = 3)

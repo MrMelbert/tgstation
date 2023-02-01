@@ -103,6 +103,9 @@
 /// log voting
 /datum/config_entry/flag/log_vote
 
+/// log manual zone switching
+/datum/config_entry/flag/log_zone_switch
+
 /// log client whisper
 /datum/config_entry/flag/log_whisper
 
@@ -352,6 +355,8 @@
 	protection = CONFIG_ENTRY_LOCKED | CONFIG_ENTRY_HIDDEN
 
 /datum/config_entry/flag/show_irc_name
+
+/datum/config_entry/flag/no_default_techweb_link
 
 /datum/config_entry/flag/see_own_notes //Can players see their own admin notes
 
@@ -643,3 +648,5 @@
 	default = 50
 
 /datum/config_entry/string/morgue_cadaver_override_species
+
+/datum/config_entry/flag/toast_notification_on_init

@@ -12,17 +12,20 @@
 	. = ..()
 	if (!proximity)
 		return
+	. |= AFTERATTACK_PROCESSED_ITEM
+
 	var/obj/item/organ/internal/monster_core/target_core = target_organ
 	if (!istype(target_core, /obj/item/organ/internal/monster_core))
 		balloon_alert(user, "invalid target!")
-		return
+		return .
 
 	if (!target_core.preserve())
 		balloon_alert(user, "organ decayed!")
-		return
+		return .
 
 	balloon_alert(user, "organ stabilized")
 	qdel(src)
+	return .
 
 /**
  * Useful organs which drop as loot from a mining creature.
@@ -60,7 +63,7 @@
 
 /obj/item/organ/internal/monster_core/Initialize(mapload)
 	. = ..()
-	decay_timer = addtimer(CALLBACK(src, .proc/go_inert), time_to_decay, TIMER_STOPPABLE)
+	decay_timer = addtimer(CALLBACK(src, PROC_REF(go_inert)), time_to_decay, TIMER_STOPPABLE)
 
 /obj/item/organ/internal/monster_core/Destroy(force, silent)
 	deltimer(decay_timer)
@@ -137,6 +140,7 @@
 	if (!proximity_flag)
 		return
 	try_apply(target, user)
+	return . | AFTERATTACK_PROCESSED_ITEM
 
 /obj/item/organ/internal/monster_core/attack_self(mob/user)
 	if (!user.canUseTopic(src, be_close = TRUE, no_dexterity = FALSE, no_tk = TRUE))
@@ -197,9 +201,8 @@
  */
 /datum/action/cooldown/monster_core_action
 	check_flags = AB_CHECK_CONSCIOUS
-	icon_icon = 'icons/obj/medical/organs/mining_organs.dmi'
+	button_icon = 'icons/obj/medical/organs/mining_organs.dmi'
 	button_icon_state = "hivelord_core_2"
-	text_cooldown = FALSE //Looks really bad when you have minutes long cooldowns
 
 /datum/action/cooldown/monster_core_action/Activate(trigger_flags)
 	. = ..()
@@ -208,4 +211,4 @@
 	var/obj/item/organ/internal/monster_core/organ = target
 	if (!istype(organ))
 		return
-	organ.trigger_organ_action()
+	organ.on_triggered_internal()

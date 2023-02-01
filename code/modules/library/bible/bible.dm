@@ -128,12 +128,12 @@
 			return 0
 
 	var/heal_amt = 10
-	var/list/hurt_limbs = H.get_damaged_bodyparts(1, 1, null, BODYTYPE_ORGANIC)
+	var/list/hurt_limbs = H.get_damaged_bodyparts(1, 1, BODYTYPE_ORGANIC)
 
 	if(hurt_limbs.len)
 		for(var/X in hurt_limbs)
 			var/obj/item/bodypart/affecting = X
-			if(affecting.heal_damage(heal_amt, heal_amt, null, BODYTYPE_ORGANIC))
+			if(affecting.heal_damage(heal_amt, heal_amt, BODYTYPE_ORGANIC))
 				H.update_damage_overlays()
 		H.visible_message(span_notice("[user] heals [H] with the power of [deity_name]!"))
 		to_chat(H, span_boldnotice("May the power of [deity_name] compel you to be healed!"))
@@ -203,13 +203,13 @@
 		return
 
 	if(SEND_SIGNAL(bible_smacked, COMSIG_BIBLE_SMACKED, user, src) & COMSIG_END_BIBLE_CHAIN)
-		return
+		return . | AFTERATTACK_PROCESSED_ITEM
 
 	if(isfloorturf(bible_smacked))
 		var/area/current_area = get_area(bible_smacked)
 		if(!length(GLOB.chaplain_altars) && istype(current_area, /area/station/service/chapel))
 			make_new_altar(bible_smacked, user)
-			return
+			return . | AFTERATTACK_PROCESSED_ITEM
 
 		var/revealed_runes = FALSE
 		for(var/obj/effect/rune/nearby_runes in orange(2, user))
@@ -243,8 +243,15 @@
 	attack_verb_continuous = list("attacks", "burns", "blesses", "damns", "scorches")
 	attack_verb_simple = list("attack", "burn", "bless", "damn", "scorch")
 	deity_name = "The Syndicate"
+	item_flags = NO_BLOOD_ON_ITEM
 	/// How many people can link to our bible?
 	var/uses = 1
+	var/ownername
+
+/obj/item/storage/book/bible/syndicate/examine(mob/user)
+	. = ..()
+	if(ownername)
+		. += span_warning("The name [ownername] is written in blood inside the cover.")
 
 /obj/item/book/bible/syndicate/on_bible_smack(obj/item/book/bible/source, mob/user, obj/item/book/bible/hit_us)
 	return
@@ -262,13 +269,10 @@
 	playsound(loc, 'sound/effects/snap.ogg', 50, TRUE)
 	user.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
 	to_chat(user, span_notice("Your name appears on the inside cover, in blood."))
-	desc += span_warning("The name [user.real_name] is written in blood inside the cover.")
+	ownername = H.real_name
 	return TRUE
 
 /obj/item/book/bible/syndicate/attack(mob/living/hit_mob, mob/living/carbon/human/user, params, heal_mode = TRUE)
 	// Combat mode = TRUE, then pass down heal = FALSE
 	// Likewise, combat mode = FALSE< then pass down heal = TRUE
 	return ..(hit_mob, user, heal_mode = !user.combat_mode)
-
-/obj/item/book/bible/syndicate/add_blood_DNA(list/blood_dna)
-	return FALSE

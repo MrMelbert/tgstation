@@ -7,7 +7,7 @@
 
 /obj/item/storage/box/gloves/PopulateContents()
 	for(var/i in 1 to 7)
-		new /obj/item/clothing/gloves/color/latex(src)
+		new /obj/item/clothing/gloves/latex(src)
 
 /obj/item/storage/box/masks
 	name = "box of sterile masks"
@@ -119,6 +119,7 @@
 /obj/item/storage/box/holy
 	name = "Templar Kit"
 	/// This item is used to generate a preview image for this set.
+	/// It could be any item, doesn't even necessarily need to be something in the kit
 	var/obj/item/typepath_for_preview = /obj/item/clothing/suit/chaplainsuit/armor/templar
 
 /obj/item/storage/box/holy/PopulateContents()
