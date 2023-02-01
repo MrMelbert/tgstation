@@ -692,7 +692,7 @@
 /obj/item/hemostat{
 	pixel_x = -4
 	},
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/surgicaldrill,
 /obj/item/cautery,
@@ -896,6 +896,9 @@
 /obj/machinery/iv_drip,
 /turf/open/floor/carpet/cyan,
 /area/shuttle/escape/luxury)
+"Js" = (
+/turf/closed/indestructible/riveted/plastinum/nodiagonal,
+/area/shuttle/escape/luxury)
 "Lt" = (
 /obj/machinery/door/airlock/security/glass{
 	name = "Escape Shuttle Cell"
@@ -1054,7 +1057,7 @@ ag
 ag
 af
 ag
-ag
+Js
 ay
 av
 av
@@ -1118,7 +1121,7 @@ ag
 Lt
 ag
 ag
-ag
+Js
 bV
 aC
 aE
@@ -1203,7 +1206,7 @@ bW
 bY
 ao
 ci
-ag
+Js
 ag
 ag
 bb
@@ -1311,7 +1314,7 @@ bc
 bc
 bc
 bc
-ag
+Js
 ag
 ag
 ag

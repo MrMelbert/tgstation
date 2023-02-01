@@ -4233,7 +4233,7 @@
 /turf/open/misc/asteroid/snow/snow_cabin,
 /area/awaymission/cabin/caves)
 "IN" = (
-/obj/item/candle/infinite,
+/obj/item/flashlight/flare/candle/infinite,
 /turf/open/floor/plating/snowed,
 /area/awaymission/cabin/caves)
 "IU" = (
@@ -4266,7 +4266,7 @@
 /area/awaymission/cabin/caves)
 "KU" = (
 /obj/structure/table/wood/fancy,
-/obj/item/reagent_containers/cup/glass/sillycup/smallcarton{
+/obj/item/reagent_containers/cup/glass/bottle/juice/smallcarton{
 	pixel_y = 4
 	},
 /turf/open/floor/wood,

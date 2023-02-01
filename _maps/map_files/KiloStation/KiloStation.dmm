@@ -6245,7 +6245,6 @@
 /area/space/nearstation)
 "bVN" = (
 /obj/structure/chair/comfy/brown{
-	buildstackamount = 0;
 	color = "#c45c57";
 	dir = 8
 	},
@@ -8570,8 +8569,8 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/item/clothing/gloves/color/latex,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/storage/box/monkeycubes{
 	pixel_x = 2;
 	pixel_y = 5
@@ -8935,7 +8934,7 @@
 	pixel_x = 4;
 	pixel_y = 4
 	},
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/clothing/suit/apron/surgical,
 /obj/machinery/firealarm/directional/east,
@@ -14664,7 +14663,7 @@
 /area/station/security/prison)
 "esC" = (
 /obj/structure/table/glass,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/stack/sheet/mineral/plasma,
 /obj/item/stack/sheet/mineral/plasma,
 /obj/item/stack/sheet/mineral/plasma,
@@ -14768,8 +14767,8 @@
 /area/station/service/kitchen)
 "etE" = (
 /obj/structure/table,
-/obj/item/clothing/gloves/color/latex,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/storage/box/disks{
 	pixel_y = 5
 	},
@@ -23612,7 +23611,7 @@
 /area/station/maintenance/fore)
 "gNk" = (
 /obj/structure/table,
-/obj/item/candle/infinite{
+/obj/item/flashlight/flare/candle/infinite{
 	pixel_x = 6;
 	pixel_y = 6
 	},
@@ -23706,7 +23705,6 @@
 /area/station/security/checkpoint/customs)
 "gOa" = (
 /obj/structure/chair/comfy/brown{
-	buildstackamount = 0;
 	color = "#c45c57";
 	dir = 4
 	},
@@ -30205,7 +30203,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/storage/backpack/duffelbag/sec/surgery{
 	pixel_y = 5
 	},
@@ -37779,7 +37777,7 @@
 	name = "medical locker"
 	},
 /obj/structure/grille/broken,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /turf/open/floor/plating,
 /area/station/maintenance/port/greater)
@@ -41657,7 +41655,6 @@
 /area/space)
 "lOz" = (
 /obj/structure/chair/comfy/brown{
-	buildstackamount = 0;
 	color = "#c45c57";
 	dir = 1
 	},
@@ -42490,7 +42487,7 @@
 /area/station/hallway/primary/central)
 "mbA" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/mob/living/simple_animal/hostile/retaliate/ghost,
+/mob/living/basic/ghost,
 /turf/open/floor/wood,
 /area/station/maintenance/starboard/fore)
 "mbC" = (
@@ -44362,7 +44359,7 @@
 	dir = 1
 	},
 /obj/structure/noticeboard/directional/west,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/hemostat,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/fore)
@@ -44621,7 +44618,7 @@
 "mHP" = (
 /obj/structure/table,
 /obj/effect/turf_decal/tile/neutral,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/suit/apron/surgical,
 /obj/item/clothing/mask/surgical,
 /obj/item/mmi,
@@ -53088,7 +53085,6 @@
 /area/station/hallway/primary/central/fore)
 "pjl" = (
 /obj/structure/chair/comfy/brown{
-	buildstackamount = 0;
 	color = "#c45c57";
 	dir = 1
 	},
@@ -53379,8 +53375,8 @@
 /area/station/security/execution/transfer)
 "pme" = (
 /obj/structure/table/glass,
-/obj/item/clothing/gloves/color/latex,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/glasses/science{
 	pixel_x = 4;
 	pixel_y = 4
@@ -59214,7 +59210,7 @@
 /area/station/security/prison)
 "qWR" = (
 /obj/structure/table,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/paper/guides/jobs/medical/morgue,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -65080,7 +65076,7 @@
 	dir = 8
 	},
 /obj/structure/table,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/clothing/suit/apron/surgical,
 /obj/item/clipboard{
@@ -73366,7 +73362,7 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt,
-/mob/living/simple_animal/hostile/retaliate/ghost,
+/mob/living/basic/ghost,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/starboard/fore)
 "uUA" = (
@@ -74516,7 +74512,6 @@
 	name = "command camera"
 	},
 /obj/structure/chair/comfy/brown{
-	buildstackamount = 0;
 	color = "#c45c57";
 	dir = 8
 	},
@@ -76605,7 +76600,7 @@
 /area/station/maintenance/port/greater)
 "vLk" = (
 /obj/effect/spawner/random/structure/table,
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = -5
 	},
 /obj/effect/spawner/random/food_or_drink/refreshing_beverage{
@@ -78231,7 +78226,7 @@
 /area/station/maintenance/department/bridge)
 "whK" = (
 /obj/structure/table/glass,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/healthanalyzer,
 /obj/item/reagent_containers/spray/cleaner{
 	pixel_x = -3;

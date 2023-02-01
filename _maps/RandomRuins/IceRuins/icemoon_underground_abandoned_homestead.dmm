@@ -239,7 +239,7 @@
 	dir = 8
 	},
 /obj/structure/table/wood,
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = -8;
 	pixel_y = 13
 	},
@@ -296,7 +296,7 @@
 /obj/item/book/bible{
 	pixel_y = 5
 	},
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = -10;
 	pixel_y = 5
 	},

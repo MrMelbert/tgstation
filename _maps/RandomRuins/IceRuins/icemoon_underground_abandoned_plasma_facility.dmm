@@ -499,7 +499,7 @@
 /obj/structure/rack,
 /obj/machinery/light/small/broken/directional/east,
 /obj/item/pickaxe,
-/obj/item/clothing/head/utility/hardhat/weldhat/orange,
+/obj/item/clothing/head/utility/hardhat/welding/orange,
 /turf/open/floor/iron/smooth{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
@@ -1107,7 +1107,7 @@
 "pE" = (
 /obj/structure/bed/maint,
 /obj/item/bedsheet/dorms,
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = 12;
 	pixel_y = 9
 	},

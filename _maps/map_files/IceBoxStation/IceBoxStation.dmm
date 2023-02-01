@@ -9018,7 +9018,7 @@
 /turf/open/floor/iron/textured,
 /area/station/security/brig)
 "cGs" = (
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = -7;
 	pixel_y = 3
 	},
@@ -11482,7 +11482,7 @@
 /area/mine/laborcamp)
 "dqM" = (
 /obj/structure/table,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/surgical_drapes,
 /obj/item/razor,
 /obj/machinery/airalarm/directional/north,
@@ -31357,7 +31357,7 @@
 	pixel_x = -1;
 	pixel_y = 6
 	},
-/obj/item/candle/infinite{
+/obj/item/flashlight/flare/candle/infinite{
 	pixel_x = -11;
 	pixel_y = 11
 	},
@@ -40362,7 +40362,7 @@
 /area/station/hallway/secondary/exit/departure_lounge)
 "mtY" = (
 /obj/structure/table/glass,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/healthanalyzer,
 /obj/item/clothing/glasses/hud/health,
 /obj/item/clothing/glasses/science,
@@ -49720,8 +49720,8 @@
 /obj/item/defibrillator/loaded{
 	pixel_y = 3
 	},
-/obj/item/clothing/gloves/color/latex/nitrile,
-/obj/item/clothing/gloves/color/latex/nitrile,
+/obj/item/clothing/gloves/latex/nitrile,
+/obj/item/clothing/gloves/latex/nitrile,
 /turf/open/floor/iron/dark,
 /area/station/medical/storage)
 "plS" = (
@@ -58771,7 +58771,7 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/command/storage/eva)
 "sea" = (
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/reagent_containers/spray/cleaner,
 /obj/structure/table/glass,
@@ -67580,7 +67580,7 @@
 	dir = 1;
 	pixel_y = 2
 	},
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/effect/turf_decal/tile/neutral/full,
@@ -69960,11 +69960,11 @@
 "vDJ" = (
 /obj/structure/table/wood,
 /obj/item/clothing/under/suit/red,
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = -8;
 	pixel_y = 4
 	},
-/obj/item/candle{
+/obj/item/flashlight/flare/candle{
 	pixel_x = 8;
 	pixel_y = 4
 	},
@@ -74593,7 +74593,7 @@
 	dir = 1
 	},
 /obj/structure/rack,
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /turf/open/floor/plating,
 /area/station/security/prison/safe)
 "wWL" = (
@@ -76563,7 +76563,7 @@
 /area/station/command/heads_quarters/ce)
 "xBj" = (
 /obj/structure/table,
-/obj/item/candle,
+/obj/item/flashlight/flare/candle,
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
 "xBn" = (
@@ -78136,8 +78136,8 @@
 /obj/item/defibrillator/loaded{
 	pixel_y = 3
 	},
-/obj/item/clothing/gloves/color/latex/nitrile,
-/obj/item/clothing/gloves/color/latex/nitrile,
+/obj/item/clothing/gloves/latex/nitrile,
+/obj/item/clothing/gloves/latex/nitrile,
 /turf/open/floor/iron/dark,
 /area/station/medical/storage)
 "ybq" = (

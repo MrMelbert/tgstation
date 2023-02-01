@@ -86,7 +86,7 @@
 /turf/open/floor/iron/airless,
 /area/ruin/space/has_grav)
 "ax" = (
-/mob/living/simple_animal/hostile/retaliate/ghost,
+/mob/living/basic/ghost,
 /turf/open/floor/iron/airless,
 /area/ruin/space/has_grav)
 "az" = (
@@ -430,8 +430,8 @@
 	},
 /turf/template_noop,
 /area/ruin/space/has_grav)
-"Be" = (
-/mob/living/simple_animal/hostile/retaliate/ghost,
+"gH" = (
+/mob/living/basic/ghost,
 /turf/open/floor/iron/cafeteria/airless,
 /area/ruin/space/has_grav)
 
@@ -678,8 +678,8 @@ ag
 ai
 aK
 aR
+gH
 aR
-Be
 bj
 bg
 ah

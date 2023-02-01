@@ -636,10 +636,6 @@
 	heat_capacity = 1e+006
 	},
 /area/centcom/tdome/observation)
-"ej" = (
-/obj/machinery/button/showtime,
-/turf/closed/indestructible/fakeglass,
-/area/centcom/tdome/administration)
 "el" = (
 /obj/structure/filingcabinet/medical,
 /obj/machinery/firealarm/directional/west,
@@ -3979,9 +3975,7 @@
 /area/centcom/central_command_areas/admin)
 "tm" = (
 /obj/item/cardboard_cutout{
-	desc = "They seem to be ignoring you... Typical.";
-	icon_state = "cutout_ntsec";
-	name = "Private Security Officer"
+	starting_cutout = "Private Security Officer"
 	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
@@ -6413,7 +6407,7 @@
 /obj/item/hemostat{
 	pixel_x = -4
 	},
-/obj/item/clothing/gloves/color/latex,
+/obj/item/clothing/gloves/latex,
 /obj/item/clothing/mask/surgical,
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/blue{
@@ -6866,10 +6860,7 @@
 /area/centcom/central_command_areas/evacuation/ship)
 "JG" = (
 /obj/item/cardboard_cutout{
-	desc = "They seem to be ignoring you... Typical.";
-	dir = 1;
-	icon_state = "cutout_ntsec";
-	name = "Private Security Officer"
+	starting_cutout = "Private Security Officer"
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -52365,7 +52356,7 @@ IG
 IG
 IG
 It
-ej
+Pj
 Xn
 Sz
 Sz
