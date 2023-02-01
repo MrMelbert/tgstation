@@ -62,7 +62,6 @@
 		to_chat(user, "[span_info(span_bold("Capture successful!:"))] [real_name]'s soul has been captured and stored within [soulstone].")
 
 	forceMove(soulstone)
-	soulstone.captured_shade = src
 	// Handles making sure the soulstone is correct
 	soulstone.update_appearance()
 	if(user && user != src)

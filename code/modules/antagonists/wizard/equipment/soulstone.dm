@@ -37,10 +37,17 @@
 
 	base_name ||= initial(name)
 
+/obj/item/soulstone/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	. = ..()
+	if(istype(arrived, /mob/living/simple_animal/shade) && isnull(captured_shade))
+		captured_shade = arrived
+		update_appearance()
+
 /obj/item/soulstone/Exited(atom/movable/gone, direction)
 	. = ..()
 	if(gone == captured_shade)
 		captured_shade = null
+		update_appearance()
 
 // We'll shamelessly use update_appearance to also handle updating the shade inside depending on what theme we are
 /obj/item/soulstone/update_appearance(updates)
@@ -374,7 +381,7 @@
 
 	soulstone_spirit.cancel_camera()
 	captured_shade = soulstone_spirit
-	update_appearance()
+
 	if(user)
 		if(IS_CULTIST(user))
 			to_chat(soulstone_spirit, span_bold("Your soul has been captured! \
