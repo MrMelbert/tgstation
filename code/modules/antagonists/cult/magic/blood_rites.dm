@@ -22,6 +22,7 @@
 	name = "Blood Rites"
 	desc = "Empowers your hand to absorb blood to be used for advanced rites, or heal a cultist on contact. \
 		Use the spell in-hand to cast advanced rites."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "manip"
 	background_icon_state = "bg_demon"
@@ -32,6 +33,7 @@
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
+	school = SCHOOL_SANGUINE
 
 	/// Our blood spell component, which tracks the number of charges we have left.
 	/// We must track this, unlike other spells, due to the unique ability of incrementing charges.
@@ -101,13 +103,17 @@
 			if(charge_tracker.charges < BLOOD_HALBERD_COST)
 				user.balloon_alert(user, "[BLOOD_HALBERD_COST] charges needed!")
 				return
+			if(locate(/datum/action/cooldown/spell/summonitem/cult_halberd) in user.actions)
+				user.balloon_alert(user, "halberd already invoked!")
+				return
 
 			charge_tracker.charges -= BLOOD_HALBERD_COST
-			var/turf/current_position = get_turf(user)
-			var/datum/action/innate/cult/halberd/halberd_act_granted = new(user)
-			var/obj/item/melee/cultblade/halberd/rite = new(current_position)
-			halberd_act_granted.Grant(user, rite)
-			rite.halberd_act = halberd_act_granted
+			var/datum/action/cooldown/spell/summonitem/cult_halberd/halberd_recall = new(user)
+			var/obj/item/melee/cultblade/halberd/halberd = new(user.loc)
+			halberd_recall.overlay_icon_state = "ab_goldborder"
+			halberd_recall.mark_item(halberd)
+			halberd_recall.Grant(user)
+
 			remove_hand(user)
 			if(user.put_in_hands(rite))
 				user.visible_message(
@@ -124,33 +130,31 @@
 			if(charge_tracker.charges < BLOOD_BARRAGE_COST)
 				user.balloon_alert(user, "[BLOOD_BARRAGE_COST] charges needed!")
 				return
-
-			// Melbert todo, make this a spell
-			var/obj/item/gun/ballistic/rifle/enchanted/arcane_barrage/blood/rite = new(user.loc)
-			remove_hand(user)
-			if(user.put_in_hands(rite))
-				charge_tracker.charges -= BLOOD_BARRAGE_COST
-				to_chat(user, span_cultbold("Your hands glow with power!"))
+			if(locate(/datum/action/cooldown/spell/conjure_item/infinite_guns/blood_bolt) in user.actions)
+				user.balloon_alert(user, "blood bolt barrage already invoked!")
 				return
 
-			to_chat(user, span_cultitalic("You need a free hand for this rite!"))
-			qdel(rite)
+			remove_hand(user)
+			var/datum/action/cooldown/spell/conjure_item/infinite_guns/blood_bolt/barrage = new(user)
+			barrage.overlay_icon_state = "ab_goldborder"
+			barrage.Grant(user)
+			charge_tracker.charges -= BLOOD_BARRAGE_COST
+			to_chat(user, span_cultbold("Your hands glow with power!"))
 
 		if(BLOOD_BEAM_KEY)
 			if(charge_tracker.charges < BLOOD_BEAM_COST)
 				user.balloon_alert(user, "[BLOOD_BEAM_COST] charges needed!")
 				return
-
-			// Melbert todo, make this a spell
-			var/obj/item/blood_beam/rite = new(user.loc)
-			remove_hand(user)
-			if(user.put_in_hands(rite))
-				charge_tracker.charges -= BLOOD_BEAM_COST
-				to_chat(user, span_cultlarge("Your hands glow with POWER OVERWHELMING!!!"))
+			if(locate(/datum/action/cooldown/spell/pointed/blood_beam) in user.actions)
+				user.balloon_alert(user, "blood beam already invoked!")
 				return
 
-			to_chat(user, span_cultitalic("You need a free hand for this rite!"))
-			qdel(rite)
+			remove_hand(user)
+			var/datum/action/cooldown/spell/pointed/blood_beam/beaaaaaam = new(user)
+			beaaaaaam.overlay_icon_state = "ab_goldborder"
+			beaaaaaam.Grant(user)
+			charge_tracker.charges -= BLOOD_BEAM_COST
+			to_chat(user, span_cultlarge("Your hands glow with POWER OVERWHELMING!!!"))
 
 		else
 			return
@@ -214,7 +218,7 @@
 			return TRUE
 
 		victim.blood_volume = BLOOD_VOLUME_SAFE
-		charge_tracker.charges -= round(restore_bloodd / 2)
+		charge_tracker.charges -= round(restored_blood / 2)
 		to_chat(caster, span_danger("Your blood rites have restored [victim == caster ? "your" : "[victim]'s"] blood to safe levels!"))
 		. = TRUE // keep going to see if we can also do some healing
 

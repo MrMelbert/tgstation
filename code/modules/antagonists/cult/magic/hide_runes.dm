@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/aoe/veiling
 	name = "Conceal Presence"
 	desc = "Alternates between hiding and revealing nearby cult structures and runes."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "gone"
 	background_icon_state = "bg_demon"
@@ -11,6 +12,7 @@
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
+	school = SCHOOL_SANGUINE
 
 	aoe_radius = 5
 	var/revealing = TRUE

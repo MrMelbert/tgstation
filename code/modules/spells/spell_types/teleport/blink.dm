@@ -4,7 +4,6 @@
 	button_icon_state = "blink"
 	sound = 'sound/magic/blink.ogg'
 
-	school = SCHOOL_FORBIDDEN
 	cooldown_time = 2 SECONDS
 	cooldown_reduction_per_rank = 0.4 SECONDS
 

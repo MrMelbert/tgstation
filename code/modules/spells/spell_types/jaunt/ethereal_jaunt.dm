@@ -253,6 +253,6 @@
 	. = ..()
 	if(!.)
 		return
-	if (locate(/obj/effect/blessing) in .)
+	if (HAS_TRAIT(., TRAIT_HOLY))
 		to_chat(user, span_warning("Holy energies block your path!"))
 		return null

@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/emp/cult
 	name = "Electromagnetic Pulse"
 	desc = "Emits a large electromagnetic pulse."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	background_icon_state = "bg_demon"
 	overlay_icon_state = "bg_demon_border"
 	buttontooltipstyle = "cult"
@@ -14,7 +15,7 @@
 
 /datum/action/cooldown/spell/emp/cult/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/charge_spell/blood_spell, charges = 1, health_cost = 10)
+	AddComponent(/datum/component/charge_spell/blood_cost, charges = 1, health_cost = 10)
 
 /datum/action/cooldown/spell/emp/cult/can_cast_spell(feedback)
 	return ..() && IS_CULTIST(owner)

@@ -981,6 +981,8 @@ GLOBAL_PROTECT(admin_verbs_poll)
 			real_reqs += "Must be off central command z-level"
 		if(reqs & SPELL_REQUIRES_WIZARD_GARB)
 			real_reqs += "Must have wizard clothes"
+		if(reqs & SPELL_CASTABLE_WITHOUT_INVOCATION)
+			real_reqs += "Invocation is optional"
 
 		all_requirements += "<tr><td>[initial(spell.name)]</td> <td>[english_list(real_reqs, "No requirements")]</td></tr>"
 

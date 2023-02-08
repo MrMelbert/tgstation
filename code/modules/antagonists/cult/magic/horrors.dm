@@ -1,15 +1,18 @@
 /datum/action/cooldown/spell/pointed/horrors
 	name = "Hallucinations"
 	desc = "Gives hallucinations to a target at range. A silent and invisible spell."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "horror"
 	background_icon_state = "bg_demon"
 	overlay_icon_state = "bg_demon_border"
 	buttontooltipstyle = "cult"
+	ranged_mousepointer = 'icons/effects/mouse_pointers/cult_target.dmi'
 
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
+	school = SCHOOL_SANGUINE
 
 	active_msg = span_cult("You prepare to horrify a target...")
 	deactive_msg = span_cult("You dispel the magic...")

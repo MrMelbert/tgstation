@@ -13,13 +13,21 @@
 	job_rank = ROLE_CULTIST
 	antag_hud_name = "cult"
 
-	var/datum/action/innate/cult/comm/communion
-	var/datum/action/innate/cult/mastervote/vote
-	var/ignore_implant = FALSE
-	var/give_equipment = FALSE
+	/// Our team of cultists.
+	/// Use [proc/get_team()] to access it.
 	VAR_PROTECTED/datum/team/cult/cult_team
-	var/datum/cult_magic_holder/magic_holder
 
+	/// Action that allows for our cultists to communicate with one another
+	var/datum/action/innate/cult/comm/communion
+	/// Action that allows for a cult to pronounce themselves as leader
+	var/datum/action/innate/cult/mastervote/vote
+
+	/// If TRUE, mindshielded people can gain this cult datum
+	var/ignore_implant = FALSE
+	/// If TRUE, the cultist will be given a dagger and runed metal when they gain the datum.
+	var/give_equipment = FALSE
+	/// A reference to the cult magic datum that allows our cultist to cast and prepare spells.
+	var/datum/cult_magic_holder/magic_holder
 
 /datum/antagonist/cult/get_team()
 	return cult_team

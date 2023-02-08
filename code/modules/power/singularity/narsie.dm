@@ -67,10 +67,9 @@
 	for (var/datum/antagonist/cult/cultist in GLOB.antagonists)
 		if (!cultist.owner)
 			continue
-		all_cults |= cultist.cult_team
+		all_cults |= cultist.get_team()
 
-	for (var/_cult_team in all_cults)
-		var/datum/team/cult/cult_team = _cult_team
+	for(var/datum/team/cult/cult_team as anything in all_cults)
 		deltimer(cult_team.blood_target_reset_timer)
 		cult_team.blood_target = src
 		var/datum/objective/eldergod/summon_objective = locate() in cult_team.objectives
@@ -98,10 +97,9 @@
 	for (var/datum/antagonist/cult/cultist in GLOB.antagonists)
 		if (!cultist.owner)
 			continue
-		all_cults |= cultist.cult_team
+		all_cults |= cultist.get_team()
 
-	for(var/_cult_team in all_cults)
-		var/datum/team/cult/cult_team = _cult_team
+	for(var/datum/team/cult/cult_team as anything in all_cults)
 		var/datum/objective/eldergod/summon_objective = locate() in cult_team.objectives
 		if (summon_objective)
 			summon_objective.summoned = FALSE

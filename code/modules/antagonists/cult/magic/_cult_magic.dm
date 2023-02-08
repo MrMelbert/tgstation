@@ -85,8 +85,13 @@
 /// Simple action that allows a player to prepare a cult spell for their cult magic holder
 /datum/action/cult_spell_creator // melbert todo: needs cult subtype shit
 	name = "Prepare Blood Magic"
-	button_icon_state = "carve"
 	desc = "Prepare blood magic by carving runes into your flesh. This is easier with an <b>empowering rune</b>."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
+	button_icon = 'icons/mob/actions/actions_cult.dmi'
+	button_icon_state = "carve"
+	background_icon_state = "bg_demon"
+	overlay_icon_state = "bg_demon_border"
+	buttontooltipstyle = "cult"
 	default_button_position = DEFAULT_BLOODSPELLS
 
 	/// The antag datum required to use this action

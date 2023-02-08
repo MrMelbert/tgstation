@@ -15,6 +15,14 @@
 	///The obj marked for recall
 	var/obj/marked_item
 
+/datum/action/cooldown/spell/summonitem/Destroy()
+	marked_item = null
+	return ..()
+
+/datum/action/cooldown/spell/summonitem/Remove(mob/living/remove_from)
+	marked_item = null
+	return ..()
+
 /datum/action/cooldown/spell/summonitem/is_valid_target(atom/cast_on)
 	return isliving(cast_on)
 
@@ -35,7 +43,7 @@
 	SIGNAL_HANDLER
 
 	if(owner)
-		to_chat(owner, span_boldwarning("You sense your marked item has been destroyed!"))
+		to_chat(owner, span_boldwarning("You sense your [marked_item.name] has been destroyed!"))
 	unmark_item()
 
 /datum/action/cooldown/spell/summonitem/cast(mob/living/cast_on)

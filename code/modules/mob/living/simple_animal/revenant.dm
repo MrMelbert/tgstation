@@ -396,7 +396,7 @@
 		if(stepTurf.turf_flags & NOJAUNT)
 			to_chat(src, span_warning("Some strange aura is blocking the way."))
 			return
-		if(locate(/obj/effect/blessing) in stepTurf)
+		if(HAS_TRAIT(stepTurf, TRAIT_HOLY))
 			to_chat(src, span_warning("Holy energies block your path!"))
 			return
 	return TRUE
@@ -543,4 +543,3 @@
 
 /datum/objective/revenant_fluff/check_completion()
 	return TRUE
-

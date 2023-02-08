@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/touch/cult_teleport
 	name = "Teleport"
 	desc = "Will teleport a cultist to a teleport rune on contact."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "tele"
 	background_icon_state = "bg_demon"
@@ -10,19 +11,20 @@
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
+	school = SCHOOL_SANGUINE
 
 	hand_path = /obj/item/melee/touch_attack/cult/teleport
 
 /datum/action/cooldown/spell/touch/cult_teleport/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/charge_spell/blood_spell, charges = 1, health_cost = 7)
+	AddComponent(/datum/component/charge_spell/blood_cost, charges = 1, health_cost = 7)
 
 /datum/action/cooldown/spell/touch/cult_teleport/can_cast_spell(feedback)
 	. = ..()
 	if(!.)
 		return
 	var/datum/antagonist/cultist = IS_CULTIST(owner)
-	if(!cultist || !cultist.get_team())
+	if(!cultist || !cultist.get_team()) // team required. for now.
 		return FALSE
 
 	return TRUE

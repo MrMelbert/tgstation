@@ -17,7 +17,6 @@
 	var/datum/action/cooldown/spell/real_parent = parent
 
 	src.charges = charges
-	src.health_cost = health_cost
 	src.per_cast_cost = per_cast_cost
 	src.base_desc = real_parent.desc
 
@@ -67,18 +66,18 @@
  *
  * When a charge is depleted, we will also apply damage to the caster's active hand
  */
-/datum/component/charge_spell/blood_spell
+/datum/component/charge_spell/blood_cost
 	/// How much brute damage is applied when a charge is spent / the spell is cast?
 	var/health_cost = 5
 
-/datum/component/charge_spell/blood_spell/Initialize(charges = 1, per_cast_cost = 1, health_cost = 5)
+/datum/component/charge_spell/blood_cost/Initialize(charges = 1, per_cast_cost = 1, health_cost = 5)
 	. = ..()
 	if(. == COMPONENT_INCOMPATIBLE)
 		return
 
 	src.health_cost = health_cost
 
-/datum/component/charge_spell/blood_spell/after_spell_cast(datum/action/cooldown/spell/source)
+/datum/component/charge_spell/blood_cost/after_spell_cast(datum/action/cooldown/spell/source)
 	if(isliving(source.owner) && health_cost)
 		var/mob/living/caster = source.owner
 		var/lefthand_cast = (caster.active_hand_index % 2 == 0)

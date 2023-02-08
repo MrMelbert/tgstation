@@ -5,6 +5,7 @@
 	desc = "Corrupts certain metallic and sanctimonious objects on contact. \
 		Includes Soulstones, Airlocks, Iron and Plasteel sheets, and Cyborgs. \
 		Examine your hand for more information."
+	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "transmute"
 	background_icon_state = "bg_demon"
@@ -14,13 +15,15 @@
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
+	school = SCHOOL_SANGUINE
+
 	hand_path = /obj/item/melee/touch_attack/cult/construction
 	/// How many iron sheets is needed for a construct shell
 	var/iron_required_for_shell = 50
 
 /datum/action/cooldown/spell/touch/twisted_construction/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/charge_spell/blood_spell, charges = 1, health_cost = 12)
+	AddComponent(/datum/component/charge_spell/blood_cost, charges = 1, health_cost = 12)
 
 /datum/action/cooldown/spell/touch/twisted_construction/can_cast_spell(feedback)
 	return ..() && IS_CULTIST(owner)
@@ -100,7 +103,7 @@
 
 		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [candidate], corrupting it into a dark red hue!"))
 		candidate.balloon_alert(caster, "corrupted")
-		SEND_SOUND(user, sound('sound/effects/magic.ogg', 0, 1, 25))
+		SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
 		return TRUE
 
 	// -- Cultify airlocks --
@@ -115,7 +118,7 @@
 		caster.visible_message(span_warning("Black ribbons emanate from [caster]'s hand and cling to [victim] - twisting and corrupting it!"))
 		victim.narsie_act()
 		result_turf.balloon_alert(caster, "conversion complete")
-		SEND_SOUND(user, sound('sound/effects/magic.ogg', 0, 1, 25))
+		SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
 		return TRUE
 
 	// -- Silicon to Construct --
