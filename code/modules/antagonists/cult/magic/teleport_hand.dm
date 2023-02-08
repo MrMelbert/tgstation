@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/touch/cult_teleport
-	name = "Teleporting Aura"
+	name = "Teleport"
 	desc = "Will teleport a cultist to a teleport rune on contact."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "tele"

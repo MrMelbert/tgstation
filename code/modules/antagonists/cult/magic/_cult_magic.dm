@@ -10,9 +10,11 @@
 
 	var/list/possible_spell_types
 
-/datum/cult_magic_holder/New()
+/datum/cult_magic_holder/New(datum/antagonist/cult/linked_cultist)
 	spell_creator = new(src)
 	setup_spell_types()
+	if(linked_cultist)
+		link_to_cultist(linked_cultist)
 
 /datum/cult_magic_holder/proc/setup_spell_types()
 	var/static/list/blood_cult_spells
@@ -168,7 +170,7 @@
 	rune = !!is_empowered()
 	limit = rune ? lower_limit : upper_limit
 
-	if(length(spells) >= limit)
+	if(length(parent.spells) >= limit)
 		return
 
 	before_spell_made(selected_spell)
@@ -179,3 +181,11 @@
 	var/datum/action/cooldown/spell/new_spell = parent.add_new_spell(selected_spell)
 	after_spell_made(new_spell)
 	return TRUE
+
+/// Used for cult touch spells
+/obj/item/melee/touch_attack/cult
+
+/obj/item/melee/touch_attack/cult/interact(mob/user)
+	// using in hand (attack self-ing) is a quick way to cast it on yourself.
+	// any other interactions (like attack hand-ing) will also work if the flags are set.
+	melee_attack_chain(user, user)

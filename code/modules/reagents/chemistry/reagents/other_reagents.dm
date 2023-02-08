@@ -327,11 +327,9 @@
 
 	data["misc"] += delta_time SECONDS * REM
 	affected_mob.adjust_jitter_up_to(4 SECONDS * delta_time, 20 SECONDS)
-	if(cultist)
-		for(var/datum/action/innate/cult/blood_magic/BM in affected_mob.actions)
-			to_chat(affected_mob, span_cultlarge("Your blood rites falter as holy water scours your body!"))
-			for(var/datum/action/innate/cult/blood_spell/BS in BM.spells)
-				qdel(BS)
+	if(cultist && length(cultist.magic_holder.spells))
+		to_chat(affected_mob, span_cultlarge("Your blood rites falter as holy water scours your body!"))
+		QDEL_LIST(cultist.magic_holder.spells)
 
 	if(data["misc"] >= (25 SECONDS)) // 10 units
 		affected_mob.adjust_stutter_up_to(4 SECONDS * delta_time, 20 SECONDS)

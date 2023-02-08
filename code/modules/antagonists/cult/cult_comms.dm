@@ -147,6 +147,7 @@
 		return FALSE
 	team.cult_master = Nominee
 	var/datum/antagonist/cult/cultist = Nominee.mind.has_antag_datum(/datum/antagonist/cult)
+	// melbert todo - transfer cult magic holder so spells don't vanish
 	if (cultist)
 		cultist.silent = TRUE
 		cultist.on_removal()

@@ -2451,6 +2451,7 @@
 #include "code\modules\antagonists\cult\magic\stun_hand.dm"
 #include "code\modules\antagonists\cult\magic\summon_dagger.dm"
 #include "code\modules\antagonists\cult\magic\teleport_hand.dm"
+#include "code\modules\antagonists\cult\magic\twisted_construction.dm"
 #include "code\modules\antagonists\disease\disease_abilities.dm"
 #include "code\modules\antagonists\disease\disease_datum.dm"
 #include "code\modules\antagonists\disease\disease_disease.dm"

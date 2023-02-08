@@ -72,9 +72,12 @@
 
 	ADD_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 
+	// Some relevant actions
 	if(!cult_team.cult_master)
 		vote = new(src)
 	communion = new(src)
+	// cult magic
+	magic_holder = new(src)
 
 /datum/antagonist/cult/on_removal()
 	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
@@ -626,7 +629,7 @@
 		teleporter.balloon_alert(teleporter, "wrong dimension!")
 		return
 
-	var/input_rune_key = tgui_input_list(user, "Rune to teleport to", "Teleportation Target", potential_runes) //we know what key they picked
+	var/input_rune_key = tgui_input_list(teleporter, "Rune to teleport to", "Teleportation Target", potential_runes) //we know what key they picked
 	if(isnull(input_rune_key) || isnull(potential_runes[input_rune_key]))
 		return
 	var/obj/effect/rune/teleport/actual_selected_rune = potential_runes[input_rune_key] //what rune does that key correspond to?

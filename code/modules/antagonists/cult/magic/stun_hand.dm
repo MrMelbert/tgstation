@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/touch/cult_stun
-	name = "Stunning Aura"
+	name = "Stun"
 	desc = "Will stun and mute a weak-minded victim on contact."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "hand"

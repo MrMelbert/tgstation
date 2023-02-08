@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/touch/cult_armor
-	name = "Arming Aura"
+	name = "Summon Combat Equipment"
 	desc = "Will equip cult combat gear onto a cultist on contact."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "equip"
@@ -33,6 +33,7 @@
 	victim.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(victim), ITEM_SLOT_OCLOTHING)
 	victim.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(victim), ITEM_SLOT_FEET)
 	victim.equip_to_slot_or_del(new /obj/item/storage/backpack/cultpack(victim), ITEM_SLOT_BACK)
+	return TRUE
 
 /datum/action/cooldown/spell/touch/cult_armor/after_cast(mob/living/carbon/cast_on)
 	. = ..()

@@ -41,8 +41,3 @@
 	SIGNAL_HANDLER
 
 	button.desc = "[base_desc]<br><b><u>Has [charges] use\s remaining</u></b>."
-
-/obj/item/melee/touch_attack/cult
-
-/obj/item/melee/touch_attack/cult/attack_self(mob/user, modifiers)
-	melee_attack_chain(user, user) // using in hand is a quick way to cast it on yourself

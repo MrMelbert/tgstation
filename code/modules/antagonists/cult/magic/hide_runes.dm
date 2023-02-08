@@ -28,9 +28,9 @@
 /datum/action/cooldown/spell/aoe/veiling/update_button_name(atom/movable/screen/movable/action_button/button, force)
 	. = ..()
 	if(revealing)
-		button.name = "Reveal Runes"
+		button.name = "Reveal Presence"
 	else
-		button.name = "Conceal Runes"
+		button.name = "Conceal Presence"
 
 /datum/action/cooldown/spell/aoe/veiling/apply_button_icon(atom/movable/screen/movable/action_button/button, force)
 	. = ..()

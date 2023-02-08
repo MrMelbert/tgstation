@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/touch/cult_shackles
-	name = "Shackling Aura"
+	name = "Shadow Shackles"
 	desc = "Will start handcuffing a victim on contact, and mute them if successful."
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "cuff"
@@ -36,7 +36,7 @@
 /datum/action/cooldown/spell/touch/cult_shackles/proc/cuff_checks(obj/item/melee/touch_attack/hand, mob/living/carbon/victim, mob/living/carbon/caster)
 	if(QDELETED(src) || QDELETED(caster) || QDELETED(victim) || QDELETED(hand))
 		return FALSE
-	if(IS_CULTIST(victim))
+	if(!IsAvailable() || IS_CULTIST(victim))
 		return FALSE
 	return TRUE
 
