@@ -300,48 +300,52 @@
 	myseed?.adjust_instability(round(chems.get_reagent_amount(type) * 0.15))
 
 /datum/reagent/water/holywater/on_mob_metabolize(mob/living/affected_mob)
-	..()
+	. = ..()
 	ADD_TRAIT(affected_mob, TRAIT_HOLY, type)
+	if(IS_CULTIST(affected_mob))
+		to_chat(affected_mob, span_userdanger("A vile holiness begins to spread its shining tendrils through your mind, purging the Geometer of Blood's influence!"))
 
 /datum/reagent/water/holywater/on_mob_add(mob/living/affected_mob, amount)
 	. = ..()
-	if(data)
-		data["misc"] = 0
+	data?["misc"] = 0
 
 /datum/reagent/water/holywater/on_mob_end_metabolize(mob/living/affected_mob)
 	REMOVE_TRAIT(affected_mob, TRAIT_HOLY, type)
-	..()
-
-/datum/reagent/water/holywater/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)
-	. = ..()
-	if(IS_CULTIST(exposed_mob))
-		to_chat(exposed_mob, span_userdanger("A vile holiness begins to spread its shining tendrils through your mind, purging the Geometer of Blood's influence!"))
+	return ..()
 
 /datum/reagent/water/holywater/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
+	// Copy pasted from water on mob life
+	// (beacuse yep, we don't call parent - so we can have a static metabolism rate)
 	if(affected_mob.blood_volume)
-		affected_mob.blood_volume += 0.1 * REM * delta_time // water is good for you!
+		affected_mob.blood_volume += 0.1 * REM * delta_time
+	// Copy paste end
+
 	if(!data)
 		data = list("misc" = 0)
 
+	var/datum/antagonist/cult/cultist = IS_CULTIST(affected_mob)
+
 	data["misc"] += delta_time SECONDS * REM
 	affected_mob.adjust_jitter_up_to(4 SECONDS * delta_time, 20 SECONDS)
-	if(IS_CULTIST(affected_mob))
+	if(cultist)
 		for(var/datum/action/innate/cult/blood_magic/BM in affected_mob.actions)
 			to_chat(affected_mob, span_cultlarge("Your blood rites falter as holy water scours your body!"))
 			for(var/datum/action/innate/cult/blood_spell/BS in BM.spells)
 				qdel(BS)
+
 	if(data["misc"] >= (25 SECONDS)) // 10 units
 		affected_mob.adjust_stutter_up_to(4 SECONDS * delta_time, 20 SECONDS)
 		affected_mob.set_dizzy_if_lower(10 SECONDS)
-		if(IS_CULTIST(affected_mob) && DT_PROB(10, delta_time))
+		if(cultist && DT_PROB(10, delta_time))
 			affected_mob.say(pick("Av'te Nar'Sie","Pa'lid Mors","INO INO ORA ANA","SAT ANA!","Daim'niodeis Arc'iai Le'eones","R'ge Na'sie","Diabo us Vo'iscum","Eld' Mon Nobis"), forced = "holy water")
 			if(prob(10))
 				affected_mob.visible_message(span_danger("[affected_mob] starts having a seizure!"), span_userdanger("You have a seizure!"))
 				affected_mob.Unconscious(12 SECONDS)
 				to_chat(affected_mob, "<span class='cultlarge'>[pick("Your blood is your bond - you are nothing without it", "Do not forget your place", \
 				"All that power, and you still fail?", "If you cannot scour this poison, I shall scour your meager life!")].</span>")
+
 	if(data["misc"] >= (1 MINUTES)) // 24 units
-		if(IS_CULTIST(affected_mob))
+		if(cultist)
 			affected_mob.mind.remove_antag_datum(/datum/antagonist/cult)
 			affected_mob.Unconscious(100)
 		affected_mob.remove_status_effect(/datum/status_effect/jitter)

@@ -338,6 +338,7 @@ GLOBAL_LIST_EMPTY(antagonists)
  * Proc that will return the team this antagonist belongs to, when called. Helpful with antagonists that may belong to multiple potential teams in a single round.
  */
 /datum/antagonist/proc/get_team()
+	RETURN_TYPE(/datum/team)
 	return
 
 /**
@@ -512,4 +513,3 @@ GLOBAL_LIST_EMPTY(antagonists)
 /// Used to create objectives for the antagonist.
 /datum/antagonist/proc/forge_objectives()
 	return
-

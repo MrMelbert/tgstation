@@ -248,9 +248,10 @@
 
 	// And then proceed with the aftermath of the cast
 	// Final effects that happen after all the casting is done can go here
-	after_cast(cast_on)
-	build_all_button_icons()
+	if(!(precast_result & SPELL_CANCEL_AFTER_CAST))
+		after_cast(cast_on)
 
+	build_all_button_icons()
 	return TRUE
 
 /**
@@ -263,6 +264,7 @@
  * - SPELL_CANCEL_CAST will stop the spell from being cast.
  * - SPELL_NO_FEEDBACK will prevent the spell from calling [proc/spell_feedback] on cast. (invocation), sounds)
  * - SPELL_NO_IMMEDIATE_COOLDOWN will prevent the spell from starting its cooldown between cast and before after_cast.
+ * - SPELL_CANCEL_AFTER_CAST stops after_cast, but not cast.
  */
 /datum/action/cooldown/spell/proc/before_cast(atom/cast_on)
 	SHOULD_CALL_PARENT(TRUE)

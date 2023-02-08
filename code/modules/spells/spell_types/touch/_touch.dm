@@ -150,7 +150,7 @@
 
 // Touch spells don't go on cooldown OR give off an invocation until the hand is used itself.
 /datum/action/cooldown/spell/touch/before_cast(atom/cast_on)
-	return ..() | SPELL_NO_FEEDBACK | SPELL_NO_IMMEDIATE_COOLDOWN
+	return ..() | SPELL_NO_FEEDBACK | SPELL_NO_IMMEDIATE_COOLDOWN | SPELL_CANCEL_AFTER_CAST
 
 /datum/action/cooldown/spell/touch/cast(mob/living/carbon/cast_on)
 	if(!QDELETED(attached_hand) && (attached_hand in cast_on.held_items))
@@ -213,8 +213,6 @@
 /datum/action/cooldown/spell/touch/proc/do_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
 	SHOULD_NOT_OVERRIDE(TRUE) // Don't put effects here, put them in cast_on_hand_hit
 
-	SEND_SIGNAL(src, COMSIG_SPELL_TOUCH_HAND_HIT, victim, caster, hand)
-
 	var/mob/mob_victim = victim
 	if(istype(mob_victim) && mob_victim.can_block_magic(antimagic_flags))
 		on_antimagic_triggered(hand, victim, caster)
@@ -222,9 +220,12 @@
 	else if(!cast_on_hand_hit(hand, victim, caster))
 		return
 
+	SEND_SIGNAL(src, COMSIG_SPELL_TOUCH_HAND_HIT, victim, caster, hand)
 	log_combat(caster, victim, "cast the touch spell [name] on", hand)
 	spell_feedback()
 	remove_hand(caster)
+	// Aftercast happens here
+	after_cast(victim)
 
 /**
  * Calls do_secondary_hand_hit() from the caster onto the victim.

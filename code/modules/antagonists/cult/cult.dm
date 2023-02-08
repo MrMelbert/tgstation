@@ -10,14 +10,15 @@
 	antag_moodlet = /datum/mood_event/cult
 	suicide_cry = "FOR NAR'SIE!!"
 	preview_outfit = /datum/outfit/cultist
-	var/datum/action/innate/cult/comm/communion = new
-	var/datum/action/innate/cult/mastervote/vote = new
-	var/datum/action/innate/cult/blood_magic/magic = new
 	job_rank = ROLE_CULTIST
 	antag_hud_name = "cult"
+
+	var/datum/action/innate/cult/comm/communion
+	var/datum/action/innate/cult/mastervote/vote
 	var/ignore_implant = FALSE
 	var/give_equipment = FALSE
-	var/datum/team/cult/cult_team
+	VAR_PROTECTED/datum/team/cult/cult_team
+	var/datum/cult_magic_holder/magic_holder
 
 
 /datum/antagonist/cult/get_team()
@@ -25,16 +26,17 @@
 
 /datum/antagonist/cult/create_team(datum/team/cult/new_team)
 	if(!new_team)
-		//todo remove this and allow admin buttons to create more than one cult
-		for(var/datum/antagonist/cult/H in GLOB.antagonists)
-			if(!H.owner)
+		//todo remove this and allow admin buttons to create more than one cult // melbert eyes
+		for(var/datum/antagonist/cult/other_cultist in GLOB.antagonists)
+			if(!other_cultist.owner)
 				continue
-			if(H.cult_team)
-				cult_team = H.cult_team
+			if(other_cultist.cult_team)
+				cult_team = other_cultist.cult_team
 				return
-		cult_team = new /datum/team/cult
+		cult_team = new()
 		cult_team.setup_objectives()
 		return
+
 	if(!istype(new_team))
 		stack_trace("Wrong team type passed to [type] initialization.")
 	cult_team = new_team
@@ -69,6 +71,10 @@
 		current.client.images += cult_team.blood_target_image
 
 	ADD_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
+
+	if(!cult_team.cult_master)
+		vote = new(src)
+	communion = new(src)
 
 /datum/antagonist/cult/on_removal()
 	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
@@ -131,17 +137,15 @@
 
 /datum/antagonist/cult/apply_innate_effects(mob/living/mob_override)
 	. = ..()
-	var/mob/living/current = owner.current
-	if(mob_override)
-		current = mob_override
+	var/mob/living/current = mob_override || owner.current
+
 	handle_clown_mutation(current, mob_override ? null : "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
 	current.faction |= "cult"
 	current.grant_language(/datum/language/narsie, TRUE, TRUE, LANGUAGE_CULTIST)
-	if(!cult_team.cult_master)
-		vote.Grant(current)
+
+	vote?.Grant(current) // vote is null if a master exists
 	communion.Grant(current)
-	if(ishuman(current))
-		magic.Grant(current)
+
 	current.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
 	if(cult_team.cult_risen)
 		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
@@ -152,15 +156,13 @@
 
 /datum/antagonist/cult/remove_innate_effects(mob/living/mob_override)
 	. = ..()
-	var/mob/living/current = owner.current
-	if(mob_override)
-		current = mob_override
+	var/mob/living/current = mob_override || owner.current
+
 	handle_clown_mutation(current, removing = FALSE)
 	current.faction -= "cult"
 	current.remove_language(/datum/language/narsie, TRUE, TRUE, LANGUAGE_CULTIST)
-	vote.Remove(current)
+	vote?.Remove(current)
 	communion.Remove(current)
-	magic.Remove(current)
 	current.clear_alert("bloodsense")
 	if (HAS_TRAIT(current, TRAIT_UNNATURAL_RED_GLOWY_EYES))
 		current.RemoveElement(/datum/element/cult_eyes)
@@ -189,11 +191,11 @@
 	.["Remove Dagger and Metal"] = CALLBACK(src, PROC_REF(admin_take_all))
 
 /datum/antagonist/cult/proc/admin_give_dagger(mob/admin)
-	if(!equip_cultist(metal=FALSE))
+	if(!equip_cultist(metal = FALSE))
 		to_chat(admin, span_danger("Spawning dagger failed!"))
 
 /datum/antagonist/cult/proc/admin_give_metal(mob/admin)
-	if (!equip_cultist(metal=TRUE))
+	if (!equip_cultist(metal = TRUE))
 		to_chat(admin, span_danger("Spawning runed metal failed!"))
 
 /datum/antagonist/cult/proc/admin_take_all(mob/admin)
@@ -206,9 +208,16 @@
 	ignore_implant = TRUE
 	show_in_antagpanel = FALSE //Feel free to add this later
 	antag_hud_name = "cultmaster"
-	var/datum/action/innate/cult/master/finalreck/reckoning = new
-	var/datum/action/innate/cult/master/cultmark/bloodmark = new
-	var/datum/action/innate/cult/master/pulse/throwing = new
+	var/datum/action/innate/cult/master/finalreck/reckoning
+	var/datum/action/innate/cult/master/cultmark/bloodmark
+	var/datum/action/innate/cult/master/pulse/throwing
+
+/datum/antagonist/cult/master/on_gain()
+	if(!cult_team.reckoning_complete)
+		reckoning = new(src)
+	bloodmark = new(src)
+	throwing = new(src)
+	return ..()
 
 /datum/antagonist/cult/master/Destroy()
 	QDEL_NULL(reckoning)
@@ -220,33 +229,67 @@
 	to_chat(owner.current, "<span class='warningplain'><span class='cultlarge'>You are the cult's Master</span>. As the cult's Master, you have a unique title and loud voice when communicating, are capable of marking \
 	targets, such as a location or a noncultist, to direct the cult to them, and, finally, you are capable of summoning the entire living cult to your location <b><i>once</i></b>. Use these abilities to direct the cult to victory at any cost.</span>")
 
+/datum/antagonist/cult/master/on_removal()
+	. = ..()
+	if(!silent && isliving(owner.current))
+		var/mob/living/former_owner = owner.current
+		// Announce deconversion a good bit after it happens
+		addtimer(CALLBACK(src, PROC_REF(announce_loss), former_owner.real_name, "was deconverted from our cult", get_area(former_owner)), 12 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
+
 /datum/antagonist/cult/master/apply_innate_effects(mob/living/mob_override)
 	. = ..()
-	var/mob/living/current = owner.current
-	if(mob_override)
-		current = mob_override
-	if(!cult_team.reckoning_complete)
-		reckoning.Grant(current)
+	var/mob/living/current = mob_override || owner.current
+
+	reckoning?.Grant(current)
 	bloodmark.Grant(current)
 	throwing.Grant(current)
-	current.update_mob_action_buttons()
-	current.apply_status_effect(/datum/status_effect/cult_master)
+
 	if(cult_team.cult_risen)
 		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
 	if(cult_team.cult_ascendent)
 		current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
+
 	add_team_hud(current, /datum/antagonist/cult)
+
+	RegisterSignal(current, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 
 /datum/antagonist/cult/master/remove_innate_effects(mob/living/mob_override)
 	. = ..()
-	var/mob/living/current = owner.current
-	if(mob_override)
-		current = mob_override
-	reckoning.Remove(current)
+	var/mob/living/current = mob_override || owner.current
+
+	reckoning?.Remove(current)
 	bloodmark.Remove(current)
 	throwing.Remove(current)
-	current.update_mob_action_buttons()
-	current.remove_status_effect(/datum/status_effect/cult_master)
+
+	UnregisterSignal(current, COMSIG_LIVING_DEATH)
+
+/**
+ * Announces to the whole cult if the leader was killed / gibbed, or deconverted
+ *
+ * * former_leader - Text name of the leader who has fallen
+ * * message - the message displayed to everyone
+ * * location - where the deed happened
+ */
+/datum/antagonist/cult/master/proc/announce_loss(former_leader, message = "has fallen", area/location)
+	if(!QDELETED(GLOB.cult_narsie)) // Nar'sie is here, don't care
+		return
+	if(isliving(owner.current) && owner.current.stat != DEAD) // I'm not dead yet!
+		return
+
+	for(var/datum/mind/cultist as anything in cult_team.members)
+		if(!isliving(cultist.current))
+			continue
+
+		var/mob/living/living_cultist = cultist.current
+		SEND_SOUND(living_cultist, sound('sound/hallucinations/veryfar_noise.ogg'))
+		to_chat(living_cultist, span_cultlarge("The cult's Master, [former_leader], [message] in \the [location]!"))
+
+/datum/antagonist/cult/master/proc/on_death(mob/living/source, gibbed)
+	SIGNAL_HANDLER
+
+	// Announce death shortly after falling
+	// This is a short timer to prevent death -> revival -> death spam
+	addtimer(CALLBACK(src, PROC_REF(announce_loss), source.real_name, "has fallen", get_area(source)), 4 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/team/cult
 	name = "\improper Cult"
@@ -273,6 +316,8 @@
 	var/narsie_summoned = FALSE
 	///How large were we at max size.
 	var/size_at_maximum = 0
+
+	var/list/obj/effect/rune/teleport/teleport_runes = list()
 
 /datum/team/cult/proc/check_size()
 	if(cult_ascendent)
@@ -558,6 +603,41 @@
 
 	deltimer(blood_target_reset_timer)
 	unset_blood_target()
+
+/**
+ * Helper to allow the passed mob to select a possible teleport rune
+ */
+/datum/team/cult/proc/select_teleport_rune(mob/living/teleporter)
+	RETURN_TYPE(/obj/effect/rune/teleport)
+
+	var/list/potential_runes = list()
+	var/list/teleportnames = list()
+	for(var/obj/effect/rune/teleport/teleport_rune as anything in teleport_runes | GLOB.stray_teleport_runes)
+		if(isnull(teleport_rune)) // may sneak in on occasion, working with lazylists
+			continue
+		potential_runes[avoid_assoc_duplicate_keys(teleport_rune.listkey, teleportnames)] = teleport_rune
+
+	if(!length(potential_runes))
+		teleporter.balloon_alert(teleporter, "no valid runes!")
+		return
+
+	var/turf/start_turf = get_turf(teleporter)
+	if(is_away_level(start_turf.z))
+		teleporter.balloon_alert(teleporter, "wrong dimension!")
+		return
+
+	var/input_rune_key = tgui_input_list(user, "Rune to teleport to", "Teleportation Target", potential_runes) //we know what key they picked
+	if(isnull(input_rune_key) || isnull(potential_runes[input_rune_key]))
+		return
+	var/obj/effect/rune/teleport/actual_selected_rune = potential_runes[input_rune_key] //what rune does that key correspond to?
+	if(QDELETED(src) || QDELETED(teleporter) || QDELETED(teleporter) || QDELETED(actual_selected_rune))
+		return
+	var/turf/dest = get_turf(actual_selected_rune)
+	if(dest.is_blocked_turf(exclude_mobs = TRUE))
+		teleporter.balloon_alert(teleporter, "rune blocked!")
+		return
+
+	return actual_selected_rune
 
 /datum/outfit/cultist
 	name = "Cultist (Preview only)"

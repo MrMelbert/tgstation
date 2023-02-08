@@ -13,6 +13,12 @@
 	/// The cooldown for when items can be dispensed.
 	COOLDOWN_DECLARE(use_cooldown)
 
+/obj/structure/destructible/cult/Initialize(mapload)
+	. = ..()
+
+	var/static/list/loc_connections = list(COMSIG_ATOM_CULT_VEILED = PROC_REF(on_veil))
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/structure/destructible/cult/examine_status(mob/user)
 	if(IS_CULTIST(user) || isobserver(user))
 		return span_cult("It's at <b>[round(atom_integrity * 100 / max_integrity)]%</b> stability.")
@@ -57,26 +63,31 @@
 		span_cult("You repair [src], leaving it at <b>[round(atom_integrity * 100 / max_integrity)]%</b> stability.")
 		)
 
-/*
- * Proc for use with the concealing spell. Hides the building (makes it invisible).
- */
+/// Signal proc for [COMSIG_ATOM_CULT_VEILED]
+/obj/structure/destructible/cult/proc/on_veil(datum/source, revealing, atom/caster)
+	SIGNAL_HANDLER
+
+	if(revealing)
+		reveal()
+	else
+		conceal()
+
+/// Conceals the the building (makes it invisible and no longer emit light, as well as no longer dense)
 /obj/structure/destructible/cult/proc/conceal()
 	set_density(FALSE)
 	visible_message(span_danger("[src] fades away."))
-	invisibility = INVISIBILITY_OBSERVER
 	alpha = 100
+	invisibility = INVISIBILITY_OBSERVER
 	set_light_power(0)
 	set_light_range(0)
 	update_light()
 
-/*
- * Proc for use with the concealing spell. Reveals the building (makes it visible).
- */
+/// Reveals the building, making it dense, visible, and emit light again
 /obj/structure/destructible/cult/proc/reveal()
 	set_density(initial(density))
 	invisibility = 0
-	visible_message(span_danger("[src] suddenly appears!"))
 	alpha = initial(alpha)
+	visible_message(span_danger("[src] suddenly appears!"))
 	set_light_range(initial(light_range))
 	set_light_power(initial(light_power))
 	update_light()

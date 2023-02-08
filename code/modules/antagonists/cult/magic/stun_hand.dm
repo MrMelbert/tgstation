@@ -1,0 +1,64 @@
+/datum/action/cooldown/spell/touch/cult_stun
+	name = "Stunning Aura"
+	desc = "Will stun and mute a weak-minded victim on contact."
+	button_icon = 'icons/mob/actions/actions_cult.dmi'
+	button_icon_state = "hand"
+	background_icon_state = "bg_demon"
+	overlay_icon_state = "bg_demon_border"
+	buttontooltipstyle = "cult"
+	invocation = "Fuu ma'jin!"
+	invocation_type = INVOCATION_WHISPER
+	cooldown_time = 0 SECONDS
+	spell_requirements = NONE
+
+	hand_path = /obj/item/melee/touch_attack/cult/stun
+
+/datum/action/cooldown/spell/touch/cult_stun/New(Target, original)
+	. = ..()
+	AddComponent(/datum/component/blood_spell, charges = 1, health_cost = 10)
+
+/datum/action/cooldown/spell/touch/cult_stun/can_cast_spell(feedback)
+	return ..() && IS_CULTIST(owner)
+
+/datum/action/cooldown/spell/touch/cult_stun/is_valid_target(atom/cast_on)
+	var/mob/living/living_cast_on = cast_on
+	return istype(living_cast_on) && !IS_CULTIST(living_cast_on)
+
+/datum/action/cooldown/spell/touch/cult_stun/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster)
+	caster.visible_message(
+		span_warning("[caster] holds up [caster.p_their()] hand, which explodes in a flash of red light!"),
+		span_cultitalic("You attempt to stun [victim] with the spell!"),
+	)
+
+	caster.mob_light(_range = 3, _color = LIGHT_COLOR_BLOOD_MAGIC, _duration = 0.2 SECONDS)
+
+	if(victim.can_block_magic(antimagic_flags))
+		to_chat(caster, span_warning("The spell had no effect!"))
+		return TRUE
+
+	if(IS_HERETIC(victim))
+		to_chat(caster, span_warning("Some force greater than you intervenes! [victim] is protected by the Forgotten Gods!"))
+		to_chat(victim, span_warning("You are protected by your faith to the Forgotten Gods."))
+		var/old_color = victim.color
+		victim.color = rgb(0, 128, 0)
+		animate(victim, color = old_color, time = 1 SECONDS, easing = EASE_IN)
+		return TRUE
+
+	to_chat(caster, span_cultitalic("In a brilliant flash of red, [victim] falls to the ground!"))
+	victim.Paralyze(16 SECONDS)
+	victim.flash_act(1, TRUE)
+	if(issilicon(victim))
+		var/mob/living/silicon/silicon_target = victim
+		silicon_target.emp_act(EMP_HEAVY)
+	else if(iscarbon(victim))
+		var/mob/living/carbon/carbon_target = victim
+		carbon_target.adjust_silence(12 SECONDS)
+		carbon_target.adjust_stutter(30 SECONDS)
+		carbon_target.set_jitter_if_lower(30 SECONDS)
+		carbon_target.adjust_timed_status_effect(30 SECONDS, /datum/status_effect/speech/slurring/cult)
+	return TRUE
+
+/obj/item/melee/touch_attack/cult/stun
+	name = "stunning aura"
+	desc = "Will stun and mute a weak-minded victim on contact."
+	color = RUNE_COLOR_RED

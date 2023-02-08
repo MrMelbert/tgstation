@@ -511,7 +511,11 @@
 
 /obj/machinery/door/airlock/cult/Initialize(mapload)
 	. = ..()
-	new openingoverlaytype(loc)
+	if(!mapload)
+		new openingoverlaytype(loc)
+
+	var/static/list/loc_connections = list(COMSIG_ATOM_CULT_VEILED = PROC_REF(on_veil))
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/machinery/door/airlock/cult/canAIControl(mob/user)
 	return (IS_CULTIST(user) && !isAllPowerCut())
@@ -543,6 +547,16 @@
 			L.throw_at(throwtarget, 5, 1)
 		return FALSE
 
+/// Signal proc for [COMSIG_ATOM_CULT_VEILED]
+/obj/machinery/door/airlock/cult/proc/on_veil(datum/source, revealing, atom/caster)
+	SIGNAL_HANDLER
+
+	if(revealing)
+		reveal()
+	else
+		conceal()
+
+/// Concaels the airlock, making it look like a normal maintenance airlock instead of evil cult stuff and stopping it from stunning people
 /obj/machinery/door/airlock/cult/proc/conceal()
 	icon = 'icons/obj/doors/airlocks/station/maintenance.dmi'
 	overlays_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
@@ -551,6 +565,7 @@
 	stealthy = TRUE
 	update_appearance()
 
+/// Reveals the airlock, making it look evil and stun people once more
 /obj/machinery/door/airlock/cult/proc/reveal()
 	icon = initial(icon)
 	overlays_file = initial(overlays_file)

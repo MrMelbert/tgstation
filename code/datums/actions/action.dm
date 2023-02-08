@@ -216,6 +216,8 @@
 	if(desc)
 		button.desc = desc
 
+	SEND_SIGNAL(src, COMSIG_ACTION_BUTTON_NAME_UPDATE, button, force)
+
 /**
  * Creates the background underlay for the button
  *

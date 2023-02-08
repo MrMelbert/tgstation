@@ -1,8 +1,8 @@
 
 /// list of weakrefs to mobs OR minds that have been sacrificed
 GLOBAL_LIST(sacrificed)
-/// List of all teleport runes
-GLOBAL_LIST(teleport_runes)
+/// Global lazylist of teleport runes created that don't belong to any cult team.
+GLOBAL_LIST(stray_teleport_runes)
 /// Assoc list of every rune that can be drawn by ritual daggers. [rune_name] = [typepath]
 GLOBAL_LIST_INIT(rune_types, generate_cult_rune_types())
 
@@ -72,13 +72,16 @@ Runes can either be invoked by one's self or with many different cultists. Each 
 	/// The actual keyword for the rune
 	var/keyword
 
-/obj/effect/rune/Initialize(mapload, set_keyword)
+/obj/effect/rune/Initialize(mapload, set_keyword, datum/team/cult/cult)
 	. = ..()
 	if(set_keyword)
 		keyword = set_keyword
 	var/image/I = image(icon = 'icons/effects/blood.dmi', icon_state = null, loc = src)
 	I.override = TRUE
 	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/silicons, "cult_runes", I)
+
+	var/static/list/loc_connections = list(COMSIG_ATOM_CULT_VEILED = PROC_REF(on_veil))
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/effect/rune/examine(mob/user)
 	. = ..()
@@ -116,15 +119,26 @@ Runes can either be invoked by one's self or with many different cultists. Each 
 		else
 			to_chat(user, span_warning("You are unable to invoke the rune!"))
 
-/obj/effect/rune/proc/conceal() //for talisman of revealing/hiding
-	visible_message(span_danger("[src] fades away."))
-	invisibility = INVISIBILITY_OBSERVER
-	alpha = 100 //To help ghosts distinguish hidden runes
+/// Signal proc for [COMSIG_ATOM_CULT_VEILED]
+/obj/effect/rune/proc/on_veil(datum/source, revealing, atom/caster)
+	SIGNAL_HANDLER
 
-/obj/effect/rune/proc/reveal() //for talisman of revealing/hiding
+	if(revealing)
+		reveal()
+	else
+		conceal()
+
+/// Conceals the rune, making it invisible
+/obj/effect/rune/proc/conceal()
+	visible_message(span_danger("[src] fades away."))
+	alpha = 100 //To help ghosts distinguish hidden runes
+	invisibility = INVISIBILITY_OBSERVER
+
+/// Reveals the rune, making it visible once again
+/obj/effect/rune/proc/reveal()
 	invisibility = 0
-	visible_message(span_danger("[src] suddenly appears!"))
 	alpha = initial(alpha)
+	visible_message(span_danger("[src] suddenly appears!"))
 
 /*
 
@@ -192,7 +206,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	invoke_damage = 30
 	can_be_scribed = FALSE
 
-/obj/effect/rune/malformed/Initialize(mapload, set_keyword)
+/obj/effect/rune/malformed/Initialize(mapload, set_keyword, datum/team/cult/cult)
 	. = ..()
 	icon_state = "[rand(1,7)]"
 	color = rgb(rand(0,255), rand(0,255), rand(0,255))
@@ -235,8 +249,8 @@ structure_check() searches for nearby cultist structures required for the invoca
 
 	var/mob/living/F = invokers[1]
 	var/datum/antagonist/cult/C = F.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
-	var/datum/team/cult/Cult_team = C.cult_team
-	var/is_convertable = is_convertable_to_cult(L,C.cult_team)
+	var/datum/team/cult/Cult_team = C.get_team()
+	var/is_convertable = is_convertable_to_cult(L, Cult_team)
 	if(L.stat != DEAD && is_convertable)
 		invocation = "Mah'weyh pleggh at e'ntrath!"
 		..()
@@ -379,65 +393,45 @@ structure_check() searches for nearby cultist structures required for the invoca
 	var/obj/effect/temp_visual/cult/portal/inner_portal //The portal "hint" for off-station teleportations
 	var/obj/effect/temp_visual/cult/rune_spawn/rune2/outer_portal
 	var/listkey
+	var/datum/weakref/cult_owner_ref
 
 
-/obj/effect/rune/teleport/Initialize(mapload, set_keyword)
+/obj/effect/rune/teleport/Initialize(mapload, set_keyword, datum/team/cult/cult)
 	. = ..()
-	var/area/A = get_area(src)
-	var/locname = initial(A.name)
-	listkey = set_keyword ? "[set_keyword] [locname]":"[locname]"
-	LAZYADD(GLOB.teleport_runes, src)
+	var/area/rune_area = get_area(src)
+	var/locname = initial(rune_area.name)
+	listkey = set_keyword ? "[set_keyword] [locname]" : "[locname]"
+	if(cult)
+		cult.teleport_runes += src
+		cult_owner_ref = WEAKREF(cult)
+	else
+		LAZYADD(GLOB.stray_teleport_runes, src)
 
 /obj/effect/rune/teleport/Destroy()
-	LAZYREMOVE(GLOB.teleport_runes, src)
-	if(inner_portal)
-		QDEL_NULL(inner_portal)
-	if(outer_portal)
-		QDEL_NULL(outer_portal)
+	var/datum/team/cult/cult = cult_owner_ref?.resolve()
+	cult?.teleport_runes -= src
+	LAZYREMOVE(GLOB.stray_teleport_runes, src)
+	QDEL_NULL(inner_portal)
+	QDEL_NULL(outer_portal)
 	return ..()
 
 /obj/effect/rune/teleport/invoke(list/invokers)
 	var/mob/living/user = invokers[1] //the first invoker is always the user
-	var/list/potential_runes = list()
-	var/list/teleportnames = list()
-	for(var/obj/effect/rune/teleport/teleport_rune as anything in GLOB.teleport_runes)
-		if(teleport_rune != src && !is_away_level(teleport_rune.z))
-			potential_runes[avoid_assoc_duplicate_keys(teleport_rune.listkey, teleportnames)] = teleport_rune
+	var/datum/antagonist/cultist = user.mind.has_antag_datum(/datum/antagonist/cult)
+	var/datum/team/cult/cult_team = cultist.get_team()
 
-	if(!length(potential_runes))
-		to_chat(user, span_warning("There are no valid runes to teleport to!"))
-		log_game("Teleport rune activated by [user] at [COORD(src)] failed - no other teleport runes.")
+	var/obj/effect/rune/teleport/actual_selected_rune = cult_team.select_teleport_rune(user)
+	if(QDELETED(src) || QDELETED(user) || QDELETED(actual_selected_rune) || QDELETED(cultist))
 		fail_invoke()
 		return
-
-	var/turf/T = get_turf(src)
-	if(is_away_level(T.z))
-		to_chat(user, "<span class='cult italic'>You are not in the right dimension!</span>")
-		log_game("Teleport rune activated by [user] at [COORD(src)] failed - [user] is in away mission.")
+	if(!Adjacent(user))
 		fail_invoke()
 		return
 
-	var/input_rune_key = tgui_input_list(user, "Rune to teleport to", "Teleportation Target", potential_runes) //we know what key they picked
-	if(isnull(input_rune_key))
-		return
-	if(isnull(potential_runes[input_rune_key]))
-		fail_invoke()
-		return
-	var/obj/effect/rune/teleport/actual_selected_rune = potential_runes[input_rune_key] //what rune does that key correspond to?
-	if(!Adjacent(user) || !src || QDELETED(src) || user.incapacitated() || !actual_selected_rune)
-		fail_invoke()
-		return
-
-	var/turf/target = get_turf(actual_selected_rune)
-	if(target.is_blocked_turf(TRUE))
-		to_chat(user, span_warning("The target rune is blocked. Attempting to teleport to it would be massively unwise."))
-		log_game("Teleport rune activated by [user] at [COORD(src)] failed - destination blocked.")
-		fail_invoke()
-		return
 	var/movedsomething = FALSE
 	var/moveuserlater = FALSE
 	var/movesuccess = FALSE
-	for(var/atom/movable/A in T)
+	for(var/atom/movable/A in get_turf(src))
 		if(istype(A, /obj/effect/dummy/phased_mob))
 			continue
 		if(ismob(A))
@@ -518,7 +512,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	///Has the rune been used already?
 	var/used = FALSE
 
-/obj/effect/rune/narsie/Initialize(mapload, set_keyword)
+/obj/effect/rune/narsie/Initialize(mapload, set_keyword, datum/team/cult/cult)
 	. = ..()
 	SSpoints_of_interest.make_point_of_interest(src)
 
@@ -813,10 +807,6 @@ structure_check() searches for nearby cultist structures required for the invoca
 	var/mob/living/affecting = null
 	var/ghost_limit = 3
 	var/ghosts = 0
-
-/obj/effect/rune/manifest/Initialize(mapload)
-	. = ..()
-
 
 /obj/effect/rune/manifest/can_invoke(mob/living/user)
 	if(!(user in get_turf(src)))

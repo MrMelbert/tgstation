@@ -324,7 +324,7 @@
 		)
 
 	cleanup_shields()
-	var/obj/effect/rune/made_rune = new rune_to_scribe(our_turf, chosen_keyword)
+	var/obj/effect/rune/made_rune = new rune_to_scribe(our_turf, chosen_keyword, user_team)
 	made_rune.add_mob_blood(cultist)
 
 	to_chat(cultist, span_cult("The [lowertext(made_rune.cultist_name)] rune [made_rune.cultist_desc]"))

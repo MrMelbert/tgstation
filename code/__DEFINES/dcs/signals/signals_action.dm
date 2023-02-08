@@ -14,6 +14,8 @@
 #define COMSIG_MOB_REMOVED_ACTION "mob_action_removed"
 /// From /datum/action/apply_button_overlay()
 #define COMSIG_ACTION_OVERLAY_APPLY "action_overlay_applied"
+/// From /datum/action/update_button_name()
+#define COMSIG_ACTION_BUTTON_NAME_UPDATE "action_name_update"
 
 // Cooldown action signals
 

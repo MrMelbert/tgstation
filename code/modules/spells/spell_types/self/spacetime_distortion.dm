@@ -57,7 +57,7 @@
 		LAZYADD(effects, effect_a)
 		LAZYADD(effects, effect_b)
 
-/datum/action/cooldown/spell/spacetime_dist/after_cast()
+/datum/action/cooldown/spell/spacetime_dist/after_cast(atom/cast_on)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(clean_turfs)), duration)
 

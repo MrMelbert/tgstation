@@ -16,7 +16,7 @@
 
 /// Smite is pretty extravagant, so whenever we get casted, we blind everyone nearby.
 /datum/action/cooldown/spell/touch/smite/proc/blind_everyone_nearby(mob/living/victim, atom/center)
-	do_sparks(sparks_amt, FALSE, get_turf(victim))
+	// do_sparks(sparks_amt, FALSE, get_turf(victim)) // Melbert todo - this may not be necessary any more.
 	for(var/mob/living/nearby_spectator in view(center, 7))
 		if(nearby_spectator == center)
 			continue

@@ -204,6 +204,7 @@
 
 	realappearance = new /obj/effect/cult_turf(src)
 	realappearance.linked = src
+	RegisterSignal(src, COMSIG_ATOM_CULT_VEILED, PROC_REF(on_veil))
 
 /turf/open/floor/engine/cult/Destroy()
 	be_removed()
@@ -213,6 +214,18 @@
 	if(path != type)
 		be_removed()
 	return ..()
+
+/// Signal proc for [COMSIG_ATOM_CULT_VEILED], either makes the appearance tied to it invisible (0 alpha) or visible. Looks like plating underneath.
+/turf/open/floor/engine/cult/proc/on_veil(datum/source, revealing, atom/caster)
+	SIGNAL_HANDLER
+
+	if(!realappearance)
+		return
+
+	if(revealing)
+		realappearance.alpha = initial(realappearance.alpha)
+	else
+		realappearance.alpha = 0
 
 /turf/open/floor/engine/cult/proc/be_removed()
 	QDEL_NULL(realappearance)

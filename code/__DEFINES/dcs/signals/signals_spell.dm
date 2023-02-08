@@ -13,6 +13,8 @@
 	#define SPELL_NO_FEEDBACK (1 << 1)
 	/// Return from before cast signals to prevent the spell from going on cooldown before aftercast.
 	#define SPELL_NO_IMMEDIATE_COOLDOWN (1 << 2)
+	/// Return from before cast signals to prevent the spell's aftercast, but not the spell's main cast
+	#define SPELL_CANCEL_AFTER_CAST (1 << 3)
 
 /// Sent from /datum/action/cooldown/spell/set_click_ability() to the caster: (datum/action/cooldown/spell/spell)
 #define COMSIG_MOB_SPELL_ACTIVATED "mob_spell_active"
@@ -81,6 +83,9 @@
 
 /// Sent from /datum/action/cooldown/spell/aoe/knock/cast(), to every nearby turf (for connect loc): (datum/action/cooldown/spell/aoe/knock/spell, mob/living/caster)
 #define COMSIG_ATOM_MAGICALLY_UNLOCKED "atom_magic_unlock"
+
+/// Sent from /datum/action/cooldown/spell/aoe/veiling/cast(), to every nearby turf (for connect loc): (datum/action/cooldown/spell/aoe/veiling/spell, revealing, mob/living/caster)
+#define COMSIG_ATOM_CULT_VEILED "atom_cult_veil"
 
 // Instant Summons
 /// Sent from /datum/action/cooldown/spell/summonitem/cast(), to the item being marked for recall: (datum/action/cooldown/spell/spell, mob/user)
