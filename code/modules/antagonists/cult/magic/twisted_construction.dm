@@ -20,7 +20,7 @@
 
 /datum/action/cooldown/spell/touch/twisted_construction/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/blood_spell, charges = 1, health_cost = 12)
+	AddComponent(/datum/component/charge_spell/blood_spell, charges = 1, health_cost = 12)
 
 /datum/action/cooldown/spell/touch/twisted_construction/can_cast_spell(feedback)
 	return ..() && IS_CULTIST(owner)
@@ -44,11 +44,11 @@
 
 	var/list/possibilities = list(
 		"- Plasteel sheets into Runed metal",
-		"- [iron_required_for_shell] iron sheets into a Construct shell,",
-		"- Living cyborgs into Constructs, after a delay,"
-		"- Cyborg shells into Construct shells,"
-		"- Purified soulstones (and any shades inside) into Corrupted soulstones,"
-		"- Airlocks into brittle Runed airlocks, after a delay,"
+		"- [iron_required_for_shell] iron sheets into a Construct shell",
+		"- Living cyborgs into Constructs, after a delay",
+		"- Cyborg shells into Construct shells",
+		"- Purified soulstones (and any shades inside) into Corrupted soulstones",
+		"- Airlocks into brittle Runed airlocks, after a delay",
 	)
 
 	examine_list += span_cultbold("<u>A sinister spell used to convert:</u>")
@@ -58,6 +58,8 @@
 	if(DOING_INTERACTION(caster, DOAFTER_KEY_TWISTED_CONSTRUCT))
 		victim.balloon_alert(caster, "already channeling!")
 		return FALSE
+
+	// melbert todo: split all of these off into their own functions, this is nasty-ish
 
 	var/turf/result_turf = get_turf(victim)
 	// -- Iron to shells --
@@ -106,11 +108,11 @@
 		playsound(result_turf, 'sound/machines/airlockforced.ogg', 50, TRUE)
 		do_sparks(5, TRUE, victim)
 		victim.balloon_alert(caster, "converting airlock...")
-		if(!do_after(user, 5 SECONDS, victim, interaction_key = DOAFTER_KEY_TWISTED_CONSTRUCT))
-			candidate.balloon_alert(caster, "interrupted!")
+		if(!do_after(caster, 5 SECONDS, victim, interaction_key = DOAFTER_KEY_TWISTED_CONSTRUCT))
+			victim.balloon_alert(caster, "interrupted!")
 			return FALSE
 
-		caster.visible_message(span_warning("Black ribbons emanate from [user]'s hand and cling to [victim] - twisting and corrupting it!"))
+		caster.visible_message(span_warning("Black ribbons emanate from [caster]'s hand and cling to [victim] - twisting and corrupting it!"))
 		victim.narsie_act()
 		result_turf.balloon_alert(caster, "conversion complete")
 		SEND_SOUND(user, sound('sound/effects/magic.ogg', 0, 1, 25))
@@ -127,25 +129,25 @@
 			qdel(candidate)
 			return TRUE
 
-		user.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [candidate]!"))
+		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [candidate]!"))
 		candidate.balloon_alert(caster, "converting to construct...")
 		playsound(result_turf, 'sound/machines/airlock_alien_prying.ogg', 80, TRUE)
 		var/prev_color = candidate.color
 		candidate.color = "black"
 		var/datum/callback/checks = CALLBACK(src, PROC_REF(construct_interaction_check), hand, victim, caster)
-		if(!do_after(user, 9 SECONDS, candidate, extra_checks = checks))
+		if(!do_after(caster, 9 SECONDS, candidate, extra_checks = checks))
 			candidate.color = prev_color
 			candidate.balloon_alert(caster, "interrupted!")
 			return FALSE
 
 		candidate.undeploy()
 		candidate.emp_act(EMP_HEAVY)
-		var/construct_class = show_radial_menu(user, src, GLOB.construct_radial_images, custom_check = checks, require_near = TRUE, tooltips = TRUE)
+		var/construct_class = show_radial_menu(caster, src, GLOB.construct_radial_images, custom_check = checks, require_near = TRUE, tooltips = TRUE)
 		if(!construct_class)
 			return FALSE
 
 		candidate.grab_ghost()
-		log_combat(user, candidate, "converted from silicon to construct via [src]")
+		log_combat(caster, candidate, "converted from silicon to construct via [src]")
 		caster.visible_message(span_danger("The dark cloud recedes from what was formerly [candidate], revealing \a [construct_class]!"))
 		result_turf.balloon_alert(caster, "conversion complete")
 		make_new_construct_from_class(construct_class, THEME_CULT, candidate, caster, FALSE, result_turf)
@@ -154,7 +156,7 @@
 		return TRUE
 
 	victim.balloon_alert(caster, "invalid target!")
-	return fALSE
+	return FALSE
 
 /datum/action/cooldown/spell/touch/twisted_construction/proc/construct_interaction_check(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
 	if(QDELETED(src) || QDELETED(caster) || QDELETED(victim) || QDELETED(hand))

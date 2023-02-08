@@ -15,7 +15,7 @@
 
 /datum/action/cooldown/spell/touch/cult_teleport/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/blood_spell, charges = 1, health_cost = 7)
+	AddComponent(/datum/component/charge_spell/blood_spell, charges = 1, health_cost = 7)
 
 /datum/action/cooldown/spell/touch/cult_teleport/can_cast_spell(feedback)
 	. = ..()

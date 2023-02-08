@@ -10,15 +10,10 @@
 #define RUNE_COLOR_SUMMON "#00FF00"
 
 //blood magic
-#define MAX_BLOODCHARGE 4
-#define RUNELESS_MAX_BLOODCHARGE 1
 /// percent before rise
 #define CULT_RISEN 0.2
 /// percent before ascend
 #define CULT_ASCENDENT 0.4
-#define BLOOD_HALBERD_COST 150
-#define BLOOD_BARRAGE_COST 300
-#define BLOOD_BEAM_COST 500
 //screen locations
 #define DEFAULT_BLOODSPELLS "6:-29,4:-2"
 #define DEFAULT_BLOODTIP "14:6,14:27"
@@ -42,3 +37,17 @@ GLOBAL_DATUM(cult_narsie, /obj/narsie)
 #define CULT_VICTORY_MASS_CONVERSION 2
 #define CULT_FAILURE_NARSIE_KILLED 1
 #define CULT_VICTORY_NUKE 0
+
+/// Global list of all cult spells typepaths a blood cultist can carve and learn.
+GLOBAL_LIST_INIT(cult_spell_types, list(
+	/datum/action/cooldown/spell/aoe/veiling,
+	/datum/action/cooldown/spell/emp/cult,
+	/datum/action/cooldown/spell/pointed/horrors,
+	/datum/action/cooldown/spell/summon_cult_dagger,
+	/datum/action/cooldown/spell/touch/blood_rites,
+	/datum/action/cooldown/spell/touch/cult_armor,
+	/datum/action/cooldown/spell/touch/cult_shackles,
+	/datum/action/cooldown/spell/touch/cult_stun,
+	/datum/action/cooldown/spell/touch/cult_teleport,
+	/datum/action/cooldown/spell/touch/twisted_construction,
+))

@@ -16,7 +16,7 @@
 
 /datum/action/cooldown/spell/pointed/horrors/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/blood_spell, charges = 4, health_cost = 0)
+	AddComponent(/datum/component/charge_spell, charges = 4)
 
 /datum/action/cooldown/spell/pointed/horrors/can_cast_spell(feedback)
 	return ..() && IS_CULTIST(owner)

@@ -77,7 +77,7 @@
 		vote = new(src)
 	communion = new(src)
 	// cult magic
-	magic_holder = new(src)
+	magic_holder = new(current)
 
 /datum/antagonist/cult/on_removal()
 	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)

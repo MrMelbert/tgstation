@@ -1,47 +1,54 @@
 #define REMOVE_SPELL_KEY "(REMOVE SPELL)"
 
+/**
+ * ## Cult magic holder datum
+ *
+ * This datum holds a cultist's blood magic.
+ * Every cultist has one of these, and they can use it to gain spells to use on their mission.
+ *
+ * When this datum is deleted, all associated spells will vanish as well.
+ */
 /datum/cult_magic_holder
-	var/datum/antagonist/cult/linked_cultist
-	var/datum/action/spell_creator
-
-	var/unempowered_spell_limit = RUNELESS_MAX_BLOODCHARGE
-	var/empowered_spell_limit = MAX_BLOODCHARGE
+	/// This is the core action that lets the cultist create spells.
+	var/datum/action/cult_spell_creator/spell_creator
+	/// A list to all the spell datums we've created for this cultist.
+	/// All fully deleted when this datum holder is deleted.
 	var/list/datum/action/cooldown/spell/spells = list()
-
+	/// When unempowered or unaided, the cultist can only invoke this many spells at once.
+	var/unempowered_spell_limit = 1
+	/// When empowered, the cultist can invoke up to this many spells at once.
+	var/empowered_spell_limit = 4
+	/// A static-ish list of all spell types the spell creator can make for this cultist.
+	/// Generated via [/datum/cult_magic_holder/proc/setup_spell_types].
 	var/list/possible_spell_types
 
-/datum/cult_magic_holder/New(datum/antagonist/cult/linked_cultist)
+/datum/cult_magic_holder/New(mob/living/linked_cultist)
 	spell_creator = new(src)
 	setup_spell_types()
 	if(linked_cultist)
-		link_to_cultist(linked_cultist)
+		give_to_cultist(linked_cultist)
 
+/// Set up the [possible_spell_types] list.
+/// Contains all spell types the cultist can invoke.
 /datum/cult_magic_holder/proc/setup_spell_types()
-	var/static/list/blood_cult_spells
-	if(!blood_cult_spells)
-		blood_cult_spells = list(
+	possible_spell_types = GLOB.cult_spell_types
 
-		)
-
-	possible_spell_types = blood_cult_spells
-
-/datum/cult_magic_holder/proc/link_to_cultist(datum/antagonist/cult/linked_cultist)
-	src.linked_cultist = linked_cultist
-
-	var/mob/living/cultist = linked_cultist.owner.current
+/// Gives the passed cultist the creator action and all spells learned.
+/datum/cult_magic_holder/proc/give_to_cultist(mob/living/cultist)
 	spell_creator.Grant(cultist)
 	for(var/datum/action/cooldown/spell/spell as anything in spells)
 		spell.Grant(cultist)
 
 	position_spells()
 
+/// Handles re-aligning and slotting in all the spells into a neat bar in the middle-bottom of the screen, rather than by the top left.
 /datum/cult_magic_holder/proc/position_spells()
 	for(var/datum/hud/hud as anything in spell_creator.viewers)
 		var/our_view = hud.mymob?.client?.view || "15x15"
 		var/atom/movable/screen/movable/action_button/button = spell_creator.viewers[hud]
 		var/position = screen_loc_to_offset(button.screen_loc)
 		var/spells_iterated = 0
-		for(var/datum/action/innate/cult/blood_spell/blood_spell in spells)
+		for(var/datum/action/cooldown/spell/blood_spell as anything in spells)
 			spells_iterated += 1
 			// if(blood_spell.positioned)
 			// 	continue
@@ -52,6 +59,12 @@
 			hud.position_action(moving_button, offset_to_screen_loc(our_x, position[2], our_view))
 			// blood_spell.positioned = TRUE
 
+/**
+ * Wrapper for adding a new spell to the spells list.
+ *
+ * * spell_type - typepath spell being added
+ * * give_to - who is learning it
+ */
 /datum/cult_magic_holder/proc/add_new_spell(datum/action/cooldown/spell/spell_type, mob/living/give_to)
 	var/datum/action/cooldown/spell/new_spell = new spell_type(src)
 	new_spell.Grant(give_to)
@@ -59,6 +72,7 @@
 	position_spells()
 	RegisterSignal(new_spell, COMSIG_PARENT_QDELETING, PROC_REF(clear_spell_ref))
 
+/// Signal proc to clean up references when spell datums are deleted
 /datum/cult_magic_holder/proc/clear_spell_ref(datum/source)
 	SIGNAL_HANDLER
 	spells -= source
@@ -66,10 +80,10 @@
 /datum/cult_magic_holder/Destroy()
 	QDEL_LIST(spells)
 	QDEL_NULL(spell_creator)
-	linked_cultist = null
 	return ..()
 
-/datum/action/cult_spell_creator
+/// Simple action that allows a player to prepare a cult spell for their cult magic holder
+/datum/action/cult_spell_creator // melbert todo: needs cult subtype shit
 	name = "Prepare Blood Magic"
 	button_icon_state = "carve"
 	desc = "Prepare blood magic by carving runes into your flesh. This is easier with an <b>empowering rune</b>."
@@ -189,3 +203,5 @@
 	// using in hand (attack self-ing) is a quick way to cast it on yourself.
 	// any other interactions (like attack hand-ing) will also work if the flags are set.
 	melee_attack_chain(user, user)
+
+#undef REMOVE_SPELL_KEY

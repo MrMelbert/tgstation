@@ -14,7 +14,7 @@
 
 /datum/action/cooldown/spell/touch/cult_armor/New(Target, original)
 	. = ..()
-	AddComponent(/datum/component/blood_spell, charges = 1, health_cost = 0)
+	AddComponent(/datum/component/charge_spell, charges = 1)
 
 /datum/action/cooldown/spell/touch/cult_armor/can_cast_spell(feedback)
 	return ..() && IS_CULTIST(owner)

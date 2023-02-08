@@ -1,43 +1,87 @@
-/datum/component/blood_spell
-	var/charges = 1
-	var/health_cost = 0
-	var/base_desc
+/**
+ * Simple spell action component that transforms it from a cooldown-based system to a charge based system.
+ */
+/datum/component/charge_spell
+	/// The decription of the blood spell unmodified, used for updating with charges remaining
+	VAR_FINAL/base_desc
 
-/datum/component/blood_spell/Initialize(charges = 1, health_cost = 0)
+	/// How many charges we have currently
+	var/charges = 1
+	/// How many charges is used per cast
+	var/per_cast_cost = 1
+
+/datum/component/charge_spell/Initialize(charges = 1, per_cast_cost = 1)
 	if(!istype(parent, /datum/action/cooldown/spell))
 		return COMPONENT_INCOMPATIBLE
 
 	var/datum/action/cooldown/spell/real_parent = parent
+
 	src.charges = charges
 	src.health_cost = health_cost
+	src.per_cast_cost = per_cast_cost
 	src.base_desc = real_parent.desc
 
-/datum/component/blood_spell/RegisterWithParent()
+	real_parent.cooldown_time = 0 SECONDS
+
+/datum/component/charge_spell/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_SPELL_AFTER_CAST, PROC_REF(after_spell_cast))
 	RegisterSignal(parent, COMSIG_ACTION_BUTTON_NAME_UPDATE, PROC_REF(update_description))
+	RegisterSignal(parent, COMSIG_SPELL_CAST_RESET, PROC_REF(reset_charge))
 
 	var/datum/action/cooldown/spell/real_parent = parent
 	real_parent.build_all_button_icons(UPDATE_BUTTON_NAME)
 
-/datum/component/blood_spell/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_SPELL_AFTER_CAST, COMSIG_ACTION_BUTTON_NAME_UPDATE))
+/datum/component/charge_spell/UnregisterFromParent()
+	UnregisterSignal(parent, list(COMSIG_SPELL_AFTER_CAST, COMSIG_ACTION_BUTTON_NAME_UPDATE, COMSIG_SPELL_CAST_RESET))
 
-/datum/component/blood_spell/proc/after_spell_cast(datum/action/cooldown/spell/source)
+/// Signal proc for [COMSIG_SPELL_AFTER_CAST].
+/// After cast, consume a charge. If no charges remain, delete the parent.
+/datum/component/charge_spell/proc/after_spell_cast(datum/action/cooldown/spell/source)
 	SIGNAL_HANDLER
 
-	if(isliving(source.owner) && health_cost)
-		var/mob/living/caster = source.owner
-		var/lefthand_cast = (caster.active_hand_index % 2 == 0)
-		caster.apply_damage(health_cost, BRUTE, lefthand_cast ? BODY_ZONE_L_ARM : BODY_ZONE_R_ARM, wound_bonus = CANT_WOUND)
-
-	charges--
+	charges -= per_cast_cost
 	if(charges <= 0)
+		// This can later be expanded with the option to regenerate over time
+		// rather than self-delete. But someone else can do that.
 		qdel(parent)
 		return
 
 	source.build_all_button_icons(UPDATE_BUTTON_NAME)
 
-/datum/component/blood_spell/proc/update_description(datum/action/cooldown/spell/source, atom/movable/screen/movable/action_button/button, force = FALSE)
+/// Signal proc for [COMSIG_ACTION_BUTTON_NAME_UPDATE].
+/// Update our button description with the number of charges remaining.
+/datum/component/charge_spell/proc/update_description(datum/action/cooldown/spell/source, atom/movable/screen/movable/action_button/button, force = FALSE)
 	SIGNAL_HANDLER
 
 	button.desc = "[base_desc]<br><b><u>Has [charges] use\s remaining</u></b>."
+
+/// Signal proc for [COMSIG_SPELL_CAST_RESET].
+/// If we get reset, give us our charges back. (Unfortunately you can't reset it, if it's been deleted.)
+/datum/component/charge_spell/proc/reset_charge(datum/action/cooldown/spell/source)
+	SIGNAL_HANDLER
+
+	charges += per_cast_cost
+
+/**
+ * Subtype of the charge spell component (I know) that turns puts a culty twist on it.
+ *
+ * When a charge is depleted, we will also apply damage to the caster's active hand
+ */
+/datum/component/charge_spell/blood_spell
+	/// How much brute damage is applied when a charge is spent / the spell is cast?
+	var/health_cost = 5
+
+/datum/component/charge_spell/blood_spell/Initialize(charges = 1, per_cast_cost = 1, health_cost = 5)
+	. = ..()
+	if(. == COMPONENT_INCOMPATIBLE)
+		return
+
+	src.health_cost = health_cost
+
+/datum/component/charge_spell/blood_spell/after_spell_cast(datum/action/cooldown/spell/source)
+	if(isliving(source.owner) && health_cost)
+		var/mob/living/caster = source.owner
+		var/lefthand_cast = (caster.active_hand_index % 2 == 0)
+		caster.apply_damage(health_cost, BRUTE, lefthand_cast ? BODY_ZONE_L_ARM : BODY_ZONE_R_ARM, wound_bonus = CANT_WOUND)
+
+	return ..()

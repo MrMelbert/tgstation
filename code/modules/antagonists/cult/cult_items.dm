@@ -742,7 +742,7 @@ Striking a noncultist, however, will tear their flesh."}
 		return FALSE
 
 /datum/action/innate/cult/halberd
-	name = "Bloody Bond"
+	name = "Bloody Bond" // melbert todo: generalize this, then subtype it
 	desc = "Call the bloody halberd back to your hand!"
 	background_icon_state = "bg_demon"
 	overlay_icon_state = "bg_demon_border"
