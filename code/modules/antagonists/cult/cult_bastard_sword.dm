@@ -22,7 +22,6 @@
 	righthand_file = 'icons/mob/inhands/64x64_righthand.dmi'
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	actions_types = list()
 	item_flags = SLOWS_WHILE_IN_HAND
 	///if we are using our attack_self ability
 	var/spinning = FALSE

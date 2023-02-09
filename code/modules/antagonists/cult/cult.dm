@@ -19,7 +19,7 @@
 	/// Action that allows for our cultists to communicate with one another
 	var/datum/action/innate/cult/comm/communion
 	/// Action that allows for a cult to pronounce themselves as leader
-	var/datum/action/innate/cult/mastervote/vote
+	var/datum/action/cult/mastervote/vote
 
 	/// If TRUE, mindshielded people can gain this cult datum
 	var/ignore_implant = FALSE
@@ -95,6 +95,7 @@
 	if(cult_team.blood_target && cult_team.blood_target_image && owner.current.client)
 		owner.current.client.images -= cult_team.blood_target_image
 
+	QDEL_NULL(magic_holder)
 	return ..()
 
 /datum/antagonist/cult/get_preview_icon()

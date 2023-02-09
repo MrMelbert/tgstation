@@ -24,14 +24,14 @@
 
 /datum/cult_magic_holder/New(mob/living/linked_cultist)
 	spell_creator = new(src)
-	setup_spell_types()
+	possible_spell_types = setup_spell_types()
 	if(linked_cultist)
 		give_to_cultist(linked_cultist)
 
 /// Set up the [possible_spell_types] list.
 /// Contains all spell types the cultist can invoke.
 /datum/cult_magic_holder/proc/setup_spell_types()
-	possible_spell_types = GLOB.cult_spell_types
+	return GLOB.cult_spell_types
 
 /// Gives the passed cultist the creator action and all spells learned.
 /datum/cult_magic_holder/proc/give_to_cultist(mob/living/cultist)

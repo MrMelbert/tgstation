@@ -446,7 +446,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		fail_invoke()
 		return
 
-	var/turf/start_turf = get_turf(serc)
+	var/turf/start_turf = get_turf(src)
 	var/turf/end_turf = get_turf(actual_selected_rune)
 	var/movedsomething = FALSE
 	var/moveuserlater = FALSE

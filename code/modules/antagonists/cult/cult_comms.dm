@@ -1,21 +1,5 @@
 // Contains cult communion, guide, and cult master abilities
 
-/*
-/datum/action/innate/cult
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-
-	buttontooltipstyle = "cult"
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	ranged_mousepointer = 'icons/effects/mouse_pointers/cult_target.dmi'
-
-/datum/action/innate/cult/IsAvailable(feedback = FALSE)
-	if(!IS_CULTIST(owner))
-		return FALSE
-	return ..()
-*/
-
 /datum/action/innate/cult/comm
 	name = "Communion"
 	desc = "Whispered words that all cultists can hear.<br><b>Warning:</b>Nearby non-cultists can still hear you."
@@ -88,79 +72,6 @@
 		else if(player_list in GLOB.dead_mob_list)
 			var/link = FOLLOW_LINK(player_list, user)
 			to_chat(player_list, "[link] [my_message]")
-
-/datum/action/innate/cult/mastervote
-	name = "Assert Leadership"
-	button_icon_state = "cultvote"
-
-/datum/action/innate/cult/mastervote/IsAvailable(feedback = FALSE)
-	var/datum/antagonist/cult/C = owner.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
-	if(!C || C.cult_team.cult_vote_called || !ishuman(owner))
-		return FALSE
-	return ..()
-
-/datum/action/innate/cult/mastervote/Activate()
-	var/choice = tgui_alert(owner, "The mantle of leadership is heavy. Success in this role requires an expert level of communication and experience. Are you sure?",, list("Yes", "No"))
-	if(choice == "Yes" && IsAvailable())
-		var/datum/antagonist/cult/C = owner.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
-		pollCultists(owner,C.cult_team)
-
-/proc/pollCultists(mob/living/Nominee,datum/team/cult/team) //Cult Master Poll
-	if(world.time < CULT_POLL_WAIT)
-		to_chat(Nominee, "It would be premature to select a leader while everyone is still settling in, try again in [DisplayTimeText(CULT_POLL_WAIT-world.time)].")
-		return
-	team.cult_vote_called = TRUE //somebody's trying to be a master, make sure we don't let anyone else try
-	for(var/datum/mind/B in team.members)
-		if(B.current)
-			B.current.update_mob_action_buttons()
-			if(!B.current.incapacitated())
-				SEND_SOUND(B.current, 'sound/hallucinations/im_here1.ogg')
-				to_chat(B.current, span_cultlarge("Acolyte [Nominee] has asserted that [Nominee.p_theyre()] worthy of leading the cult. A vote will be called shortly."))
-	sleep(10 SECONDS)
-	var/list/asked_cultists = list()
-	for(var/datum/mind/B in team.members)
-		if(B.current && B.current != Nominee && !B.current.incapacitated())
-			SEND_SOUND(B.current, 'sound/magic/exit_blood.ogg')
-			asked_cultists += B.current
-	var/list/yes_voters = poll_candidates("[Nominee] seeks to lead your cult, do you support [Nominee.p_them()]?", poll_time = 300, group = asked_cultists)
-	if(QDELETED(Nominee) || Nominee.incapacitated())
-		team.cult_vote_called = FALSE
-		for(var/datum/mind/B in team.members)
-			if(B.current)
-				B.current.update_mob_action_buttons()
-				if(!B.current.incapacitated())
-					to_chat(B.current,span_cultlarge("[Nominee] has died in the process of attempting to win the cult's support!"))
-		return FALSE
-	if(!Nominee.mind)
-		team.cult_vote_called = FALSE
-		for(var/datum/mind/B in team.members)
-			if(B.current)
-				B.current.update_mob_action_buttons()
-				if(!B.current.incapacitated())
-					to_chat(B.current,span_cultlarge("[Nominee] has gone catatonic in the process of attempting to win the cult's support!"))
-		return FALSE
-	if(LAZYLEN(yes_voters) <= LAZYLEN(asked_cultists) * 0.5)
-		team.cult_vote_called = FALSE
-		for(var/datum/mind/B in team.members)
-			if(B.current)
-				B.current.update_mob_action_buttons()
-				if(!B.current.incapacitated())
-					to_chat(B.current, span_cultlarge("[Nominee] could not win the cult's support and shall continue to serve as an acolyte."))
-		return FALSE
-	team.cult_master = Nominee
-	var/datum/antagonist/cult/cultist = Nominee.mind.has_antag_datum(/datum/antagonist/cult)
-	// melbert todo - transfer cult magic holder so spells don't vanish
-	if (cultist)
-		cultist.silent = TRUE
-		cultist.on_removal()
-	Nominee.mind.add_antag_datum(/datum/antagonist/cult/master)
-	for(var/datum/mind/B in team.members)
-		if(B.current)
-			for(var/datum/action/innate/cult/mastervote/vote in B.current.actions)
-				vote.Remove(B.current)
-			if(!B.current.incapacitated())
-				to_chat(B.current,span_cultlarge("[Nominee] has won the cult's support and is now their master. Follow [Nominee.p_their()] orders to the best of your ability!"))
-	return TRUE
 
 /datum/action/innate/cult/master/IsAvailable(feedback = FALSE)
 	if(!owner.mind || !owner.mind.has_antag_datum(/datum/antagonist/cult/master) || GLOB.cult_narsie)
