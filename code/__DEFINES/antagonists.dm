@@ -198,8 +198,15 @@ GLOBAL_LIST_INIT(ai_employers, list(
 
 #define UPLINK_THEME_UNDERWORLD_MARKET "neutral"
 
+/// Get the team of the mob with from the passed antag type
+#define GET_TEAM(mob, antag_type) (mob?.mind?.has_antag_datum(antag_type)?.get_team())
+
 /// Checks if the given mob is a blood cultist
 #define IS_CULTIST(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/cult))
+/// Checks if the given mob is a blood cultist
+#define IS_CULTIST_MASTER(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/cult/master))
+/// Quickie macro to get the cult team a mob belongs to
+#define GET_CULT_TEAM(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/cult)?.get_team())
 
 /// Checks if the given mob is a nuclear operative
 #define IS_NUKE_OP(mob) (mob?.mind?.has_antag_datum(/datum/antagonist/nukeop))

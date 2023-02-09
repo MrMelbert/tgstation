@@ -300,12 +300,10 @@
 		return FALSE
 
 	if(!forced)
-		var/datum/antagonist/cult/cultist = IS_CULTIST(user)
-		if(cultist)
-			var/datum/team/cult/cult_team = cultist.get_team()
-			if(victim.mind && cult_team.is_sacrifice_target(victim.mind))
-				to_chat(user, span_cult("<b>\"This soul is mine.</b></span> <span class='cultlarge'>SACRIFICE THEM!\""))
-				return FALSE
+		var/datum/team/cult/cult_team = GET_CULT_TEAM(user)
+		if(victim.mind && cult_team?.is_sacrifice_target(victim.mind))
+			to_chat(user, span_cult("<b>\"This soul is mine.</b></span> <span class='cultlarge'>SACRIFICE THEM!\""))
+			return FALSE
 
 		if(grab_sleeping ? victim.stat == CONSCIOUS : victim.stat != DEAD)
 			to_chat(user, "[span_userdanger("Capture failed!")]: Kill or maim the victim first!")

@@ -1,12 +1,8 @@
 /datum/action/cooldown/spell/touch/cult_teleport
 	name = "Teleport"
 	desc = "Will teleport a cultist to a teleport rune on contact."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "tele"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("tele", 'icons/mob/actions/actions_cult.dmi')
+
 	invocation = "Sas'so c'arta forbici!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS
@@ -23,8 +19,7 @@
 	. = ..()
 	if(!.)
 		return
-	var/datum/antagonist/cultist = IS_CULTIST(owner)
-	if(!cultist || !cultist.get_team()) // team required. for now.
+	if(!GET_CULT_TEAM(owner)) // team required. for now.
 		return FALSE
 
 	return TRUE
@@ -34,13 +29,12 @@
 	return istype(living_cast_on) && IS_CULTIST(living_cast_on)
 
 /datum/action/cooldown/spell/touch/cult_teleport/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster)
-	var/datum/antagonist/cultist = caster.mind.has_antag_datum(/datum/antagonist/cult)
-	var/datum/team/cult/cult_team = cultist.get_team()
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(caster)
 
 	var/obj/effect/rune/teleport/actual_selected_rune = cult_team.select_teleport_rune(caster)
-	if(QDELETED(src) || QDELETED(caster) || QDELETED(victim) || QDELETED(hand) || QDELETED(actual_selected_rune))
+	if(QDELETED(src) || QDELETED(victim) || QDELETED(hand) || QDELETED(actual_selected_rune))
 		return FALSE
-	if(!IsAvailable() || !caster.Adjacent(victim) || !IS_CULTIST(victim))
+	if(!IsAvailable() || !caster.Adjacent(victim) || !IS_CULTIST(victim) || !IS_CULTIST(caster))
 		return FALSE
 
 	var/turf/start_turf = get_turf(victim)

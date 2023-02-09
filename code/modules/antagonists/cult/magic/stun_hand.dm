@@ -1,12 +1,8 @@
 /datum/action/cooldown/spell/touch/cult_stun
 	name = "Stun"
 	desc = "Will stun and mute a weak-minded victim on contact."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "hand"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("hand", 'icons/mob/actions/actions_cult.dmi')
+
 	invocation = "Fuu ma'jin!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

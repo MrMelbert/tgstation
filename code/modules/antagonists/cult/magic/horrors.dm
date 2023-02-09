@@ -1,12 +1,7 @@
 /datum/action/cooldown/spell/pointed/horrors
 	name = "Hallucinations"
 	desc = "Gives hallucinations to a target at range. A silent and invisible spell."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "horror"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("horror", 'icons/mob/actions/actions_cult.dmi')
 	ranged_mousepointer = 'icons/effects/mouse_pointers/cult_target.dmi'
 
 	invocation_type = INVOCATION_NONE

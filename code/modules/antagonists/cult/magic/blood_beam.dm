@@ -3,12 +3,7 @@
 /datum/action/cooldown/spell/pointed/blood_beam
 	name = "Blood Beam"
 	desc = ""
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "manip"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("manip", 'icons/mob/actions/actions_cult.dmi')
 
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 20 SECONDS

@@ -248,8 +248,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	var/mob/living/L = pick(myriad_targets)
 
 	var/mob/living/F = invokers[1]
-	var/datum/antagonist/cult/C = F.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
-	var/datum/team/cult/Cult_team = C.get_team()
+	var/datum/team/cult/Cult_team = GET_CULT_TEAM(F)
 	var/is_convertable = is_convertable_to_cult(L, Cult_team)
 	if(L.stat != DEAD && is_convertable)
 		invocation = "Mah'weyh pleggh at e'ntrath!"
@@ -292,7 +291,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	convertee.mind.special_role = ROLE_CULTIST
 	convertee.Unconscious(10 SECONDS)
 	new /obj/item/melee/cultblade/dagger(get_turf(src))
-	to_chat(convertee, span_cultitalic("<b>Your blood pulses. Your head throbs. The world goes red. \
+	to_chat(convertee, span_cultboldtalic("Your blood pulses. Your head throbs. The world goes red. \
 		All at once you are aware of a horrible, horrible, truth. The veil of reality has been ripped away and something evil takes root."))
 	to_chat(convertee, span_cultitalic("Assist your new compatriots in their dark dealings. \
 		Your goal is theirs, and theirs is yours. You serve the Geometer above all else. Bring it back."))
@@ -321,10 +320,9 @@ structure_check() searches for nearby cultist structures required for the invoca
 	if(!first_invoker)
 		CRASH("Sacrifice rune do_sacrifice called with no invokers!")
 
-	var/datum/antagonist/cult/cultist = first_invoker.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
-	var/datum/team/cult/cult_team = cultist?.get_team()
-	if(!cultist || !cult_team)
-		CRASH("Sacrifice rune do_sacrifice called with invokers that [cultist ? "are not cultists" : "have no cult team"]!")
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(first_invoker)
+	if(!cult_team)
+		CRASH("Sacrifice rune do_sacrifice called without a cult team!")
 
 	var/big_sac = FALSE
 	var/humanoid_sacrifice = ishuman(sacrificial) || iscyborg(sacrificial)
@@ -435,11 +433,10 @@ structure_check() searches for nearby cultist structures required for the invoca
 
 /obj/effect/rune/teleport/invoke(list/invokers)
 	var/mob/living/user = invokers[1] //the first invoker is always the user
-	var/datum/antagonist/cultist = user.mind.has_antag_datum(/datum/antagonist/cult)
-	var/datum/team/cult/cult_team = cultist.get_team()
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(user)
 
 	var/obj/effect/rune/teleport/actual_selected_rune = cult_team.select_teleport_rune(user)
-	if(QDELETED(src) || QDELETED(user) || QDELETED(actual_selected_rune) || QDELETED(cultist))
+	if(QDELETED(src) || QDELETED(user) || QDELETED(actual_selected_rune) || !IS_CULTIST(user))
 		fail_invoke()
 		return
 	if(!Adjacent(user))
@@ -545,8 +542,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	if(!is_station_level(z))
 		return
 	var/mob/living/user = invokers[1]
-	var/datum/antagonist/cult/cultist = user.mind.has_antag_datum(/datum/antagonist/cult)
-	var/datum/team/cult/cult_team = cultist.get_team()
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(user)
 	var/area/place = get_area(src)
 	if(!(place in cult_team.ritual_sites))
 		to_chat(user, span_cultlarge("The Geometer can only be summoned where the veil is weak - in [english_list(cult_team.ritual_sites)]!"))
@@ -845,7 +841,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	var/choice = tgui_alert(user, "You tear open a connection to the spirit realm...", "Spirit Realm", list("Summon a Cult Ghost", "Ascend as a Dark Spirit"))
 	if(choice == "Summon a Cult Ghost")
 		if(!is_station_level(T.z))
-			to_chat(user, span_cultitalic("<b>The veil is not weak enough here to manifest spirits, you must be on station!</b>"))
+			to_chat(user, span_cultboldtalic("The veil is not weak enough here to manifest spirits, you must be on station!"))
 			return
 		if(ghosts >= ghost_limit)
 			to_chat(user, span_cultitalic("You are sustaining too many ghosts to summon more!"))
@@ -881,7 +877,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 		new_human.key = ghost_to_spawn.key
 		var/datum/antagonist/cult/created_cultist = new_human.mind?.add_antag_datum(/datum/antagonist/cult)
 		created_cultist?.silent = TRUE
-		to_chat(new_human, span_cultitalic("<b>You are a servant of the Geometer. You have been made semi-corporeal by the cult of Nar'Sie, and you are to serve them at all costs.</b>"))
+		to_chat(new_human, span_cultboldtalic("You are a servant of the Geometer. You have been made semi-corporeal by the cult of Nar'Sie, and you are to serve them at all costs."))
 
 		while(!QDELETED(src) && !QDELETED(user) && !QDELETED(new_human) && (user in T))
 			if(user.stat != CONSCIOUS || HAS_TRAIT(new_human, TRAIT_CRITICAL_CONDITION))
@@ -905,8 +901,8 @@ structure_check() searches for nearby cultist structures required for the invoca
 		affecting.visible_message(span_warning("[affecting] freezes statue-still, glowing an unearthly red."), \
 						span_cult("You see what lies beyond. All is revealed. In this form you find that your voice booms louder and you can mark targets for the entire cult"))
 		var/mob/dead/observer/G = affecting.ghostize(TRUE)
-		var/datum/action/innate/cult/comm/spirit/CM = new
-		var/datum/action/innate/cult/ghostmark/GM = new
+		var/datum/action/cooldown/spell/cult_commune/spirit/CM = new(G)
+		var/datum/action/cooldown/spell/ghostmark/GM = new(G)
 		G.name = "Dark Spirit of [G.name]"
 		G.color = "red"
 		CM.Grant(G)
@@ -925,8 +921,8 @@ structure_check() searches for nearby cultist structures required for the invoca
 				to_chat(G, span_cultitalic("Your body can no longer sustain the connection!"))
 				break
 			sleep(0.5 SECONDS)
-		CM.Remove(G)
-		GM.Remove(G)
+		QDEL_NULL(CM)
+		QDEL_NULL(GM)
 		affecting.remove_atom_colour(ADMIN_COLOUR_PRIORITY, RUNE_COLOR_DARKRED)
 		affecting.grab_ghost()
 		affecting = null
@@ -960,8 +956,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	. = ..()
 
 	var/mob/living/user = invokers[1]
-	var/datum/antagonist/cult/cultist = user.mind.has_antag_datum(/datum/antagonist/cult)
-	var/datum/team/cult/cult_team = cultist.get_team()
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(user0)
 	var/area/place = get_area(src)
 	if(length(cult_team.ritual_sites) <= 1)
 		to_chat(user, span_cultlarge("Only one ritual site remains - it must be reserved for the final summoning!"))

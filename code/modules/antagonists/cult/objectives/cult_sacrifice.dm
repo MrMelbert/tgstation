@@ -46,7 +46,7 @@
 		RegisterSignal(target.current, COMSIG_MOB_MIND_TRANSFERRED_INTO, PROC_REF(on_possible_mindswap))
 		cult.make_image(src)
 
-	for(var/datum/mind/mind as anthing in cult.members)
+	for(var/datum/mind/mind as anything in cult.members)
 		if(!isliving(mind.current))
 			continue
 

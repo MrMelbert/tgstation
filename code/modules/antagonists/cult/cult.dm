@@ -17,9 +17,9 @@
 	VAR_PROTECTED/datum/team/cult/cult_team
 
 	/// Action that allows for our cultists to communicate with one another
-	var/datum/action/innate/cult/comm/communion
+	var/datum/action/cooldown/spell/cult_commune/communion
 	/// Action that allows for a cult to pronounce themselves as leader
-	var/datum/action/cult/mastervote/vote
+	var/datum/action/cult_master_vote/vote
 
 	/// If TRUE, mindshielded people can gain this cult datum
 	var/ignore_implant = FALSE
@@ -219,8 +219,8 @@
 	ignore_implant = TRUE
 	show_in_antagpanel = FALSE //Feel free to add this later
 	antag_hud_name = "cultmaster"
-	var/datum/action/innate/cult/master/finalreck/reckoning
-	var/datum/action/innate/cult/master/cultmark/bloodmark
+	var/datum/action/cooldown/spell/final_reckoning/reckoning
+	var/datum/action/cooldown/spell/pointed/cultmark/bloodmark
 	var/datum/action/innate/cult/master/pulse/throwing
 
 /datum/antagonist/cult/master/on_gain()

@@ -1,9 +1,9 @@
 /datum/action/cooldown/spell/summon_cult_dagger
 	name = "Summon Ritual Dagger"
 	desc = "Allows you to summon a ritual dagger, in case you've lost the dagger that was given to you."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
+	DEFINE_CULT_ACTION("equip", 'icons/mob/actions/actions_cult.dmi')
+
 	invocation = "Wur d'dai leev'mai k'sagan!" //where did I leave my keys, again?
-	button_icon_state = "equip"
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
 

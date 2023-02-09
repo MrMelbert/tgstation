@@ -29,10 +29,10 @@
 	// Who are we lookin' for
 	var/atom/blood_target
 
-	var/datum/antagonist/cult/cultist = owner.mind.has_antag_datum(/datum/antagonist/cult)
-	if(!cultist)
-		CRASH("Blood sense on a non-cultist mob!")
-	var/datum/team/cult/cult_team = cultist.get_team()
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(owner)
+	if(!cult_team)
+		CRASH("Bloodsense on mob without a cult!")
+
 	var/datum/objective/sacrifice/sac_objective = locate() in cult_team.objectives
 
 	// We are a construct and we're looking for our master
@@ -42,7 +42,7 @@
 
 	// Cult has a set target and it's not in nullspace (???)
 	else if(cult_team.blood_target && get_turf(cult_team.blood_target))
-		blood_target = antag.cult_team.blood_target
+		blood_target = cult_team.blood_target
 
 	if(isnull(blood_target))
 		// No target and we need to sacrifice someone:

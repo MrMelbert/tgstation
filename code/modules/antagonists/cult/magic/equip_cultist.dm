@@ -1,12 +1,8 @@
 /datum/action/cooldown/spell/touch/cult_armor
 	name = "Summon Combat Equipment"
 	desc = "Will equip cult combat gear onto a cultist on contact."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "equip"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("equip", 'icons/mob/actions/actions_cult.dmi')
+
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE

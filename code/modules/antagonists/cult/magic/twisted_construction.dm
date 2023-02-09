@@ -5,12 +5,8 @@
 	desc = "Corrupts certain metallic and sanctimonious objects on contact. \
 		Includes Soulstones, Airlocks, Iron and Plasteel sheets, and Cyborgs. \
 		Examine your hand for more information."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "transmute"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("transmute", 'icons/mob/actions/actions_cult.dmi')
+
 	invocation = "Ethra p'ni dedol!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

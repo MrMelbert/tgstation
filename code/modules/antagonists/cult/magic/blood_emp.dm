@@ -1,10 +1,8 @@
 /datum/action/cooldown/spell/emp/cult
 	name = "Electromagnetic Pulse"
 	desc = "Emits a large electromagnetic pulse."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("emp", 'icons/mob/actions/actions_spells.dmi')
+
 	invocation = "Ta'gh fara'qha fel d'amar det!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

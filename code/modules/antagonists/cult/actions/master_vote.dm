@@ -1,27 +1,27 @@
-/datum/action/cult/mastervote
+/datum/action/cult_master_vote
 	name = "Assert Leadership"
-	button_icon_state = "cultvote"
+	DEFINE_CULT_ACTION("cultvote", 'icons/mob/actions/actions_cult.dmi')
+
 	/// Votes cannot be polled before this world time
 	var/min_allowed_world_time = 240 SECONDS
 
-/datum/action/cult/mastervote/IsAvailable(feedback = FALSE)
+/datum/action/cult_master_vote/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
 		return FALSE
 	if(!ishuman(owner))
 		return FALSE
-	var/datum/antagonist/cult/cutlist = target
-	var/datum/team/cult/cult_team = cutlist.get_team()
-	if(cult_team.cult_vote_called)
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(owner)
+	if(!cult_team || cult_team.cult_vote_called)
 		return FALSE
 	if(world.time < min_allowed_world_time)
 		if(feedback)
 			to_chat(owner, "It would be premature to select a leader while everyone is still settling in, \
-				try again in [DisplayTimeText(CULT_POLL_WAIT - world.time)].")
+				try again in [DisplayTimeText(min_allowed_world_time - world.time)].")
 		return FALSE
 	return TRUE
 
-/datum/action/cult/mastervote/Trigger(trigger_flags)
+/datum/action/cult_master_vote/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -30,13 +30,12 @@
 	if(choice != "Yes" || QDELETED(src) || QDELETED(owner) || !IsAvailable())
 		return
 
-	var/datum/antagonist/cult/cult = target
-	var/datum/team/cult/cult_team = cult.get_team()
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(owner)
 	cult_team.poll_cultists(owner)
 
 /// Cult Master poll
 /datum/team/cult/proc/poll_cultists(mob/living/nominee)
-	team.cult_vote_called = TRUE //somebody's trying to be a master, make sure we don't let anyone else try
+	cult_vote_called = TRUE //somebody's trying to be a master, make sure we don't let anyone else try
 	for(var/datum/mind/team_cultist as anything in members)
 		if(team_cultist.current?.incapacitated())
 			continue
@@ -47,8 +46,8 @@
 
 	var/nominee_name_in_case_of_delete = nominee.real_name
 	sleep(10 SECONDS)
-	if(QDELETED(nominee) || nominee.stat == DEAD || nominee.incapacitated || !nominee.mind || !IS_CULTIST(Nominee))
-		team.cult_vote_called = FALSE
+	if(QDELETED(nominee) || nominee.stat == DEAD || nominee.incapacitated() || !nominee.mind || !IS_CULTIST(nominee))
+		cult_vote_called = FALSE
 		for(var/datum/mind/team_cultist as anything in members)
 			if(team_cultist.current?.incapacitated())
 				continue
@@ -65,8 +64,8 @@
 		asked_cultists += team_cultist.current
 
 	var/list/yes_voters = poll_candidates("[nominee.real_name] seeks to lead your cult, do you support [nominee.p_them()]?", poll_time = 30 SECONDS, group = asked_cultists)
-	if(QDELETED(nominee) || nominee.stat == DEAD || nominee.incapacitated || !nominee.mind || !IS_CULTIST(Nominee))
-		team.cult_vote_called = FALSE
+	if(QDELETED(nominee) || nominee.stat == DEAD || nominee.incapacitated() || !nominee.mind || !IS_CULTIST(nominee))
+		cult_vote_called = FALSE
 		for(var/datum/mind/team_cultist as anything in members)
 			if(team_cultist.current?.incapacitated())
 				continue
@@ -76,7 +75,7 @@
 		return
 
 	if(LAZYLEN(yes_voters) <= LAZYLEN(asked_cultists) * 0.5)
-		team.cult_vote_called = FALSE
+		cult_vote_called = FALSE
 		for(var/datum/mind/team_cultist as anything in members)
 			if(team_cultist.current?.incapacitated())
 				continue
@@ -89,10 +88,10 @@
 	cult_master = nominee
 	var/datum/antagonist/cult/old_datum = nominee.mind.has_antag_datum(/datum/antagonist/cult)
 	var/datum/cult_magic_holder/old_holder
-	if (cultist)
+	if (old_datum)
 		// grab their holder so it doesn't get deleted
-		old_holder = old_datum.cult_magic_holder
-		old_datum.cult_magic_holder = null
+		old_holder = old_datum.magic_holder
+		old_datum.magic_holder = null
 		// remove their old datum silently
 		old_datum.silent = TRUE
 		old_datum.on_removal()
@@ -100,9 +99,9 @@
 	var/datum/antagonist/cult/master/new_datum = nominee.mind.add_antag_datum(/datum/antagonist/cult/master)
 	if(old_holder)
 		// get rid of that new lame one
-		QDEL_NULL(new_datum.cult_magic_holder)
+		QDEL_NULL(new_datum.magic_holder)
 		// pass in our old one and give them all their old spells back
-		new_datum.cult_magic_holder = old_holder
+		new_datum.magic_holder = old_holder
 		// old_holder.give_to_cultist(Nominee) // melbert todo, not necessary?
 
 	// -- Alert thec ult of their new master --

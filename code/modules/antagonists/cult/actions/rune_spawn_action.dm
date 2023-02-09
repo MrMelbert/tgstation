@@ -2,11 +2,7 @@
 /datum/action/cooldown/create_rune
 	name = "Summon Rune"
 	desc = "Summons a rune."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("telerune", 'icons/mob/actions/actions_cult.dmi')
 
 	cooldown_time = 3 MINUTES
 

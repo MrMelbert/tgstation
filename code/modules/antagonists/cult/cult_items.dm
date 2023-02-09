@@ -122,23 +122,6 @@ Striking a noncultist, however, will tear their flesh."}
 	if(!IS_CULTIST(user))
 		to_chat(user, span_cultlarge("\"I wouldn't advise that.\""))
 
-/datum/action/innate/dash/cult
-	name = "Rend the Veil"
-	desc = "Use the sword to shear open the flimsy fabric of this reality and teleport to your target."
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "phaseshift"
-	dash_sound = 'sound/magic/enter_blood.ogg'
-	recharge_sound = 'sound/magic/exit_blood.ogg'
-	beam_effect = "sendbeam"
-	phasein = /obj/effect/temp_visual/dir_setting/cult/phase
-	phaseout = /obj/effect/temp_visual/dir_setting/cult/phase/out
-
-/datum/action/innate/dash/cult/IsAvailable(feedback = FALSE)
-	if(IS_CULTIST(owner) && current_charges)
-		return TRUE
-	else
-		return FALSE
-
 /obj/item/restraints/legcuffs/bola/cult
 	name = "\improper Nar'Sien bola"
 	desc = "A strong bola, bound with dark magic that allows it to pass harmlessly through Nar'Sien cultists. Throw it to trip and slow your victim."

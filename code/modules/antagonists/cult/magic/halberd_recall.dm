@@ -1,12 +1,7 @@
 /datum/action/cooldown/spell/summonitem/cult_halberd
 	name = "Bloody Bond"
 	desc = "Call the bloody halberd back to your hand!"
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "bloodspear"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("bloodspear", 'icons/mob/actions/actions_cult.dmi')
 
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 2 SECONDS

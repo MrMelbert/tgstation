@@ -1,12 +1,7 @@
 /datum/action/cooldown/spell/aoe/veiling
 	name = "Conceal Presence"
 	desc = "Alternates between hiding and revealing nearby cult structures and runes."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "gone"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+	DEFINE_CULT_ACTION("gone", 'icons/mob/actions/actions_cult.dmi')
 
 	invocation = "Kla'atu barada nikt'o!"
 	invocation_type = INVOCATION_WHISPER
