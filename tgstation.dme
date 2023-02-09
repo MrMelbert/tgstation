@@ -2455,6 +2455,8 @@
 #include "code\modules\antagonists\cult\magic\summon_dagger.dm"
 #include "code\modules\antagonists\cult\magic\teleport_hand.dm"
 #include "code\modules\antagonists\cult\magic\twisted_construction.dm"
+#include "code\modules\antagonists\cult\objectives\cult_sacrifice.dm"
+#include "code\modules\antagonists\cult\objectives\cult_summon.dm"
 #include "code\modules\antagonists\disease\disease_abilities.dm"
 #include "code\modules\antagonists\disease\disease_datum.dm"
 #include "code\modules\antagonists\disease\disease_disease.dm"

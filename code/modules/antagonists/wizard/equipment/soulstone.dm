@@ -459,7 +459,17 @@
 	init_shade(victim, user, shade_controller = chosen_ghost)
 	return TRUE
 
-/proc/make_new_construct_from_class(construct_class, theme, mob/target, mob/creator, cultoverride, loc_override)
+
+/**
+ * Creates a "cult" construct based on a supplied class and theme
+ *
+ * * construct_class - [CONSTRUCT_JUGGERNAUT], [CONSTRUCT_WRAITH], or [CONSTRUCT_ARTIFICER]. The key of construct to make.
+ * * theme - [THEME_WIZARD], [THEME_HOLY], or [THEME_CULT]. The theme the new construct is.
+ * * target - the mob being turned into a construct
+ * * creator - optional, the mob who made target into a construct
+ * * loc_override - optional, where to make the construct. Defaults to the target's turf
+ */
+/proc/make_new_construct_from_class(construct_class, theme = THEME_CULT, mob/target, mob/creator, cultoverride, loc_override)
 	switch(construct_class)
 		if(CONSTRUCT_JUGGERNAUT)
 			if(IS_CULTIST(creator))
@@ -495,10 +505,19 @@
 				if(THEME_CULT)
 					makeNewConstruct(/mob/living/simple_animal/hostile/construct/artificer/noncult, target, creator, cultoverride, loc_override)
 
+/**
+ * Creates a "cult" construct
+ *
+ * * ctype - the type of construct being made
+ * * target - the mob being made into a construct. Handles moving key over to the new mob.
+ * * stoner - optional, who created this construct. Becomes the construct's master if present.
+ * * cultoverride - boolean, if TRUE the new construct gains a cult antag datum even if there is no stoner / the stoner is not a cultist
+ * * loc_override - optional, where to make the construct. Defaults to the target's turf
+ */
 /proc/makeNewConstruct(mob/living/simple_animal/hostile/construct/ctype, mob/target, mob/stoner = null, cultoverride = FALSE, loc_override = null)
 	if(QDELETED(target))
 		return
-	var/mob/living/simple_animal/hostile/construct/newstruct = new ctype((loc_override) ? (loc_override) : (get_turf(target)))
+	var/mob/living/simple_animal/hostile/construct/newstruct = new ctype(loc_override || get_turf(target))
 	var/makeicon = newstruct.icon_state
 	var/theme = newstruct.theme
 	flick("make_[makeicon][theme]", newstruct)
@@ -506,20 +525,28 @@
 	if(stoner)
 		newstruct.faction |= "[REF(stoner)]"
 		newstruct.master = stoner
-		var/datum/action/innate/seek_master/SM = new()
-		SM.Grant(newstruct)
-	newstruct.key = target.key
-	var/atom/movable/screen/alert/bloodsense/BS
-	if(newstruct.mind && ((stoner && IS_CULTIST(stoner)) || cultoverride) && SSticker?.mode)
+		var/datum/action/innate/seek_master/finder_ability = new(newstruct)
+		finder_ability.Grant(newstruct)
+	if(target.mind)
+		target.mind.transfer_to(newstruct)
+	else if(target.key)
+		newstruct.key = target.key
+
+	var/atom/movable/screen/alert/bloodsense/senses
+	var/cult_construct = (IS_CULTIST(stoner) || cultoverride)
+	if(newstruct.mind && cult_construct)
 		newstruct.mind.add_antag_datum(/datum/antagonist/cult/construct)
-	if(IS_CULTIST(stoner) || cultoverride)
-		to_chat(newstruct, "<b>You are still bound to serve the cult[stoner ? " and [stoner]":""], follow [stoner ? stoner.p_their() : "their"] orders and help [stoner ? stoner.p_them() : "them"] complete [stoner ? stoner.p_their() : "their"] goals at all costs.</b>")
+
+	if(cult_construct)
+		to_chat(newstruct, span_bold("You are still bound to serve the cult[stoner ? " and [stoner]" : ""], \
+			follow [stoner?.p_their() || "their"] orders and help [stoner.p_them() || "them"] complete [stoner?.p_their() || "their"] goals at all costs."))
 	else if(stoner)
-		to_chat(newstruct, "<b>You are still bound to serve your creator, [stoner], follow [stoner.p_their()] orders and help [stoner.p_them()] complete [stoner.p_their()] goals at all costs.</b>")
+		to_chat(newstruct, "<b>You are still bound to serve your creator, [stoner], \
+			follow [stoner.p_their()] orders and help [stoner.p_them()] complete [stoner.p_their()] goals at all costs.</b>")
+
 	newstruct.clear_alert("bloodsense")
-	BS = newstruct.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
-	if(BS)
-		BS.Cviewer = newstruct
+	senses = newstruct.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
+	senses?.Cviewer = newstruct
 	newstruct.cancel_camera()
 
 /obj/item/soulstone/anybody

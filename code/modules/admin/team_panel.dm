@@ -14,7 +14,7 @@
 			content += "<li>[O.explanation_text] - <a href='?_src_=holder;[HrefToken()];team_command=remove_objective;team=[REF(T)];tobjective=[REF(O)]'>Remove</a></li>"
 		content += "</ol><a href='?_src_=holder;[HrefToken()];team_command=add_objective;team=[REF(T)]'>Add Objective</a><br>"
 		content += "Members: <br><ul>"
-		for(var/datum/mind/M in T.members)
+		for(var/datum/mind/M as anything in T.members)
 			content += "<li>[M.name] - <a href='?_src_=holder;[HrefToken()];team_command=remove_member;team=[REF(T)];tmember=[REF(M)]'>Remove Member</a></li>"
 		content += "</ul><a href='?_src_=holder;[HrefToken()];team_command=add_member;team=[REF(T)]'>Add Member</a>"
 		content += "<hr>"

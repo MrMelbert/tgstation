@@ -31,7 +31,6 @@
 
 	invocation = "Fel'th Dol Ab'orod!"
 	invocation_type = INVOCATION_WHISPER
-	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
 
@@ -115,15 +114,15 @@
 			halberd_recall.Grant(user)
 
 			remove_hand(user)
-			if(user.put_in_hands(rite))
+			if(user.put_in_hands(halberd))
 				user.visible_message(
-					span_warning("A [rite.name] appears in [user]'s hands!"),
-					span_cultitalic("A [rite.name] materializes in your hands."),
+					span_warning("\A [halberd] appears in [user]'s hands!"),
+					span_cultitalic("\A [halberd] materializes in your hands."),
 				)
 			else
 				user.visible_message(
-					span_warning("A [rite.name] appears at [user]'s feet!"),
-					span_cultitalic("A [rite.name] materializes at your feet."),
+					span_warning("\A [halberd] appears at [user]'s feet!"),
+					span_cultitalic("\A [halberd] materializes at your feet."),
 				)
 
 		if(BLOOD_BARRAGE_KEY)
@@ -285,6 +284,8 @@
 	to_chat(caster, span_cultitalic("Your blood rite gains [human_drain_amount / 2] charges from draining [victim]'s blood."))
 	new /obj/effect/temp_visual/cult/sparks(get_turf(victim))
 
+	return null // This shouldn't have a return value so the hand doesn't go away after casting.
+
 /datum/action/cooldown/spell/touch/blood_rites/proc/absorb_blood(obj/effect/decal/cleanable/blood/target, mob/living/carbon/caster)
 	var/total_blood = 0
 	var/turf/target_turf = get_turf(target)
@@ -315,6 +316,8 @@
 	playsound(target_turf, 'sound/magic/enter_blood.ogg', 50)
 	target.balloon_alert(caster, "[total_blood] charge\s gained")
 	charge_tracker.charges += max(1, total_blood)
+
+	return null // This shouldn't have a return value so the hand doesn't go away after casting.
 
 /obj/item/melee/touch_attack/cult/manipulator
 	name = "blood rite"

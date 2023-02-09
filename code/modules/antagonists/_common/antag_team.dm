@@ -10,6 +10,7 @@ GLOBAL_LIST_EMPTY(antagonist_teams)
 	var/show_roundend_report = TRUE
 
 	///List of all members in the team
+	///DO NOT ADD TO THIS MANUALLY. Use add_member().
 	var/list/datum/mind/members = list()
 	///Common objectives, these won't be added or removed automatically, subtypes handle this, this is here for bookkeeping purposes.
 	var/list/datum/objective/objectives = list()

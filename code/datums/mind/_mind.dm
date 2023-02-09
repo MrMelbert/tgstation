@@ -65,6 +65,7 @@
 	///If this mind's master is another mob (i.e. adamantine golems)
 	var/mob/living/enslaved_to
 	var/datum/language_holder/language_holder
+	/// Prevents conversion to Cult and Revolution
 	var/unconvertable = FALSE
 	var/late_joiner = FALSE
 	/// has this mind ever been an AI

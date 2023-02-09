@@ -1,5 +1,6 @@
 // Contains cult communion, guide, and cult master abilities
 
+/*
 /datum/action/innate/cult
 	button_icon = 'icons/mob/actions/actions_cult.dmi'
 	background_icon_state = "bg_demon"
@@ -13,6 +14,7 @@
 	if(!IS_CULTIST(owner))
 		return FALSE
 	return ..()
+*/
 
 /datum/action/innate/cult/comm
 	name = "Communion"
@@ -174,9 +176,8 @@
 	var/datum/antagonist/cult/antag = owner.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
 	if(!antag)
 		return
-	var/place = get_area(owner)
-	var/datum/objective/eldergod/summon_objective = locate() in antag.cult_team.objectives
-	if(place in summon_objective.summon_spots)//cant do final reckoning in the summon area to prevent abuse, you'll need to get everyone to stand on the circle!
+	var/area/place = get_area(owner)
+	if(place in cult_team.ritual_sites)//cant do final reckoning in the summon area to prevent abuse, you'll need to get everyone to stand on the circle!
 		to_chat(owner, span_cultlarge("The veil is too weak here! Move to an area where it is strong enough to support this magic."))
 		return
 	for(var/i in 1 to 4)

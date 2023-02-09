@@ -364,12 +364,11 @@
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/bloodcult/execute()
-	main_cult = new
+	main_cult = new()
 	for(var/datum/mind/M in assigned)
 		var/datum/antagonist/cult/new_cultist = new antag_datum()
-		new_cultist.cult_team = main_cult
 		new_cultist.give_equipment = TRUE
-		M.add_antag_datum(new_cultist)
+		M.add_antag_datum(new_cultist, main_cult)
 		GLOB.pre_setup_antags -= M
 	main_cult.setup_objectives()
 	return TRUE

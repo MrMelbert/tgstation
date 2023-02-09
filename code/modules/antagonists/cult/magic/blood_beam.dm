@@ -28,7 +28,7 @@
 	var/delete_after_fire = TRUE
 
 /datum/action/cooldown/spell/pointed/blood_beam/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner) && !beam_charging && !beam_firing && isturf(owner.loc)
+	return ..() && isliving(owner) && IS_CULTIST(owner) && !beam_charging && !beam_firing && isturf(owner.loc)
 
 /datum/action/cooldown/spell/pointed/blood_beam/before_cast(atom/cast_on)
 	. = ..()
@@ -41,17 +41,18 @@
 
 /datum/action/cooldown/spell/pointed/blood_beam/cast(atom/cast_on)
 	. = ..()
-	if(!do_after(owner, 9 SECONDS))
+	var/mob/living/caster = owner
+	if(!do_after(caster, 9 SECONDS))
 		return
 
 	beam_firing = TRUE
 	ADD_TRAIT(owner, TRAIT_IMMOBILIZED, CULT_TRAIT)
-	INVOKE_ASYNC(src, PROC_REF(pewpew), user)// melbert todo, this probably shouldn't be async, fragile
+	INVOKE_ASYNC(src, PROC_REF(pewpew), caster)// melbert todo, this probably shouldn't be async, fragile
 	var/obj/structure/emergency_shield/cult/weak/protection = new(owner.loc)
-	if(do_after(owner, 9 SECONDS))
-		owner.Paralyze(4 SECONDS)
-		to_chat(owner, span_cultitalic("You have exhausted the power of this spell!"))
-	REMOVE_TRAIT(owner, TRAIT_IMMOBILIZED, CULT_TRAIT)
+	if(do_after(caster, 9 SECONDS))
+		caster.Paralyze(4 SECONDS)
+		to_chat(caster, span_cultitalic("You have exhausted the power of this spell!"))
+	REMOVE_TRAIT(caster, TRAIT_IMMOBILIZED, CULT_TRAIT)
 	qdel(protection)
 
 /datum/action/cooldown/spell/pointed/blood_beam/after_cast(atom/cast_on)
@@ -61,11 +62,11 @@
 	beam_firing = FALSE
 	beam_charging = FALSE
 
-/datum/action/cooldown/spell/pointed/blood_beam/proc/charge_effects(mob/caster)
+/datum/action/cooldown/spell/pointed/blood_beam/proc/charge_effects(mob/living/caster)
 	var/obj/visual_holder
 	playsound(caster, 'sound/magic/lightning_chargeup.ogg', 100, TRUE)
 	for(var/i in 1 to 12)
-		if(!charging || QDELETED(caster || QDELETED(src)))
+		if(!beam_charging || QDELETED(caster) || QDELETED(src))
 			break
 		if(i > 1)
 			stoplag(1.5 SECONDS)
@@ -83,8 +84,6 @@
 	var/second = FALSE
 	var/set_angle = beam_angle
 	for(var/i in 1 to 12)
-		if(QDELETED(src) || QDELETED(owner))
-			return
 		if(second)
 			set_angle = beam_angle - spread
 			spread -= 8
@@ -92,7 +91,7 @@
 			stoplag(1.5 SECONDS)
 			set_angle = beam_angle + spread
 		second = !second //Handles beam firing in pairs
-		if(!firing)
+		if(!beam_firing || QDELETED(src) || QDELETED(owner))
 			break
 		playsound(owner, 'sound/magic/exit_blood.ogg', 75, TRUE)
 		new /obj/effect/temp_visual/dir_setting/cult/phase(owner.loc, owner.dir)
@@ -107,7 +106,7 @@
 
 			beamed.narsie_act(/* force = */TRUE, /* ignore_mobs = */TRUE)
 			if(locate(/mob) in beamed) // don't waste our time if no one's here
-				INVOKE_ASYNC(src, PROC_REF(effect_to_mobs), targets_from, locale)
+				INVOKE_ASYNC(src, PROC_REF(effect_to_mobs), targets_from, beamed)
 
 		owner.Beam(temp_target, icon_state = "blood_beam", time = 0.7 SECONDS, beam_type = /obj/effect/ebeam/blood)
 

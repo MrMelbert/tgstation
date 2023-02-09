@@ -8,7 +8,6 @@
 	overlay_icon_state = "bg_demon_border"
 	buttontooltipstyle = "cult"
 	invocation_type = INVOCATION_NONE
-	cooldown_time = 0 SECONDS
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
 

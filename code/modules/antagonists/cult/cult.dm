@@ -1,4 +1,3 @@
-#define SUMMON_POSSIBILITIES 3
 #define CULT_VICTORY 1
 #define CULT_LOSS 0
 #define CULT_NARSIE_KILLED -1
@@ -330,21 +329,42 @@
 
 	var/list/obj/effect/rune/teleport/teleport_runes = list()
 
+	var/max_ritual_sites = 3
+	var/list/area/station/ritual_sites = list()
+
+/datum/team/cult/New(starting_members)
+	. = ..()
+	var/sanity = 0
+	while(ritual_sites.len < max_ritual_sites && sanity < 100)
+		var/area/summon_area = pick(GLOB.areas - ritual_sites)
+		if(summon_area && is_station_level(summon_area.z) && (summon_area.area_flags & VALID_TERRITORY))
+			ritual_sites += summon_area
+		sanity++
+
+/datum/team/cult/Destroy() // shouldn't ever happen but whateva
+	ritual_sites.Cut()
+	teleport_runes.Cut()
+	cult_master = null
+	unset_blood_target()
+	return ..()
+
 /datum/team/cult/proc/check_size()
-	if(cult_ascendent)
+	if(cult_ascendent) // From here on size doesn't matter (heh)
 		return
 	var/alive = 0
 	var/cultplayers = 0
-	for(var/I in GLOB.player_list)
-		var/mob/M = I
-		if(M.stat != DEAD)
-			if(IS_CULTIST(M))
-				++cultplayers
-			else
-				++alive
+	for(var/mob/player as anything in GLOB.player_list)
+		if(player.stat == DEAD)
+			continue
+
+		if(IS_CULTIST(player))
+			cultplayers++
+		else
+			alive++
 
 	ASSERT(cultplayers) //we shouldn't be here.
-	var/ratio = alive ? cultplayers/alive : 1
+
+	var/ratio = alive ? cultplayers / alive : 1
 	if(ratio > CULT_RISEN && !cult_risen)
 		for(var/datum/mind/mind as anything in members)
 			if(mind.current)
@@ -365,6 +385,12 @@
 
 /datum/team/cult/add_member(datum/mind/new_member)
 	. = ..()
+	if(isliving(new_member.current))
+		if(cult_risen)
+			new_member.current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
+		if(cult_ascendent)
+			new_member.current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
+
 	// A little hacky, but this checks that cult ghosts don't contribute to the size at maximum value.
 	if(is_unassigned_job(new_member.assigned_role))
 		return
@@ -390,110 +416,6 @@
 	summon_objective.team = src
 	objectives += summon_objective
 
-/datum/objective/sacrifice
-	var/sacced = FALSE
-	var/sac_image
-
-/// Unregister signals from the old target so it doesn't cause issues when sacrificed of when a new target is found.
-/datum/objective/sacrifice/proc/clear_sacrifice()
-	if(!target)
-		return
-	UnregisterSignal(target, COMSIG_MIND_TRANSFERRED)
-	if(target.current)
-		UnregisterSignal(target.current, list(COMSIG_PARENT_QDELETING, COMSIG_MOB_MIND_TRANSFERRED_INTO))
-	target = null
-
-/datum/objective/sacrifice/find_target(dupe_search_range, list/blacklist)
-	clear_sacrifice()
-	if(!istype(team, /datum/team/cult))
-		return
-	var/datum/team/cult/cult = team
-	var/list/target_candidates = list()
-	for(var/mob/living/carbon/human/player in GLOB.player_list)
-		if(player.mind && !player.mind.has_antag_datum(/datum/antagonist/cult) && !is_convertable_to_cult(player) && player.stat != DEAD)
-			target_candidates += player.mind
-	if(target_candidates.len == 0)
-		message_admins("Cult Sacrifice: Could not find unconvertible target, checking for convertible target.")
-		for(var/mob/living/carbon/human/player in GLOB.player_list)
-			if(player.mind && !player.mind.has_antag_datum(/datum/antagonist/cult) && player.stat != DEAD)
-				target_candidates += player.mind
-	list_clear_nulls(target_candidates)
-	if(LAZYLEN(target_candidates))
-		target = pick(target_candidates)
-		update_explanation_text()
-		// Register a bunch of signals to both the target mind and its body
-		// to stop cult from softlocking everytime the target is deleted before being actually sacrificed.
-		RegisterSignal(target, COMSIG_MIND_TRANSFERRED, PROC_REF(on_mind_transfer))
-		RegisterSignal(target.current, COMSIG_PARENT_QDELETING, PROC_REF(on_target_body_del))
-		RegisterSignal(target.current, COMSIG_MOB_MIND_TRANSFERRED_INTO, PROC_REF(on_possible_mindswap))
-	else
-		message_admins("Cult Sacrifice: Could not find unconvertible or convertible target. WELP!")
-		sacced = TRUE // Prevents another hypothetical softlock. This basically means every PC is a cultist.
-	if(!sacced)
-		cult.make_image(src)
-	for(var/datum/mind/mind in cult.members)
-		if(mind.current)
-			mind.current.clear_alert("bloodsense")
-			mind.current.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
-
-/datum/objective/sacrifice/proc/on_target_body_del()
-	SIGNAL_HANDLER
-	INVOKE_ASYNC(src, PROC_REF(find_target))
-
-/datum/objective/sacrifice/proc/on_mind_transfer(datum/source, mob/previous_body)
-	SIGNAL_HANDLER
-	//If, for some reason, the mind was transferred to a ghost (better safe than sorry), find a new target.
-	if(!isliving(target.current))
-		INVOKE_ASYNC(src, PROC_REF(find_target))
-		return
-	UnregisterSignal(previous_body, list(COMSIG_PARENT_QDELETING, COMSIG_MOB_MIND_TRANSFERRED_INTO))
-	RegisterSignal(target.current, COMSIG_PARENT_QDELETING, PROC_REF(on_target_body_del))
-	RegisterSignal(target.current, COMSIG_MOB_MIND_TRANSFERRED_INTO, PROC_REF(on_possible_mindswap))
-
-/datum/objective/sacrifice/proc/on_possible_mindswap(mob/source)
-	SIGNAL_HANDLER
-	UnregisterSignal(target.current, list(COMSIG_PARENT_QDELETING, COMSIG_MOB_MIND_TRANSFERRED_INTO))
-	//we check if the mind is bodyless only after mindswap shenanigeans to avoid issues.
-	addtimer(CALLBACK(src, PROC_REF(do_we_have_a_body)), 0 SECONDS)
-
-/datum/objective/sacrifice/proc/do_we_have_a_body()
-	if(!target.current) //The player was ghosted and the mind isn't probably going to be transferred to another mob at this point.
-		find_target()
-		return
-	RegisterSignal(target.current, COMSIG_PARENT_QDELETING, PROC_REF(on_target_body_del))
-	RegisterSignal(target.current, COMSIG_MOB_MIND_TRANSFERRED_INTO, PROC_REF(on_possible_mindswap))
-
-/datum/objective/sacrifice/check_completion()
-	return sacced || completed
-
-/datum/objective/sacrifice/update_explanation_text()
-	if(target)
-		explanation_text = "Sacrifice [target], the [target.assigned_role.title] via invoking an Offer rune with [target.p_them()] on it and three acolytes around it."
-	else
-		explanation_text = "The veil has already been weakened here, proceed to the final objective."
-
-/datum/objective/eldergod
-	var/summoned = FALSE
-	var/killed = FALSE
-	var/list/summon_spots = list()
-
-/datum/objective/eldergod/New()
-	..()
-	var/sanity = 0
-	while(summon_spots.len < SUMMON_POSSIBILITIES && sanity < 100)
-		var/area/summon_area = pick(GLOB.areas - summon_spots)
-		if(summon_area && is_station_level(summon_area.z) && (summon_area.area_flags & VALID_TERRITORY))
-			summon_spots += summon_area
-		sanity++
-	update_explanation_text()
-
-/datum/objective/eldergod/update_explanation_text()
-	explanation_text = "Summon Nar'Sie by invoking the rune 'Summon Nar'Sie'. The summoning can only be accomplished in [english_list(summon_spots)] - where the veil is weak enough for the ritual to begin."
-
-/datum/objective/eldergod/check_completion()
-	if(killed)
-		return CULT_NARSIE_KILLED // You failed so hard that even the code went backwards.
-	return summoned || completed
 
 /datum/team/cult/proc/check_cult_victory()
 	for(var/datum/objective/O in objectives)
@@ -530,6 +452,7 @@
 
 	return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
 
+/// Checks if the passed mind is a sacrifice objective target
 /datum/team/cult/proc/is_sacrifice_target(datum/mind/mind)
 	for(var/datum/objective/sacrifice/sac_objective in objectives)
 		if(mind == sac_objective.target)
@@ -538,23 +461,32 @@
 
 /// Returns whether the given mob is convertable to the blood cult
 /proc/is_convertable_to_cult(mob/living/target, datum/team/cult/specific_cult)
-	if(!istype(target))
+	if(!istype(target) || isnull(target.mind))
 		return FALSE
-	if(target.mind)
-		if(ishuman(target) && (target.mind.holy_role))
-			return FALSE
-		if(specific_cult?.is_sacrifice_target(target.mind))
-			return FALSE
-		if(target.mind.enslaved_to && !IS_CULTIST(target.mind.enslaved_to))
-			return FALSE
-		if(target.mind.unconvertable)
-			return FALSE
-		if(target.mind.has_antag_datum(/datum/antagonist/heretic))
-			return FALSE
-	else
+
+#ifndef TESTING
+	// Clientless mobs can't be converted, but it's allowed while testing for ease.
+	if(!GET_CLIENT(target))
 		return FALSE
-	if(HAS_TRAIT(target, TRAIT_MINDSHIELD) || issilicon(target) || isbot(target) || isdrone(target) || !target.client)
-		return FALSE //can't convert machines, shielded, or braindead
+#endif
+
+	// The religious or mindshielded cannot be converte
+	if(ishuman(target) && (target.mind.holy_role || HAS_TRAIT(target, TRAIT_MINDSHIELD)))
+		return FALSE
+	// Sac targets go to Nar'sie
+	if(specific_cult?.is_sacrifice_target(target.mind))
+		return FALSE
+	// Minions can only come along if their master is with it
+	if(target.mind.enslaved_to && !IS_CULTIST(target.mind.enslaved_to))
+		return FALSE
+	if(target.mind.unconvertable)
+		return FALSE
+	// Heretics have their own god
+	if(IS_HERETIC_OR_MONSTER(target))
+		return FALSE
+	// Machines aren't religious
+	if(issilicon(target) || isbot(target) || isdrone(target))
+		return FALSE
 	return TRUE
 
 /// Sets a blood target for the cult.

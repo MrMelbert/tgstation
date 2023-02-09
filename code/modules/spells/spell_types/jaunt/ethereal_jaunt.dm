@@ -250,9 +250,11 @@
 /obj/effect/dummy/phased_mob/spell_jaunt/phased_check(mob/living/user, direction)
 	if(reappearing)
 		return
-	. = ..()
-	if(!.)
-		return
-	if (HAS_TRAIT(., TRAIT_HOLY))
+	var/turf/to_check = ..()
+	if(!to_check)
+		return null
+	if (HAS_TRAIT(to_check, TRAIT_HOLY))
 		to_chat(user, span_warning("Holy energies block your path!"))
 		return null
+
+	return to_check

@@ -45,7 +45,7 @@
 
 	if(isliving(marked_item.loc))
 		var/mob/living/current_owner = marked_item.loc
-		current_owner.dropItemToGround(halberd)
+		current_owner.dropItemToGround(marked_item)
 		current_owner.visible_message(span_warning("An unseen force pulls [marked_item] from [current_owner]'s hands[is_in_view ? " towards [caster]" : ""]!"))
 	else if(!isturf(marked_item.loc))
 		to_chat(caster, span_warning("Try as you might, but your [marked_item.name] will not heed your call!"))

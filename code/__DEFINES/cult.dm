@@ -9,11 +9,13 @@
 #define RUNE_COLOR_EMP "#4D94FF"
 #define RUNE_COLOR_SUMMON "#00FF00"
 
-//blood magic
-/// percent before rise
+/// Ratio of living cultists to living non-cultists needed for the cult to gain glowing red eyes
+/// This is not a "% of living players that are cultists", this is a RATIO of CULTISTS to NON-CULTISTS
 #define CULT_RISEN 0.2
-/// percent before ascend
+/// Ratio of living cultists to living non-cultists needed for the cult to gain glowing huge red halos
+/// This is not a "% of living players that are cultists", this is a RATIO of CULTISTS to NON-CULTISTS
 #define CULT_ASCENDENT 0.4
+
 //screen locations
 #define DEFAULT_BLOODSPELLS "6:-29,4:-2"
 #define DEFAULT_BLOODTIP "14:6,14:27"
