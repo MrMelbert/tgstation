@@ -73,80 +73,87 @@
 
 /mob/living/simple_animal/hostile/construct/harvester/Initialize(mapload)
 	. = ..()
-	var/datum/action/innate/seek_prey/seek = new()
+	var/datum/action/seek_prey/seek = new(src)
 	seek.Grant(src)
 	seek.Activate()
 
-/datum/action/innate/seek_master
+/datum/action/seek_master
 	name = "Seek your Master"
-	desc = "You and your master share a soul-link that informs you of their location"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
+	desc = "You and your master share a soul-link that informs you of their location."
+	DEFINE_CULT_ACTION("cult_mark", 'icons/mob/actions/actions_cult.dmi')
 
-	buttontooltipstyle = "cult"
-	button_icon_state = "cult_mark"
 	/// Where is nar nar? Are we even looking?
 	var/tracking = FALSE
 	/// The construct we're attached to
 	var/mob/living/simple_animal/hostile/construct/the_construct
 
-/datum/action/innate/seek_master/Grant(mob/living/player)
-	the_construct = player
-	..()
-
-/datum/action/innate/seek_master/Activate()
-	var/datum/antagonist/cult/cult_status = owner.mind.has_antag_datum(/datum/antagonist/cult)
-	if(!cult_status)
+/datum/action/seek_master/Grant(mob/grant_to)
+	if(!istype(grant_to, /mob/living/simple_animal/hostile/construct))
 		return
-	var/datum/objective/eldergod/summon_objective = locate() in cult_status.cult_team.objectives
 
-	if(summon_objective.check_completion())
-		the_construct.master = cult_status.cult_team.blood_target
+	return ..()
 
-	if(!the_construct.master)
+/datum/action/seek_master/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return
+	var/mob/living/simple_animal/hostile/construct/the_construct = owner
+	var/datum/team/cult/cult = GET_CULT_TEAM(the_construct)
+	if(!cult)
+		return
+	var/datum/objective/eldergod/summon_objective = locate() in cult.objectives
+
+	if(summon_objective?.check_completion())
+		// why does this override master? dumb
+		the_construct.tracking_target = WEAKREF(cult.blood_target)
+
+	if(!the_construct.tracking_target?.resolve())
 		to_chat(the_construct, span_cultitalic("You have no master to seek!"))
 		the_construct.seeking = FALSE
 		return
+
 	if(tracking)
 		tracking = FALSE
 		the_construct.seeking = FALSE
 		to_chat(the_construct, span_cultitalic("You are no longer tracking your master."))
-		return
 	else
 		tracking = TRUE
 		the_construct.seeking = TRUE
 		to_chat(the_construct, span_cultitalic("You are now tracking your master."))
 
 
-/datum/action/innate/seek_prey
+/datum/action/seek_prey
 	name = "Seek the Harvest"
 	desc = "None can hide from Nar'Sie, activate to track a survivor attempting to flee the red harvest!"
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
+	DEFINE_CULT_ACTION("cult_mark", 'icons/mob/actions/actions_cult.dmi')
 
-	buttontooltipstyle = "cult"
-	button_icon_state = "cult_mark"
+/datum/action/seek_prey/IsAvailable(feedback)
+	return ..() && !QDELETED(GLOB.cult_narsie)
 
-/datum/action/innate/seek_prey/Activate()
-	if(GLOB.cult_narsie == null)
+/datum/action/seek_prey/Grant(mob/grant_to)
+	if(!istype(grant_to, /mob/living/simple_animal/hostile/construct/harvester))
 		return
+
+	return ..()
+
+/datum/action/seek_prey/Activate()
 	var/mob/living/simple_animal/hostile/construct/harvester/the_construct = owner
-
 	if(the_construct.seeking)
-		desc = "None can hide from Nar'Sie, activate to track a survivor attempting to flee the red harvest!"
-		button_icon_state = "cult_mark"
+		desc = initial(desc)
+		button_icon_state = initial(button_icon_state)
 		the_construct.seeking = FALSE
-		to_chat(the_construct, span_cultitalic("You are now tracking Nar'Sie, return to reap the harvest!"))
+		to_chat(the_construct, span_cultitalic("You are now tracking Nar'Sie, return to her with your prey to reap the harvest!"))
 		return
 
-	if(!LAZYLEN(GLOB.cult_narsie.souls_needed))
+	if(!length(GLOB.cult_narsie.souls_needed))
+		the_construct.seeking = FALSE
 		to_chat(the_construct, span_cultitalic("Nar'Sie has completed her harvest!"))
 		return
 
-	the_construct.master = pick(GLOB.cult_narsie.souls_needed)
-	var/mob/living/real_target = the_construct.master //We can typecast this way because Narsie only allows /mob/living into the souls list
-	to_chat(the_construct, span_cultitalic("You are now tracking your prey, [real_target.real_name] - harvest [real_target.p_them()]!"))
+	// why does this override master? dumb x2
+	var/mob/living/picked = pick(GLOB.cult_narsie.souls_needed)
+	the_construct.tracking_target = WEAKREF(picked)
+	to_chat(the_construct, span_cultitalic("You are now tracking your prey, [picked.real_name] - harvest [picked.p_them()]!"))
 	desc = "Activate to track Nar'Sie!"
 	button_icon_state = "sintouch"
 	the_construct.seeking = TRUE

@@ -522,8 +522,8 @@
 	playsound(newstruct, 'sound/effects/constructform.ogg', 50)
 	if(stoner)
 		newstruct.faction |= "[REF(stoner)]"
-		newstruct.master = stoner
-		var/datum/action/innate/seek_master/finder_ability = new(newstruct)
+		newstruct.tracking_target = WEAKREF(stoner)
+		var/datum/action/seek_master/finder_ability = new(newstruct)
 		finder_ability.Grant(newstruct)
 	if(target.mind)
 		target.mind.transfer_to(newstruct)

@@ -36,9 +36,9 @@
 	var/datum/objective/sacrifice/sac_objective = locate() in cult_team.objectives
 
 	// We are a construct and we're looking for our master
-	if(Cviewer && Cviewer.seeking && Cviewer.master)
-		blood_target = Cviewer.master
-		desc = "Your blood sense is leading you to [Cviewer.master]." // melbert todo: never seen?
+	if(Cviewer && Cviewer.seeking && Cviewer.tracking_target?.resolve())
+		blood_target = Cviewer.tracking_target.resolve()
+		desc = "Your blood sense is leading you to [blood_target]." // melbert todo: never seen?
 
 	// Cult has a set target and it's not in nullspace (???)
 	else if(cult_team.blood_target && get_turf(cult_team.blood_target))

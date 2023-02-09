@@ -956,7 +956,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	. = ..()
 
 	var/mob/living/user = invokers[1]
-	var/datum/team/cult/cult_team = GET_CULT_TEAM(user0)
+	var/datum/team/cult/cult_team = GET_CULT_TEAM(user)
 	var/area/place = get_area(src)
 	if(length(cult_team.ritual_sites) <= 1)
 		to_chat(user, span_cultlarge("Only one ritual site remains - it must be reserved for the final summoning!"))

@@ -249,7 +249,7 @@
 	var/chosen_keyword
 
 	var/datum/team/cult/user_team = GET_CULT_TEAM(cultist)
-	if(!!user_team)
+	if(!user_team)
 		stack_trace("[type] - [cultist] attempted to scribe a rune, but did not have an associated cult!")
 		return FALSE
 

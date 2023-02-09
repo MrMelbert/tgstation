@@ -37,8 +37,11 @@
 	var/list/construct_spells = list()
 	/// Flavor text shown to players when they spawn as this construct
 	var/playstyle_string = "<span class='big bold'>You are a generic construct!</span><b> Your job is to not exist, and you should probably adminhelp this.</b>"
-	/// The construct's master
-	var/master = null
+	/// For our blood sense... who are we tracking?
+	/// In some circumstances, this is the construct's master - whoever made them
+	/// In other it's a target to kill
+	/// Why is this on the construct... who knows.
+	var/datum/weakref/tracking_target
 	/// Whether this construct is currently seeking nar nar
 	var/seeking = FALSE
 	/// Whether this construct can repair other constructs or cult buildings.
@@ -132,4 +135,3 @@
 
 /mob/living/simple_animal/hostile/construct/electrocute_act(shock_damage, source, siemens_coeff = 1, flags = NONE)
 	return FALSE
-

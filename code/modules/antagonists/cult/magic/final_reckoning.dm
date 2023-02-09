@@ -43,7 +43,7 @@
 		chant(i)
 		if(!do_after(owner, 3 SECONDS))
 			return
-		if(QDELETED(src) || QDELETED(owner) || !IS_CULTUST(owner))
+		if(QDELETED(src) || QDELETED(owner) || !IS_CULTIST(owner))
 			return
 
 		for(var/datum/mind/team_member as anything in cult_team.members)
