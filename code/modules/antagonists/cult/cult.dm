@@ -77,8 +77,6 @@
 	if(cult_team.blood_target && cult_team.blood_target_image && current.client)
 		current.client.images += cult_team.blood_target_image
 
-	ADD_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
-
 	// Some relevant actions
 	if(!cult_team.cult_master)
 		vote = new(src)
@@ -87,7 +85,6 @@
 	magic_holder = new(current)
 
 /datum/antagonist/cult/on_removal()
-	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 	if(!silent)
 		owner.current.visible_message(span_deconversion_message("[owner.current] looks like [owner.current.p_theyve()] just reverted to [owner.current.p_their()] old faith!"), ignored_mobs = owner.current)
 		to_chat(owner.current, span_userdanger("An unfamiliar white light flashes through your mind, cleansing the taint of the Geometer and all your memories as her servant."))
@@ -131,7 +128,7 @@
 	var/list/slots = list(
 		"backpack" = ITEM_SLOT_BACKPACK,
 		"left pocket" = ITEM_SLOT_LPOCKET,
-		"right pocket" = ITEM_SLOT_RPOCKET
+		"right pocket" = ITEM_SLOT_RPOCKET,
 	)
 
 	var/T = new item_path(mob)
@@ -158,10 +155,13 @@
 	communion.Grant(current)
 
 	current.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
+	/*
 	if(cult_team.cult_risen)
 		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
 	if(cult_team.cult_ascendent)
 		current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
+	*/
+	ADD_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 
 	add_team_hud(current)
 
@@ -179,6 +179,7 @@
 		current.RemoveElement(/datum/element/cult_eyes)
 	if (HAS_TRAIT(current, TRAIT_CULT_HALO))
 		current.RemoveElement(/datum/element/cult_halo)
+	REMOVE_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 
 /datum/antagonist/cult/on_mindshield(mob/implanter)
 	if(!silent)
@@ -219,13 +220,14 @@
 	ignore_implant = TRUE
 	show_in_antagpanel = FALSE //Feel free to add this later
 	antag_hud_name = "cultmaster"
+
+	// THREE NEWS SPELLS FOR OUR FRIEND THE MASTER
 	var/datum/action/cooldown/spell/final_reckoning/reckoning
 	var/datum/action/cooldown/spell/pointed/cultmark/bloodmark
 	var/datum/action/innate/cult/master/pulse/throwing
 
 /datum/antagonist/cult/master/on_gain()
-	if(!cult_team.reckoning_complete)
-		reckoning = new(src)
+	reckoning = new(src)
 	bloodmark = new(src)
 	throwing = new(src)
 	return ..()
@@ -237,8 +239,12 @@
 	return ..()
 
 /datum/antagonist/cult/master/greet()
-	to_chat(owner.current, "<span class='warningplain'><span class='cultlarge'>You are the cult's Master</span>. As the cult's Master, you have a unique title and loud voice when communicating, are capable of marking \
-	targets, such as a location or a noncultist, to direct the cult to them, and, finally, you are capable of summoning the entire living cult to your location <b><i>once</i></b>. Use these abilities to direct the cult to victory at any cost.</span>")
+	to_chat(owner.current, "<span class='warningplain'>\
+		<span class='cultlarge'>You are the cult's Master</span>. \
+		As the cult's Master, you have a unique title and loud voice when communicating, are capable of marking targets, \
+		such as a location or a noncultist, to direct the cult to them, and, finally, you are capable of summoning \
+		the entire living cult to your location <b><i>once</i></b>. \
+		Use these abilities to direct the cult to victory at any cost.</span>")
 
 /datum/antagonist/cult/master/on_removal()
 	. = ..()
@@ -251,7 +257,7 @@
 	. = ..()
 	var/mob/living/current = mob_override || owner.current
 
-	reckoning?.Grant(current)
+	reckoning.Grant(current)
 	bloodmark.Grant(current)
 	throwing.Grant(current)
 
@@ -268,7 +274,7 @@
 	. = ..()
 	var/mob/living/current = mob_override || owner.current
 
-	reckoning?.Remove(current)
+	reckoning.Remove(current)
 	bloodmark.Remove(current)
 	throwing.Remove(current)
 

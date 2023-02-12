@@ -1,15 +1,6 @@
 /datum/action/cooldown/spell/cult_commune
 	name = "Communion"
 	desc = "Whispered words that all cultists can hear.<br><b>Warning:</b>Nearby non-cultists can still hear you."
-	/*
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "cult_comms"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
-	*/
-
 	DEFINE_CULT_ACTION("cult_comms", 'icons/mob/actions/actions_cult.dmi')
 
 	invocation = "O bidai nabora se sma!"
@@ -50,7 +41,7 @@
 	user.whisper(final_message, filterproof = TRUE) // filterproof. already checked
 	var/title = "Acolyte"
 	var/span = "cult italic"
-	if(user.mind?.has_antag_datum(/datum/antagonist/cult/master))
+	if(IS_CULTIST_MASTER(user))
 		title = "Master"
 		span = "cultlarge"
 	else if(!ishuman(user))

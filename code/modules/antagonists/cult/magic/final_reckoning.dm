@@ -52,7 +52,6 @@
 			teleport(team_member.current, destinations, i)
 
 	cult_team.reckoning_complete = TRUE
-	qdel(src)
 
 /datum/action/cooldown/spell/final_reckoning/proc/chant(chant_number)
 	switch(chant_number)
