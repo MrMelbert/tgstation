@@ -632,14 +632,14 @@
 /obj/item/clothing/glasses/salesman/proc/moodshift(mob/living/carbon/source, amount)
 	SIGNAL_HANDLER
 
-	if(source.mob_mood.sanity <= SANITY_UNSTABLE)
+	if(amount < SANITY_UNSTABLE)
 		icon_state = "salesman_fzz"
 		desc = "A pair of glasses, the lenses are full of TV static. They've certainly seen better days..."
-		bigshot.update_worn_glasses()
+		source.update_worn_glasses()
 	else
 		icon_state = initial(icon_state)
 		desc = initial(desc)
-		bigshot.update_worn_glasses()
+		source.update_worn_glasses()
 
 /obj/item/clothing/glasses/nightmare_vision
 	name = "nightmare vision goggles"
