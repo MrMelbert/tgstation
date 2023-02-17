@@ -35,10 +35,14 @@
 	///Defines when a bodypart should not be changed. Example: BP_BLOCK_CHANGE_SPECIES prevents the limb from being overwritten on species gain
 	var/change_exempt_flags
 
+	// These need a genetic system later
 	///Whether the bodypart (and the owner) is husked.
 	var/is_husked = FALSE
 	///Whether the bodypart (and the owner) is invisible through invisibleman trait.
 	var/is_invisible = FALSE
+	///Whether the bodypart (and the owner) is a zombie
+	var/is_zombified = FALSE
+
 	///The ID of a species used to generate the icon. Needs to match the icon_state portion in the limbs file!
 	var/limb_id = SPECIES_HUMAN
 	//Defines what sprite the limb should use if it is also sexually dimorphic.
@@ -733,6 +737,9 @@
 			is_husked = FALSE
 			is_invisible = FALSE
 
+		// We can be husked and a zombie, or invisible and a zombie, technically
+		is_zombified = HAS_TRAIT(owner, TRAIT_ZOMBIFIED)
+
 	if(variable_color)
 		draw_color = variable_color
 	else if(should_draw_greyscale)
@@ -805,6 +812,9 @@
 	var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
 	var/image/aux
 
+	var/alt_icon_file
+	var/alt_icon_key
+
 	// Handles making bodyparts look husked
 	if(is_husked)
 		limb.icon = icon_husk
@@ -815,6 +825,15 @@
 			aux = image(limb.icon, "[husk_type]_husk_[aux_zone]", -aux_layer, image_dir)
 			. += aux
 
+	else if(is_zombified)
+		limb.icon = icon_zombie
+		limb.icon_state = "zombie_[body_zone]"
+		icon_exists(limb.icon, limb.icon_state, scream = TRUE)
+		. += limb
+		if(aux_zone)
+			aux = image(limb.icon, "zombie_[aux_zone]", -aux_layer, image_dir)
+			. += aux
+
 	// Handles invisibility (not alpha or actual invisibility but invisibility)
 	if(is_invisible)
 		limb.icon = icon_invisible
@@ -823,7 +842,7 @@
 		return .
 
 	// Normal non-husk handling
-	if(!is_husked)
+	if(!is_husked && !is_zombified)
 		// This is the MEAT of limb icon code
 		limb.icon = icon_greyscale
 		if(!should_draw_greyscale || !icon_greyscale)

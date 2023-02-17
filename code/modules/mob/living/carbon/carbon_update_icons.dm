@@ -523,6 +523,8 @@
 		. += "-[draw_color]"
 	if(is_invisible)
 		. += "-invisible"
+	if(is_zombified)
+		. ++ "-zombie"
 	for(var/datum/bodypart_overlay/overlay as anything in bodypart_overlays)
 		if(!overlay.can_draw_on_bodypart(owner))
 			continue

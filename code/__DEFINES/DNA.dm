@@ -224,3 +224,7 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 #define SPECIES_POSITIVE_PERK "positive"
 #define SPECIES_NEGATIVE_PERK "negative"
 #define SPECIES_NEUTRAL_PERK "neutral"
+
+/// After taking damage, how long it takes for automatic regeneration to begin
+#define ZOMBIE_REGENERATION_DELAY 6 SECONDS
+#define ZOMBIE_FAVORITES (GROSS | MEAT | RAW | GORE)

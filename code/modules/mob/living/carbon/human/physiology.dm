@@ -23,5 +23,23 @@
 
 	var/hunger_mod = 1 //% of hunger rate taken per tick.
 
+	/// Puts a cap on the amount of stuns applied to this mob
+	/// If null, there is no cap.
+	var/max_stun_duration = null
+
 /datum/physiology/New()
 	armor = new
+
+/datum/physiology/proc/add_max_stun_duration(amount)
+	if(isnull(max_stun_duration))
+		max_stun_duration = 0
+
+	max_stun_duration += amount
+
+/datum/physiology/proc/remove_max_stun_duration(amount)
+	if(isnull(max_stun_duration))
+		return
+
+	max_stun_duration -= amount
+	if(max_stun_duration <= 0)
+		max_stun_duration = null

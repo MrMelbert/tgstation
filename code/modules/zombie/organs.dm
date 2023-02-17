@@ -91,3 +91,153 @@
 
 /obj/item/organ/internal/zombie_infection/nodamage
 	causes_damage = FALSE
+
+
+/datum/status_effect/zombified
+	id = "zombification"
+	duration = -1
+	tick_interval = -1
+
+/datum/status_effect/zombified/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_ZOMBIFIED, SPECIES_TRAIT)
+
+/datum/status_effect/zombified/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_ZOMBIFIED, SPECIES_TRAIT)
+
+/datum/status_effect/zombified/cosmetic
+	id = "cosmetic_zombification"
+
+/datum/status_effect/zombified/infectious
+	id = "infectious_zombification"
+	tick_interval = 2 SECONDS
+
+	/// The rate the zombies regenerate at
+	var/heal_rate = 0.5
+	/// The cooldown before the zombie can start regenerating
+	COOLDOWN_DECLARE(regen_cooldown)
+
+	var/static/list/spooks = list(
+		'sound/hallucinations/growl1.ogg',
+		'sound/hallucinations/growl2.ogg',
+		'sound/hallucinations/growl3.ogg',
+		'sound/hallucinations/veryfar_noise.ogg',
+		'sound/hallucinations/wail.ogg',
+	)
+	var/static/list/zombie_traits = list(
+		TRAIT_EASILY_WOUNDED,
+		TRAIT_EASYDISMEMBER,
+		TRAIT_FAKEDEATH,
+		TRAIT_LIMBATTACHMENT,
+		TRAIT_NOBREATH,
+		TRAIT_NOCLONELOSS,
+		TRAIT_NODEATH,
+		TRAIT_NOHUNGER,
+		TRAIT_NOMETABOLISM,
+		TRAIT_NO_BODY_TEMPERATURE_REGULATION,
+		TRAIT_RADIMMUNE,
+		TRAIT_RESISTCOLD,
+		TRAIT_RESISTHIGHPRESSURE,
+		TRAIT_RESISTLOWPRESSURE,
+		TRAIT_TOXIMMUNE,
+	)
+
+/datum/status_effect/zombified/infectious/on_apply()
+	. = ..()
+	for(var/trait in zombie_traits)
+		ADD_TRAIT(owner, trait, SPECIES_TRAIT)
+	owner.AddComponent(/datum/component/mutant_hands, mutant_hand_path = /obj/item/mutant_hand/zombie)
+	owner.add_movespeed_modifier(/datum/movespeed_modifier/zombie)
+	RegisterSignal(owner, COMSIG_MOB_APPLY_DAMAGE, PROC_REF(on_damage))
+	RegisterSignal(owner, COMSIG_LIVING_DEATH, PROC_REF(on_death))
+
+	var/obj/item/organ/internal/zombie_infection/infection = owner.getorganslot(ORGAN_SLOT_ZOMBIE)
+	if(isnull(infection))
+		infection = new()
+		infection.Insert(owner)
+
+	var/datum/species/modify_species = owner.dna?.species
+	if(!isnull(modify_species))
+		owner.mob_biotypes |= MOB_UNDEAD
+
+		modify_species.liked_food |= ZOMBIE_FAVORITES
+
+		modify_species.armor += 20
+		modify_species.mutantliver = null
+		modify_species.mutantlungs = null
+		modify_species.mutantheart = null
+		modify_species.mutantstomach = null
+
+		/*
+		mutanteyes = /obj/item/organ/internal/eyes/night_vision/zombie
+		mutantbrain = /obj/item/organ/internal/brain/zombie
+		mutanttongue = /obj/item/organ/internal/tongue/zombie
+		*/
+
+	owner.physiology.add_max_stun_duration(2 SECONDS)
+
+/datum/status_effect/zombified/infectious/on_remove()
+	. = ..()
+	for(var/trait in zombie_traits)
+		REMOVE_TRAIT(owner, trait, SPECIES_TRAIT)
+	qdel(owner.GetComponent(/datum/component/mutant_hands))
+	owner.remove_movespeed_modifier(/datum/movespeed_modifier/zombie)
+	UnregisterSignal(owner, COMSIG_MOB_APPLY_DAMAGE)
+	UnregisterSignal(owner, COMSIG_LIVING_DEATH)
+
+	owner.mob_biotypes &= ~MOB_UNDEAD // melbert todo: removes existing undead
+
+	var/obj/item/organ/internal/zombie_infection/infection = owner.getorganslot(ORGAN_SLOT_ZOMBIE)
+	if(!isnull(infection))
+		qdel(infection)
+
+	var/datum/species/modify_species = owner.dna?.species
+	if(!isnull(modify_species))
+		owner.mob_biotypes = initial(modify_species.inherent_biotypes)
+
+		modify_species.liked_food = initial(modify_species.liked_foods)
+
+		modify_species.armor -= 20
+		modify_species.mutantliver = initial(modify_species.mutantliver)
+		modify_species.mutantlungs = initial(modify_species.mutantlungs)
+		modify_species.mutantheart = initial(modify_species.mutantheart)
+		modify_species.mutantstomach = initial(modify_species.mutantstomach)
+
+	owner.physiology.remove_max_stun_duration(2 SECONDS)
+
+/datum/status_effect/zombified/infectious/tick(delta_time, times_fired)
+	owner.set_combat_mode(TRUE) // THE SUFFERING MUST FLOW
+
+	//Zombies never actually die, they just fall down until they regenerate enough to rise back up.
+	//They must be restrained, beheaded or gibbed to stop being a threat.
+	if(COOLDOWN_FINISHED(src, regen_cooldown))
+		var/heal_amt = heal_rate
+		if(HAS_TRAIT(owner, TRAIT_CRITICAL_CONDITION))
+			heal_amt *= 2
+		owner.heal_overall_damage(heal_amt * delta_time, heal_amt * delta_time)
+		owner.adjustToxLoss(-heal_amt * delta_time)
+		for(var/datum/wound/scratch as anything in owner.all_wounds)
+			if(DT_PROB(2 - (scratch.severity / 2), delta_time))
+				scratch.remove_wound()
+
+	if(!HAS_TRAIT(owner, TRAIT_CRITICAL_CONDITION) && DT_PROB(2, delta_time))
+		playsound(owner, pick(spooks), 50, TRUE, 10)
+
+/datum/status_effect/zombified/infectious/proc/on_damage(datum/source, damage)
+	SIGNAL_HANDLER
+
+	if(damage < 0)
+		return
+
+	COOLDOWN_START(src, regen_cooldown, ZOMBIE_REGENERATION_DELAY)
+
+/datum/status_effect/zombified/infectious/proc/on_death(datum/source, gibbed)
+	SIGNAL_HANDLER
+
+	// Congrats, you somehow died so hard you stopped being a zombie
+	qdel(src)
+
+/datum/movespeed_modifier/zombie
+	movetypes = ~FLYING
+	multiplicative_slowdown = 1.6
