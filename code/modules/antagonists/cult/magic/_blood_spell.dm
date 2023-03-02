@@ -23,6 +23,7 @@
 	real_parent.cooldown_time = 0 SECONDS
 
 /datum/component/charge_spell/RegisterWithParent()
+	RegisterSignal(parent, COMSIG_SPELL_ADMIN_GRANTED, PROC_REF(on_admin_grant))
 	RegisterSignal(parent, COMSIG_SPELL_AFTER_CAST, PROC_REF(after_spell_cast))
 	RegisterSignal(parent, COMSIG_ACTION_BUTTON_NAME_UPDATE, PROC_REF(update_description))
 	RegisterSignal(parent, COMSIG_SPELL_CAST_RESET, PROC_REF(reset_charge))
@@ -31,7 +32,22 @@
 	real_parent.build_all_button_icons(UPDATE_BUTTON_NAME)
 
 /datum/component/charge_spell/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_SPELL_AFTER_CAST, COMSIG_ACTION_BUTTON_NAME_UPDATE, COMSIG_SPELL_CAST_RESET))
+	UnregisterSignal(parent, list(COMSIG_SPELL_AFTER_CAST, COMSIG_ACTION_BUTTON_NAME_UPDATE, COMSIG_SPELL_CAST_RESET, COMSIG_SPELL_ADMIN_GRANTED))
+
+/datum/component/charge_spell/proc/on_admin_grant(datum/action/cooldown/spell/source, mob/recipient, mob/admin)
+	SIGNAL_HANDLER
+
+	INVOKE_ASYNC(src, PROC_REF(admin_setup), source, recipient, admin)
+
+/datum/component/charge_spell/proc/admin_setup(datum/action/cooldown/spell/source, mob/recipient, mob/admin)
+	var/edit_charges = tgui_input_number(admin, "This spell is a charge spell by default. \
+		Edit charges (or make it infinite)?", "Charge spell", charges, INFINITY, 1)
+	if(!isnum(edit_charges) || QDELETED(src) || QDELETED(source))
+		return
+	if(!check_rights_for(admin.client, NONE))
+		return
+
+	charges = edit_charges
 
 /// Signal proc for [COMSIG_SPELL_AFTER_CAST].
 /// After cast, consume a charge. If no charges remain, delete the parent.

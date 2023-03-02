@@ -682,7 +682,7 @@ GLOBAL_PROTECT(admin_verbs_poll)
 	set desc = "Gives a spell to a mob."
 
 	var/which = tgui_alert(usr, "Chose by name or by type path?", "Chose option", list("Name", "Typepath"))
-	if(!which)
+	if(!which || !check_rights(NONE))
 		return
 	if(QDELETED(spell_recipient))
 		to_chat(usr, span_warning("The intended spell recipient no longer exists."))
@@ -700,14 +700,15 @@ GLOBAL_PROTECT(admin_verbs_poll)
 			spell_list += to_add
 
 	var/chosen_spell = tgui_input_list(usr, "Choose the spell to give to [spell_recipient]", "ABRAKADABRA", sort_list(spell_list))
-	if(isnull(chosen_spell))
+	if(isnull(chosen_spell) || !check_rights(NONE))
 		return
 	var/datum/action/cooldown/spell/spell_path = which == "Typepath" ? chosen_spell : spell_list[chosen_spell]
 	if(!ispath(spell_path))
 		return
 
 	var/robeless = (tgui_alert(usr, "Would you like to force this spell to be robeless?", "Robeless Casting?", list("Force Robeless", "Use Spell Setting")) == "Force Robeless")
-
+	if(!check_rights(NONE))
+		return
 	if(QDELETED(spell_recipient))
 		to_chat(usr, span_warning("The intended spell recipient no longer exists."))
 		return
@@ -726,6 +727,8 @@ GLOBAL_PROTECT(admin_verbs_poll)
 	if(!spell_recipient.mind)
 		to_chat(usr, span_userdanger("Spells given to mindless mobs will belong to the mob and not their mind, \
 			and as such will not be transferred if their mind changes body (Such as from Mindswap)."))
+
+	SEND_SIGNAL(new_spell, COMSIG_SPELL_ADMIN_GRANTED, spell_recipient, usr)
 
 /client/proc/remove_spell(mob/removal_target in GLOB.mob_list)
 	set category = "Admin.Fun"
