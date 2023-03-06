@@ -3,7 +3,10 @@
 	desc = "Marks a target for the cult."
 	DEFINE_CULT_ACTION("cult_mark", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	cooldown_time = 2 MINUTES
+	spell_requirements = NONE
+	school = SCHOOL_SANGUINE
 
 	active_msg = span_cult("You prepare to mark a target for your cult. <b>Click a target to mark them!</b>")
 	deactive_msg = span_cult("You cease the marking ritual.")

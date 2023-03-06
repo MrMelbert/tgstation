@@ -68,7 +68,17 @@
 
 /datum/antagonist/cult/on_gain()
 	add_objectives()
+
+	// Some relevant actions (granted in innate effecst)
+	if(!cult_team.cult_master)
+		vote = new(src)
+	communion = new(src)
+
+	// Create the magic holder datum
+	magic_holder = new()
+
 	. = ..()
+
 	var/mob/living/current = owner.current
 	if(give_equipment)
 		equip_cultist(TRUE)
@@ -76,13 +86,6 @@
 
 	if(cult_team.blood_target && cult_team.blood_target_image && current.client)
 		current.client.images += cult_team.blood_target_image
-
-	// Some relevant actions
-	if(!cult_team.cult_master)
-		vote = new(src)
-	communion = new(src)
-	// cult magic
-	magic_holder = new(current)
 
 /datum/antagonist/cult/on_removal()
 	if(!silent)
@@ -153,6 +156,7 @@
 
 	vote?.Grant(current) // vote is null if a master exists
 	communion.Grant(current)
+	magic_holder.give_to_cultist(current)
 
 	current.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
 	/*
@@ -175,10 +179,14 @@
 	vote?.Remove(current)
 	communion.Remove(current)
 	current.clear_alert("bloodsense")
+
+	/*
 	if (HAS_TRAIT(current, TRAIT_UNNATURAL_RED_GLOWY_EYES))
 		current.RemoveElement(/datum/element/cult_eyes)
 	if (HAS_TRAIT(current, TRAIT_CULT_HALO))
 		current.RemoveElement(/datum/element/cult_halo)
+	*/
+
 	REMOVE_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 
 /datum/antagonist/cult/on_mindshield(mob/implanter)
@@ -224,7 +232,7 @@
 	// THREE NEWS SPELLS FOR OUR FRIEND THE MASTER
 	var/datum/action/cooldown/spell/final_reckoning/reckoning
 	var/datum/action/cooldown/spell/pointed/cultmark/bloodmark
-	var/datum/action/innate/cult/master/pulse/throwing
+	var/datum/action/cooldown/spell/pointed/pulse/throwing
 
 /datum/antagonist/cult/master/on_gain()
 	reckoning = new(src)
@@ -261,13 +269,14 @@
 	bloodmark.Grant(current)
 	throwing.Grant(current)
 
+	/*
 	if(cult_team.cult_risen)
 		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
 	if(cult_team.cult_ascendent)
 		current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
+	*/
 
 	add_team_hud(current, /datum/antagonist/cult)
-
 	RegisterSignal(current, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 
 /datum/antagonist/cult/master/remove_innate_effects(mob/living/mob_override)
@@ -386,22 +395,31 @@
 			if(mind.current)
 				SEND_SOUND(mind.current, 'sound/hallucinations/im_here1.ogg')
 				to_chat(mind.current, span_cultlarge(span_warning("Your cult is ascendent and the red harvest approaches - you cannot hide your true nature for much longer!!")))
-				mind.current.AddElement(/datum/element/cult_halo)
+				mind.current.AddElement(/datum/element/cult_halo/antag_checks)
 		cult_ascendent = TRUE
 		log_game("The blood cult has ascended with [cultplayers] players.")
 
 /datum/team/cult/add_member(datum/mind/new_member)
 	. = ..()
 	if(isliving(new_member.current))
+		// melbert todo: this won't catch mind swaps
 		if(cult_risen)
-			new_member.current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
+			new_member.current.AddElement(/datum/element/cult_eyes/antag_checks, initial_delay = 0 SECONDS)
 		if(cult_ascendent)
-			new_member.current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
+			new_member.current.AddElement(/datum/element/cult_halo/antag_checks, initial_delay = 0 SECONDS)
 
 	// A little hacky, but this checks that cult ghosts don't contribute to the size at maximum value.
 	if(is_unassigned_job(new_member.assigned_role))
 		return
 	size_at_maximum++
+
+/datum/team/cult/remove_member(datum/mind/member)
+	. = ..()
+	if(isliving(member.current))
+		if(cult_risen)
+			member.current.RemoveElement(/datum/element/cult_eyes/antag_checks)
+		if(cult_ascendent)
+			member.current.RemoveElement(/datum/element/cult_halo/antag_checks)
 
 /datum/team/cult/proc/make_image(datum/objective/sacrifice/sac_objective)
 	var/datum/job/job_of_sacrifice = sac_objective.target.assigned_role
@@ -595,7 +613,7 @@
 	uniform = /obj/item/clothing/under/color/black
 	suit = /obj/item/clothing/suit/hooded/cultrobes/alt
 	shoes = /obj/item/clothing/shoes/cult/alt
-	r_hand = /obj/item/melee/blood_magic/stun
+	r_hand = /obj/item/melee/touch_attack/cult/stun
 
 /datum/outfit/cultist/post_equip(mob/living/carbon/human/equipped, visualsOnly)
 	equipped.eye_color_left = BLOODCULT_EYE

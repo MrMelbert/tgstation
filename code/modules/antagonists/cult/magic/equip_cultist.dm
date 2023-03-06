@@ -3,11 +3,13 @@
 	desc = "Will equip cult combat gear onto a cultist on contact."
 	DEFINE_CULT_ACTION("equip", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
 
 	hand_path = /obj/item/melee/touch_attack/cult/armor
+	can_cast_on_self = TRUE
 
 /datum/action/cooldown/spell/touch/cult_armor/New(Target, original)
 	. = ..()

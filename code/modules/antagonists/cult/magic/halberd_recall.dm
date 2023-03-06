@@ -3,12 +3,13 @@
 	desc = "Call the bloody halberd back to your hand!"
 	DEFINE_CULT_ACTION("bloodspear", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 2 SECONDS
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
 
-	default_button_position = "6:157,4:-2"
+	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
 
 /datum/action/cooldown/spell/summonitem/cult_halberd/try_link_item(mob/living/caster)
 	return // Nope

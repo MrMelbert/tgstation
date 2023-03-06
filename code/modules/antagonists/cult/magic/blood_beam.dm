@@ -2,9 +2,15 @@
 /// This is the blood beam invoked by using blood rites.
 /datum/action/cooldown/spell/pointed/blood_beam
 	name = "Blood Beam"
-	desc = ""
-	DEFINE_CULT_ACTION("manip", 'icons/mob/actions/actions_cult.dmi')
+	desc = "Fires off an incredibly powerful cone of blood beams at the direction you point. \
+		This spell has a long charge up time that will leave you vulnerable before and after casting. \
+		Heathens hit by the beam will be damaged and stunned, while fellow cultists will be healed. \
+		Additionally, the ground beneath it will be converted."
+	DEFINE_CULT_ACTION("disintegrate", 'icons/obj/weapons/items_and_weapons.dmi')
 
+	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+
+	sound = null
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 20 SECONDS
 	spell_requirements = NONE
@@ -59,7 +65,7 @@
 
 /datum/action/cooldown/spell/pointed/blood_beam/proc/charge_effects(mob/living/caster)
 	var/obj/visual_holder
-	playsound(caster, 'sound/magic/lightning_chargeup.ogg', 100, TRUE)
+	playsound(caster, 'sound/magic/lightning_chargeup.ogg', 100, FALSE)
 	for(var/i in 1 to 12)
 		if(!beam_charging || QDELETED(caster) || QDELETED(src))
 			break

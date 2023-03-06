@@ -75,7 +75,7 @@
 	. = ..()
 	var/datum/action/seek_prey/seek = new(src)
 	seek.Grant(src)
-	seek.Activate()
+	INVOKE_ASYNC(seek, TYPE_PROC_REF(/datum/action, Trigger))
 
 /datum/action/seek_master
 	name = "Seek your Master"
@@ -136,7 +136,11 @@
 
 	return ..()
 
-/datum/action/seek_prey/Activate()
+/datum/action/seek_prey/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return
+
 	var/mob/living/simple_animal/hostile/construct/harvester/the_construct = owner
 	if(the_construct.seeking)
 		desc = initial(desc)

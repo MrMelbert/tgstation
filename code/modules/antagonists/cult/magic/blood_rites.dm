@@ -2,9 +2,9 @@
 #define BLOOD_BARRAGE_COST 300
 #define BLOOD_BEAM_COST 500
 
-#define BLOOD_HALBERD_KEY "Bloody Halberd ([BLOOD_HALBERD_COST])"
-#define BLOOD_BARRAGE_KEY "Blood Bolt Barrage ([BLOOD_BARRAGE_COST])"
-#define BLOOD_BEAM_KEY "Blood Beam ([BLOOD_BEAM_COST])"
+#define BLOOD_HALBERD_KEY "Bloody Halberd" // "Bloody Halberd ([BLOOD_HALBERD_COST])"
+#define BLOOD_BARRAGE_KEY "Blood Bolt Barrage" // "Blood Bolt Barrage ([BLOOD_BARRAGE_COST])"
+#define BLOOD_BEAM_KEY "Blood Beam" // "Blood Beam ([BLOOD_BEAM_COST])"
 
 /**
  * Cult bloat, they name is blood rites
@@ -24,10 +24,14 @@
 		Use the spell in-hand to cast advanced rites."
 	DEFINE_CULT_ACTION("manip", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation = "Fel'th Dol Ab'orod!"
 	invocation_type = INVOCATION_WHISPER
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
+
+	hand_path = /obj/item/melee/touch_attack/cult/manipulator
+	can_cast_on_self = TRUE
 
 	/// Our blood spell component, which tracks the number of charges we have left.
 	/// We must track this, unlike other spells, due to the unique ability of incrementing charges.
@@ -72,11 +76,11 @@
 		return
 
 	var/list/possibilities = list(
-		"- [BLOOD_HALBERD_COST] charges allows you to invoke the <b>Blood Halberd<b>, a powerful two-handed melee weapon that is also an effective - \
+		"- [BLOOD_HALBERD_COST] charges allows you to invoke the <b>Blood Halberd</b>, a powerful two-handed melee weapon that is also an effective - \
 			though very fragile - throwing weapon. Comes with the ability to recall the weapon to your hands, should it be separated from you.",
-		"- [BLOOD_BARRAGE_COST] charges allows you to invoke the <b>Blood Bolt Barrage<b>, a one-use spell which lets you rapidly fire off up to 24 \
+		"- [BLOOD_BARRAGE_COST] charges allows you to invoke the <b>Blood Bolt Barrage</b>, a one-use spell which lets you rapidly fire off up to 24 \
 			bolts of blood, dealing moderate burns to non-believers while healing fellow cultists and constructs. Dropping the spell will stop it.",
-		"- [BLOOD_BEAM_COST] charges allows you to invoke the <b>Blood Beam<b>, a powerful one-use spell which fires off far-reaching beams \
+		"- [BLOOD_BEAM_COST] charges allows you to invoke the <b>Blood Beam</b>, a powerful one-use spell which fires off far-reaching beams \
 			of cult energy which will heal cultists, harm non-believers, and convert anything it comes in contact with to Nar'sian. \
 			The spell takes a moment to charge up, and will leave you vulnerable during and afterwards.",
 	)
@@ -167,16 +171,17 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
+		if(IS_CULTIST(human_victim))
+			return heal_cultist(victim, caster)
+
+		// Should cultists without blood be able to be healed by blood rights? Seems wrong
 		if(HAS_TRAIT(human_victim, TRAIT_NOBLOOD) || !human_victim.blood_volume)
 			victim.balloon_alert(caster, "no blood!")
 			return FALSE
 
-		if(IS_CULTIST(human_victim))
-			return heal_cultist(victim, caster)
-
 		return drain_victim(victim, caster)
 
-	if(istype(victim, /obj/effect/decal/cleanable/blood))
+	if(istype(victim, /obj/effect/decal/cleanable/blood)) // melbert todo: you can't cast on /effects
 		return absorb_blood(victim, caster)
 
 	return FALSE
@@ -269,6 +274,7 @@
 
 	victim.blood_volume -= human_drain_amount
 	charge_tracker.charges += (human_drain_amount / 2)
+	build_all_button_icons(UPDATE_BUTTON_NAME)
 	caster.Beam(victim, icon_state = "drainbeam", time = 1 SECONDS)
 
 	playsound(victim, 'sound/magic/enter_blood.ogg', 50)
@@ -311,6 +317,7 @@
 	playsound(target_turf, 'sound/magic/enter_blood.ogg', 50)
 	target.balloon_alert(caster, "[total_blood] charge\s gained")
 	charge_tracker.charges += max(1, total_blood)
+	build_all_button_icons(UPDATE_BUTTON_NAME)
 
 	return null // This shouldn't have a return value so the hand doesn't go away after casting.
 

@@ -2,6 +2,8 @@
 
 // Generic spell signals
 
+/// Sent from /client/proc/give_spell() to the spell created: (datum/action/cooldown/spell/spell, mob/admin)
+#define COMSIG_SPELL_ADMIN_GRANTED "admin_spell_granted"
 
 /// Sent from /datum/action/cooldown/spell/before_cast() to the caster: (datum/action/cooldown/spell/spell, atom/cast_on)
 #define COMSIG_MOB_BEFORE_SPELL_CAST "mob_spell_pre_cast"

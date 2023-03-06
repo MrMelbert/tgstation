@@ -18,6 +18,7 @@
 
 //screen locations
 #define DEFAULT_BLOODSPELLS "6:-29,4:-2"
+#define DEFAULT_UNIQUE_BLOODSPELLS "5:3,4:30"
 #define DEFAULT_BLOODTIP "14:6,14:27"
 #define DEFAULT_TOOLTIP "6:-29,5:-2"
 //misc

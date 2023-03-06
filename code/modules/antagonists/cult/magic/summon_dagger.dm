@@ -3,6 +3,7 @@
 	desc = "Allows you to summon a ritual dagger, in case you've lost the dagger that was given to you."
 	DEFINE_CULT_ACTION("equip", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation = "Wur d'dai leev'mai k'sagan!" //where did I leave my keys, again?
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE

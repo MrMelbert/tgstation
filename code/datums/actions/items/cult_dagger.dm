@@ -8,13 +8,32 @@
 	background_icon_state = "bg_demon"
 	overlay_icon_state = "bg_demon_border"
 
-	default_button_position = "6:157,4:-2"
+	// default_button_position = "6:157,4:-2"
 
 /datum/action/item_action/cult_dagger/Grant(mob/grant_to)
-	if(!IS_CULTIST(grant_to))
+	var/datum/antagonist/cult/cultist = IS_CULTIST(grant_to)
+	if(isnull(cultist))
 		return
 
-	return ..()
+	. = ..()
+
+	if(!owner || owner != grant_to)
+		return
+	if(default_button_position != SCRN_OBJ_IN_LIST)
+		return
+
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/moving_button = viewers[hud]
+		if(!moving_button)
+			continue
+
+		var/our_view = hud.mymob?.client?.view || "15x15"
+		var/base_pos = screen_loc_to_offset(DEFAULT_BLOODSPELLS)
+		// The rune carving action will alawys be shifted to the furthest spot on the spell bar
+		var/rune_x = base_pos[1] + (cultist.magic_holder.empowered_spell_limit + 1) * world.icon_size
+		var/newpos = offset_to_screen_loc(rune_x, base_pos[2], our_view)
+		hud.position_action(moving_button, newpos)
+		default_button_position = newpos // Update default position
 
 /datum/action/item_action/cult_dagger/Trigger(trigger_flags)
 	for(var/obj/item/held_item as anything in owner.held_items) // In case we were already holding a dagger

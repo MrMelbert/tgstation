@@ -50,14 +50,13 @@
 		var/spells_iterated = 0
 		for(var/datum/action/cooldown/spell/blood_spell as anything in spells)
 			spells_iterated += 1
-			// if(blood_spell.positioned)
-			// 	continue
 			var/atom/movable/screen/movable/action_button/moving_button = blood_spell.viewers[hud]
 			if(!moving_button)
 				continue
 			var/our_x = position[1] + spells_iterated * world.icon_size // Offset any new buttons into our list
-			hud.position_action(moving_button, offset_to_screen_loc(our_x, position[2], our_view))
-			// blood_spell.positioned = TRUE
+			var/newpos = offset_to_screen_loc(our_x, position[2], our_view)
+			hud.position_action(moving_button, newpos)
+			blood_spell.default_button_position = newpos // Update default position
 
 /**
  * Wrapper for adding a new spell to the spells list.
@@ -71,6 +70,7 @@
 	spells += new_spell
 	position_spells()
 	RegisterSignal(new_spell, COMSIG_PARENT_QDELETING, PROC_REF(clear_spell_ref))
+	return new_spell
 
 /// Signal proc to clean up references when spell datums are deleted
 /datum/cult_magic_holder/proc/clear_spell_ref(datum/source)
@@ -106,16 +106,17 @@
 		return FALSE
 	if(!owner.mind.has_antag_datum(required_antag_datum))
 		return FALSE
-	if(currently_carving)
-		if(feedback)
-			owner.balloon_alert(owner, "already preparing a spell!")
-		return FALSE
+
 	return TRUE
 
 /datum/action/cult_spell_creator/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return
+	// Can't put this in IsAvailable as we check during the trigger for input stalling
+	if(currently_carving)
+		owner.balloon_alert(owner, "already preparing a spell!")
+		return FALSE
 
 	currently_carving = TRUE
 	. = create_spell_process()
@@ -137,12 +138,11 @@
 	to_chat(owner, span_warning("You begin to carve unnatural symbols into your flesh!"))
 	SEND_SOUND(owner, sound('sound/weapons/slice.ogg', 0, 1, 10))
 
-/datum/action/cult_spell_creator/proc/after_spell_made(datum/action/cooldown/spell/new_spell)
+/datum/action/cult_spell_creator/proc/after_spell_made(datum/action/cooldown/spell/new_spell, empowered = FALSE)
 	to_chat(owner, span_warning("Your wounds glow with power, you have prepared a [new_spell.name] invocation!"))
 	if(!ishuman(owner))
 		return
 
-	var/empowered = !!is_empowered() // Cast to boolean so we can multiply it
 	var/mob/living/carbon/human/human_owner = owner
 	human_owner.bleed(40 - empowered * 32)
 
@@ -156,7 +156,7 @@
 	var/upper_limit = parent.empowered_spell_limit
 
 	var/rune = !!is_empowered()
-	var/limit = rune ? lower_limit : upper_limit
+	var/limit = rune ? upper_limit : lower_limit
 
 	if(length(parent.spells) >= limit)
 		if(rune)
@@ -171,38 +171,47 @@
 	for(var/datum/action/cooldown/spell/spell_type as anything in parent.possible_spell_types)
 		var/cult_name = initial(spell_type.name)
 		possible_spells_assoc[cult_name] = spell_type
-	possible_spells_assoc[REMOVE_SPELL_KEY] = 1
+
+	if(length(parent.spells))
+		possible_spells_assoc[REMOVE_SPELL_KEY] = 1
 
 	var/entered_spell_name = tgui_input_list(owner, "Blood spell to prepare", "Spell Choices", possible_spells_assoc)
-	if(isnull(entered_spell_name))
+	if(isnull(entered_spell_name) || QDELETED(src) || !IsAvailable())
 		return
 	if(entered_spell_name == REMOVE_SPELL_KEY)
 		return remove_spell()
 
 	var/datum/action/cooldown/spell/selected_spell = possible_spells_assoc[entered_spell_name]
-	if(QDELETED(src) || !IsAvailable() || currently_carving)
-		return
 	if(!ispath(selected_spell))
 		return
 
 	// Re-do these, to check if they changed
 	rune = !!is_empowered()
-	limit = rune ? lower_limit : upper_limit
+	limit = rune ? upper_limit : lower_limit
 
 	if(length(parent.spells) >= limit)
 		return
 
 	before_spell_made(selected_spell)
 
-	if(!do_after(owner, (10 SECONDS) - rune * (6 SECONDS), owner))
-		return
+	if(rune)
+		if(!do_after(owner, 4 SECONDS, extra_checks = CALLBACK(src, PROC_REF(is_empowered))))
+			owner.balloon_alert(owner, "carving interrupted!")
+			return
 
-	var/datum/action/cooldown/spell/new_spell = parent.add_new_spell(selected_spell)
-	after_spell_made(new_spell)
+	else
+		if(!do_after(owner, 10 SECONDS))
+			owner.balloon_alert(owner, "carving interrupted!")
+			return
+
+	var/datum/action/cooldown/spell/new_spell = parent.add_new_spell(selected_spell, owner)
+	after_spell_made(new_spell, empowered = rune)
 	return TRUE
 
 /// Used for cult touch spells
 /obj/item/melee/touch_attack/cult
+	icon_state = "disintegrate"
+	inhand_icon_state = "disintegrate"
 
 /obj/item/melee/touch_attack/cult/interact(mob/user)
 	// using in hand (attack self-ing) is a quick way to cast it on yourself.

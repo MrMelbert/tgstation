@@ -3,6 +3,7 @@
 	desc = "Will teleport a cultist to a teleport rune on contact."
 	DEFINE_CULT_ACTION("tele", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation = "Sas'so c'arta forbici!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS
@@ -10,6 +11,7 @@
 	school = SCHOOL_SANGUINE
 
 	hand_path = /obj/item/melee/touch_attack/cult/teleport
+	can_cast_on_self = TRUE
 
 /datum/action/cooldown/spell/touch/cult_teleport/New(Target, original)
 	. = ..()

@@ -3,6 +3,7 @@
 	desc = "Alternates between hiding and revealing nearby cult structures and runes."
 	DEFINE_CULT_ACTION("gone", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation = "Kla'atu barada nikt'o!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

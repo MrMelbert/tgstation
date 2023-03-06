@@ -3,6 +3,7 @@
 	desc = "Will start handcuffing a victim on contact, and mute them if successful."
 	DEFINE_CULT_ACTION("cuff", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation = "In'totum Lig'abis!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

@@ -7,6 +7,7 @@
 		Examine your hand for more information."
 	DEFINE_CULT_ACTION("transmute", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation = "Ethra p'ni dedol!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

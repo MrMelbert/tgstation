@@ -4,6 +4,7 @@
 	DEFINE_CULT_ACTION("horror", 'icons/mob/actions/actions_cult.dmi')
 	ranged_mousepointer = 'icons/effects/mouse_pointers/cult_target.dmi'
 
+	sound = null
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 0 SECONDS
 	spell_requirements = NONE

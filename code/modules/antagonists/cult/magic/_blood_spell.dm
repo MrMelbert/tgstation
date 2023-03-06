@@ -75,7 +75,8 @@
 /datum/component/charge_spell/proc/reset_charge(datum/action/cooldown/spell/source)
 	SIGNAL_HANDLER
 
-	charges += per_cast_cost
+	// charges += per_cast_cost
+	// source.build_all_button_icons(UPDATE_BUTTON_NAME)
 
 /**
  * Subtype of the charge spell component (I know) that turns puts a culty twist on it.

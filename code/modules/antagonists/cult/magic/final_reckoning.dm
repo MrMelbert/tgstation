@@ -3,10 +3,13 @@
 	desc = "A single-use spell that brings the entire cult to the master's location."
 	DEFINE_CULT_ACTION("sintouch", 'icons/mob/actions/actions_cult.dmi')
 
+	sound = null
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 16 SECONDS
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
+
+	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
 
 /datum/action/cooldown/spell/final_reckoning/can_cast_spell(feedback)
 	. = ..()
@@ -85,7 +88,7 @@
 		if(4)
 			playsound(mobloc, 'sound/magic/exit_blood.ogg', 100, TRUE)
 			if(cultist == owner)
-				continue
+				return
 			var/turf/final = pick(destinations)
 			new /obj/effect/temp_visual/cult/blood(final)
 			addtimer(CALLBACK(src, PROC_REF(reckon), cultist, final), 1 SECONDS)

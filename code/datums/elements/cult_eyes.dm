@@ -12,7 +12,11 @@
 
 	// Register signals for mob transformation to prevent premature halo removal
 	RegisterSignals(target, list(COMSIG_CHANGELING_TRANSFORM, COMSIG_MONKEY_HUMANIZE, COMSIG_HUMAN_MONKEYIZE), PROC_REF(set_eyes))
-	addtimer(CALLBACK(src, PROC_REF(set_eyes), target), initial_delay)
+
+	if(initial_delay > 0 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(set_eyes), target), initial_delay)
+	else
+		set_eyes(target)
 
 /**
  * Cult eye setter proc
@@ -21,6 +25,9 @@
  */
 /datum/element/cult_eyes/proc/set_eyes(mob/living/target)
 	SIGNAL_HANDLER
+
+	if(QDELETED(target))
+		return
 
 	ADD_TRAIT(target, TRAIT_UNNATURAL_RED_GLOWY_EYES, CULT_TRAIT)
 	if (ishuman(target))
@@ -46,4 +53,14 @@
 		human_parent.dna.update_ui_block(DNA_EYE_COLOR_RIGHT_BLOCK)
 		human_parent.update_body()
 	UnregisterSignal(target, list(COMSIG_CHANGELING_TRANSFORM, COMSIG_HUMAN_MONKEYIZE, COMSIG_MONKEY_HUMANIZE))
+	return ..()
+
+/// A subtype which hard checks for cult antag datums.
+/// So adminbus can use the effect without handing out datums.
+/datum/element/cult_eyes/antag_checks
+
+/datum/element/cult_eyes/antag_checks/set_eyes(mob/living/target)
+	if(!IS_CULTIST(target))
+		return
+
 	return ..()

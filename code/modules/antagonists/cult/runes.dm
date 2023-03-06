@@ -389,13 +389,17 @@ structure_check() searches for nearby cultist structures required for the invoca
 	construct_invoke = FALSE
 
 /obj/effect/rune/empower/invoke(list/invokers)
-	. = ..()
 	var/mob/living/user = invokers[1] //the first invoker is always the user
 	var/datum/action/cult_spell_creator/spell_creator = locate() in user.actions
 	if(isnull(spell_creator))
 		to_chat(user, span_warning("Your magic does not come to you, for whatever reason. Contact your local diety!"))
 		CRASH("A cultist couldn't find their cult spell creator when invoking the empower rune!")
 
+	if(!spell_creator.IsAvailable(feedback = TRUE))
+		fail_invoke()
+		return
+
+	. = ..()
 	spell_creator.Trigger()
 
 /obj/effect/rune/teleport

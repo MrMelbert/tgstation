@@ -5,6 +5,9 @@
 	desc = ""
 	DEFINE_CULT_ACTION("arcane_barrage", 'icons/mob/actions/actions_spells.dmi')
 
+	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+
+	sound = null
 	invocation_type = INVOCATION_NONE
 	cooldown_time = 20 SECONDS
 	spell_requirements = NONE

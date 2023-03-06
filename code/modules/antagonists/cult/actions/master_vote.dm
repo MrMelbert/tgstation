@@ -3,7 +3,13 @@
 	DEFINE_CULT_ACTION("cultvote", 'icons/mob/actions/actions_cult.dmi')
 
 	/// Votes cannot be polled before this world time
-	var/min_allowed_world_time = 240 SECONDS
+	var/min_allowed_world_time = 4 MINUTES
+
+/datum/action/cult_master_vote/New(Target)
+	. = ..()
+	// Add a timer to update our button when we become available, if we're a starting cultist
+	if(ACCURATE_WORLD_TIME() < min_allowed_world_time)
+		addtimer(CALLBACK(src, PROC_REF(build_all_button_icons)), min_allowed_world_time - ACCURATE_WORLD_TIME() + (5 SECONDS))
 
 /datum/action/cult_master_vote/IsAvailable(feedback = FALSE)
 	. = ..()
@@ -16,8 +22,8 @@
 		return FALSE
 	if(world.time < min_allowed_world_time)
 		if(feedback)
-			to_chat(owner, "It would be premature to select a leader while everyone is still settling in, \
-				try again in [DisplayTimeText(min_allowed_world_time - world.time)].")
+			to_chat(owner, span_cult("It would be premature to select a leader while everyone is still settling in, \
+				try again in [DisplayTimeText(min_allowed_world_time - ACCURATE_WORLD_TIME())]."))
 		return FALSE
 	return TRUE
 

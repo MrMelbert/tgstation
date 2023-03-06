@@ -18,6 +18,8 @@
 	var/cast_range = 7
 	/// Variable dictating if the spell will use turf based aim assist
 	var/aim_assist = TRUE
+	/// If TRUE, when we fail to cast from before_cast, we will automatically deactivate the spell
+	var/deactivate_on_failed_cast = TRUE
 
 /datum/action/cooldown/spell/pointed/New(Target)
 	. = ..()
@@ -43,7 +45,7 @@
 
 /datum/action/cooldown/spell/pointed/before_cast(atom/cast_on)
 	. = ..()
-	if(. & SPELL_CANCEL_CAST)
+	if((. & SPELL_CANCEL_CAST) && deactivate_on_failed_cast)
 		on_deactivation(owner, refund_cooldown = FALSE)
 
 /// Called when the spell is activated / the click ability is set to our spell
