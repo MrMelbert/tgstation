@@ -128,7 +128,7 @@
 /datum/action/cult_spell_creator/proc/remove_spell()
 	var/datum/cult_magic_holder/parent = target
 	var/nullify_spell = tgui_input_list(owner, "Spell to remove", "Current Spells", parent.spells)
-	if(isnull(nullify_spell))
+	if(QDELETED(nullify_spell))
 		return FALSE
 	qdel(nullify_spell)
 	parent.spells -= nullify_spell

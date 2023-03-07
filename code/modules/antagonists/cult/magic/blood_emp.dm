@@ -3,6 +3,7 @@
 	desc = "Emits a large electromagnetic pulse."
 	DEFINE_CULT_ACTION("emp", 'icons/mob/actions/actions_spells.dmi')
 
+	sound = 'sound/effects/empulse.ogg'
 	invocation = "Ta'gh fara'qha fel d'amar det!"
 	invocation_type = INVOCATION_WHISPER
 	cooldown_time = 0 SECONDS

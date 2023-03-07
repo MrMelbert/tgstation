@@ -11,7 +11,7 @@
 	school = SCHOOL_SANGUINE
 
 	aoe_radius = 5
-	var/revealing = TRUE
+	var/revealing = FALSE
 
 /datum/action/cooldown/spell/aoe/veiling/New(Target, original)
 	. = ..()

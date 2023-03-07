@@ -123,7 +123,7 @@ Runes can either be invoked by one's self or with many different cultists. Each 
 /obj/effect/rune/proc/on_veil(datum/source, revealing, atom/caster)
 	SIGNAL_HANDLER
 
-	if(revealing)
+	if(revealing) // melbert todo, fails if the turf below changes
 		reveal()
 	else
 		conceal()

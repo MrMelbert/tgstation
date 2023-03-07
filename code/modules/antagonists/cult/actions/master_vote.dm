@@ -91,7 +91,7 @@
 		return FALSE
 
 	// -- Master elected --
-	cult_master = nominee
+	// Grab some things from their old antag datum that we want to maintain
 	var/datum/antagonist/cult/old_datum = nominee.mind.has_antag_datum(/datum/antagonist/cult)
 	var/datum/cult_magic_holder/old_holder
 	if (old_datum)
@@ -101,8 +101,8 @@
 		// remove their old datum silently
 		old_datum.silent = TRUE
 		old_datum.on_removal()
-
-	var/datum/antagonist/cult/master/new_datum = nominee.mind.add_antag_datum(/datum/antagonist/cult/master)
+	// Now give them the new cult master datum, with all the bells and whistles + the old stuff
+	var/datum/antagonist/cult/master/new_datum = nominee.mind.add_antag_datum(/datum/antagonist/cult/master, src)
 	if(old_holder)
 		// get rid of that new lame one
 		QDEL_NULL(new_datum.magic_holder)
@@ -110,7 +110,10 @@
 		new_datum.magic_holder = old_holder
 		// old_holder.give_to_cultist(Nominee) // melbert todo, not necessary?
 
-	// -- Alert thec ult of their new master --
+	ASSERT(new_datum?.get_team() == src)
+	cult_master = nominee
+
+	// -- Alert the cult of their new master --
 	for(var/datum/mind/team_cultist as anything in members)
 		var/datum/antagonist/cult/team_cultist_datum = team_cultist.has_antag_datum(/datum/antagonist/cult)
 		QDEL_NULL(team_cultist_datum.vote)

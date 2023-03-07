@@ -108,8 +108,9 @@
 		)
 		return
 
-	throwee_turf.Beam(cast_on, icon_state = "sendbeam", time = 0.4 SECONDS)
-	new /obj/effect/temp_visual/cult/sparks(get_turf(cast_on), owner.dir)
+	playsound(throwee_landing_turf, 'sound/magic/enter_blood.ogg')
+	throwee_turf.Beam(throwee_landing_turf, icon_state = "sendbeam", time = 0.4 SECONDS)
+	new /obj/effect/temp_visual/cult/sparks(throwee_landing_turf, owner.dir)
 	throwee.visible_message(
 		span_warning("[throwee] appears suddenly in a pulse of magic!"),
 		span_cult("...And you appear elsewhere."),

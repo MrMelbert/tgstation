@@ -50,7 +50,7 @@
 	)
 
 	if(!do_after(caster, 3 SECONDS, victim, extra_checks = CALLBACK(src, PROC_REF(cuff_checks), hand, victim, caster)))
-		victim.balloon_alert("shackle failed!")
+		victim.balloon_alert(user, "shackle failed!")
 		return FALSE
 	if(!can_be_cuffed(victim, caster))
 		return FALSE

@@ -35,13 +35,11 @@
 		to_chat(caster, span_warning("The spell had no effect!"))
 		return TRUE
 
-	if(IS_HERETIC(victim))
-		to_chat(caster, span_warning("Some force greater than you intervenes! [victim] is protected by the Forgotten Gods!"))
-		to_chat(victim, span_warning("You are protected by your faith to the Forgotten Gods."))
-		var/old_color = victim.color
-		victim.color = rgb(0, 128, 0)
-		animate(victim, color = old_color, time = 1 SECONDS, easing = EASE_IN)
-		return TRUE
+	var/sigreturn = SEND_SIGNAL(victim, COMSIG_LIVING_CULT_STUNNED, caster, hand, src)
+	if(sigreturn & FAIL_CULT_STUN)
+		return FALSE // Stun failed, stop the cast, don't consume it
+	if(sigreturn & BLOCK_CULT_STUN)
+		return TRUE // Stun succeeded but was blocked
 
 	to_chat(caster, span_cultitalic("In a brilliant flash of red, [victim] falls to the ground!"))
 	victim.Paralyze(16 SECONDS)

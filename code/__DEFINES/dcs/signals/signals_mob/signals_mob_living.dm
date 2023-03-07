@@ -131,6 +131,14 @@
 	/// Don't send a message for sacrificing this thing, we have our own
 	#define SILENCE_SACRIFICE_MESSAGE (1<<1)
 
+/// From /datum/action/cooldown/spell/touch/cult_stun/cast_on_hand_hit():
+/// (mob/living/caster, obj/item/melee/touch_attack/cult/hand, datum/action/cooldown/spell/touch/cult_stun)
+#define COMSIG_LIVING_CULT_STUNNED "living_cult_stunned"
+	/// Return to block the stun and consume the spell charge
+	#define BLOCK_CULT_STUN (1<<0)
+	/// Return to stop the stun but don't consume the spell use (keep the hand active)
+	#define FAIL_CULT_STUN (1<<1)
+
 /// From /mob/living/befriend() : (mob/living/new_friend)
 #define COMSIG_LIVING_BEFRIENDED "living_befriended"
 

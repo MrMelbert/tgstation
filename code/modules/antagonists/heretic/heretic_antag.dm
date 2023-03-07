@@ -210,6 +210,7 @@
 	RegisterSignal(our_mob, COMSIG_MOB_LOGIN, PROC_REF(fix_influence_network))
 	RegisterSignal(our_mob, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(after_fully_healed))
 	RegisterSignal(our_mob, COMSIG_LIVING_CULT_SACRIFICED, PROC_REF(on_cult_sacrificed))
+	RegisterSignal(our_mob, COMSIG_LIVING_CULT_STUNNED, PROC_REF(on_cult_stun))
 
 /datum/antagonist/heretic/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/our_mob = mob_override || owner.current
@@ -222,7 +223,8 @@
 		COMSIG_MOB_ITEM_AFTERATTACK,
 		COMSIG_MOB_LOGIN,
 		COMSIG_LIVING_POST_FULLY_HEAL,
-		COMSIG_LIVING_CULT_SACRIFICED
+		COMSIG_LIVING_CULT_SACRIFICED,
+		COMSIG_LIVING_CULT_STUNNED,
 	))
 
 /datum/antagonist/heretic/on_body_transfer(mob/living/old_body, mob/living/new_body)
@@ -377,6 +379,17 @@
 	for(var/mob/living/cultist as anything in invokers)
 		to_chat(cultist, span_cultlarge("\"A follower of the forgotten gods! You must be rewarded for such a valuable sacrifice.\""))
 	return SILENCE_SACRIFICE_MESSAGE
+
+/// Signal proc for [COMSIG_LIVING_CULT_STUNNED], heretics get to be funny hand immune
+/datum/antagonist/heretic/proc/on_cult_stun(mob/living/source, mob/living/carbon/caster, obj/item/melee/touch_attack/hand)
+	SIGNAL_HANDLER
+
+	to_chat(caster, span_warning("Some force greater than you intervenes! [source] is protected by the Forgotten Gods!"))
+	to_chat(source, span_warning("You are protected by your faith to the Forgotten Gods!"))
+	var/old_color = victim.color
+	victim.color = rgb(0, 128, 0)
+	animate(victim, color = old_color, time = 1 SECONDS, easing = EASE_IN)
+	return BLOCK_CULT_STUN
 
 /**
  * Create our objectives for our heretic.
