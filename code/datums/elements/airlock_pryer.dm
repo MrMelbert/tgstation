@@ -135,7 +135,7 @@
 	// Pod doors are stronger and take longer to cut through
 	if(istype(door, /obj/machinery/door/poddoor))
 		final_pry_time *= 3
-	var/shock_callback = CALLBACK(src, PROC_REF(evade_shock_from_door), door, pryer, prybar)
+	var/datum/callback/shock_callback = CALLBACK(src, PROC_REF(evade_shock_from_door), door, pryer, prybar)
 	if(final_pry_time > 0 SECONDS && !do_after(pryer, final_pry_time, door, extra_checks = shock_callback))
 		door.balloon_alert(pryer, "interrupted!")
 		return FALSE
