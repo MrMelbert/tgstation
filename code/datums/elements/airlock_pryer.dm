@@ -140,7 +140,7 @@
 		door.balloon_alert(pryer, "interrupted!")
 		return FALSE
 
-	if(door.density && !door.open(2))
+	if(door.density && !door.open(BYPASS_DOOR_CHECKS))
 		// The airlock is still closed, maybe someone prevented the pry last second (like by bolting or welding the door).
 		door.balloon_alert(pryer, "prying failed!")
 		return FALSE

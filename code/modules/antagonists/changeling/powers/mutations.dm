@@ -21,10 +21,32 @@
 	var/weapon_type
 	var/weapon_name_simple
 
+/datum/action/changeling/weapon/Grant(mob/granted_to)
+	. = ..()
+	if (!owner || !req_human)
+		return
+	RegisterSignal(granted_to, COMSIG_HUMAN_MONKEYIZE, PROC_REF(became_monkey))
+
+/datum/action/changeling/weapon/Remove(mob/remove_from)
+	UnregisterSignal(remove_from, COMSIG_HUMAN_MONKEYIZE)
+	unequip_held(remove_from)
+	return ..()
+
+/// Remove weapons if we become a monkey
+/datum/action/changeling/weapon/proc/became_monkey(mob/source)
+	SIGNAL_HANDLER
+	unequip_held(source)
+
+/// Removes weapon if it exists, returns true if we removed something
+/datum/action/changeling/weapon/proc/unequip_held(mob/user)
+	var/found_weapon = FALSE
+	for(var/obj/item/held in user.held_items)
+		found_weapon = check_weapon(user, held) || found_weapon
+	return found_weapon
+
 /datum/action/changeling/weapon/try_to_sting(mob/user, mob/target)
-	for(var/obj/item/I in user.held_items)
-		if(check_weapon(user, I))
-			return
+	if (unequip_held(user))
+		return
 	..(user, target)
 
 /datum/action/changeling/weapon/proc/check_weapon(mob/user, obj/item/hand_item)
@@ -34,15 +56,15 @@
 			playsound(user, 'sound/effects/blobattack.ogg', 30, TRUE)
 			user.visible_message(span_warning("With a sickening crunch, [user] reforms [user.p_their()] [weapon_name_simple] into an arm!"), span_notice("We assimilate the [weapon_name_simple] back into our body."), "<span class='italics>You hear organic matter ripping and tearing!</span>")
 		user.update_held_items()
-		return 1
+		return TRUE
 
 /datum/action/changeling/weapon/sting_action(mob/living/carbon/user)
 	var/obj/item/held = user.get_active_held_item()
 	if(held && !user.dropItemToGround(held))
-		to_chat(user, span_warning("[held] is stuck to your hand, you cannot grow a [weapon_name_simple] over it!"))
+		user.balloon_alert(user, "hand occupied!")
 		return
 	if(!istype(user))
-		to_chat(user, span_warning("You can't do that in this state!"))
+		user.balloon_alert(user, "wrong shape!")
 		return
 	..()
 	var/limb_regen = 0
@@ -59,11 +81,6 @@
 		playsound(user, 'sound/effects/blobattack.ogg', 30, TRUE)
 	return W
 
-/datum/action/changeling/weapon/Remove(mob/user)
-	for(var/obj/item/I in user.held_items)
-		check_weapon(user, I)
-	..()
-
 
 //Parent to space suits and armor.
 /datum/action/changeling/suit
@@ -79,6 +96,22 @@
 	var/helmet_name_simple = "     "
 	var/recharge_slowdown = 0
 	var/blood_on_castoff = 0
+
+/datum/action/changeling/suit/Grant(mob/granted_to)
+	. = ..()
+	if (!owner || !req_human)
+		return
+	RegisterSignal(granted_to, COMSIG_HUMAN_MONKEYIZE, PROC_REF(became_monkey))
+
+/datum/action/changeling/suit/Remove(mob/remove_from)
+	UnregisterSignal(remove_from, COMSIG_HUMAN_MONKEYIZE)
+	check_suit(remove_from)
+	return ..()
+
+/// Remove suit if we become a monkey
+/datum/action/changeling/suit/proc/became_monkey()
+	SIGNAL_HANDLER
+	check_suit(owner)
 
 /datum/action/changeling/suit/try_to_sting(mob/user, mob/target)
 	if(check_suit(user))
@@ -107,19 +140,12 @@
 		changeling.chem_recharge_slowdown -= recharge_slowdown
 		return 1
 
-/datum/action/changeling/suit/Remove(mob/user)
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/H = user
-	check_suit(H)
-	..()
-
 /datum/action/changeling/suit/sting_action(mob/living/carbon/human/user)
 	if(!user.canUnEquip(user.wear_suit))
-		to_chat(user, span_warning("\the [user.wear_suit] is stuck to your body, you cannot grow a [suit_name_simple] over it!"))
+		user.balloon_alert(user, "body occupied!")
 		return
 	if(!user.canUnEquip(user.head))
-		to_chat(user, span_warning("\the [user.head] is stuck on your head, you cannot grow a [helmet_name_simple] over it!"))
+		user.balloon_alert(user, "head occupied!")
 		return
 	..()
 	user.dropItemToGround(user.head)
@@ -261,7 +287,7 @@
 
 
 /obj/item/gun/magic/tentacle/shoot_with_empty_chamber(mob/living/user as mob|obj)
-	to_chat(user, span_warning("The [name] is not ready yet."))
+	user.balloon_alert(user, "not ready!")
 
 /obj/item/gun/magic/tentacle/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)
 	var/obj/projectile/tentacle/tentacle_shot = chambered.loaded_projectile //Gets the actual projectile we will fire
@@ -464,14 +490,20 @@
 	name = "flesh mass"
 	icon_state = "lingspacesuit_t"
 	icon = 'icons/obj/clothing/suits/costume.dmi'
+	worn_icon = 'icons/mob/clothing/suits/costume.dmi'
 	desc = "A huge, bulky mass of pressure and temperature-resistant organic tissue, evolved to facilitate space travel."
 	item_flags = DROPDEL
 	clothing_flags = STOPSPRESSUREDAMAGE //Not THICKMATERIAL because it's organic tissue, so if somebody tries to inject something into it, it still ends up in your blood. (also balance but muh fluff)
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/oxygen)
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 90, ACID = 90) //No armor at all.
+	armor_type = /datum/armor/space_changeling
 	actions_types = list()
 	cell = null
 	show_hud = FALSE
+
+/datum/armor/space_changeling
+	bio = 100
+	fire = 90
+	acid = 90
 
 /obj/item/clothing/suit/space/changeling/Initialize(mapload)
 	. = ..()
@@ -484,10 +516,10 @@
 /obj/item/clothing/suit/space/changeling/toggle_spacesuit_cell(mob/user)
 	return
 
-/obj/item/clothing/suit/space/changeling/process(delta_time)
+/obj/item/clothing/suit/space/changeling/process(seconds_per_tick)
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.reagents.add_reagent(/datum/reagent/medicine/salbutamol, REAGENTS_METABOLISM * (delta_time / SSMOBS_DT))
+		H.reagents.add_reagent(/datum/reagent/medicine/salbutamol, REAGENTS_METABOLISM * (seconds_per_tick / SSMOBS_DT))
 		H.adjust_bodytemperature(temperature_setting - H.bodytemperature) // force changelings to normal temp step mode played badly
 
 /obj/item/clothing/head/helmet/space/changeling
@@ -499,7 +531,7 @@
 	desc = "A covering of pressure and temperature-resistant organic tissue with a glass-like chitin front."
 	item_flags = DROPDEL
 	clothing_flags = STOPSPRESSUREDAMAGE | HEADINTERNALS
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 90, ACID = 90)
+	armor_type = /datum/armor/space_changeling
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
 /obj/item/clothing/head/helmet/space/changeling/Initialize(mapload)
@@ -531,10 +563,20 @@
 	inhand_icon_state = null
 	item_flags = DROPDEL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor = list(MELEE = 40, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 10, BIO = 10, FIRE = 90, ACID = 90)
+	armor_type = /datum/armor/armor_changeling
 	flags_inv = HIDEJUMPSUIT
 	cold_protection = 0
 	heat_protection = 0
+
+/datum/armor/armor_changeling
+	melee = 40
+	bullet = 40
+	laser = 40
+	energy = 50
+	bomb = 10
+	bio = 10
+	fire = 90
+	acid = 90
 
 /obj/item/clothing/suit/armor/changeling/Initialize(mapload)
 	. = ..()
@@ -548,8 +590,18 @@
 	icon_state = "lingarmorhelmet"
 	inhand_icon_state = null
 	item_flags = DROPDEL
-	armor = list(MELEE = 40, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 10, BIO = 10, FIRE = 90, ACID = 90)
+	armor_type = /datum/armor/helmet_changeling
 	flags_inv = HIDEEARS|HIDEHAIR|HIDEEYES|HIDEFACIALHAIR|HIDEFACE|HIDESNOUT
+
+/datum/armor/helmet_changeling
+	melee = 40
+	bullet = 40
+	laser = 40
+	energy = 50
+	bomb = 10
+	bio = 10
+	fire = 90
+	acid = 90
 
 /obj/item/clothing/head/helmet/changeling/Initialize(mapload)
 	. = ..()
