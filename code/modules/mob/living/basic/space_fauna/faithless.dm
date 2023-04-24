@@ -33,7 +33,7 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_SHOE)
-	AddComponent(/datum/component/pry_open_door)
+	AddElement(/datum/element/airlock_prying, mob_pry_noun = "claws", pry_time = 10 SECONDS)
 
 /datum/ai_controller/basic_controller/faithless
 	blackboard = list(

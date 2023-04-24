@@ -415,7 +415,6 @@
 		return turn(dir,180) & unres_sides
 	return ..()
 
-// melbert todo: kill
 /obj/machinery/door/window/try_to_crowbar(obj/item/I, mob/user, forced = FALSE)
 	if(!hasPower() || forced)
 		if(density)

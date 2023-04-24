@@ -34,7 +34,15 @@
 ///for any tool behaviors: (mob/living/user, obj/item/I, list/recipes)
 #define COMSIG_ATOM_TOOL_ACT(tooltype) "tool_act_[tooltype]"
 	#define COMPONENT_BLOCK_TOOL_ATTACK (1<<0)
+/// Partner to atom_tool_act, but sent to the tool itself
+#define COMSIG_ITEM_USED_AS_TOOL(tooltype) "item_used_as_tool_[tooltype]"
+	// We have the same returns here as COMSIG_ATOM_TOOL_ACT
+	// #define COMPONENT_BLOCK_TOOL_ATTACK (1<<0)
 ///for any rightclick tool behaviors: (mob/living/user, obj/item/I)
 #define COMSIG_ATOM_SECONDARY_TOOL_ACT(tooltype) "tool_secondary_act_[tooltype]"
+	// We have the same returns here as COMSIG_ATOM_TOOL_ACT
+	// #define COMPONENT_BLOCK_TOOL_ATTACK (1<<0)
+/// Partner to right click atom_tool_act, but sent to the tool itself
+#define COMSIG_ITEM_USED_AS_TOOL_SECONDARY(tooltype) "item_used_as_tool_secondary_[tooltype]"
 	// We have the same returns here as COMSIG_ATOM_TOOL_ACT
 	// #define COMPONENT_BLOCK_TOOL_ATTACK (1<<0)

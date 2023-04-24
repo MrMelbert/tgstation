@@ -135,6 +135,7 @@
 
 /// For airlock prying element so we only pry on crowbar mode
 /obj/item/crowbar/power/proc/try_pry()
+	// Not strictly necessary, because we end up hooking into TOOL_CROWBAR anways, but it's added sanity.
 	return tool_behaviour == TOOL_CROWBAR
 
 /obj/item/crowbar/power/syndicate

@@ -39,6 +39,7 @@
 		RegisterSignal(target, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
 	else if(isitem(target))
 		RegisterSignal(target, COMSIG_ITEM_PRE_ATTACK, PROC_REF(on_pre_attack))
+		RegisterSignal(target, COMSIG_ITEM_USED_AS_TOOL(TOOL_CROWBAR), PROC_REF(on_crowbarred))
 	else
 		return ELEMENT_INCOMPATIBLE
 
@@ -53,7 +54,7 @@
 
 /datum/element/airlock_prying/Detach(datum/source, ...)
 	. = ..()
-	UnregisterSignal(source, list(COMSIG_ITEM_PRE_ATTACK, COMSIG_LIVING_UNARMED_ATTACK))
+	UnregisterSignal(source, list(COMSIG_ITEM_PRE_ATTACK, COMSIG_ITEM_USED_AS_TOOL(TOOL_CROWBAR), COMSIG_LIVING_UNARMED_ATTACK))
 
 /datum/element/airlock_prying/proc/on_pre_attack(obj/item/source, atom/attacked, mob/living/attacker, params)
 	SIGNAL_HANDLER
@@ -62,6 +63,14 @@
 		return
 
 	return COMPONENT_CANCEL_ATTACK_CHAIN
+
+/datum/element/airlock_prying/proc/on_crowbarred(obj/item/source, mob/living/tool_user, atom/attacked)
+	SIGNAL_HANDLER
+
+	if(!try_pry(attacked, tool_user, source))
+		return
+
+	return COMPONENT_BLOCK_TOOL_ATTACK
 
 /datum/element/airlock_prying/proc/on_unarmed_attack(mob/living/source, atom/attacked, proximity, list/modifiers)
 	SIGNAL_HANDLER
@@ -73,9 +82,11 @@
 
 	return COMPONENT_CANCEL_ATTACK_CHAIN
 
-
 /datum/element/airlock_prying/proc/try_pry(atom/possible_door, mob/living/pryer, obj/item/prybar)
 	if(!istype(possible_door, /obj/machinery/door))
+		return FALSE
+
+	if(DOING_INTERACTION_WITH_TARGET(pryer, possible_door))
 		return FALSE
 
 	var/obj/machinery/door/door = possible_door
@@ -114,7 +125,9 @@
 	return TRUE
 
 /datum/element/airlock_prying/proc/pry_door(obj/machinery/door/door, mob/living/pryer, obj/item/prybar)
-	if(!prybar)
+	if(prybar)
+		prybar.add_fingerprint(pryer)
+	else
 		door.add_fingerprint(pryer)
 
 	// Like sticking a fork in an electric socket
@@ -122,11 +135,11 @@
 		return FALSE
 
 	do_sparks(3, TRUE, door)
-	door.balloon_alert(pryer, "prying open...")
+	pryer.log_message("attempted to pry open [door]", LOG_ATTACK, color = "yellow")
 	pryer.visible_message(
-		span_warning("[pryer] begins prying open [src] with [pryer.p_their()] [prybar ? "[prybar.name]" : "[mob_pry_noun]"]..."),
+		span_warning("[pryer] begins prying open [door] with [pryer.p_their()] [prybar ? "[prybar.name]" : "[mob_pry_noun]"]..."),
+		span_warning("You begin prying open [door] with [prybar || "your [mob_pry_noun]"]..."),
 		span_hear("You hear groaning metal..."),
-		ignored_mobs = pryer,
 	)
 
 	var/powered = door.hasPower()
@@ -135,9 +148,10 @@
 	// Pod doors are stronger and take longer to cut through
 	if(istype(door, /obj/machinery/door/poddoor))
 		final_pry_time *= 3
+	door.Shake(1, 1, duration = final_pry_time * 0.8, shake_interval = 1.2 DECISECONDS)
 	var/datum/callback/shock_callback = CALLBACK(src, PROC_REF(evade_shock_from_door), door, pryer, prybar)
 	if(final_pry_time > 0 SECONDS && !do_after(pryer, final_pry_time, door, extra_checks = shock_callback))
-		door.balloon_alert(pryer, "interrupted!")
+		animate(door, pixel_x = 0, pixel_y = 0, time = 0)
 		return FALSE
 
 	if(door.density && !door.open(BYPASS_DOOR_CHECKS))
@@ -148,11 +162,11 @@
 	if(check_holidays(APRIL_FOOLS) && prob(10))
 		pryer.say("Heeeeeeeeeerrre's Johnny!")
 
-	door.balloon_alert(pryer, "pried")
+	pryer.log_message("pried open [door]", LOG_ATTACK, color = "yellow")
 	pryer.visible_message(
-		span_warning("[pryer] pries open [src] with [pryer.p_their()] [prybar ? "[prybar.name]" : "[mob_pry_noun]"]!"),
+		span_warning("[pryer] pries open [door] with [pryer.p_their()] [prybar ? "[prybar.name]" : "[mob_pry_noun]"]!"),
+		span_warning("You pry open [door] with [prybar ? "[prybar]" : "your [mob_pry_noun]"]!"),
 		blind_message = span_hear("You hear a metal screeching sound."),
-		ignored_mobs = pryer,
 	)
 	door.take_damage(25, BRUTE, sound_effect = FALSE) // Enough to sometimes spark
 	return TRUE

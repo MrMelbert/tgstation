@@ -48,8 +48,8 @@
 		/datum/element/airlock_prying, \
 		depowered_pry_sound = 'sound/items/welder2.ogg', \
 		powered_pry_sound = 'sound/items/welder2.ogg', \
-		pry_time = 20 SECONDS, \
-		pry_time_unpowered = 20 SECONDS, \
+		pry_time = 15 SECONDS, \
+		pry_time_unpowered = 15 SECONDS, \
 		pry_depowered = TRUE, \
 		try_pry_proccall = PROC_REF(try_pry), \
 	)

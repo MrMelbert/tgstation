@@ -300,6 +300,7 @@
 	copied_parameters["priority"] = priority
 	filter_data[name] = copied_parameters
 	update_filters()
+	return get_filter(name)
 
 /// Reapplies all the filters.
 /datum/proc/update_filters()

@@ -136,7 +136,7 @@
 	var/shuttledocked = 0
 	var/delayed_close_requested = FALSE // TRUE means the door will automatically close the next time it's opened.
 	var/air_tight = FALSE //TRUE means density will be set as soon as the door begins to close
-	var/prying_so_hard = FALSE
+
 	///Logging for door electrification.
 	var/shockedby
 	///How many seconds remain until the door is no longer electrified. -1/MACHINE_ELECTRIFIED_PERMANENT = permanently electrified until someone fixes it.
@@ -1049,6 +1049,14 @@
 
 	return TRUE
 
+/**
+ * Airlocks have the optional argument "forced" for attempting to crowbar open
+ *
+ * If passed as TRUE, and the airlock is powered, we will initiate a do_after after which it will open,
+ * allowing the user to bypass access checks and force it open
+ *
+ * See also, [/datum/element/airlock_pryer]
+ */
 /obj/machinery/door/airlock/try_to_crowbar(obj/item/I, mob/living/user, forced = FALSE)
 	if(I?.tool_behaviour == TOOL_CROWBAR && should_try_removing_electronics() && !operating)
 		user.visible_message(span_notice("[user] removes the electronics from the airlock assembly."), \
@@ -1056,7 +1064,6 @@
 		if(I.use_tool(src, user, 40, volume=100))
 			deconstruct(TRUE, user)
 			return
-	// melbert todo: kill
 	if(seal)
 		to_chat(user, span_warning("Remove the seal first!"))
 		return
@@ -1071,24 +1078,22 @@
 			var/check_electrified = isElectrified() //setting this so we can check if the mob got shocked during the do_after below
 			if(check_electrified && shock(user,100))
 				return //it's like sticking a fork in a power socket
-
 			if(!density)//already open
 				return
-
-			if(!prying_so_hard)
-				var/time_to_open = 50
-				playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE) //is it aliens or just the CE being a dick?
-				prying_so_hard = TRUE
-				if(do_after(user, time_to_open, src))
-					if(check_electrified && shock(user,100))
-						prying_so_hard = FALSE
-						return
-					open(BYPASS_DOOR_CHECKS)
-					take_damage(25, BRUTE, 0, 0) // Enough to sometimes spark
-					if(density && !open(BYPASS_DOOR_CHECKS))
-						to_chat(user, span_warning("Despite your attempts, [src] refuses to open."))
-				prying_so_hard = FALSE
+			if(DOING_INTERACTION_WITH_TARGET(user, src))
 				return
+
+			var/time_to_open = 50
+			playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE) //is it aliens or just the CE being a dick?
+			if(do_after(user, time_to_open, src))
+				if(check_electrified && shock(user,100))
+					return
+				open(BYPASS_DOOR_CHECKS)
+				take_damage(25, BRUTE, 0, 0) // Enough to sometimes spark
+				if(density && !open(BYPASS_DOOR_CHECKS))
+					to_chat(user, span_warning("Despite your attempts, [src] refuses to open."))
+			return
+
 		to_chat(user, span_warning("The airlock's motors resist your efforts to force it!"))
 		return
 
