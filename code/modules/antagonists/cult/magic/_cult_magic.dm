@@ -10,11 +10,11 @@
  */
 /datum/cult_magic_holder
 	/// This is the core action that lets the cultist create spells.
-	var/datum/action/cult_spell_creator/spell_creator
+	VAR_FINAL/datum/action/cult_spell_creator/spell_creator
 	/// An assoc list of all the spell datums we've created for this cultist to their index in the list when first added
 	/// All are fully deleted when this datum holder is deleted.
 	/// Their assoc value (initial index) is used for poisitioning in the spell bar on the cultist's hud.
-	var/list/datum/action/cooldown/spell/spells = list()
+	VAR_FINAL/list/datum/action/cooldown/spell/spells = list()
 	/// When unempowered or unaided, the cultist can only invoke this many spells at once.
 	var/unempowered_spell_limit = 1
 	/// When empowered, the cultist can invoke up to this many spells at once.
