@@ -17,9 +17,6 @@
 	. = ..()
 	AddComponent(/datum/component/charge_spell, charges = 10)
 
-/datum/action/cooldown/spell/aoe/veiling/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner)
-
 /datum/action/cooldown/spell/aoe/veiling/get_things_to_cast_on(atom/center)
 	return RANGE_TURFS(aoe_radius, center)
 

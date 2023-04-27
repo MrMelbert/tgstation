@@ -57,9 +57,6 @@
 	charge_tracker = null
 	return ..()
 
-/datum/action/cooldown/spell/touch/blood_rites/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner)
-
 /datum/action/cooldown/spell/touch/blood_rites/register_hand_signals()
 	. = ..()
 	RegisterSignal(attached_hand, COMSIG_PARENT_EXAMINE, PROC_REF(on_hand_examine))
@@ -121,6 +118,7 @@
 			halberd_recall.overlay_icon_state = "ab_goldborder"
 			halberd_recall.mark_item(halberd)
 			halberd_recall.Grant(user)
+			halberd_recall.AddElement(/datum/element/cult_spell)
 
 			remove_hand(user)
 			if(user.put_in_hands(halberd))
@@ -146,6 +144,7 @@
 			var/datum/action/cooldown/spell/conjure_item/infinite_guns/blood_bolt/barrage = new(user)
 			barrage.overlay_icon_state = "ab_goldborder"
 			barrage.Grant(user)
+			barrage.AddElement(/datum/element/cult_spell)
 			charge_tracker.charges -= BLOOD_BARRAGE_COST
 			to_chat(user, span_cultbold("Your hands glow with power!"))
 
@@ -161,6 +160,7 @@
 			var/datum/action/cooldown/spell/pointed/blood_beam/beaaaaaam = new(user)
 			beaaaaaam.overlay_icon_state = "ab_goldborder"
 			beaaaaaam.Grant(user)
+			beaaaaaam.AddElement(/datum/element/cult_spell)
 			charge_tracker.charges -= BLOOD_BEAM_COST
 			to_chat(user, span_cultlarge("Your hands glow with POWER OVERWHELMING!!!"))
 

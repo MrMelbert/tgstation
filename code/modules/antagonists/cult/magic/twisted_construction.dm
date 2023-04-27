@@ -22,9 +22,6 @@
 	. = ..()
 	AddComponent(/datum/component/charge_spell/blood_cost, charges = 1, health_cost = 12)
 
-/datum/action/cooldown/spell/touch/twisted_construction/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner)
-
 /datum/action/cooldown/spell/touch/twisted_construction/is_valid_target(atom/cast_on)
 	return !iscarbon(cast_on) // anything but human-ish
 

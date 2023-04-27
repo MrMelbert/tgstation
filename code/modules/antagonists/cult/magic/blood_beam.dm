@@ -29,7 +29,7 @@
 	var/delete_after_fire = TRUE
 
 /datum/action/cooldown/spell/pointed/blood_beam/can_cast_spell(feedback)
-	return ..() && isliving(owner) && IS_CULTIST(owner) && !beam_charging && !beam_firing && isturf(owner.loc)
+	return ..() && isliving(owner) && !beam_charging && !beam_firing && isturf(owner.loc)
 
 /datum/action/cooldown/spell/pointed/blood_beam/before_cast(atom/cast_on)
 	. = ..()

@@ -16,9 +16,6 @@
 	. = ..()
 	AddComponent(/datum/component/charge_spell/blood_cost, charges = 1, health_cost = 10)
 
-/datum/action/cooldown/spell/emp/cult/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner)
-
 /datum/action/cooldown/spell/emp/cult/cast(atom/cast_on)
 	cast_on.visible_message(
 		span_warning("[cast_on]'s hand flashes a bright blue!"),

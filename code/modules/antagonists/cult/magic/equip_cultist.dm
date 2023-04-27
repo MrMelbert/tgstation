@@ -15,9 +15,6 @@
 	. = ..()
 	AddComponent(/datum/component/charge_spell, charges = 1)
 
-/datum/action/cooldown/spell/touch/cult_armor/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner)
-
 /datum/action/cooldown/spell/touch/cult_armor/is_valid_target(atom/cast_on)
 	var/mob/living/carbon/carbon_cast_on = cast_on
 	return istype(carbon_cast_on) && IS_CULTIST(carbon_cast_on)

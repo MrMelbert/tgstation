@@ -25,8 +25,6 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!IS_CULTIST(owner))
-		return FALSE
 	if(QDELETED(marked_item))
 		return FALSE
 

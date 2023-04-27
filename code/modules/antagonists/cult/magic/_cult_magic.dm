@@ -67,6 +67,7 @@
 /datum/cult_magic_holder/proc/add_new_spell(datum/action/cooldown/spell/spell_type, mob/living/give_to)
 	var/datum/action/cooldown/spell/new_spell = new spell_type(src)
 	new_spell.Grant(give_to)
+	new_spell.AddElement(/datum/element/cult_spell)
 	spells += new_spell
 	position_spells()
 	RegisterSignal(new_spell, COMSIG_PARENT_QDELETING, PROC_REF(clear_spell_ref))

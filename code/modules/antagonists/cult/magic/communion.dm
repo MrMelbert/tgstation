@@ -14,6 +14,7 @@
 	var/next_message
 
 /datum/action/cooldown/spell/cult_commune/can_cast_spell(feedback)
+	// Hard requirement for cult as it requires a team to talk to
 	return ..() && IS_CULTIST(owner)
 
 /datum/action/cooldown/spell/cult_commune/is_valid_target(atom/cast_on)

@@ -101,3 +101,23 @@
 		caster.apply_damage(health_cost, BRUTE, lefthand_cast ? BODY_ZONE_L_ARM : BODY_ZONE_R_ARM, wound_bonus = CANT_WOUND)
 
 	return ..()
+
+/// Simple element that makes a spell sanity checks the caster is a cultist in before_cast.
+/datum/element/cult_spell
+
+/datum/element/cult_spell/Attach(datum/target)
+	. = ..()
+	if(!istype(target, /datum/action/cooldown/spell))
+		return ELEMENT_INCOMPATIBLE
+
+	RegisterSignal(target, COMSIG_SPELL_BEFORE_CAST, PROC_REF(on_spell_cast))
+
+/datum/element/cult_spell/Detach(datum/source, ...)
+	. = ..()
+	UnregisterSignal(source, COMSIG_SPELL_BEFORE_CAST)
+
+/datum/element/cult_spell/proc/on_spell_cast(datum/action/cooldown/spell/source, atom/cast_on)
+	SIGNAL_HANDLER
+
+	if(!IS_CULTIST(source.owner))
+		return SPELL_CANCEL_CAST

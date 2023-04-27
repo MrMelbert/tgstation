@@ -15,9 +15,6 @@
 	. = ..()
 	AddComponent(/datum/component/charge_spell, charges = 1)
 
-/datum/action/cooldown/spell/summon_cult_dagger/can_cast_spell(feedback)
-	return ..() && IS_CULTIST(owner)
-
 /datum/action/cooldown/spell/summon_cult_dagger/is_valid_target(atom/cast_on)
 	return isliving(cast_on)
 
