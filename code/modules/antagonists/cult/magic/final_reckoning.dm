@@ -49,6 +49,9 @@
 		if(QDELETED(src) || QDELETED(owner) || !IS_CULTIST(owner))
 			return
 
+		for(var/obj/effect/blessing/begone_ye in range(1, owner))
+			qdel(begone_ye)
+
 		for(var/datum/mind/team_member as anything in cult_team.members)
 			if(!isliving(team_member.current) || team_member.current.stat == DEAD)
 				continue
@@ -100,4 +103,4 @@
 
 	new /obj/effect/temp_visual/cult/blood/out(get_turf(cultist))
 	cultist.setDir(SOUTH)
-	cultist.forceMove(final) // melbert todo: do teleport?
+	do_teleport(cultist, final, channel = TELEPORT_CHANNEL_CULT)

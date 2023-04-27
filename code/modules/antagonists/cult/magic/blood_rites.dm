@@ -64,11 +64,13 @@
 	. = ..()
 	RegisterSignal(attached_hand, COMSIG_PARENT_EXAMINE, PROC_REF(on_hand_examine))
 	RegisterSignal(attached_hand, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_hand_attack_self))
+	RegisterSignal(attached_hand, COMSIG_ITEM_ATTACK_EFFECT, PROC_REF(on_hand_attack_effect))
 
 /datum/action/cooldown/spell/touch/blood_rites/unregister_hand_signals()
 	. = ..()
-	UnregisterSignal(attached_hand, list(COMSIG_ITEM_ATTACK_SELF, COMSIG_PARENT_EXAMINE))
+	UnregisterSignal(attached_hand, list(COMSIG_ITEM_ATTACK_SELF, COMSIG_PARENT_EXAMINE, COMSIG_ITEM_ATTACK_EFFECT))
 
+/// For [COMSIG_PARENT_EXAMINE] to show the advanced rites we can invoke
 /datum/action/cooldown/spell/touch/blood_rites/proc/on_hand_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
 
@@ -88,11 +90,19 @@
 	examine_list += span_cultbold("<u>Using this in hand will allow you to invoke advanced rites:</u>")
 	examine_list += span_cult(jointext(possibilities, "\n"))
 
-/datum/action/cooldown/spell/touch/blood_rites/proc/on_hand_attack_self(datum/source, mob/user)
+/// For [COMSIG_ITEM_ATTACK_SELF], to allow attack-selfing to summon the advanced spells
+/datum/action/cooldown/spell/touch/blood_rites/proc/on_hand_attack_self(obj/item/source, mob/user)
 	SIGNAL_HANDLER
 
 	INVOKE_ASYNC(src, PROC_REF(invoke_advanced_rite), user)
 	return COMPONENT_CANCEL_ATTACK_CHAIN
+
+/// We need to be able to hit blood decals, so we also must implement [COMSIG_ITEM_ATTACK_EFFECT]
+/datum/action/cooldown/spell/touch/blood_rites/proc/on_hand_attack_effect(obj/item/source, obj/effect/smacked, mob/user)
+	SIGNAL_HANDLER
+
+	on_hand_hit(source, smacked, user, TRUE)
+	return COMPONENT_NO_AFTERATTACK
 
 /datum/action/cooldown/spell/touch/blood_rites/proc/invoke_advanced_rite(mob/user)
 	var/choice = show_radial_menu(user, attached_hand, advanced_rites, custom_check = CALLBACK(src, PROC_REF(rite_radial), user), require_near = TRUE)
