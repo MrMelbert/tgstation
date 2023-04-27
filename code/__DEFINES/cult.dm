@@ -61,7 +61,7 @@ GLOBAL_LIST_INIT(cult_spell_types, list(
  * Handles assigning the check flags and the button icon / style to look as it should for a cult action
  */
 #define DEFINE_CULT_ACTION(icon_state, icon) \
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS; \
+	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS; \
 	button_icon = icon; \
 	button_icon_state = icon_state; \
 	background_icon_state = "bg_demon"; \

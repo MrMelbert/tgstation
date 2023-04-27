@@ -11,8 +11,9 @@
 /datum/cult_magic_holder
 	/// This is the core action that lets the cultist create spells.
 	var/datum/action/cult_spell_creator/spell_creator
-	/// A list to all the spell datums we've created for this cultist.
-	/// All fully deleted when this datum holder is deleted.
+	/// An assoc list of all the spell datums we've created for this cultist to their index in the list when first added
+	/// All are fully deleted when this datum holder is deleted.
+	/// Their assoc value (initial index) is used for poisitioning in the spell bar on the cultist's hud.
 	var/list/datum/action/cooldown/spell/spells = list()
 	/// When unempowered or unaided, the cultist can only invoke this many spells at once.
 	var/unempowered_spell_limit = 1
@@ -20,7 +21,7 @@
 	var/empowered_spell_limit = 4
 	/// A static-ish list of all spell types the spell creator can make for this cultist.
 	/// Generated via [/datum/cult_magic_holder/proc/setup_spell_types].
-	var/list/possible_spell_types
+	VAR_FINAL/list/possible_spell_types
 
 /datum/cult_magic_holder/New(mob/living/linked_cultist)
 	spell_creator = new(src)
@@ -47,16 +48,32 @@
 		var/our_view = hud.mymob?.client?.view || "15x15"
 		var/atom/movable/screen/movable/action_button/button = spell_creator.viewers[hud]
 		var/position = screen_loc_to_offset(button.screen_loc)
-		var/spells_iterated = 0
+
 		for(var/datum/action/cooldown/spell/blood_spell as anything in spells)
-			spells_iterated += 1
 			var/atom/movable/screen/movable/action_button/moving_button = blood_spell.viewers[hud]
 			if(!moving_button)
 				continue
-			var/our_x = position[1] + spells_iterated * world.icon_size // Offset any new buttons into our list
+			var/our_x = position[1] + spells[blood_spell] * world.icon_size // Offset any new buttons into our list
 			var/newpos = offset_to_screen_loc(our_x, position[2], our_view)
 			hud.position_action(moving_button, newpos)
-			blood_spell.default_button_position = newpos // Update default position
+			// blood_spell.default_button_position = newpos // Update default position
+
+	/*
+	var/list/position_list = list()
+	for(var/possible_position in 1 to empowered_spell_limit)
+		position_list += possible_position
+	for(var/datum/action/innate/cult/blood_spell/blood_spell in spells)
+		if(blood_spell.positioned)
+			position_list.Remove(blood_spell.positioned)
+			continue
+		var/atom/movable/screen/movable/action_button/moving_button = blood_spell.viewers[hud]
+		if(!moving_button)
+			continue
+		var/first_available_slot = position_list[1]
+		var/our_x = position[1] + first_available_slot * world.icon_size // Offset any new buttons into our list
+		hud.position_action(moving_button, offset_to_screen_loc(our_x, position[2], our_view))
+		blood_spell.positioned = first_available_slot
+	*/
 
 /**
  * Wrapper for adding a new spell to the spells list.
@@ -68,7 +85,27 @@
 	var/datum/action/cooldown/spell/new_spell = new spell_type(src)
 	new_spell.Grant(give_to)
 	new_spell.AddElement(/datum/element/cult_spell)
-	spells += new_spell
+
+	// The index of the list corresponds to the position of the spell on the bar,
+	// so we need the first empty one to slot the new spell into
+	var/first_empty_index = 1
+	for(var/existing_spell in spells)
+		if(spells[existing_spell] == first_empty_index)
+			first_empty_index++
+
+	if(first_empty_index > empowered_spell_limit)
+		// First empty index should obviously not be above the max length of the list
+		stack_trace("Cult magic holder is trying to track a spell at an index beyond its limit.")
+		// Reset all the indexes
+		var/list/reset_spells = assoc_to_keys(spells)
+		var/new_index = 1
+		spells.Cut()
+		for(var/move_spell in reset_spells + new_spell)
+			spells[move_spell] = new_index
+			new_index += 1
+	else
+		spells[new_spell] = first_empty_index
+
 	position_spells()
 	RegisterSignal(new_spell, COMSIG_PARENT_QDELETING, PROC_REF(clear_spell_ref))
 	return new_spell

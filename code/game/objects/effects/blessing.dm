@@ -17,7 +17,7 @@
 		bless_image.appearance_flags = RESET_ALPHA
 		add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/blessed_aware, "blessing", bless_image)
 
-	var/static/list/loc_connections = list(COMSIG_ATOM_INTERCEPT_TELEPORT = PROC_REF(block_cult_teleport))
+	var/static/list/loc_connections = list(COMSIG_ATOM_INTERCEPT_TELEPORTING = PROC_REF(block_cult_teleport))
 	AddElement(/datum/element/connect_loc, loc_connections)
 	AddElement(/datum/element/trait_loc, TRAIT_HOLY)
 

@@ -63,9 +63,11 @@
 		if(!summon_objective)
 			return
 
-		desc = "The sacrifice is complete, summon Nar'Sie! \
-			The summoning can only take place in [english_list(cult_team.ritual_sites)]!"
-		if(icon_state == "runed_sense1") // Already set
+		var/list/location_list = list()
+		for(var/area/area_to_check in summon_objective.summon_spots)
+			location_list += area_to_check.get_original_area_name()
+		desc = "The sacrifice is complete, summon Nar'Sie! The summoning can only take place in [english_list(location_list)]!"
+		if(icon_state == "runed_sense1")
 			return
 		animate(src, transform = null, time = 1, loop = 0)
 		angle = 0

@@ -42,7 +42,7 @@
 	VAR_FINAL/static/list/advanced_rites = list(
 		BLOOD_HALBERD_KEY = image(icon = 'icons/obj/cult/items_and_weapons.dmi', icon_state = "occultpoleaxe0"),
 		BLOOD_BARRAGE_KEY = image(icon = 'icons/obj/weapons/guns/ballistic.dmi', icon_state = "arcane_barrage"),
-		BLOOD_BEAM_KEY = image(icon = 'icons/obj/weapons/items_and_weapons.dmi', icon_state = "disintegrate"),
+		BLOOD_BEAM_KEY = image(icon = 'icons/obj/weapons/hand.dmi', icon_state = "disintegrate"),
 	)
 
 	/// How much blood is taken when casted on a non-cultist human.
