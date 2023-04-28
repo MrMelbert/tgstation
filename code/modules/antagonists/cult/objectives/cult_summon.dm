@@ -12,5 +12,5 @@
 
 /datum/objective/eldergod/check_completion()
 	if(killed)
-		return CULT_NARSIE_KILLED // You failed so hard that even the code went backwards.
+		return -1 // CULT_NARSIE_KILLED // You failed so hard that even the code went backwards.
 	return summoned || completed

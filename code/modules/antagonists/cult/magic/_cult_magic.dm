@@ -57,7 +57,7 @@
 			var/our_x = position[1] + spells[blood_spell] * world.icon_size // Offset any new buttons into our list
 			var/newpos = offset_to_screen_loc(our_x, position[2], our_view)
 			hud.position_action(moving_button, newpos)
-			// blood_spell.default_button_position = newpos // Update default position
+			blood_spell.default_button_position = newpos
 
 	/*
 	var/list/position_list = list()
@@ -92,7 +92,7 @@
 	var/first_empty_index = 1
 	for(var/existing_spell in spells)
 		if(spells[existing_spell] == first_empty_index)
-			first_empty_index++
+			first_empty_index = spells[existing_spell] + 1
 
 	if(first_empty_index > empowered_spell_limit)
 		// First empty index should obviously not be above the max length of the list
@@ -157,7 +157,7 @@
 
 /datum/action/cult_spell_creator/proc/remove_spell()
 	var/datum/cult_magic_holder/parent = target
-	var/nullify_spell = tgui_input_list(owner, "Select a spell to remove", "Current Spells", parent.spells)
+	var/datum/action/cooldown/spell/nullify_spell = tgui_input_list(owner, "Select a spell to remove", "Current Spells", parent.spells)
 	if(QDELETED(nullify_spell))
 		return FALSE
 	qdel(nullify_spell)

@@ -107,7 +107,6 @@
 /// Otherwise when used on an active cyborg, converts it to a construct.
 /datum/action/cooldown/spell/touch/twisted_construction/proc/convert_silicon(mob/living/silicon/robot/candidate, mob/living/carbon/caster, obj/item/melee/touch_attack/hand)
 	var/turf/result_turf = get_turf(candidate)
-	var/mob/living/silicon/robot/candidate = target
 	if(!candidate.mmi && !candidate.shell)
 		var/obj/structure/constructshell/shell = new(result_turf)
 		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [shell], twisting it into \a [shell]!"))

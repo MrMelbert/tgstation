@@ -1,8 +1,10 @@
 /// Not a default cult spell.
 /// This is the blood barrage invoked by using blood rites.
 /datum/action/cooldown/spell/conjure_item/infinite_guns/blood_bolt
-	name = "Blood Bold Barrage"
-	desc = ""
+	name = "Blood Bolt Barrage"
+	desc = "Gives you the abillity to shoot off a fast firing barrage of up to 24 blood bolts \
+		which deal damage or heals fellow cultists over time (also heals constructs). \
+		Dropping the barrage will stop the spell early."
 	DEFINE_CULT_ACTION("arcane_barrage", 'icons/mob/actions/actions_spells.dmi')
 
 	// default_button_position = DEFAULT_UNIQUE_BLOODSPELLS

@@ -6,7 +6,7 @@
 		This spell has a long charge up time that will leave you vulnerable before and after casting. \
 		Heathens hit by the beam will be damaged and stunned, while fellow cultists will be healed. \
 		Additionally, the ground beneath it will be converted."
-	DEFINE_CULT_ACTION("disintegrate", 'icons/obj/weapons/items_and_weapons.dmi')
+	DEFINE_CULT_ACTION("disintegrate", 'icons/obj/weapons/hand.dmi')
 
 	// default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
 	default_button_position = "5:35,4:30"

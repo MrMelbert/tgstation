@@ -41,9 +41,9 @@
 	to_chat(caster, span_cultitalic("In a brilliant flash of red, [victim] falls to the ground!"))
 	victim.Paralyze(16 SECONDS)
 	victim.flash_act(1, TRUE)
-	if(issilicon(victim))
-		var/mob/living/silicon/silicon_target = victim
-		silicon_target.emp_act(EMP_HEAVY)
+	if(issilicon(victim) || isbot(victim) || isdrone(victim))
+		victim.emp_act(EMP_HEAVY)
+
 	else if(iscarbon(victim))
 		var/mob/living/carbon/carbon_target = victim
 		carbon_target.adjust_silence(12 SECONDS)
