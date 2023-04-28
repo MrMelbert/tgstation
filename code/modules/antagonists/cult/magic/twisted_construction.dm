@@ -51,109 +51,128 @@
 	examine_list += span_cultbold("<u>A sinister spell used to convert:</u>")
 	examine_list += span_cult(jointext(possibilities, "\n"))
 
+/// Converts [iron_required_for_shell] iron into a construct shell.
+/datum/action/cooldown/spell/touch/twisted_construction/proc/convert_iron(obj/item/stack/sheet/iron/candidate, mob/living/carbon/caster)
+	var/turf/result_turf = get_turf(candidate)
+	var/old_name = "[candidate]"
+	if(candidate.use(iron_required_for_shell))
+		var/obj/structure/constructshell/shell = new(result_turf)
+		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [old_name], twisting it into \a [shell]!"))
+		shell.balloon_alert(caster, "converted to shell")
+		return TRUE
+
+	candidate.balloon_alert(caster, "need [iron_required_for_shell] sheets!")
+	return FALSE
+
+/// Converts a stack of plasteel to an equal sized stack of runed metal.
+/datum/action/cooldown/spell/touch/twisted_construction/proc/convert_plasteel(obj/item/stack/sheet/plasteel/candidate, mob/living/carbon/caster)
+	var/turf/result_turf = get_turf(candidate)
+	var/quantity = candidate.amount
+	var/old_name = "[candidate]"
+	if(!candidate.use(quantity)) // how would this ever fail? no idea
+		stack_trace("Somehow, [name] failed to convert [quantity] sheets of plasteel into runed metal.")
+		return FALSE
+
+	var/obj/item/stack/sheet/runed_metal/new_metal = new(result_turf, quantity)
+	caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [old_name], transforming it into [new_metal.name]!"))
+	new_metal.balloon_alert(caster, "converted to runed metal")
+	return TRUE
+
+/// Corrupts a pure soulstone to be cult-y and not holy-y.
+/datum/action/cooldown/spell/touch/twisted_construction/proc/blight_soulstone(obj/item/soulstone/candidate, mob/living/carbon/caster)
+	if(!candidate.corrupt())
+		candidate.balloon_alert(caster, "can't corrupt that!")
+		return FALSE
+
+	caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [candidate], corrupting it into a dark red hue!"))
+	candidate.balloon_alert(caster, "corrupted")
+	return TRUE
+
+/// Converts an airlock from normal to runed, which stuns non-cultists.
+/datum/action/cooldown/spell/touch/twisted_construction/proc/curse_airlock(obj/machinery/door/airlock/candidate, mob/living/carbon/caster)
+	var/turf/result_turf = get_turf(candidate)
+	playsound(result_turf, 'sound/machines/airlockforced.ogg', 50, TRUE)
+	do_sparks(5, TRUE, candidate)
+	candidate.balloon_alert(caster, "converting airlock...")
+	if(!do_after(caster, 5 SECONDS, candidate, interaction_key = DOAFTER_KEY_TWISTED_CONSTRUCT))
+		candidate.balloon_alert(caster, "interrupted!")
+		return FALSE
+
+	caster.visible_message(span_warning("Black ribbons emanate from [caster]'s hand and cling to [candidate] - twisting and corrupting it!"))
+	candidate.narsie_act()
+	result_turf.balloon_alert(caster, "conversion complete")
+	return TRUE
+
+/// When used on a cyborg shell, converts it to a construct shell.
+/// Otherwise when used on an active cyborg, converts it to a construct.
+/datum/action/cooldown/spell/touch/twisted_construction/proc/convert_silicon(mob/living/silicon/robot/candidate, mob/living/carbon/caster, obj/item/melee/touch_attack/hand)
+	var/turf/result_turf = get_turf(candidate)
+	var/mob/living/silicon/robot/candidate = target
+	if(!candidate.mmi && !candidate.shell)
+		var/obj/structure/constructshell/shell = new(result_turf)
+		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [shell], twisting it into \a [shell]!"))
+		shell.balloon_alert(caster, "converted to shell")
+		qdel(candidate)
+		return TRUE
+
+	caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [candidate]!"))
+	candidate.balloon_alert(caster, "converting to construct...")
+	playsound(result_turf, 'sound/machines/airlock_alien_prying.ogg', 80, TRUE)
+	var/prev_color = candidate.color
+	candidate.color = "black"
+	var/datum/callback/checks = CALLBACK(src, PROC_REF(construct_interaction_check), hand, candidate, caster)
+	if(!do_after(caster, 9 SECONDS, candidate, extra_checks = checks))
+		candidate.color = prev_color
+		candidate.balloon_alert(caster, "interrupted!")
+		return FALSE
+
+	candidate.undeploy()
+	candidate.emp_act(EMP_HEAVY)
+	var/construct_class = show_radial_menu(caster, src, GLOB.construct_radial_images, custom_check = checks, require_near = TRUE, tooltips = TRUE)
+	if(!construct_class)
+		candidate.color = prev_color
+		return FALSE
+
+	candidate.grab_ghost()
+	log_combat(caster, candidate, "converted from silicon to construct via [src]")
+	caster.visible_message(span_danger("The dark cloud recedes from what was formerly [candidate], revealing \a [construct_class]!"))
+	result_turf.balloon_alert(caster, "conversion complete")
+	make_new_construct_from_class(construct_class, THEME_CULT, candidate, caster, FALSE, result_turf)
+	candidate.mmi = null
+	qdel(candidate)
+	return TRUE
+
 /datum/action/cooldown/spell/touch/twisted_construction/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
 	if(DOING_INTERACTION(caster, DOAFTER_KEY_TWISTED_CONSTRUCT))
 		victim.balloon_alert(caster, "already channeling!")
 		return FALSE
 
-	// melbert todo: split all of these off into their own functions, this is nasty-ish
-
-	var/turf/result_turf = get_turf(victim)
 	// -- Iron to shells --
 	if(istype(victim, /obj/item/stack/sheet/iron))
-		var/obj/item/stack/sheet/candidate = victim
-		var/old_name = "[candidate]"
-		if(candidate.use(iron_required_for_shell))
-			var/obj/structure/constructshell/shell = new(result_turf)
-			caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [old_name], twisting it into \a [shell]!"))
-			shell.balloon_alert(caster, "converted to shell")
-			SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
-			return TRUE
-
-		candidate.balloon_alert(caster, "need [iron_required_for_shell] sheets!")
-		return FALSE
+		. = convert_iron(victim, caster)
 
 	// -- Plasteel to runed metal --
 	else if(istype(victim, /obj/item/stack/sheet/plasteel))
-		var/obj/item/stack/sheet/plasteel/candidate = victim
-		var/quantity = candidate.amount
-		var/old_name = "[candidate]"
-		if(!candidate.use(quantity)) // how would this ever fail? no idea
-			stack_trace("Somehow, [name] failed to convert [quantity] sheets of plasteel into runed metal.")
-			return FALSE
-
-		var/obj/item/stack/sheet/runed_metal/new_metal = new(result_turf, quantity)
-		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [old_name], transforming it into [new_metal.name]!"))
-		new_metal.balloon_alert(caster, "converted to runed metal")
-		SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
-		return TRUE
+		. = convert_plasteel(victim, caster)
 
 	// -- Corrupting soulstones --
 	else if(istype(victim, /obj/item/soulstone))
-		var/obj/item/soulstone/candidate = victim
-		if(!candidate.corrupt())
-			candidate.balloon_alert(caster, "can't corrupt that!")
-			return FALSE
-
-		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around \the [candidate], corrupting it into a dark red hue!"))
-		candidate.balloon_alert(caster, "corrupted")
-		SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
-		return TRUE
+		. = blight_soulstone(victim, caster)
 
 	// -- Cultify airlocks --
 	else if(istype(victim, /obj/machinery/door/airlock))
-		playsound(result_turf, 'sound/machines/airlockforced.ogg', 50, TRUE)
-		do_sparks(5, TRUE, victim)
-		victim.balloon_alert(caster, "converting airlock...")
-		if(!do_after(caster, 5 SECONDS, victim, interaction_key = DOAFTER_KEY_TWISTED_CONSTRUCT))
-			victim.balloon_alert(caster, "interrupted!")
-			return FALSE
-
-		caster.visible_message(span_warning("Black ribbons emanate from [caster]'s hand and cling to [victim] - twisting and corrupting it!"))
-		victim.narsie_act()
-		result_turf.balloon_alert(caster, "conversion complete")
-		SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
-		return TRUE
+		. = curse_airlock(victim, caster)
 
 	// -- Silicon to Construct --
 	else if(istype(target, /mob/living/silicon/robot))
-		var/mob/living/silicon/robot/candidate = target
-		if(!candidate.mmi && !candidate.shell)
-			var/obj/structure/constructshell/shell = new(result_turf)
-			caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [shell], twisting it into \a [shell]!"))
-			shell.balloon_alert(caster, "converted to shell")
-			SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
-			qdel(candidate)
-			return TRUE
+		. = convert_silicon(victim, caster, hand)
 
-		caster.visible_message(span_danger("A dark cloud emanates from [caster]'s hand and swirls around [candidate]!"))
-		candidate.balloon_alert(caster, "converting to construct...")
-		playsound(result_turf, 'sound/machines/airlock_alien_prying.ogg', 80, TRUE)
-		var/prev_color = candidate.color
-		candidate.color = "black"
-		var/datum/callback/checks = CALLBACK(src, PROC_REF(construct_interaction_check), hand, victim, caster)
-		if(!do_after(caster, 9 SECONDS, candidate, extra_checks = checks))
-			candidate.color = prev_color
-			candidate.balloon_alert(caster, "interrupted!")
-			return FALSE
+	if(.)
+		SEND_SOUND(caster, sound('sound/effects/magic.ogg', 0, 1, 25))
+	else
+		victim.balloon_alert(caster, "invalid target!")
 
-		candidate.undeploy()
-		candidate.emp_act(EMP_HEAVY)
-		var/construct_class = show_radial_menu(caster, src, GLOB.construct_radial_images, custom_check = checks, require_near = TRUE, tooltips = TRUE)
-		if(!construct_class)
-			return FALSE
-
-		candidate.grab_ghost()
-		log_combat(caster, candidate, "converted from silicon to construct via [src]")
-		caster.visible_message(span_danger("The dark cloud recedes from what was formerly [candidate], revealing \a [construct_class]!"))
-		result_turf.balloon_alert(caster, "conversion complete")
-		make_new_construct_from_class(construct_class, THEME_CULT, candidate, caster, FALSE, result_turf)
-		candidate.mmi = null
-		qdel(candidate)
-		return TRUE
-
-	victim.balloon_alert(caster, "invalid target!")
-	return FALSE
+	return .
 
 /datum/action/cooldown/spell/touch/twisted_construction/proc/construct_interaction_check(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
 	if(QDELETED(src) || QDELETED(caster) || QDELETED(victim) || QDELETED(hand))
@@ -165,6 +184,6 @@
 /obj/item/melee/touch_attack/cult/construction
 	name = "twisting aura"
 	desc = "Corrupts certain metalic objects on contact."
-	color = "#000000" // black
+	color = "#000000"
 
 #undef DOAFTER_KEY_TWISTED_CONSTRUCT

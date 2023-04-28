@@ -9,6 +9,7 @@
  * When this datum is deleted, all associated spells will vanish as well.
  */
 /datum/cult_magic_holder
+	var/spell_creator_type = /datum/action/cult_spell_creator/cult
 	/// This is the core action that lets the cultist create spells.
 	VAR_FINAL/datum/action/cult_spell_creator/spell_creator
 	/// An assoc list of all the spell datums we've created for this cultist to their index in the list when first added
@@ -24,7 +25,7 @@
 	VAR_FINAL/list/possible_spell_types
 
 /datum/cult_magic_holder/New(mob/living/linked_cultist)
-	spell_creator = new(src)
+	spell_creator = new spell_creator_type(src)
 	possible_spell_types = setup_spell_types()
 	if(linked_cultist)
 		give_to_cultist(linked_cultist)
@@ -121,20 +122,11 @@
 	return ..()
 
 /// Simple action that allows a player to prepare a cult spell for their cult magic holder
-/datum/action/cult_spell_creator // melbert todo: needs cult subtype shit
-	name = "Prepare Blood Magic"
-	desc = "Prepare blood magic by carving runes into your flesh. This is easier with an <b>empowering rune</b>."
-	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
-	button_icon = 'icons/mob/actions/actions_cult.dmi'
-	button_icon_state = "carve"
-	background_icon_state = "bg_demon"
-	overlay_icon_state = "bg_demon_border"
-	buttontooltipstyle = "cult"
+/datum/action/cult_spell_creator
 	default_button_position = DEFAULT_BLOODSPELLS
 
 	/// The antag datum required to use this action
 	var/required_antag_datum = /datum/antagonist/cult
-
 	/// Whether this action is currently in use or not
 	VAR_FINAL/currently_carving = FALSE
 
@@ -161,11 +153,11 @@
 	currently_carving = FALSE
 
 /datum/action/cult_spell_creator/proc/is_empowered()
-	return locate(/obj/effect/rune/empower) in range(1, owner)
+	return FALSE
 
 /datum/action/cult_spell_creator/proc/remove_spell()
 	var/datum/cult_magic_holder/parent = target
-	var/nullify_spell = tgui_input_list(owner, "Spell to remove", "Current Spells", parent.spells)
+	var/nullify_spell = tgui_input_list(owner, "Select a spell to remove", "Current Spells", parent.spells)
 	if(QDELETED(nullify_spell))
 		return FALSE
 	qdel(nullify_spell)
@@ -173,16 +165,10 @@
 	return TRUE
 
 /datum/action/cult_spell_creator/proc/before_spell_made(datum/action/cooldown/spell/spell_type)
-	to_chat(owner, span_warning("You begin to carve unnatural symbols into your flesh!"))
-	SEND_SOUND(owner, sound('sound/weapons/slice.ogg', 0, 1, 10))
+	to_chat(owner, span_warning("You begin preparing [initial(spell_type.name)]."))
 
 /datum/action/cult_spell_creator/proc/after_spell_made(datum/action/cooldown/spell/new_spell, empowered = FALSE)
-	to_chat(owner, span_warning("Your wounds glow with power, you have prepared a [new_spell.name] invocation!"))
-	if(!ishuman(owner))
-		return
-
-	var/mob/living/carbon/human/human_owner = owner
-	human_owner.bleed(40 - empowered * 32)
+	to_chat(owner, span_warning("You have prepared a [new_spell.name]!"))
 
 /datum/action/cult_spell_creator/proc/create_spell_process()
 	var/datum/cult_magic_holder/parent = target
@@ -193,7 +179,7 @@
 	var/lower_limit = parent.unempowered_spell_limit
 	var/upper_limit = parent.empowered_spell_limit
 
-	var/rune = !!is_empowered()
+	var/rune = is_empowered()
 	var/limit = rune ? upper_limit : lower_limit
 
 	if(length(parent.spells) >= limit)
@@ -213,7 +199,7 @@
 	if(length(parent.spells))
 		possible_spells_assoc[REMOVE_SPELL_KEY] = 1
 
-	var/entered_spell_name = tgui_input_list(owner, "Blood spell to prepare", "Spell Choices", possible_spells_assoc)
+	var/entered_spell_name = tgui_input_list(owner, "Select a spell to prepare", "Spell Choices", possible_spells_assoc)
 	if(isnull(entered_spell_name) || QDELETED(src) || !IsAvailable())
 		return
 	if(entered_spell_name == REMOVE_SPELL_KEY)
@@ -224,7 +210,7 @@
 		return
 
 	// Re-do these, to check if they changed
-	rune = !!is_empowered()
+	rune = is_empowered()
 	limit = rune ? upper_limit : lower_limit
 
 	if(length(parent.spells) >= limit)
@@ -234,17 +220,38 @@
 
 	if(rune)
 		if(!do_after(owner, 4 SECONDS, extra_checks = CALLBACK(src, PROC_REF(is_empowered))))
-			owner.balloon_alert(owner, "carving interrupted!")
+			owner.balloon_alert(owner, "preparation interrupted!")
 			return
 
 	else
 		if(!do_after(owner, 10 SECONDS))
-			owner.balloon_alert(owner, "carving interrupted!")
+			owner.balloon_alert(owner, "preparation interrupted!")
 			return
 
 	var/datum/action/cooldown/spell/new_spell = parent.add_new_spell(selected_spell, owner)
 	after_spell_made(new_spell, empowered = rune)
 	return TRUE
+
+/datum/action/cult_spell_creator/cult
+	name = "Prepare Blood Magic"
+	desc = "Prepare blood magic by carving runes into your flesh. This is easier with an <b>empowering rune</b>."
+	DEFINE_CULT_ACTION("carve", 'icons/mob/actions/actions_cult.dmi')
+	required_antag_datum = /datum/antagonist/cult
+
+/datum/action/cult_spell_creator/cult/is_empowered()
+	return !!(locate(/obj/effect/rune/empower) in range(1, owner))
+
+/datum/action/cult_spell_creator/cult/before_spell_made(datum/action/cooldown/spell/spell_type)
+	to_chat(owner, span_warning("You begin to carve unnatural symbols into your flesh!"))
+	SEND_SOUND(owner, sound('sound/weapons/slice.ogg', 0, 1, 10))
+
+/datum/action/cult_spell_creator/cult/after_spell_made(datum/action/cooldown/spell/new_spell, empowered = FALSE)
+	to_chat(owner, span_warning("Your wounds glow with power, you have prepared a [new_spell.name] invocation!"))
+	if(!ishuman(owner))
+		return
+
+	var/mob/living/carbon/human/human_owner = owner
+	human_owner.bleed(40 - empowered * 32)
 
 /// Used for cult touch spells
 /obj/item/melee/touch_attack/cult

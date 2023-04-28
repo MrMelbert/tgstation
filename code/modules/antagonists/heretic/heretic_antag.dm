@@ -382,9 +382,9 @@
 
 	to_chat(caster, span_warning("Some force greater than you intervenes! [source] is protected by the Forgotten Gods!"))
 	to_chat(source, span_warning("You are protected by your faith to the Forgotten Gods!"))
-	var/old_color = victim.color
-	victim.color = rgb(0, 128, 0)
-	animate(victim, color = old_color, time = 1 SECONDS, easing = EASE_IN)
+	var/old_color = source.color
+	source.color = rgb(0, 128, 0)
+	animate(source, color = old_color, time = 1 SECONDS, easing = EASE_IN)
 	return BLOCK_CULT_STUN
 
 /**

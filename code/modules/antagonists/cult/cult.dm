@@ -159,12 +159,10 @@
 	magic_holder.give_to_cultist(current)
 
 	current.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
-	/*
 	if(cult_team.cult_risen)
 		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
 	if(cult_team.cult_ascendent)
 		current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
-	*/
 	ADD_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 
 	add_team_hud(current)
@@ -180,12 +178,10 @@
 	communion.Remove(current)
 	current.clear_alert("bloodsense")
 
-	/*
-	if (HAS_TRAIT(current, TRAIT_UNNATURAL_RED_GLOWY_EYES))
+	if (cult_team.cult_risen)
 		current.RemoveElement(/datum/element/cult_eyes)
-	if (HAS_TRAIT(current, TRAIT_CULT_HALO))
+	if (cult_team.cult_ascendent)
 		current.RemoveElement(/datum/element/cult_halo)
-	*/
 
 	REMOVE_TRAIT(current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 
@@ -269,13 +265,6 @@
 	bloodmark.Grant(current)
 	throwing.Grant(current)
 
-	/*
-	if(cult_team.cult_risen)
-		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
-	if(cult_team.cult_ascendent)
-		current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
-	*/
-
 	add_team_hud(current, /datum/antagonist/cult)
 	RegisterSignal(current, COMSIG_LIVING_DEATH, PROC_REF(on_death))
 
@@ -345,9 +334,12 @@
 	///list of cultists just before summoning Narsie
 	var/list/true_cultists = list()
 
+	/// List of teleport runes associated with this cult
 	var/list/obj/effect/rune/teleport/teleport_runes = list()
 
+	/// The number of ritual sites this cult will have to summon nar'sie
 	var/max_ritual_sites = 3
+	/// A list of references to station areas that we can summon nar'sie in
 	var/list/area/station/ritual_sites = list()
 
 /datum/team/cult/New(starting_members)
@@ -410,25 +402,10 @@
 
 /datum/team/cult/add_member(datum/mind/new_member)
 	. = ..()
-	if(isliving(new_member.current))
-		// melbert todo: this won't catch mind swaps
-		if(cult_risen)
-			new_member.current.AddElement(/datum/element/cult_eyes/antag_checks, initial_delay = 0 SECONDS)
-		if(cult_ascendent)
-			new_member.current.AddElement(/datum/element/cult_halo/antag_checks, initial_delay = 0 SECONDS)
-
 	// A little hacky, but this checks that cult ghosts don't contribute to the size at maximum value.
 	if(is_unassigned_job(new_member.assigned_role))
 		return
 	size_at_maximum++
-
-/datum/team/cult/remove_member(datum/mind/member)
-	. = ..()
-	if(isliving(member.current))
-		if(cult_risen)
-			member.current.RemoveElement(/datum/element/cult_eyes/antag_checks)
-		if(cult_ascendent)
-			member.current.RemoveElement(/datum/element/cult_halo/antag_checks)
 
 /datum/team/cult/proc/make_image(datum/objective/sacrifice/sac_objective)
 	var/datum/job/job_of_sacrifice = sac_objective.target.assigned_role
@@ -502,7 +479,8 @@
 		return FALSE
 
 #ifndef TESTING
-	if(isnull(target.mind) || !GET_CLIENT(target))
+	// Allow clientless mobs with minds to be converted for testing purposes
+	if(!GET_CLIENT(target))
 		return FALSE
 #endif
 
@@ -519,6 +497,7 @@
 		return FALSE
 	if(HAS_TRAIT(target, TRAIT_MINDSHIELD) || issilicon(target) || isbot(target) || isdrone(target))
 		return FALSE //can't convert machines, shielded, or braindead
+
 	return TRUE
 
 /// Sets a blood target for the cult.
@@ -632,4 +611,3 @@
 #undef CULT_LOSS
 #undef CULT_NARSIE_KILLED
 #undef CULT_VICTORY
-#undef SUMMON_POSSIBILITIES

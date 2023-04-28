@@ -1,11 +1,12 @@
 /// Not a default cult spell.
 /// This is the blood barrage invoked by using blood rites.
 /datum/action/cooldown/spell/conjure_item/infinite_guns/blood_bolt
-	name = "Bloot Bold Barrage"
+	name = "Blood Bold Barrage"
 	desc = ""
 	DEFINE_CULT_ACTION("arcane_barrage", 'icons/mob/actions/actions_spells.dmi')
 
-	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	// default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	default_button_position = "5:67,4:30"
 
 	sound = null
 	invocation_type = INVOCATION_NONE

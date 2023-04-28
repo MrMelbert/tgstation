@@ -191,7 +191,7 @@
 
 		return drain_victim(victim, caster)
 
-	if(istype(victim, /obj/effect/decal/cleanable/blood)) // melbert todo: you can't cast on /effects
+	if(istype(victim, /obj/effect/decal/cleanable/blood))
 		return absorb_blood(victim, caster)
 
 	return FALSE

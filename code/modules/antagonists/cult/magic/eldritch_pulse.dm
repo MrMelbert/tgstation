@@ -12,7 +12,8 @@
 	deactive_msg = span_cult("You cease your preparations.")
 	deactivate_on_failed_cast = FALSE
 
-	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS // melbert todo : will over lap with unique spells / final reck
+	// default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	default_button_position = "5:99,4:30"
 
 	/// Weakref to whoever we're currently about to toss
 	var/datum/weakref/throwee_ref

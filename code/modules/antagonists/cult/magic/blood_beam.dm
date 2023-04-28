@@ -8,7 +8,8 @@
 		Additionally, the ground beneath it will be converted."
 	DEFINE_CULT_ACTION("disintegrate", 'icons/obj/weapons/items_and_weapons.dmi')
 
-	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	// default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	default_button_position = "5:35,4:30"
 
 	sound = null
 	invocation_type = INVOCATION_NONE

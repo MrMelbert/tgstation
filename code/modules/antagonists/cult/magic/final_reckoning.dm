@@ -9,7 +9,8 @@
 	spell_requirements = NONE
 	school = SCHOOL_SANGUINE
 
-	default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	// default_button_position = DEFAULT_UNIQUE_BLOODSPELLS
+	default_button_position = "5:131,4:30"
 
 /datum/action/cooldown/spell/final_reckoning/can_cast_spell(feedback)
 	. = ..()
