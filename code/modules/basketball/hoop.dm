@@ -93,6 +93,9 @@
 	scoreboard.add_overlay(emissive_tens_overlay)
 
 /obj/structure/hoop/attackby(obj/item/ball, mob/living/baller, params)
+	var/is_balling = istype(ball, /obj/item/toy/basketball)
+	if(!is_balling && baller.combat_mode)
+		return ..()
 	if(!baller.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
 		return // TK users aren't allowed to dunk
 
@@ -107,9 +110,9 @@
 	INVOKE_ASYNC(src, PROC_REF(dunk_animation), baller, dunk_pixel_y, dunk_pixel_x)
 	visible_message(span_warning("[baller] dunks [ball] into \the [src]!"))
 	baller.add_mood_event("basketball", /datum/mood_event/basketball_dunk)
-	score(ball, baller, 2)
 
-	if(istype(ball, /obj/item/toy/basketball))
+	if(is_balling)
+		score(ball, baller, 2)
 		baller.adjustStaminaLoss(STAMINA_COST_DUNKING)
 
 /// This bobs the mob in the hoop direction for the dunk animation

@@ -70,6 +70,8 @@
 	return TRUE
 
 /obj/item/gun/syringe/attackby(obj/item/A, mob/user, params, show_msg = TRUE)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Bad gun code
+
 	if(istype(A, /obj/item/reagent_containers/syringe/bluespace))
 		balloon_alert(user, "[A.name] is too big!")
 		return TRUE
@@ -82,9 +84,10 @@
 			recharge_newshot()
 			update_appearance()
 			playsound(loc, load_sound, 40)
-			return TRUE
 		else
 			balloon_alert(user, "it's already full!")
+		return TRUE
+
 	return FALSE
 
 /obj/item/gun/syringe/update_overlays()
@@ -151,11 +154,13 @@
 	chambered = new /obj/item/ammo_casing/dnainjector(src)
 
 /obj/item/gun/syringe/dna/attackby(obj/item/A, mob/user, params, show_msg = TRUE)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Bad gun code
+
 	if(istype(A, /obj/item/dnainjector))
 		var/obj/item/dnainjector/D = A
 		if(D.used)
 			balloon_alert(user, "[D.name] is used up!")
-			return
+			return TRUE
 		if(syringes.len < max_syringes)
 			if(!user.transferItemToLoc(D, src))
 				return FALSE
@@ -164,9 +169,10 @@
 			recharge_newshot()
 			update_appearance()
 			playsound(loc, load_sound, 40)
-			return TRUE
 		else
 			balloon_alert(user, "it's already full!")
+		return TRUE
+
 	return FALSE
 
 /obj/item/gun/syringe/blowgun

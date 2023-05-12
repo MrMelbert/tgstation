@@ -147,7 +147,8 @@
 	create_reagents(reagent_amount, OPENCONTAINER)
 
 /obj/item/ammo_casing/shotgun/dart/attackby()
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Hell if I know why
+	return TRUE
 
 /obj/item/ammo_casing/shotgun/dart/bioterror
 	desc = "An improved shotgun dart filled with deadly toxins. Can be injected with up to 30 units of any chemical."

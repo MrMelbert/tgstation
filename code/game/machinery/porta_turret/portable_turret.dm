@@ -943,28 +943,35 @@ DEFINE_BITFIELD(turret_flags, list(
 	if(machine_stat & BROKEN)
 		return
 
+	if (issilicon(user))
+		return attack_hand(user)
+
+	// Attackby conditionally sends signal : Does not call parent if in a broken state (to prevent full destruction) or in use by a silicon
+	. = ..()
+	if(.)
+		return
+
 	if(I.tool_behaviour == TOOL_MULTITOOL)
 		if(!multitool_check_buffer(user, I))
-			return
+			return TRUE
 		var/obj/item/multitool/M = I
 		if(M.buffer && istype(M.buffer, /obj/machinery/porta_turret))
 			turrets |= WEAKREF(M.buffer)
 			to_chat(user, span_notice("You link \the [M.buffer] with \the [src]."))
-			return
+		return TRUE
 
-	if (issilicon(user))
-		return attack_hand(user)
 
-	if ( get_dist(src, user) == 0 ) // trying to unlock the interface
-		if (allowed(usr))
+	if (get_dist(src, user) == 0) // trying to unlock the interface
+		if (allowed(user))
 			if(obj_flags & EMAGGED)
 				to_chat(user, span_warning("The turret control is unresponsive!"))
-				return
+				return TRUE
 
 			locked = !locked
 			to_chat(user, span_notice("You [ locked ? "lock" : "unlock"] the panel."))
 		else
 			to_chat(user, span_alert("Access denied."))
+		return TRUE
 
 /obj/machinery/turretid/emag_act(mob/user)
 	if(obj_flags & EMAGGED)

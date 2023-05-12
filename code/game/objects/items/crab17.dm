@@ -65,6 +65,9 @@
 	return TRUE
 
 /obj/structure/checkoutmachine/attackby(obj/item/attacking_item, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Stop attacking the CRAB:17 it's invincible
+
+	. = TRUE
 	if(!canwalk)
 		balloon_alert(user, "not ready to accept transactions!")
 		return

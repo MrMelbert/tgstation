@@ -88,8 +88,9 @@
 
 
 /turf/closed/mineral/attackby(obj/item/I, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Mineral turfs are snowflake in many ways so we'll leave this for now
 	if (!ISADVANCEDTOOLUSER(user))
-		to_chat(usr, span_warning("You don't have the dexterity to do this!"))
+		to_chat(user, span_warning("You don't have the dexterity to do this!"))
 		return
 
 	if(I.tool_behaviour != TOOL_MINING)

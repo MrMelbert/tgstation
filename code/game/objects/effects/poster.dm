@@ -188,6 +188,10 @@
 	icon_state = holi_data.poster_icon
 
 /obj/structure/sign/poster/attackby(obj/item/tool, mob/user, params)
+	. = ..()
+	if(.)
+		return
+
 	if(tool.tool_behaviour == TOOL_WIRECUTTER)
 		tool.play_tool_sound(src, 100)
 		if(ruined)
@@ -196,6 +200,7 @@
 		else
 			to_chat(user, span_notice("You carefully remove the poster from the wall."))
 			roll_and_drop(Adjacent(user) ? get_turf(user) : loc)
+		return TRUE
 
 /obj/structure/sign/poster/attack_hand(mob/user, list/modifiers)
 	. = ..()

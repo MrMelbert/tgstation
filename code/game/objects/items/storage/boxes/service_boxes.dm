@@ -97,8 +97,12 @@
 		new /obj/item/match(src)
 
 /obj/item/storage/box/matches/attackby(obj/item/match/W as obj, mob/user as mob, params)
+	. = ..()
+	if(.)
+		return
 	if(istype(W, /obj/item/match))
 		W.matchignite()
+		return TRUE
 
 /obj/item/storage/box/matches/update_icon_state()
 	. = ..()

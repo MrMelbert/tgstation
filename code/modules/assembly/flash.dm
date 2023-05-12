@@ -283,7 +283,9 @@
 	new /obj/effect/temp_visual/borgflash(get_turf(src))
 
 /obj/item/assembly/flash/cyborg/attackby(obj/item/W, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Internal thing
+	return TRUE
+
 /obj/item/assembly/flash/cyborg/screwdriver_act(mob/living/user, obj/item/I)
 	return
 

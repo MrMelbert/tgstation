@@ -210,8 +210,9 @@ GLOBAL_LIST_INIT(wire_node_generating_types, typecacheof(list(/obj/structure/gri
 //   - Multitool : get the power currently passing through the cable
 //
 /obj/structure/cable/attackby(obj/item/W, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Snowflake cables are not attackable
 	handlecable(W, user, params)
-
+	return TRUE
 
 // shock the user with probability prb
 /obj/structure/cable/proc/shock(mob/user, prb, siemens_coeff = 1)

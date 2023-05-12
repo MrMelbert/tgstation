@@ -16,8 +16,10 @@
 	return . | AFTERATTACK_PROCESSED_ITEM
 
 /obj/item/evidencebag/attackby(obj/item/I, mob/user, params)
-	if(evidencebagEquip(I, user))
-		return 1
+	. = ..()
+	if(.)
+		return
+	return evidencebagEquip(I, user)
 
 /obj/item/evidencebag/handle_atom_del(atom/A)
 	cut_overlays()

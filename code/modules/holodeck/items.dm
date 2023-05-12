@@ -94,7 +94,9 @@
 	return
 
 /obj/machinery/readybutton/attackby(obj/item/W, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Holodeck snowflake
 	to_chat(user, span_warning("The device is a solid button, there's nothing you can do with it!"))
+	return TRUE
 
 /obj/machinery/readybutton/attack_hand(mob/user, list/modifiers)
 	. = ..()

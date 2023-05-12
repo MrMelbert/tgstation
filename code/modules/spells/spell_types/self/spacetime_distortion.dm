@@ -150,10 +150,12 @@
 		walk_link(AM)
 
 /obj/effect/cross_action/spacetime_dist/attackby(obj/item/W, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Magic bullshit, can't get hit
 	if(user.temporarilyRemoveItemFromInventory(W))
 		walk_link(W)
 	else
 		walk_link(user)
+	return TRUE
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /obj/effect/cross_action/spacetime_dist/attack_hand(mob/user, list/modifiers)

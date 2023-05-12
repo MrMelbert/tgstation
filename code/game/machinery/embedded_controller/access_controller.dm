@@ -13,6 +13,7 @@
 	var/idSelf
 
 /obj/machinery/door_buttons/attackby(obj/O, mob/user)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: We redirect to attackhand
 	return attack_hand(user)
 
 /obj/machinery/door_buttons/proc/findObjsByTag()

@@ -212,7 +212,8 @@ GLOBAL_VAR(posibrain_notify_cooldown)
 	return
 
 /obj/item/mmi/posibrain/attackby(obj/item/O, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Parent is an MMI so we can't let brains in
+	return TRUE
 
 /obj/item/mmi/posibrain/add_mmi_overlay()
 	return

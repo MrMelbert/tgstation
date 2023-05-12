@@ -69,16 +69,24 @@
 		. += "folder_paper"
 
 /obj/item/folder/attackby(obj/item/weapon, mob/user, params)
-	if(burn_paper_product_attackby_check(weapon, user))
+	. = ..()
+	if(.)
 		return
+
+	if(burn_paper_product_attackby_check(weapon, user))
+		return TRUE
+
 	if(is_type_in_typecache(weapon, folder_insertables))
 		//Add paper, photo or documents into the folder
 		if(!user.transferItemToLoc(weapon, src))
-			return
+			return FALSE
 		to_chat(user, span_notice("You put [weapon] into [src]."))
 		update_appearance()
+		return TRUE
+
 	else if(istype(weapon, /obj/item/pen))
 		rename(user, weapon)
+		return TRUE
 
 /obj/item/folder/attack_self(mob/user)
 	add_fingerprint(usr)

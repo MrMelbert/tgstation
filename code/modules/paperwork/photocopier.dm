@@ -415,25 +415,33 @@
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/photocopier/attackby(obj/item/object, mob/user, params)
+	. = ..()
+	if(.)
+		return
+
 	if(istype(object, /obj/item/paper) || istype(object, /obj/item/photo) || istype(object, /obj/item/documents))
 		insert_copy_object(object, user)
+		return TRUE
 
 	else if(istype(object, /obj/item/toner))
 		if(toner_cartridge)
 			to_chat(user, span_warning("[src] already has a toner cartridge inserted. Remove that one first."))
-			return
+			return TRUE
 		object.forceMove(src)
 		toner_cartridge = object
 		to_chat(user, span_notice("You insert [object] into [src]."))
+		return TRUE
 
 	else if(istype(object, /obj/item/areaeditor/blueprints))
 		to_chat(user, span_warning("The Blueprint is too large to put into the copier. You need to find something else to record the document."))
+		return TRUE
 
 	else if(istype(object, /obj/item/paperwork))
 		if(istype(object, /obj/item/paperwork/photocopy)) //No infinite paper chain. You need the original paperwork to make more copies.
 			to_chat(user, span_warning("The [object] is far too messy to produce a good copy!"))
 		else
 			insert_copy_object(object, user)
+		return TRUE
 
 /obj/machinery/photocopier/proc/insert_copy_object(obj/item/object, mob/user)
 	if(copier_empty())

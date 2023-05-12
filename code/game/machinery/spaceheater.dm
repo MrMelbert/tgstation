@@ -362,36 +362,42 @@
 
 ///Slightly modified to ignore the open_hatch - it's always open, we hacked it.
 /obj/machinery/space_heater/improvised_chem_heater/attackby(obj/item/item, mob/user, params)
-	add_fingerprint(user)
-	if(default_deconstruction_crowbar(item))
+	. = ..()
+	if(.)
 		return
+
+	add_fingerprint(user)
+
+	if(default_deconstruction_crowbar(item))
+		return TRUE
 	if(istype(item, /obj/item/stock_parts/cell))
 		if(cell)
 			to_chat(user, span_warning("There is already a power cell inside!"))
-			return
+			return TRUE
 		else if(!user.transferItemToLoc(item, src))
-			return
+			return FALSE
 		cell = item
 		item.add_fingerprint(usr)
 
 		user.visible_message(span_notice("\The [user] inserts a power cell into \the [src]."), span_notice("You insert the power cell into \the [src]."))
 		SStgui.update_uis(src)
+		return TRUE
+
 	//reagent containers
 	if(is_reagent_container(item) && !(item.item_flags & ABSTRACT) && item.is_open_container())
-		. = TRUE //no afterattack
 		var/obj/item/reagent_containers/container = item
 		if(!user.transferItemToLoc(container, src))
-			return
+			return FALSE
 		replace_beaker(user, container)
 		to_chat(user, span_notice("You add [container] to [src]'s water bath."))
 		ui_interact(user)
-		return
+		return TRUE
+
 	//Dropper tools
 	if(beaker)
 		if(is_type_in_list(item, list(/obj/item/reagent_containers/dropper, /obj/item/ph_meter, /obj/item/ph_paper, /obj/item/reagent_containers/syringe)))
 			item.afterattack(beaker, user, 1)
-		return
-
+		return TRUE
 
 /obj/machinery/space_heater/improvised_chem_heater/on_deconstruction(disassembled = TRUE)
 	. = ..()

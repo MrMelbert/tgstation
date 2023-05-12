@@ -39,34 +39,41 @@
 		return
 
 /obj/item/transfer_valve/attackby(obj/item/item, mob/user, params)
+	. = ..()
+	if(.)
+		return
+
 	if(istype(item, /obj/item/tank))
 		if(tank_one && tank_two)
 			to_chat(user, span_warning("There are already two tanks attached, remove one first!"))
-			return
+			return TRUE
 
 		if(!tank_one)
 			if(!user.transferItemToLoc(item, src))
-				return
+				return FALSE
 			tank_one = item
 			to_chat(user, span_notice("You attach the tank to the transfer valve."))
+
 		else if(!tank_two)
 			if(!user.transferItemToLoc(item, src))
-				return
+				return FALSE
 			tank_two = item
 			to_chat(user, span_notice("You attach the tank to the transfer valve."))
 
 		update_appearance()
+		return TRUE
+
 //TODO: Have this take an assemblyholder
 	else if(isassembly(item))
 		var/obj/item/assembly/A = item
 		if(A.secured)
 			to_chat(user, span_notice("The device is secured."))
-			return
+			return TRUE
 		if(attached_device)
 			to_chat(user, span_warning("There is already a device attached to the valve, remove it first!"))
-			return
+			return TRUE
 		if(!user.transferItemToLoc(item, src))
-			return
+			return FALSE
 		attached_device = A
 		to_chat(user, span_notice("You attach the [item] to the valve controls and secure it."))
 		A.holder = src
@@ -74,7 +81,7 @@
 		A.toggle_secure() //this calls update_icon(), which calls update_icon() on the holder (i.e. the bomb).
 		log_bomber(user, "attached a [item.name] to a ttv -", src, null, FALSE)
 		attacher = user
-	return
+		return TRUE
 
 //These keep attached devices synced up, for example a TTV with a mouse trap being found in a bag so it's triggered, or moving the TTV with an infrared beam sensor to update the beam's direction.
 /obj/item/transfer_valve/Move()

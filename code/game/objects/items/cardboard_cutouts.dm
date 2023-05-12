@@ -6,6 +6,7 @@
 	icon_state = "cutout_basic"
 	w_class = WEIGHT_CLASS_BULKY
 	resistance_flags = FLAMMABLE
+	obj_flags = CAN_BE_HIT
 	item_flags = NO_PIXEL_RANDOM_DROP
 	/// If the cutout is pushed over and has to be righted
 	var/pushed_over = FALSE
@@ -37,16 +38,17 @@
 /obj/item/cardboard_cutout/attack_hand(mob/living/user, list/modifiers)
 	if(!user.combat_mode || pushed_over)
 		return ..()
-	user.visible_message(span_warning("[user] pushes over [src]!"), span_danger("You push over [src]!"))
-	playsound(src, 'sound/weapons/genhit.ogg', 50, TRUE)
-	push_over()
+	user.visible_message(span_warning("[user] pushes over [src]!"), span_danger("You push over [src]!"), span_hear("You hear a thud."))
+	push_over(user)
+	return TRUE
 
-/obj/item/cardboard_cutout/proc/push_over()
+/obj/item/cardboard_cutout/proc/push_over(mob/living/user)
 	appearance = initial(appearance)
 	desc = "[initial(desc)] It's been pushed over."
 	icon_state = "cutout_pushed_over"
 	remove_atom_colour(FIXED_COLOUR_PRIORITY)
 	pushed_over = TRUE
+	play_attack_sound()
 
 /obj/item/cardboard_cutout/attack_self(mob/living/user)
 	if(!pushed_over)
@@ -57,26 +59,23 @@
 	icon_state = initial(icon_state) //This resets a cutout to its blank state - this is intentional to allow for resetting
 	pushed_over = FALSE
 
+/obj/item/cardboard_cutout/play_attack_sound(damage_amount, damage_type, damage_flag)
+	playsound(src, 'sound/weapons/genhit.ogg', 50, TRUE)
+
+/obj/item/cardboard_cutout/attacked_by(obj/item/attacking_item, mob/living/user)
+	if(prob(attacking_item.force))
+		user.visible_message(span_warning("[user] pushes down [src] with [attacking_item]!"), span_danger("You push down [src] with [attacking_item]!"), span_hear("You hear a thud."))
+		push_over(user)
+		return TRUE
+
+	play_attack_sound()
+
 /obj/item/cardboard_cutout/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/toy/crayon))
 		change_appearance(I, user)
-		return
-	// Why yes, this does closely resemble mob and object attack code.
-	if(I.item_flags & NOBLUDGEON)
-		return
-	if(!I.force)
-		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), TRUE, -1)
-	else if(I.hitsound)
-		playsound(loc, I.hitsound, get_clamped_volume(), TRUE, -1)
+		return TRUE
 
-	user.changeNext_move(CLICK_CD_MELEE)
-	user.do_attack_animation(src)
-
-	if(I.force)
-		user.visible_message(span_danger("[user] hits [src] with [I]!"), \
-			span_danger("You hit [src] with [I]!"))
-		if(prob(I.force))
-			push_over()
+	return ..()
 
 /obj/item/cardboard_cutout/bullet_act(obj/projectile/P, def_zone, piercing_hit = FALSE)
 	if(istype(P, /obj/projectile/bullet/reusable))

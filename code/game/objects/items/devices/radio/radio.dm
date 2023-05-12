@@ -565,19 +565,21 @@
 	return ..()
 
 /obj/item/radio/borg/attackby(obj/item/attacking_item, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: This is an internal radio, I think? Shouldn't matter
 
 	if(istype(attacking_item, /obj/item/encryptionkey))
 		if(keyslot)
 			to_chat(user, span_warning("The radio can't hold another key!"))
-			return
+			return TRUE
 
 		if(!keyslot)
 			if(!user.transferItemToLoc(attacking_item, src))
-				return
+				return FALSE
 			keyslot = attacking_item
 
 		recalculateChannels()
 
+		return TRUE
 
 /obj/item/radio/off // Station bounced radios, their only difference is spawning with the speakers off, this was made to help the lag.
 	dog_fashion = /datum/dog_fashion/back

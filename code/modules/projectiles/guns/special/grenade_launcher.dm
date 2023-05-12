@@ -17,17 +17,20 @@
 	. += "[grenades.len] / [max_grenades] grenades loaded."
 
 /obj/item/gun/grenadelauncher/attackby(obj/item/I, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Bad gun code
 
 	if(istype(I, /obj/item/grenade/c4))
-		return
+		return TRUE // No C4 in grenade launcher
 	if((isgrenade(I)))
 		if(grenades.len < max_grenades)
 			if(!user.transferItemToLoc(I, src))
-				return
+				return FALSE
 			grenades += I
 			balloon_alert(user, "[grenades.len] / [max_grenades] grenades loaded")
 		else
 			balloon_alert(user, "it's already full!")
+		return TRUE
+	return FALSE
 
 /obj/item/gun/grenadelauncher/can_shoot()
 	return grenades.len

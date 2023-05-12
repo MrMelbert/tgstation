@@ -87,14 +87,18 @@
 		soundloop.start()
 
 /obj/item/taperecorder/attackby(obj/item/I, mob/user, params)
+	. = ..()
+	if(.)
+		return
+
 	if(!mytape && istype(I, /obj/item/tape))
 		if(!user.transferItemToLoc(I,src))
-			return
+			return FALSE
 		mytape = I
 		balloon_alert(user, "inserted [mytape]")
 		playsound(src, 'sound/items/taperecorder/taperecorder_close.ogg', 50, FALSE)
 		update_appearance()
-
+		return TRUE
 
 /obj/item/taperecorder/proc/eject(mob/user)
 	if(!mytape)

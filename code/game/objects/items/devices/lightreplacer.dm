@@ -63,45 +63,52 @@
 	. += status_string()
 
 /obj/item/lightreplacer/attackby(obj/item/insert, mob/user, params)
+	. = ..()
+	if(.)
+		return
 
 	if(istype(insert, /obj/item/stack/sheet/glass))
 		var/obj/item/stack/sheet/glass/glass_to_insert = insert
 		if(uses >= max_uses)
 			to_chat(user, span_warning("[src.name] is full."))
-			return
+
 		else if(glass_to_insert.use(LIGHTBULB_COST))
 			add_uses(GLASS_SHEET_USES)
 			to_chat(user, span_notice("You insert a piece of glass into \the [src.name]. You have [uses] light\s remaining."))
-			return
+
 		else
 			to_chat(user, span_warning("You need one sheet of glass to replace lights!"))
+
+		return TRUE
 
 	if(istype(insert, /obj/item/shard))
 		if(uses >= max_uses)
 			to_chat(user, span_warning("\The [src] is full."))
-			return
+			return TRUE
 		if(!user.temporarilyRemoveItemFromInventory(insert))
-			return
+			return FALSE
 		add_uses(round(GLASS_SHEET_USES*0.75))
 		to_chat(user, span_notice("You insert a shard of glass into \the [src]. You have [uses] light\s remaining."))
 		qdel(insert)
-		return
+		return TRUE
 
 	if(istype(insert, /obj/item/light))
 		var/obj/item/light/light_to_insert = insert
 		if(light_to_insert.status == 0) // LIGHT OKAY
 			if(uses < max_uses)
 				if(!user.temporarilyRemoveItemFromInventory(insert))
-					return
+					return FALSE
 				add_uses(1)
 				qdel(light_to_insert)
+
 		else
 			if(!user.temporarilyRemoveItemFromInventory(insert))
-				return
+				return FALSE
 			to_chat(user, span_notice("You insert [light_to_insert] into \the [src]."))
 			add_shards(1, user)
 			qdel(light_to_insert)
-		return
+
+		return TRUE
 
 	if(istype(insert, /obj/item/storage))
 		var/obj/item/storage/storage_to_empty = insert
@@ -127,13 +134,14 @@
 
 		if(!found_lightbulbs)
 			to_chat(user, span_warning("\The [storage_to_empty] contains no bulbs."))
-			return
+			return TRUE
 
 		if(!replaced_something && src.uses == max_uses)
 			to_chat(user, span_warning("\The [src] is full!"))
-			return
+			return TRUE
 
 		to_chat(user, span_notice("You fill \the [src] with lights from \the [storage_to_empty]. " + status_string() + ""))
+		return TRUE
 
 /obj/item/lightreplacer/emag_act()
 	if(obj_flags & EMAGGED)

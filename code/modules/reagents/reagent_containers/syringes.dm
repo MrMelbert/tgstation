@@ -23,7 +23,8 @@
 	AddElement(/datum/element/update_icon_updates_onmob)
 
 /obj/item/reagent_containers/syringe/attackby(obj/item/I, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Hell if I know why
+	return TRUE
 
 /obj/item/reagent_containers/syringe/proc/try_syringe(atom/target, mob/user, proximity)
 	if(!proximity)

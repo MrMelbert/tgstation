@@ -42,6 +42,7 @@
 	return
 
 /obj/structure/lattice/attackby(obj/item/C, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Attackby-s are redirected to the turf below
 	if(resistance_flags & INDESTRUCTIBLE)
 		return
 	if(C.tool_behaviour == TOOL_WIRECUTTER)

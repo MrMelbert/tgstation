@@ -48,6 +48,7 @@
 		return TRUE
 
 /obj/machinery/field/containment/attackby(obj/item/W, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: No attack is being done, just a zap
 	shock(user)
 	return TRUE
 

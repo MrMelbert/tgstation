@@ -9,6 +9,8 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	circuit = /obj/item/circuitboard/machine/coffeemaker
 	pixel_y = 4 //needed to make it sit nicely on tables
+
+	var/coffee_cup_type = /obj/item/reagent_containers/cup/glass/coffee_cup
 	var/obj/item/reagent_containers/cup/coffeepot/coffeepot = null
 	var/brewing = FALSE
 	var/brew_time = 20 SECONDS
@@ -186,35 +188,38 @@
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/coffeemaker/attackby(obj/item/attack_item, mob/living/user, params)
+	. = ..()
+	if(.)
+		return
+
 	//You can only screw open empty grinder
 	if(!coffeepot && default_deconstruction_screwdriver(user, icon_state, icon_state, attack_item))
 		return FALSE
 
 	if(default_deconstruction_crowbar(attack_item))
-		return
+		return TRUE
 
 	if(panel_open) //Can't insert objects when its screwed open
 		return TRUE
 
 	if (istype(attack_item, /obj/item/reagent_containers/cup/coffeepot) && !(attack_item.item_flags & ABSTRACT) && attack_item.is_open_container())
 		var/obj/item/reagent_containers/cup/coffeepot/new_pot = attack_item
-		. = TRUE //no afterattack
 		if(!user.transferItemToLoc(new_pot, src))
-			return TRUE
+			return FALSE
 		replace_pot(user, new_pot)
 		update_appearance(UPDATE_OVERLAYS)
 		return TRUE //no afterattack
 
-	if (istype(attack_item, /obj/item/reagent_containers/cup/glass/coffee_cup) && !(attack_item.item_flags & ABSTRACT) && attack_item.is_open_container())
-		var/obj/item/reagent_containers/cup/glass/coffee_cup/new_cup = attack_item
+	if (istype(attack_item, coffee_cup_type) && !(attack_item.item_flags & ABSTRACT) && attack_item.is_open_container())
+		var/obj/item/reagent_containers/cup/new_cup = attack_item
 		if(new_cup.reagents.total_volume > 0)
 			balloon_alert(user, "the cup must be empty!")
-			return
+			return TRUE
 		if(coffee_cups >= max_coffee_cups)
 			balloon_alert(user, "the cup holder is full!")
-			return
+			return TRUE
 		if(!user.transferItemToLoc(attack_item, src))
-			return
+			return FALSE
 		coffee_cups++
 		update_appearance(UPDATE_OVERLAYS)
 		return TRUE //no afterattack
@@ -223,12 +228,12 @@
 		var/obj/item/reagent_containers/condiment/pack/sugar/new_pack = attack_item
 		if(new_pack.reagents.total_volume < new_pack.reagents.maximum_volume)
 			balloon_alert(user, "the pack must be full!")
-			return
+			return TRUE
 		if(sugar_packs >= max_sugar_packs)
 			balloon_alert(user, "the sugar compartment is full!")
-			return
+			return TRUE
 		if(!user.transferItemToLoc(attack_item, src))
-			return
+			return FALSE
 		sugar_packs++
 		update_appearance(UPDATE_OVERLAYS)
 		return TRUE //no afterattack
@@ -237,12 +242,12 @@
 		var/obj/item/reagent_containers/condiment/creamer/new_pack = attack_item
 		if(new_pack.reagents.total_volume < new_pack.reagents.maximum_volume)
 			balloon_alert(user, "the pack must be full!")
-			return
+			return TRUE
 		if(creamer_packs >= max_creamer_packs)
 			balloon_alert(user, "the creamer compartment is full!")
-			return
+			return TRUE
 		if(!user.transferItemToLoc(attack_item, src))
-			return
+			return FALSE
 		creamer_packs++
 		update_appearance(UPDATE_OVERLAYS)
 		return TRUE //no afterattack
@@ -251,12 +256,12 @@
 		var/obj/item/reagent_containers/condiment/pack/astrotame/new_pack = attack_item
 		if(new_pack.reagents.total_volume < new_pack.reagents.maximum_volume)
 			balloon_alert(user, "the pack must be full!")
-			return
+			return TRUE
 		else if(sweetener_packs >= max_sweetener_packs)
 			balloon_alert(user, "the sweetener compartment is full!")
-			return
+			return TRUE
 		else if(!user.transferItemToLoc(attack_item, src))
-			return
+			return FALSE
 		sweetener_packs++
 		update_appearance(UPDATE_OVERLAYS)
 		return TRUE //no afterattack
@@ -264,7 +269,7 @@
 	if (istype(attack_item, /obj/item/coffee_cartridge) && !(attack_item.item_flags & ABSTRACT))
 		var/obj/item/coffee_cartridge/new_cartridge = attack_item
 		if(!user.transferItemToLoc(new_cartridge, src))
-			return
+			return FALSE
 		replace_cartridge(user, new_cartridge)
 		balloon_alert(user, "added cartridge")
 		update_appearance(UPDATE_OVERLAYS)
@@ -511,6 +516,8 @@
 	brew_time = 15 SECONDS //industrial grade, its faster than the regular one
 	density = TRUE
 	pass_flags = PASSTABLE
+	coffee_cup_type = /obj/item/reagent_containers/cup/glass/coffee
+
 	/// Current amount of coffee beans stored
 	var/coffee_amount = 0
 	/// List of coffee bean objects are stored
@@ -595,119 +602,52 @@
 	return TRUE
 
 /obj/machinery/coffeemaker/impressa/attackby(obj/item/attack_item, mob/living/user, params)
-	//You can only screw open empty grinder
-	if(!coffeepot && default_deconstruction_screwdriver(user, icon_state, icon_state, attack_item))
+	. = ..()
+	if(.)
 		return
-
-	if(default_deconstruction_crowbar(attack_item))
-		return
-
-	if(panel_open) //Can't insert objects when its screwed open
-		return TRUE
-
-	if (istype(attack_item, /obj/item/reagent_containers/cup/coffeepot) && !(attack_item.item_flags & ABSTRACT) && attack_item.is_open_container())
-		var/obj/item/reagent_containers/cup/coffeepot/new_pot = attack_item
-		if(!user.transferItemToLoc(new_pot, src))
-			return TRUE
-		replace_pot(user, new_pot)
-		update_appearance(UPDATE_OVERLAYS)
-		return TRUE //no afterattack
-
-	if (istype(attack_item, /obj/item/reagent_containers/cup/glass/coffee) && !(attack_item.item_flags & ABSTRACT) && attack_item.is_open_container())
-		var/obj/item/reagent_containers/cup/glass/coffee/new_cup = attack_item //different type of cup
-		if(new_cup.reagents.total_volume > 0 )
-			balloon_alert(user, "the cup must be empty!")
-			return
-		if(coffee_cups >= max_coffee_cups)
-			balloon_alert(user, "the cup holder is full!")
-			return
-		if(!user.transferItemToLoc(attack_item, src))
-			return
-		coffee_cups++
-		update_appearance(UPDATE_OVERLAYS)
-		return TRUE //no afterattack
-
-	if (istype(attack_item, /obj/item/reagent_containers/condiment/pack/sugar))
-		var/obj/item/reagent_containers/condiment/pack/sugar/new_pack = attack_item
-		if(new_pack.reagents.total_volume < new_pack.reagents.maximum_volume)
-			balloon_alert(user, "the pack must be full!")
-			return
-		if(sugar_packs >= max_sugar_packs)
-			balloon_alert(user, "the sugar compartment is full!")
-			return
-		if(!user.transferItemToLoc(attack_item, src))
-			return
-		sugar_packs++
-		update_appearance(UPDATE_OVERLAYS)
-		return TRUE //no afterattack
-
-	if (istype(attack_item, /obj/item/reagent_containers/condiment/creamer))
-		var/obj/item/reagent_containers/condiment/creamer/new_pack = attack_item
-		if(new_pack.reagents.total_volume < new_pack.reagents.maximum_volume)
-			balloon_alert(user, "the pack must be full!")
-			return
-		if(creamer_packs >= max_creamer_packs)
-			balloon_alert(user, "the creamer compartment is full!")
-			return
-		if(!user.transferItemToLoc(attack_item, src))
-			return
-		creamer_packs++
-		update_appearance(UPDATE_OVERLAYS)
-		return TRUE //no afterattack
-
-	if (istype(attack_item, /obj/item/reagent_containers/condiment/pack/astrotame))
-		var/obj/item/reagent_containers/condiment/pack/astrotame/new_pack = attack_item
-		if(new_pack.reagents.total_volume < new_pack.reagents.maximum_volume)
-			balloon_alert(user, "the pack must be full!")
-			return
-		if(sweetener_packs >= max_sweetener_packs)
-			balloon_alert(user, "the sweetener compartment is full!")
-			return
-		if(!user.transferItemToLoc(attack_item, src))
-			return
-		sweetener_packs++
-		update_appearance(UPDATE_OVERLAYS)
-		return TRUE //no afterattack
 
 	if (istype(attack_item, /obj/item/food/grown/coffee) && !(attack_item.item_flags & ABSTRACT))
 		if(coffee_amount >= BEAN_CAPACITY)
 			balloon_alert(user, "the coffee container is full!")
-			return
+			return TRUE
 		if(!HAS_TRAIT(attack_item, TRAIT_DRIED))
 			balloon_alert(user, "coffee beans must be dry!")
-			return
+			return TRUE
 		var/obj/item/food/grown/coffee/new_coffee = attack_item
 		if(!user.transferItemToLoc(new_coffee, src))
-			return
+			return FALSE
 		coffee += new_coffee
 		coffee_amount++
 		balloon_alert(user, "added coffee")
-
+		update_appearance(UPDATE_OVERLAYS)
+		return TRUE
 
 	if (istype(attack_item, /obj/item/storage/box/coffeepack))
 		if(coffee_amount >= BEAN_CAPACITY)
 			balloon_alert(user, "the coffee container is full!")
-			return
+			return TRUE
 		var/obj/item/storage/box/coffeepack/new_coffee_pack = attack_item
 		for(var/obj/item/food/grown/coffee/new_coffee in new_coffee_pack.contents)
 			if(HAS_TRAIT(new_coffee, TRAIT_DRIED)) //the coffee beans inside must be dry
-				if(coffee_amount < BEAN_CAPACITY)
-					if(user.transferItemToLoc(new_coffee, src))
-						coffee += new_coffee
-						coffee_amount++
-						new_coffee.forceMove(src)
-						balloon_alert(user, "added coffee")
-						update_appearance(UPDATE_OVERLAYS)
-					else
-						return
-				else
-					return
-			else
 				balloon_alert(user, "non-dried beans inside of coffee pack!")
-				return
+				return TRUE
 
-	update_appearance(UPDATE_OVERLAYS)
-	return TRUE //no afterattack
+			if(coffee_amount >= BEAN_CAPACITY)
+				return TRUE
+
+			if(!user.transferItemToLoc(new_coffee, src))
+				return TRUE
+
+			coffee += new_coffee
+			coffee_amount++
+			new_coffee.forceMove(src)
+			update_appearance(UPDATE_OVERLAYS)
+			. = TRUE
+
+		if(.)
+			balloon_alert(user, "added coffee")
+			update_appearance(UPDATE_OVERLAYS)
+		return .
 
 /obj/machinery/coffeemaker/impressa/take_cup(mob/user)
 	if(!coffee_cups) //shouldn't happen, but we all know how stuff manages to break

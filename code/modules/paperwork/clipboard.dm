@@ -101,21 +101,28 @@
 	if(istype(weapon, /obj/item/paper))
 		//Add paper into the clipboard
 		if(!user.transferItemToLoc(weapon, src))
-			return
+			return FALSE
 		if(toppaper)
 			UnregisterSignal(toppaper, COMSIG_ATOM_UPDATED_ICON)
 		RegisterSignal(weapon, COMSIG_ATOM_UPDATED_ICON, PROC_REF(on_top_paper_change))
 		toppaper_ref = WEAKREF(weapon)
 		to_chat(user, span_notice("You clip [weapon] onto [src]."))
+		return TRUE
+
 	else if(istype(weapon, /obj/item/pen) && !pen)
 		//Add a pen into the clipboard, attack (write) if there is already one
-		if(!usr.transferItemToLoc(weapon, src))
-			return
+		if(!user.transferItemToLoc(weapon, src))
+			return FALSE
 		pen = weapon
-		to_chat(usr, span_notice("You slot [weapon] into [src]."))
+		to_chat(user, span_notice("You slot [weapon] into [src]."))
+		return TRUE
+
 	else if(toppaper)
 		toppaper.attackby(user.get_active_held_item(), user)
-	update_appearance()
+		update_appearance()
+		return TRUE
+
+	return ..()
 
 /obj/item/clipboard/attack_self(mob/user)
 	add_fingerprint(usr)

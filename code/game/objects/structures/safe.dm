@@ -62,22 +62,21 @@ FLOOR SAFES
 
 /obj/structure/safe/attackby(obj/item/attacking_item, mob/user, params)
 	if(open)
-		. = TRUE //no afterattack
 		if(attacking_item.w_class + space <= maxspace)
 			if(!user.transferItemToLoc(attacking_item, src))
 				to_chat(user, span_warning("\The [attacking_item] is stuck to your hand, you cannot put it in the safe!"))
-				return
+				return FALSE
 			space += attacking_item.w_class
 			to_chat(user, span_notice("You put [attacking_item] in [src]."))
 		else
 			to_chat(user, span_warning("[attacking_item] won't fit in [src]."))
-	else
-		if(istype(attacking_item, /obj/item/clothing/neck/stethoscope))
-			attack_hand(user)
-			return
-		else
-			to_chat(user, span_warning("You can't put [attacking_item] into the safe while it is closed!"))
-			return
+		return TRUE
+
+	if(istype(attacking_item, /obj/item/clothing/neck/stethoscope))
+		attack_hand(user)
+		return TRUE
+
+	return ..()
 
 /obj/structure/safe/blob_act(obj/structure/blob/B)
 	return

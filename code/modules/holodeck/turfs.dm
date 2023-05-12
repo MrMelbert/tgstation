@@ -6,7 +6,8 @@
 	var/direction = SOUTH
 
 /turf/open/floor/holofloor/attackby(obj/item/I, mob/living/user)
-	return // HOLOFLOOR DOES NOT GIVE A FUCK
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: HOLOFLOOR DOES NOT GIVE A FUCK
+	return TRUE
 
 /turf/open/floor/holofloor/tool_act(mob/living/user, obj/item/I, tool_type)
 	return

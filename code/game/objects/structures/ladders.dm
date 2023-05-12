@@ -236,6 +236,7 @@
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/ladder/attackby(obj/item/item, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: We redirect to climbing, so you can climb with your hands full
 	use(user)
 	return TRUE
 

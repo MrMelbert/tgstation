@@ -142,6 +142,7 @@
 	return //jetfuel can't break steel foam...
 
 /turf/open/floor/plating/foam/attackby(obj/item/I, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Does a snowflake attack
 	if(istype(I, /obj/item/stack/tile/iron))
 		var/obj/item/stack/tile/iron/P = I
 		if(P.use(1))
@@ -161,6 +162,7 @@
 			ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 		else
 			to_chat(user, span_danger("You hit [src], to no effect!"))
+	return TRUE
 
 /turf/open/floor/plating/foam/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if(the_rcd.mode == RCD_FLOORWALL)

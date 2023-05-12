@@ -21,7 +21,6 @@
 	var/framestack = /obj/item/stack/rods
 	var/framestackamount = 2
 
-
 /obj/structure/table_frame/wrench_act(mob/living/user, obj/item/I)
 	to_chat(user, span_notice("You start disassembling [src]..."))
 	I.play_tool_sound(src)
@@ -34,35 +33,36 @@
 
 /obj/structure/table_frame/attackby(obj/item/I, mob/user, params)
 	if(isstack(I))
-		var/obj/item/stack/material = I
-		if(material.tableVariant)
-			if(material.get_amount() < 1)
-				to_chat(user, span_warning("You need one [material.name] sheet to do this!"))
-				return
-			if(locate(/obj/structure/table) in loc)
-				to_chat(user, span_warning("There's already a table built here!"))
-				return
-			to_chat(user, span_notice("You start adding [material] to [src]..."))
-			if(!do_after(user, 2 SECONDS, target = src) || !material.use(1) || (locate(/obj/structure/table) in loc))
-				return
-			make_new_table(material.tableVariant)
-		else if(istype(material, /obj/item/stack/sheet))
-			if(material.get_amount() < 1)
-				to_chat(user, span_warning("You need one sheet to do this!"))
-				return
-			if(locate(/obj/structure/table) in loc)
-				to_chat(user, span_warning("There's already a table built here!"))
-				return
-			to_chat(user, span_notice("You start adding [material] to [src]..."))
-			if(!do_after(user, 2 SECONDS, target = src) || !material.use(1) || (locate(/obj/structure/table) in loc))
-				return
-			var/list/material_list = list()
-			if(material.material_type)
-				material_list[material.material_type] = SHEET_MATERIAL_AMOUNT
-			make_new_table(/obj/structure/table/greyscale, material_list)
-		return
+		try_add_sheet(I, user)
+		return TRUE
+
 	return ..()
 
+/obj/structure/table_frame/proc/try_add_sheet(obj/item/stack/material, mob/user)
+	if(!material.tableVariant && !istype(material, /obj/item/stack/sheet))
+		return
+	if(material.get_amount() < 1)
+		to_chat(user, span_warning("You need one[material.tableVariant ? " [material.name] " : " "]sheet to do this!"))
+		return
+	if(locate(/obj/structure/table) in loc)
+		to_chat(user, span_warning("There's already a table built here!"))
+		return
+
+	to_chat(user, span_notice("You start adding [material] to [src]..."))
+	if(!do_after(user, 2 SECONDS, target = src) || !material.use(1) || (locate(/obj/structure/table) in loc))
+		return
+
+	add_sheet(material, user)
+
+/obj/structure/table_frame/proc/add_sheet(obj/item/stack/material, mob/user)
+	if(material.tableVariant)
+		make_new_table(material.tableVariant)
+
+	else
+		var/list/material_list = list()
+		if(material.material_type)
+			material_list[material.material_type] = SHEET_MATERIAL_AMOUNT
+		make_new_table(/obj/structure/table/greyscale, material_list)
 
 /obj/structure/table_frame/proc/make_new_table(table_type, custom_materials, carpet_type) //makes sure the new table made retains what we had as a frame
 	var/obj/structure/table/T = new table_type(loc)
@@ -80,7 +80,7 @@
 	qdel(src)
 
 /obj/structure/table_frame/narsie_act()
-	new /obj/structure/table_frame/wood(src.loc)
+	new /obj/structure/table_frame/wood(loc)
 	qdel(src)
 
 /*
@@ -95,22 +95,20 @@
 	framestackamount = 2
 	resistance_flags = FLAMMABLE
 
-/obj/structure/table_frame/wood/attackby(obj/item/I, mob/user, params)
-	if (isstack(I))
-		var/obj/item/stack/material = I
-		var/toConstruct // stores the table variant
-		var/carpet_type // stores the carpet type used for construction in case of poker tables
-		if(istype(I, /obj/item/stack/sheet/mineral/wood))
-			toConstruct = /obj/structure/table/wood
-		else if(istype(I, /obj/item/stack/tile/carpet))
-			toConstruct = /obj/structure/table/wood/poker
-			carpet_type = I.type
-		if (toConstruct)
-			if(material.get_amount() < 1)
-				to_chat(user, span_warning("You need one [material.name] sheet to do this!"))
-				return
-			to_chat(user, span_notice("You start adding [material] to [src]..."))
-			if(do_after(user, 20, target = src) && material.use(1))
-				make_new_table(toConstruct, null, carpet_type)
-	else
-		return ..()
+/obj/structure/table_frame/wood/try_add_sheet(obj/item/stack/material, mob/user)
+	if(!istype(material, /obj/item/stack/sheet/mineral/wood) && !istype(material, /obj/item/stack/tile/carpet))
+		to_chat(user, span_warning("[material] doesn't fit on [src]."))
+		return
+
+	return ..()
+
+/obj/structure/table_frame/wood/add_sheet(obj/item/stack/material, mob/user)
+	if(istype(material, /obj/item/stack/tile/carpet))
+		make_new_table(/obj/structure/table/wood/poker, null, material.type)
+		return
+
+	// Will not get called typically
+	return ..()
+
+/obj/structure/table_frame/wood/narsie_act()
+	return

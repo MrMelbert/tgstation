@@ -407,6 +407,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(is_wire_tool(attacking_item))
 		wires.interact(user)
 		return TRUE
+	return ..()
 
 /obj/machinery/conveyor_switch/multitool_act(mob/living/user, obj/item/I)
 	var/input_speed = tgui_input_number(user, "Set the speed of the conveyor belts in seconds", "Speed", conveyor_speed, 20, 0.2, round_value = FALSE)

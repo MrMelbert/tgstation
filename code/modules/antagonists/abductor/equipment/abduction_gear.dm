@@ -785,37 +785,23 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	framestack = /obj/item/stack/sheet/mineral/abductor
 	framestackamount = 1
 
-/obj/structure/table_frame/abductor/attackby(obj/item/I, mob/user, params)
-	if(I.tool_behaviour == TOOL_WRENCH)
-		to_chat(user, span_notice("You start disassembling [src]..."))
-		I.play_tool_sound(src)
-		if(I.use_tool(src, user, 30))
-			playsound(src, 'sound/items/deconstruct.ogg', 50, TRUE)
-			for(var/i in 0 to framestackamount)
-				new framestack(get_turf(src))
-			qdel(src)
-			return
-	if(istype(I, /obj/item/stack/sheet/mineral/abductor))
-		var/obj/item/stack/sheet/P = I
-		if(P.get_amount() < 1)
-			to_chat(user, span_warning("You need one alien alloy sheet to do this!"))
-			return
-		to_chat(user, span_notice("You start adding [P] to [src]..."))
-		if(do_after(user, 50, target = src))
-			P.use(1)
-			new /obj/structure/table/abductor(src.loc)
-			qdel(src)
+/obj/structure/table_frame/abductor/try_add_sheet(obj/item/stack/material, mob/user)
+	if(!istype(material, /obj/item/stack/sheet/mineral/abductor) && !istype(material, /obj/item/stack/sheet/mineral/silver))
+		to_chat(user, span_warning("[material] doesn't fit on [src]."))
 		return
-	if(istype(I, /obj/item/stack/sheet/mineral/silver))
-		var/obj/item/stack/sheet/P = I
-		if(P.get_amount() < 1)
-			to_chat(user, span_warning("You need one sheet of silver to do this!"))
-			return
-		to_chat(user, span_notice("You start adding [P] to [src]..."))
-		if(do_after(user, 50, target = src))
-			P.use(1)
-			new /obj/structure/table/optable/abductor(src.loc)
-			qdel(src)
+
+	return ..()
+
+/obj/structure/table_frame/abductor/add_sheet(obj/item/stack/material, mob/user)
+	if(istype(material, /obj/item/stack/sheet/mineral/abductor))
+		make_new_table(/obj/structure/table/abductor)
+		return
+	if(istype(material, /obj/item/stack/sheet/mineral/silver))
+		make_new_table(/obj/structure/table/optable/abductor)
+		return
+
+	// Will not get called typically
+	return ..()
 
 /obj/structure/table/abductor
 	name = "alien table"

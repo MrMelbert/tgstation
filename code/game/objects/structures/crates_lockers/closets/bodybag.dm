@@ -45,22 +45,29 @@
 		QDEL_NULL(foldedbag_instance)
 	return ..()
 
+/obj/structure/closet/body_bag/tool_interact(obj/item/weapon, mob/living/user)
+	return FALSE // no tools for us
+
 /obj/structure/closet/body_bag/attackby(obj/item/interact_tool, mob/user, params)
 	if (istype(interact_tool, /obj/item/pen) || istype(interact_tool, /obj/item/toy/crayon))
+		. = TRUE
+
 		if(!user.can_write(interact_tool))
-			return
+			return .
 		var/t = tgui_input_text(user, "What would you like the label to be?", name, max_length = 53)
 		if(user.get_active_held_item() != interact_tool)
-			return
+			return .
 		if(!user.can_perform_action(src))
-			return
+			return .
 		handle_tag("[t ? t : initial(name)]")
-		return
-	if(!tag_name)
-		return
-	if(interact_tool.tool_behaviour == TOOL_WIRECUTTER || interact_tool.get_sharpness())
+		return .
+
+	if(tag_name && (interact_tool.tool_behaviour == TOOL_WIRECUTTER || interact_tool.get_sharpness()))
 		to_chat(user, span_notice("You cut the tag off [src]."))
 		handle_tag()
+		return TRUE
+
+	return ..()
 
 ///Handles renaming of the bodybag's examine tag.
 /obj/structure/closet/body_bag/proc/handle_tag(new_name)

@@ -128,6 +128,8 @@
 	return TRUE
 
 /obj/item/ammo_box/attackby(obj/item/A, mob/user, params, silent = FALSE, replace_spent = 0)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Bad gun code. ALso overrides expected return value with the number being loaded?? Double bad.
+
 	var/num_loaded = 0
 	if(!can_load(user))
 		return

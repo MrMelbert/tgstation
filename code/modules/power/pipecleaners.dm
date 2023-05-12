@@ -153,7 +153,9 @@ By design, d1 is the smallest direction and d2 is the highest
 	deconstruct()
 
 /obj/structure/pipe_cleaner/attackby(obj/item/W, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Snowflake cables are not attackable
 	handlecable(W, user, params)
+	return TRUE
 
 /obj/structure/pipe_cleaner/singularity_pull(S, current_size)
 	..()

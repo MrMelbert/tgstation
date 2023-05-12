@@ -128,7 +128,9 @@
 	master.active_dummy = src
 
 /obj/effect/dummy/chameleon/attackby()
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Not a real "thing", so skip it
 	master.disrupt()
+	return TRUE
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /obj/effect/dummy/chameleon/attack_hand(mob/user, list/modifiers)

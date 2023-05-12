@@ -177,7 +177,9 @@
 /obj/item/assembly/signaler/cyborg
 
 /obj/item/assembly/signaler/cyborg/attackby(obj/item/W, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Internal thing
+	return TRUE
+
 /obj/item/assembly/signaler/cyborg/screwdriver_act(mob/living/user, obj/item/I)
 	return
 
@@ -188,7 +190,8 @@
 	return GLOB.inventory_state
 
 /obj/item/assembly/signaler/internal/attackby(obj/item/W, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Internal thing
+	return TRUE
 
 /obj/item/assembly/signaler/internal/screwdriver_act(mob/living/user, obj/item/I)
 	return

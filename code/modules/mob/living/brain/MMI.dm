@@ -51,8 +51,8 @@
 		. += "mmi_dead"
 
 /obj/item/mmi/attackby(obj/item/O, mob/user, params)
-	user.changeNext_move(CLICK_CD_MELEE)
 	if(istype(O, /obj/item/organ/internal/brain)) //Time to stick a brain in it --NEO
+		. = TRUE
 		var/obj/item/organ/internal/brain/newbrain = O
 		if(brain)
 			to_chat(user, span_warning("There's already a brain in the MMI!"))
@@ -108,11 +108,12 @@
 		SSblackbox.record_feedback("amount", "mmis_filled", 1)
 
 		user.log_message("has put the brain of [key_name(brainmob)] into an MMI", LOG_GAME)
+		return
 
-	else if(brainmob)
-		O.attack(brainmob, user) //Oh noooeeeee
-	else
-		return ..()
+	if(brainmob)
+		return O.attack(brainmob, user) //Oh noooeeeee
+
+	return ..()
 
 /obj/item/mmi/attack_self(mob/user)
 	if(!brain)

@@ -355,6 +355,7 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	grind_results = list(/datum/reagent/cellulose = 20) //no lignocellulose or lignin reagents yet,
 	walltype = /turf/closed/wall/mineral/wood
 	stairs_type = /obj/structure/stairs/wood
+	tableVariant = /obj/structure/table/wood
 
 /datum/armor/mineral_wood
 	fire = 50

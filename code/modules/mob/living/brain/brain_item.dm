@@ -1,3 +1,4 @@
+
 /obj/item/organ/internal/brain
 	name = "brain"
 	desc = "A piece of juicy meat found in a person's head."
@@ -150,10 +151,12 @@
 	to_chat(brainmob, span_notice("You feel slightly disoriented. That's normal when you're just a brain."))
 
 /obj/item/organ/internal/brain/attackby(obj/item/O, mob/user, params)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Snowflakes attacks
+
 	user.changeNext_move(CLICK_CD_MELEE)
 
 	if(istype(O, /obj/item/borg/apparatus/organ_storage))
-		return //Borg organ bags shouldn't be killing brains
+		return TRUE //Borg organ bags shouldn't be killing brains
 
 	if(damage && O.is_drainable() && O.reagents.has_reagent(/datum/reagent/medicine/mannitol)) //attempt to heal the brain
 		. = TRUE //don't do attack animation.
@@ -194,10 +197,10 @@
 				qdel(skillchip)
 
 			skillchips = null
-		return
+		return TRUE
 
 	if(brainmob) //if we aren't trying to heal the brain, pass the attack onto the brainmob.
-		O.attack(brainmob, user) //Oh noooeeeee
+		. = O.attack(brainmob, user) //Oh noooeeeee
 
 	if(O.force != 0 && !(O.item_flags & NOBLUDGEON))
 		user.do_attack_animation(src)
@@ -205,6 +208,7 @@
 		set_organ_damage(maxHealth) //fails the brain as the brain was attacked, they're pretty fragile.
 		visible_message(span_danger("[user] hits [src] with [O]!"))
 		to_chat(user, span_danger("You hit [src] with [O]!"))
+		return TRUE
 
 /obj/item/organ/internal/brain/examine(mob/user)
 	. = ..()

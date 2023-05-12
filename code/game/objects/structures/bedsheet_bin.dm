@@ -671,13 +671,17 @@ LINEN BINS
 		amount++
 		to_chat(user, span_notice("You put [I] in [src]."))
 		update_appearance()
+		return TRUE
 
-	else if(amount && !hidden && I.w_class < WEIGHT_CLASS_BULKY) //make sure there's sheets to hide it among, make sure nothing else is hidden in there.
+	if(amount && !hidden && I.w_class < WEIGHT_CLASS_BULKY) //make sure there's sheets to hide it among, make sure nothing else is hidden in there.
 		if(!user.transferItemToLoc(I, src))
 			to_chat(user, span_warning("\The [I] is stuck to your hand, you cannot hide it among the sheets!"))
-			return
+			return TRUE
 		hidden = I
 		to_chat(user, span_notice("You hide [I] among the sheets."))
+		return TRUE
+
+	return ..()
 
 
 /obj/structure/bedsheetbin/attack_paw(mob/user, list/modifiers)

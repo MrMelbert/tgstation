@@ -24,6 +24,7 @@
 	layer = MOB_LAYER
 	plane = GAME_PLANE_FOV_HIDDEN
 	max_integrity = 100
+	obj_flags = CAN_BE_HIT
 	item_flags = XENOMORPH_HOLDABLE
 	var/stat = CONSCIOUS //UNCONSCIOUS is the idle state in this case
 
@@ -48,8 +49,11 @@
 	if(atom_integrity < 90)
 		Die()
 
-/obj/item/clothing/mask/facehugger/attackby(obj/item/O, mob/user, params)
-	return O.attack_atom(src, user, params)
+/obj/item/clothing/mask/facehugger/play_attack_sound(damage_amount, damage_type, damage_flag)
+	if(damage_type == BURN)
+		return ..()
+
+	playsound(loc, damage_amount ? 'sound/effects/attackblob.ogg' : 'sound/weapons/tap.ogg', 50, TRUE)
 
 /obj/item/clothing/mask/facehugger/proc/react_to_mob(datum/source, mob/user)
 	SIGNAL_HANDLER

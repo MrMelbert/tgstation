@@ -49,6 +49,9 @@
 	return TRUE
 
 /obj/effect/portal/attackby(obj/item/W, mob/user, params)
+	. = ..()
+	if(.)
+		return
 	if(user && Adjacent(user))
 		teleport(user)
 		return TRUE

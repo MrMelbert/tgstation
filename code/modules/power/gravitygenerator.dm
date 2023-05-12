@@ -83,19 +83,14 @@ GLOBAL_LIST_EMPTY(gravity_generators)
 	return ..()
 
 /obj/machinery/gravity_generator/part/attackby(obj/item/weapon, mob/user, params)
-	if(!main_part)
-		return
-	return main_part.attackby(weapon, user)
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Redirecting to main part attackby
+	return main_part?.attackby(weapon, user)
 
 /obj/machinery/gravity_generator/part/get_status()
-	if(!main_part)
-		return
-	return main_part.get_status()
+	return main_part?.get_status()
 
 /obj/machinery/gravity_generator/part/attack_hand(mob/user, list/modifiers)
-	if(!main_part)
-		return
-	return main_part.attack_hand(user, modifiers)
+	return main_part?.attack_hand(user, modifiers)
 
 /obj/machinery/gravity_generator/part/set_broken()
 	..()

@@ -25,18 +25,23 @@ Reproductive extracts:
 	create_storage(storage_type = /datum/storage/extract_inventory)
 
 /obj/item/slimecross/reproductive/attackby(obj/item/O, mob/user)
+	. = ..()
+	if(.)
+		return
+
+	// melbert todo : doesn't work
 	var/datum/storage/extract_inventory/slime_storage = atom_storage
 	if(!istype(slime_storage))
-		return
+		return FALSE
 
 	if((last_produce + cooldown) > world.time)
 		to_chat(user, span_warning("[src] is still digesting!"))
-		return
+		return TRUE
 
 	if(length(contents) >= feedAmount) //if for some reason the contents are full, but it didnt digest, attempt to digest again
 		to_chat(user, span_warning("[src] appears to be full but is not digesting! Maybe poking it stimulated it to digest."))
 		slime_storage?.processCubes(user)
-		return
+		return TRUE
 
 	if(istype(O, /obj/item/storage/bag/xeno))
 		var/list/inserted = list()
@@ -47,16 +52,16 @@ Reproductive extracts:
 			slime_storage?.processCubes(user)
 		else
 			to_chat(user, span_warning("There are no monkey cubes in the bio bag!"))
-		return
+		return TRUE
 
 	else if(istype(O, /obj/item/food/monkeycube))
 		if(atom_storage?.attempt_insert(O, user, override = TRUE, force = TRUE))
 			to_chat(user, span_notice("You feed 1 Monkey Cube to [src], and it pulses gently."))
 			slime_storage?.processCubes(user)
 			playsound(src, 'sound/items/eatfood.ogg', 20, TRUE)
-			return
 		else
-			to_chat(user, span_notice("The [src] rejects the Monkey Cube!")) //in case it fails to insert for whatever reason you get feedback
+			to_chat(user, span_notice("The [src] rejects [O]!")) //in case it fails to insert for whatever reason you get feedback
+		return TRUE
 
 /obj/item/slimecross/reproductive/grey
 	extract_type = /obj/item/slime_extract/grey

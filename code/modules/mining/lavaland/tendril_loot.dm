@@ -443,7 +443,8 @@
 	qdel(src)
 
 /obj/effect/immortality_talisman/attackby()
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Immortal
+	return TRUE
 
 /obj/effect/immortality_talisman/relaymove(mob/living/user, direction)
 	// Won't really come into play since our mob has notransform and cannot move,

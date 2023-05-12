@@ -63,7 +63,8 @@
 	update_appearance()
 
 /obj/machinery/power/emitter/energycannon/magical/attackby(obj/item/W, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Magic bullshit
+	return TRUE
 
 /obj/machinery/power/emitter/energycannon/magical/ex_act(severity)
 	return FALSE
@@ -287,7 +288,8 @@
 	return
 
 /obj/machinery/scanner_gate/luxury_shuttle/attackby(obj/item/W, mob/user, params)
-	return
+	SHOULD_CALL_PARENT(FALSE) // Attackby not sending signal: Rich people bullshit is immune to being attacked, also immune to having its settings messed with
+	return TRUE
 
 /obj/machinery/scanner_gate/luxury_shuttle/emag_act(mob/user)
 	return

@@ -216,12 +216,16 @@
 	. += span_notice("<b>Left-click</b> to fire blue wormholes and <b><font color=orange>right-click</font></b> to fire orange wormholes.")
 
 /obj/item/gun/energy/wormhole_projector/attackby(obj/item/C, mob/user)
+	. = ..()
+	if(.)
+		return
+
 	if(istype(C, /obj/item/assembly/signaler/anomaly/bluespace))
 		to_chat(user, span_notice("You insert [C] into the wormhole projector and the weapon gently hums to life."))
 		firing_core = TRUE
 		playsound(src.loc, 'sound/machines/click.ogg', 50, TRUE)
 		qdel(C)
-		return
+		return TRUE
 
 /obj/item/gun/energy/wormhole_projector/can_shoot()
 	if(!firing_core)
