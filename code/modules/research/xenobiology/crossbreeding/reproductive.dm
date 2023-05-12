@@ -18,21 +18,16 @@ Reproductive extracts:
 
 /obj/item/slimecross/reproductive/examine()
 	. = ..()
-	. += span_danger("It appears to have eaten [length(contents)] Monkey Cube[p_s()]")
+	. += span_danger("It appears to have eaten [length(contents)] monkey cube\s.")
 
 /obj/item/slimecross/reproductive/Initialize(mapload)
 	. = ..()
 	create_storage(storage_type = /datum/storage/extract_inventory)
 
 /obj/item/slimecross/reproductive/attackby(obj/item/O, mob/user)
-	. = ..()
-	if(.)
-		return
-
-	// melbert todo : doesn't work
 	var/datum/storage/extract_inventory/slime_storage = atom_storage
 	if(!istype(slime_storage))
-		return FALSE
+		return ..()
 
 	if((last_produce + cooldown) > world.time)
 		to_chat(user, span_warning("[src] is still digesting!"))
@@ -62,6 +57,8 @@ Reproductive extracts:
 		else
 			to_chat(user, span_notice("The [src] rejects [O]!")) //in case it fails to insert for whatever reason you get feedback
 		return TRUE
+
+	return ..()
 
 /obj/item/slimecross/reproductive/grey
 	extract_type = /obj/item/slime_extract/grey
