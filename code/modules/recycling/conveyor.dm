@@ -447,7 +447,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return .
-	if(is_wire_tool(attacking_item))
+	if(is_wire_tool(weapon))
 		wires.interact(user)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
