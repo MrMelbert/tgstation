@@ -6,6 +6,7 @@
 #define CONVEYOR_FORWARD 1
 /// Conveyor is currently configured to move items backwards.
 #define CONVEYOR_BACKWARDS -1
+
 GLOBAL_LIST_EMPTY(conveyors_by_id)
 
 /obj/machinery/conveyor
@@ -314,6 +315,8 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	base_icon_state = "switch"
 	processing_flags = START_PROCESSING_MANUALLY
 
+	/// If TRUE, we are locked in current position
+	var/lock_position = FALSE
 	/// The current state of the switch.
 	var/position = CONVEYOR_OFF
 	/// If the switch only operates the conveyor belts in a single direction.
@@ -405,8 +408,38 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		belt_switch.update_appearance()
 		CHECK_TICK
 
+// Yes I know these two can be done with basic math
+// But if someone changes these from -1 / 0 / 1, this is futureproofing
+/// Sends the lever forwards 1
+/obj/machinery/conveyor_switch/proc/send_forwards()
+	if(lock_position)
+		return FALSE
+
+	switch(position)
+		if(CONVEYOR_BACKWARDS)
+			update_position(CONVEYOR_OFF)
+		if(CONVEYOR_OFF)
+			update_position(CONVEYOR_FORWARD)
+	return TRUE
+
+/// Sends the level backwards 1
+/obj/machinery/conveyor_switch/proc/send_backwards()
+	if(lock_position)
+		return FALSE
+	if(oneway)
+		return FALSE
+
+	switch(position)
+		if(CONVEYOR_BACKWARDS)
+			update_position(CONVEYOR_OFF)
+		if(CONVEYOR_OFF)
+			update_position(CONVEYOR_FORWARD)
+	return TRUE
+
 /// Setter for position
 /obj/machinery/conveyor_switch/proc/update_position(newpos)
+	if(lock_position)
+		return
 	if(position == newpos)
 		return
 
@@ -420,12 +453,8 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(.)
 		return .
 
-	switch(position)
-		if(CONVEYOR_BACKWARDS)
-			update_position(CONVEYOR_OFF)
-		if(CONVEYOR_OFF)
-			update_position(CONVEYOR_FORWARD)
-
+	if(!send_forwards())
+		balloon_alert(user, "won't budge!")
 	return TRUE
 
 /obj/machinery/conveyor_switch/attack_hand_secondary(mob/user, list/modifiers)
@@ -435,12 +464,8 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(oneway)
 		return SECONDARY_ATTACK_CALL_NORMAL
 
-	switch(position)
-		if(CONVEYOR_FORWARD)
-			update_position(CONVEYOR_OFF)
-		if(CONVEYOR_BACKWARDS)
-			update_position(CONVEYOR_FORWARD)
-
+	if(!send_backwards())
+		balloon_alert(user, "won't budge!")
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/machinery/conveyor_switch/attackby_secondary(obj/item/weapon, mob/user, params)
