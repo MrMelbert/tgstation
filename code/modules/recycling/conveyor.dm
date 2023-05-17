@@ -315,10 +315,10 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	base_icon_state = "switch"
 	processing_flags = START_PROCESSING_MANUALLY
 
+	/// The current state of the switch.
+	VAR_PRIVATE/position = CONVEYOR_OFF
 	/// If TRUE, we are locked in current position
 	var/lock_position = FALSE
-	/// The current state of the switch.
-	var/position = CONVEYOR_OFF
 	/// If the switch only operates the conveyor belts in a single direction.
 	var/oneway = FALSE
 	/// If the level points the opposite direction when it's turned on.
@@ -444,16 +444,20 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	return TRUE
 
 /// Setter for position
+/// Returns conveyor position at the end of the update.
 /obj/machinery/conveyor_switch/proc/update_position(newpos)
+	. = position
 	if(lock_position)
-		return
+		return .
 	if(position == newpos)
-		return
+		return .
 
+	. = newpos
 	position = newpos
 	update_appearance(UPDATE_ICON_STATE)
 	update_linked_conveyors()
 	update_linked_switches()
+	return .
 
 /obj/machinery/conveyor_switch/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
@@ -660,8 +664,8 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(!attached_switch)
 		return
 
-	attached_switch.update_position(port.value)
-	get_direction.set_output(attached_switch.position)
+	var/newpos = attached_switch.update_position(port.value)
+	get_direction.set_output(newpos)
 
 #undef CONVEYOR_BACKWARDS
 #undef CONVEYOR_OFF
