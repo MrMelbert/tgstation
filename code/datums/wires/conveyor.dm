@@ -19,10 +19,7 @@
 		if(WIRE_CONVEYOR_FORWARDS)
 			the_switch.send_forwards()
 		if(WIRE_CONVEYOR_BACKWARDS)
-			if(the_switch.oneway)
-				the_switch.send_forwards()
-			else
-				the_switch.send_backwards()
+			the_switch.send_backwards()
 
 /datum/wires/conveyor/on_cut(wire, mend)
 	var/obj/machinery/conveyor_switch/the_switch = holder

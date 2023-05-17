@@ -354,12 +354,12 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		return CONTEXTUAL_SCREENTIP_SET
 
 	if(is_wire_tool(held_item))
-		context[SCREENTIP_CONTEXT_RMB] = "Open wires"
+		context[SCREENTIP_CONTEXT_LMB] = "Open wires"
 		. = CONTEXTUAL_SCREENTIP_SET
 
 	switch(held_item.tool_behaviour)
 		if(TOOL_MULTITOOL)
-			context[SCREENTIP_CONTEXT_LMB] = "Adjust Speed"
+			context[SCREENTIP_CONTEXT_RMB] = "Adjust Speed"
 			. = CONTEXTUAL_SCREENTIP_SET
 		if(TOOL_CROWBAR)
 			context[SCREENTIP_CONTEXT_LMB] = "Detach Switch"
@@ -410,6 +410,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 
 // Yes I know these two can be done with basic math
 // But if someone changes these from -1 / 0 / 1, this is futureproofing
+
 /// Sends the lever forwards 1
 /obj/machinery/conveyor_switch/proc/send_forwards()
 	if(lock_position)
@@ -420,13 +421,16 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 			update_position(CONVEYOR_OFF)
 		if(CONVEYOR_OFF)
 			update_position(CONVEYOR_FORWARD)
+		else
+			return FALSE
+
 	return TRUE
 
-/// Sends the level backwards 1
+/// Sends the level backwards 1, unless this is a one-way switch, then redirects to [send_forwards()]
 /obj/machinery/conveyor_switch/proc/send_backwards()
-	if(lock_position)
-		return FALSE
 	if(oneway)
+		return send_forwards()
+	if(lock_position)
 		return FALSE
 
 	switch(position)
@@ -434,6 +438,9 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 			update_position(CONVEYOR_OFF)
 		if(CONVEYOR_OFF)
 			update_position(CONVEYOR_FORWARD)
+		else
+			return FALSE
+
 	return TRUE
 
 /// Setter for position
@@ -461,22 +468,21 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return .
-	if(oneway)
-		return SECONDARY_ATTACK_CALL_NORMAL
-
 	if(!send_backwards())
 		balloon_alert(user, "won't budge!")
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
-/obj/machinery/conveyor_switch/attackby_secondary(obj/item/weapon, mob/user, params)
+/obj/machinery/conveyor_switch/attackby(obj/item/weapon, mob/user, params)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return .
+	if(.)
+		return
 	if(is_wire_tool(weapon))
 		wires.interact(user)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return TRUE
 
-/obj/machinery/conveyor_switch/multitool_act(mob/living/user, obj/item/I)
+// If you, dear reader, ever intend on adding a wirecutter act, it must be a secondary act
+
+/obj/machinery/conveyor_switch/multitool_act_secondary(mob/living/user, obj/item/I)
 	var/input_speed = tgui_input_number(user, "Set the speed of the conveyor belts in seconds", "Speed", conveyor_speed, 20, 0.2, round_value = FALSE)
 	if(!input_speed || QDELETED(user) || QDELETED(src) || !usr.can_perform_action(src, FORBID_TELEKINESIS_REACH))
 		return
