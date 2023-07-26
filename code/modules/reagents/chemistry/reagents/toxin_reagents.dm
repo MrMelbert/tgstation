@@ -942,7 +942,7 @@
 /datum/reagent/toxin/spewium/overdose_process(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	. = ..()
 	if(current_cycle >= 33 && SPT_PROB(7.5, seconds_per_tick))
-		affected_mob.spew_organ()
+		affected_mob.spew_organ(grant_award = TRUE)
 		affected_mob.vomit(0, TRUE, TRUE, 4)
 		to_chat(affected_mob, span_userdanger("You feel something lumpy come up as you vomit."))
 

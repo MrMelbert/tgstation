@@ -464,7 +464,7 @@
 		return FALSE
 	var/datum/quirk/quirk = new quirktype()
 	if(quirk.add_to_holder(new_holder = src, client_source = override_client))
-		return TRUE
+		return quirk
 	qdel(quirk)
 	return FALSE
 

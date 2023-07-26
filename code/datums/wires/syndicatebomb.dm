@@ -105,6 +105,7 @@
 				B.update_appearance()
 				if(isliving(usr))
 					add_memory_in_range(B, 7, /datum/memory/bomb_defuse_success, protagonist = usr, antagonist = B, bomb_time_left = bomb_time_left)
+					usr.client?.give_award(/datum/award/achievement/misc/bomb_defused, usr)
 
 /datum/wires/syndicatebomb/proc/tell_admins(obj/machinery/syndicatebomb/B)
 	var/turf/T = get_turf(B)

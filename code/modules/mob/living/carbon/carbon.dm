@@ -475,17 +475,36 @@
 	var/obj/effect/decal/cleanable/vomit/spew = new(floor, get_static_viruses())
 	bite.reagents.trans_to(spew, amount, transfered_by = src)
 
-/mob/living/carbon/proc/spew_organ(power = 5, amt = 1)
+/**
+ * Picks a random organ, removes it, and yeets it away
+ *
+ * By default this can include the brain, which results in instant death,
+ * but it does not include unremovable organs
+ *
+ * * power - how far to throw
+ * * amt - how many organs to throw
+ * * blacklisted_flags - allows for organs with certain flags to be excluded, always includes [ORGAN_UNREMOVABLE]
+ * * grant_award - whether to grant awards for throwing up said organs
+ */
+/mob/living/carbon/proc/spew_organ(power = 5, amt = 1, blacklisted_flags = NONE, grant_award = FALSE)
+	var/list/elligible_organs = list()
+	for(var/obj/item/organ/internal/internal_organ in organs)
+		if(internal_organ.organ_flags & (blacklisted_flags|ORGAN_UNREMOVABLE))
+			continue
+		elligible_organs += internal_organ
+
 	for(var/i in 1 to amt)
-		if(!organs.len)
+		if(!length(elligible_organs))
 			break //Guess we're out of organs!
-		var/obj/item/organ/guts = pick(organs)
-		var/turf/T = get_turf(src)
+		var/obj/item/organ/guts = pick(elligible_organs)
 		guts.Remove(src)
-		guts.forceMove(T)
+		guts.forceMove(drop_location())
+		if(istype(guts, /obj/item/organ/internal/lungs))
+			client?.give_award(/datum/award/achievement/misc/cough_up_a_lung, src)
+		if(!isturf(guts.loc))
+			continue
 		var/atom/throw_target = get_edge_target_turf(guts, dir)
 		guts.throw_at(throw_target, power, 4, src)
-
 
 /mob/living/carbon/fully_replace_character_name(oldname,newname)
 	. = ..()

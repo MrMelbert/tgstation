@@ -122,16 +122,32 @@
 			if(!movable.CanPass(dummy, get_dir(next_step, previous_step)))
 				qdel(dummy)
 				return FALSE
-		for(var/obj/effect/ebeam/medical/B in next_step)// Don't cross the str-beams!
+		for(var/obj/effect/ebeam/medical/rival_beam in next_step)// Don't cross the str-beams!
 			if(QDELETED(current_beam))
 				break //We shouldn't be processing anymore.
-			if(QDELETED(B))
+			if(QDELETED(rival_beam))
 				continue
-			if(!B.owner)
-				stack_trace("beam without an owner! [B]")
+			if(!rival_beam.owner)
+				stack_trace("beam without an owner! [rival_beam]")
 				continue
-			if(B.owner.origin != current_beam.origin)
-				explosion(B.loc, heavy_impact_range = 3, light_impact_range = 5, flash_range = 8, explosion_cause = src)
+			if(rival_beam.owner.origin != current_beam.origin)
+				var/mob/living/beamer_one = get(rival_beam.owner.origin, /mob)
+				var/mob/living/beamer_two = get(current_beam.origin, /mob)
+				// Achievements are only handed out if two people consciously make the same error
+				if(beamer_one?.key && beamer_two?.key)
+					beamer_one.client?.give_award(/datum/award/achievement/misc/crossed_beams, beamer_one)
+					beamer_two.client?.give_award(/datum/award/achievement/misc/crossed_beams, beamer_two)
+
+				// The moment before disaster.
+				if(beamer_one)
+					to_chat(beamer_one, span_userdanger("As you observe your medbeam cross directly through another, you feel as though you fucked up."))
+				if(beamer_two)
+					to_chat(beamer_two, span_userdanger("As you observe your medbeam cross directly through another, you feel as though you fucked up."))
+				next_step.visible_message(span_warning("The medbeams cross directly through one another, causing a bright flash!"))
+				// melbert todo : check that origin is actually the beam-er and not the beam-ee
+				log_bomber("[beamer_one || rival_beam.owner.origin] and [beamer_two || current_beam.origin] crossed the beams at [AREACOORD(next_step)].")
+				message_admins("[ADMIN_LOOKUPFLW(beamer_one || rival_beam.owner.origin)] and [ADMIN_LOOKUPFLW(beamer_two || current_beam.origin)] crossed the beams at [ADMIN_VERBOSEJMP(next_step)].")
+				explosion(next_step, heavy_impact_range = 3, light_impact_range = 5, flash_range = 8, explosion_cause = src)
 				qdel(dummy)
 				return FALSE
 		previous_step = next_step

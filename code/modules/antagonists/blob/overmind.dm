@@ -205,6 +205,8 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 		var/datum/objective/blob_takeover/main_objective = locate() in B.objectives
 		if(main_objective)
 			main_objective.completed = TRUE
+
+	client?.give_award(/datum/award/achievement/misc/blob_win, src)
 	to_chat(world, span_blob("[real_name] consumed the station in an unstoppable tide!"))
 	SSticker.news_report = BLOB_WIN
 	SSticker.force_ending = TRUE

@@ -219,6 +219,7 @@
 			chest.force_wound_upwards(/datum/wound/blunt/severe, wound_source = "human force to the chest")
 	playsound(owner, 'sound/creatures/crack_vomit.ogg', 120, extrarange = 5, falloff_exponent = 4)
 	vomit_up()
+	aggressor.client?.give_award(/datum/award/achievement/misc/heimlich, aggressor)
 
 /datum/status_effect/choke/proc/mirror_dir(atom/source, old_dir, new_dir)
 	SIGNAL_HANDLER

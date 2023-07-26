@@ -780,14 +780,15 @@
 		var/result = input(usr, "Choose quirk to add/remove","Quirk Mod") as null|anything in sort_list(options)
 		if(result)
 			if(result == "Clear")
-				for(var/datum/quirk/q in quirks)
-					remove_quirk(q.type)
+				cleanse_quirk_datums()
 			else
-				var/T = options[result]
-				if(has_quirk(T))
-					remove_quirk(T)
+				var/picked_quirk_path = options[result]
+				if(has_quirk(picked_quirk_path))
+					remove_quirk(picked_quirk_path)
 				else
-					add_quirk(T)
+					var/datum/quirk/added = add_quirk(picked_quirk_path)
+					added?.quirk_flags |= QUIRK_ADMIN_ADDED
+
 	if(href_list[VV_HK_SET_SPECIES])
 		if(!check_rights(R_SPAWN))
 			return

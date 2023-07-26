@@ -107,7 +107,7 @@
 	if(iscyborg(user))//any immunities to surgery slowdown should go in this check.
 		modded_time = time
 
-	var/was_sleeping = (target.stat != DEAD && target.IsSleeping())
+	var/was_sleeping = (target.stat != DEAD && (target.IsSleeping() || target.IsUnconscious()))
 
 	if(do_after(user, modded_time, target = target, interaction_key = user.has_status_effect(/datum/status_effect/hippocratic_oath) ? target : DOAFTER_SOURCE_SURGERY)) //If we have the hippocratic oath, we can perform one surgery on each target, otherwise we can only do one surgery in total.
 

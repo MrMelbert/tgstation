@@ -1294,6 +1294,8 @@
 	if(SPT_PROB(25, seconds_per_tick))
 		if(nick_spotted)
 			to_chat(quirk_holder, span_warning("Santa Claus is here! I gotta get out of here!"))
+			if(!(quirk_flags & QUIRK_ADMIN_ADDED))
+				quirk_holder.client?.give_award(/datum/award/achievement/misc/claustrophobic, quirk_holder)
 		else
 			to_chat(quirk_holder, span_warning("You feel trapped!  Must escape... can't breathe..."))
 

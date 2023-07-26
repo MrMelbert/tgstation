@@ -61,6 +61,9 @@
 	if(drunk_value <= 0)
 		qdel(src)
 
+	if(drunk_value > 100)
+		owner.client?.give_award(/datum/award/achievement/misc/rock_bottom, owner)
+
 /datum/status_effect/inebriated/tick()
 	// Drunk value does not decrease while dead or in stasis
 	if(owner.stat == DEAD || IS_IN_STASIS(owner))

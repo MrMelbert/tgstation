@@ -180,26 +180,41 @@
 		file_data["wanted"] = list("author" = "[GLOB.news_network.wanted_issue.scanned_user]", "criminal" = "[GLOB.news_network.wanted_issue.criminal]", "description" = "[GLOB.news_network.wanted_issue.body]", "photo file" = "[GLOB.news_network.wanted_issue.photo_file]")
 	WRITE_FILE(json_file, json_encode(file_data))
 
-///Handles random hardcore point rewarding if it applies.
-/datum/controller/subsystem/ticker/proc/HandleRandomHardcoreScore(client/player_client)
+/**
+ * Handles applying rewards to clients at roundend
+ */
+/datum/controller/subsystem/ticker/proc/handle_roundend_rewards(client/player_client, speed_round)
+	if(speed_round)
+		player_client?.give_award(/datum/award/achievement/misc/speed_round, player_client?.mob)
+
 	if(!ishuman(player_client?.mob))
 		return FALSE
-	var/mob/living/carbon/human/human_mob = player_client.mob
-	if(!human_mob.hardcore_survival_score) ///no score no glory
-		return FALSE
 
-	if(human_mob.mind && (human_mob.mind.special_role || length(human_mob.mind.antag_datums) > 0))
-		var/didthegamerwin = TRUE
-		for(var/datum/antagonist/antag_datums as anything in human_mob.mind.antag_datums)
-			for(var/datum/objective/objective_datum as anything in antag_datums.objectives)
+	var/mob/living/carbon/human/human_mob = player_client.mob
+	if(human_mob.hardcore_survival_score) ///no score no glory
+		if(human_mob.mind && (human_mob.mind.special_role || length(human_mob.mind.antag_datums) > 0))
+			var/didthegamerwin = TRUE
+			for(var/datum/objective/objective_datum as anything in human_mob.mind.get_all_objectives())
 				if(!objective_datum.check_completion())
 					didthegamerwin = FALSE
-		if(!didthegamerwin)
-			return FALSE
-		player_client.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score * 2))
-	else if(considered_escaped(human_mob.mind))
-		player_client.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score))
 
+			if(didthegamerwin)
+				player_client.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score * 2))
+
+		else if(considered_escaped(human_mob.mind))
+			player_client.give_award(/datum/award/score/hardcore_random, human_mob, round(human_mob.hardcore_survival_score))
+
+	if(!speed_round)
+		var/datum/quirk/spacer_born/spacer_quirk = locate() in human_mob.quirks
+		if(spacer_quirk && !(spacer_quirk.quirk_flags & QUIRK_ADMIN_ADDED))
+			var/datum/status_effect/spacer/gravity_sickness/sickness = locate() in human_mob.status_effects
+			// requires at least 900 seconds of playtime (15 minutes)
+			if(sickness.seconds_active >= 900)
+				player_client?.give_award(/datum/award/achievement/misc/spacer_planet_round, human_mob)
+
+		var/datum/quirk/body_purist/purist_quirk = locate() in human_mob.quirks
+		if(purist_quirk && !(purist_quirk.quirk_flags & QUIRK_ADMIN_ADDED) && purist_quirk.cybernetics_level >= 10)
+			player_client?.give_award(/datum/award/achievement/misc/purist_pain, human_mob)
 
 /datum/controller/subsystem/ticker/proc/declare_completion()
 	set waitfor = FALSE
@@ -216,9 +231,7 @@
 		if(!C?.credits)
 			C?.RollCredits()
 		C?.playtitlemusic(40)
-		if(speed_round)
-			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
-		HandleRandomHardcoreScore(C)
+		handle_roundend_rewards(C, speed_round)
 
 	var/popcount = gather_roundend_feedback()
 	display_report(popcount)

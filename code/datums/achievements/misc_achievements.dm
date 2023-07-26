@@ -200,17 +200,79 @@
 	database_id = MEDAL_CLICKBAIT
 	icon = "bait"
 
+// Awarded for being on a cult team that summons Nar'sie
+/datum/award/achievement/misc/summon_narsie
+	name = "The Geometer of Blood"
+	desc = "Summon Nar'Sie through the veil."
+	database_id = MEDAL_SUMMON_NARSIE
+
+// Awarded for being on a cult team that summons Nar'sie and completes the harvest (gets the arm cinematic)
+/datum/award/achievement/misc/summon_narsie_plus_arm
+	name = "Another Torch Extinguished in the Void"
+	desc = "Summon Nar'sie and complete the harvest."
+	database_id = MEDAL_SUMMON_NARSIE_AND_HARVEST
+
+// Awarded for being a non-cultist when Nar'sie is summoned and killed by someone
+/datum/award/achievement/misc/killed_narsie
+	name = "Geometer Killer"
+	desc = "God is dead!"
+	database_id = MEDAL_KILL_NARSIE
+
+// Awarded for managing to summon two Nar'sies
 /datum/award/achievement/misc/narsupreme
 	name = "If Nar'Sie is so good, why isn't there a..."
 	desc = "Even interdimensional space deitys need a friend."
 	database_id = MEDAL_NARSUPREME
 	icon = "narsupreme"
 
+// Awarded for being a head-rev and winning the revolution
+/datum/award/achievement/misc/successful_revolution
+	name = "Successful Revolution"
+	desc = "You've successfully lead the revolution to overthrow the station's command staff and established a new order."
+	database_id = MEDAL_REVOLUTION_SUCCESS
+
+// Awarded for being a nuke op and setting the nuke
+/datum/award/achievement/misc/set_up_the_nuke
+	name = "Nuclear Warfare"
+	desc = "You've successfully got that fukken disk and armed the Nuclear Device."
+	database_id = MEDAL_SET_UP_THE_NUKE
+
+// Awarded for arming the station self destruct as a non-antagonist
+/datum/award/achievement/misc/set_up_the_self_destruct
+	name = "Self-Destruct Sequence Initiated"
+	desc = "You have been awarded the honor of taking the fall for the failure of the station."
+	database_id = MEDAL_SET_UP_THE_SELF_DESTRUCT
+
+// Awarded for defusing a syndicate nuke as a crewmember
+/datum/award/achievement/misc/defused_nuke
+	name = "Nuclear Disarmament"
+	desc = "Somebody left the disk in the nuke, didn't they?"
+	database_id = MEDAL_DEFUSED_NUKE
+
+// Awarded for pulling the nuke off the z-level while it's armed
+/datum/award/achievement/misc/spaced_nuke
+	name = "Nuclear Nightmare"
+	desc = "Don't forget to anchor the nuke before you return to base!"
+	database_id = MEDAL_SPACED_NUKE
+
+// Awarded for winning as a blob
+/datum/award/achievement/misc/blob_win
+	name = "Blob Victory"
+	desc = "You've successfully consumed the station and all its inhabitants."
+	database_id = MEDAL_BLOB_WIN
+
+// Awarded for dying to the Springlock mod
 /datum/award/achievement/misc/springlock
 	name = "The Man Inside the MODsuit"
 	desc = "Ignore the warning label on a springlock MODsuit."
 	database_id = MEDAL_SPRINGLOCK
 	icon = "springlock"
+
+// Awarded for dying to the Atrocinator
+/datum/award/achievement/misc/atrocinated
+	name = "You messed up"
+	desc = "What did you think would happen?"
+	database_id = MEDAL_ATROCINATED
 
 /datum/award/achievement/misc/healthy
 	name = "The Picture of Health"
@@ -229,3 +291,62 @@
 	desc = "...And the earth opened its mouth and swallowed them and their station- all the HOP's men and all their possessions."
 	database_id = MEDAL_EARTHQUAKE_VICTIM
 	icon = "earthquake"
+
+// Awarded for surviving a round on Icebox (or another planet map) as a Spacer
+/datum/award/achievement/misc/spacer_planet_round
+	name = "How did I get here?"
+	desc = "Survive a round assigned to a planet map as a Spacer."
+	database_id = MEDAL_SPACER_PLANET_ROUND
+
+// Awarded for surviving a round as a Body Purist with 10+ cybernetics (-100 mood)
+/datum/award/achievement/misc/purist_pain
+	name = "Purist Penance"
+	desc = "Survive a round as a Body Purist with more than ten cybernetic organs or limbs."
+	database_id = MEDAL_PURIST_PAIN_ROUND
+
+// Awardded for having Claustrophobia trigger on Santa
+/datum/award/achievement/misc/claustrophobic
+	name = "Claus-trophobic"
+	desc = "He sees you when you're sleeping, and knows when you're awake? And you're all OKAY with that?!"
+	database_id = MEDAL_CLAUSTROPHOBIC
+
+// Awarded for hitting the drunkness soft cap
+/datum/award/achievement/misc/rock_bottom
+	name = "Rock Bottom"
+	desc = "Can't get much worse. Visit the bar and hit rock bottom."
+	database_id = MEDAL_ROCK_BOTTOM
+
+// Awarded for succeeding the heimlich on someone
+/datum/award/achievement/misc/heimlich
+	name = "Heimlich Maneuver"
+	desc = "You saved someone from choking to death. Good job!"
+	database_id = MEDAL_HEIMLICH
+
+// Awarded for vomiting out your lung from spewium
+/datum/award/achievement/misc/cough_up_a_lung
+	name = "Coughed up a Lung"
+	desc = "So THAT'S what they meant..."
+	database_id = MEDAL_LUNG
+
+// Awarded for defusing a syndicate bomb
+/datum/award/achievement/misc/bomb_defused
+	name = "Bomb has been Defused"
+	desc = "Counter terrorists win."
+	database_id = MEDAL_BOMB_DEFUSED
+
+// Awarded for rolling 20 on a non-rigged die of fate
+/datum/award/achievement/misc/nat_twenty
+	name = "Nat 20"
+	desc = "Nat 20, baby!"
+	database_id = MEDAL_NAT_TWENTY
+
+// Awarded for rolling 1 on a non-rigged die of fate
+/datum/award/achievement/misc/nat_one
+	name = "Nat 1"
+	desc = "Nat 1, fuck!"
+	database_id = MEDAL_NAT_ONE
+
+/datum/award/achievement/misc/crossed_beams
+	name = "Crossed the Beams"
+	desc = "You had one job."
+	database_id = MEDAL_CROSSED_BEAMS

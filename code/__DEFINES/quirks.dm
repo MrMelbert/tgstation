@@ -12,3 +12,5 @@
 #define QUIRK_CHANGES_APPEARANCE (1<<2)
 /// The only thing this quirk effects is mood so it should be disabled if mood is
 #define QUIRK_MOODLET_BASED (1<<3)
+/// Quirk was added by an admin / not present roundstart
+#define QUIRK_ADMIN_ADDED (1<<4)

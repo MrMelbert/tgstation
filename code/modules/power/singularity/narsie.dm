@@ -274,14 +274,37 @@
 		// Narsie was killed
 		if(CULT_FAILURE_NARSIE_KILLED)
 			play_cinematic(/datum/cinematic/cult_fail, world, CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)))
+			// Grants an achievement to all non-cultists crewmembers
+			// Ideally it would only grant to the guy who killed them but that's hard to track
+			// (Given methods usually boil down to BoH bombing (deletes the guy), crashing a shuttle into it, singulo, and similarly bombastic ways)
+			for(var/datum/mind/survivor as anything in get_crewmember_minds() - get_antag_minds(/datum/antagonist/cult))
+				if(!survivor.active || !survivor.current?.client)
+					continue
+				var/mob/living/survivor_mob = survivor.current
+				var/turf/survivor_turf = get_turf(survivor_mob)
+				if(!is_station_level(survivor_turf?.z)) // coward
+					continue
+				survivor_mob.client?.give_award(/datum/award/achievement/misc/killed_narsie, survivor_mob)
 
 		// The cult "converted" (harvested) most of the station
 		if(CULT_VICTORY_MASS_CONVERSION)
 			play_cinematic(/datum/cinematic/cult_arm, world, CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)))
+			// Grants an achievement to all cultists
+			for(var/datum/mind/cultist as anything in get_antag_minds(/datum/antagonist/cult))
+				if(!cultist.active)
+					return
+
+				cultist.current?.client?.give_award(/datum/award/achievement/misc/summon_narsie_plus_arm, cultist.current)
 
 		// The cult won, but centcom deployed a nuke. Default
 		if(CULT_VICTORY_NUKE)
 			play_cinematic(/datum/cinematic/nuke/cult, world, CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)))
+			// Grants an achievement to all cultists
+			for(var/datum/mind/cultist as anything in get_antag_minds(/datum/antagonist/cult))
+				if(!cultist.active)
+					return
+
+				cultist.current?.client?.give_award(/datum/award/achievement/misc/summon_narsie, cultist.current)
 
 #undef NARSIE_CHANCE_TO_PICK_NEW_TARGET
 #undef NARSIE_CONSUME_RANGE

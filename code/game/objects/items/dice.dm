@@ -338,8 +338,11 @@
 		if(1)
 			//Dust
 			selected_turf.visible_message(span_userdanger("[user] turns to dust!"))
+			if(!rigged_value && rigged == DICE_NOT_RIGGED)
+				user.client?.give_award(/datum/award/achievement/misc/nat_one, user)
 			user.investigate_log("has been dusted by a die of fate.", INVESTIGATE_DEATHS)
 			user.dust()
+
 		if(2)
 			//Death
 			selected_turf.visible_message(span_userdanger("[user] suddenly dies!"))
@@ -460,6 +463,8 @@
 		if(20)
 			//Free wizard!
 			selected_turf.visible_message(span_userdanger("Magic flows out of [src] and into [user]!"))
+			if(!rigged_value && rigged == DICE_NOT_RIGGED)
+				user.client?.give_award(/datum/award/achievement/misc/nat_twenty, user)
 			user.mind.make_wizard()
 
 /datum/outfit/butler
