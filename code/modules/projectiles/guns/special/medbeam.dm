@@ -131,8 +131,8 @@
 				stack_trace("beam without an owner! [rival_beam]")
 				continue
 			if(rival_beam.owner.origin != current_beam.origin)
-				var/mob/living/beamer_one = get(rival_beam.owner.origin, /mob)
-				var/mob/living/beamer_two = get(current_beam.origin, /mob)
+				var/mob/living/beamer_one = mounted ? (locate(/mob/living) in rival_beam.owner.origin) : get(rival_beam.owner.origin, /mob/living)
+				var/mob/living/beamer_two = mounted ? (locate(/mob/living) in current_beam.origin) : get(current_beam.origin,  /mob/living)
 				// Achievements are only handed out if two people consciously make the same error
 				if(beamer_one?.key && beamer_two?.key)
 					beamer_one.client?.give_award(/datum/award/achievement/misc/crossed_beams, beamer_one)
@@ -168,6 +168,9 @@
 
 /obj/item/gun/medbeam/proc/on_beam_release(mob/living/target)
 	return
+
+/obj/item/gun/medbeam/proc/get_beamer()
+	return current_beam?.origin
 
 /obj/effect/ebeam/medical
 	name = "medical beam"
