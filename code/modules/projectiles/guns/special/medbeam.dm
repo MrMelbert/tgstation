@@ -144,7 +144,7 @@
 				if(beamer_two)
 					to_chat(beamer_two, span_userdanger("As you observe your medbeam cross directly through another, you feel as though you fucked up."))
 				next_step.visible_message(span_warning("The medbeams cross directly through one another, causing a bright flash!"))
-				// melbert todo : check that origin is actually the beam-er and not the beam-ee
+
 				log_bomber("[beamer_one || rival_beam.owner.origin] and [beamer_two || current_beam.origin] crossed the beams at [AREACOORD(next_step)].")
 				message_admins("[ADMIN_LOOKUPFLW(beamer_one || rival_beam.owner.origin)] and [ADMIN_LOOKUPFLW(beamer_two || current_beam.origin)] crossed the beams at [ADMIN_VERBOSEJMP(next_step)].")
 				explosion(next_step, heavy_impact_range = 3, light_impact_range = 5, flash_range = 8, explosion_cause = src)
