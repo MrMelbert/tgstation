@@ -144,7 +144,9 @@
 	if(isnull(achievement_cats))
 		achievement_cats = list()
 		for(var/datum/award/achievement/earnable as anything in typesof(/datum/award/achievement))
-			achievement_cats |= initial(earnable.category)
+			var/achievement_cat = initial(earnable.category)
+			if(achievement_cat)
+				achievement_cats |= achievement_cat
 
 	.["categories"] = achievement_cats
 

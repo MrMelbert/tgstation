@@ -5,7 +5,7 @@
 	///The icon state for this award. The icon file is found in ui_icons/achievements.
 	var/icon = "default"
 
-	var/category = "Normal"
+	var/category
 
 	///What ID do we use in db, limited to 32 characters
 	var/database_id
