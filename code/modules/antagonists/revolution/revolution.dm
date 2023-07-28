@@ -514,7 +514,7 @@
 		if(isnull(real_headrev))
 			continue
 		add_memory_in_range(real_headrev, 5, /datum/memory/revolution_rev_victory, protagonist = real_headrev)
-		real_headrev.client?.give_award(/datum/award/achievement/misc/successful_revolution, real_headrev)
+		real_headrev.client?.give_award(/datum/award/achievement/antag/successful_revolution, real_headrev)
 
 /// Handles effects of revs losing, such as making ex-headrevs unrevivable and setting up head of staff memories.
 /datum/team/revolution/proc/defeat_effects()

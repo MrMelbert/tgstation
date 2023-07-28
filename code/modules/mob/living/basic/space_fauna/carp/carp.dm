@@ -237,7 +237,7 @@
 /mob/living/basic/carp/pet/cayenne/proc/got_disk(obj/item/disk/nuclear/disky)
 	if (disky.fake) // Never mind she didn't do it
 		return
-	client.give_award(/datum/award/achievement/misc/cayenne_disk, src)
+	client?.give_award(/datum/award/achievement/antag/cayenne_disk, src)
 
 /// Adds an overlay to show the disk on Cayenne
 /mob/living/basic/carp/pet/cayenne/proc/display_disk(list/new_overlays)

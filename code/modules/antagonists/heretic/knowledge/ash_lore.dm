@@ -223,6 +223,6 @@
 		existing_beam_spell.beam_duration *= 0.66 // Faster beams
 		existing_beam_spell.cooldown_time *= 0.66 // Lower cooldown
 
-	user.client?.give_award(/datum/award/achievement/misc/ash_ascension, user)
+	user.client?.give_award(/datum/award/achievement/antag/ash_ascension, user)
 	if(length(traits_to_apply))
 		user.add_traits(traits_to_apply, MAGIC_TRAIT)

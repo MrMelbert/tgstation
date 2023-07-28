@@ -109,7 +109,6 @@
 
 /datum/achievement_data/ui_data(mob/user)
 	var/ret_data = list() // screw standards (qustinnus you must rename src.data ok)
-	ret_data["categories"] = list("Bosses", "Jobs", "Misc", "Mafia", "Scores")
 	ret_data["achievements"] = list()
 	ret_data["user_key"] = user.ckey
 
@@ -140,6 +139,14 @@
 		if(!S.name || !S.track_high_scores || !S.high_scores.len)
 			continue
 		.["highscore"] += list(list("name" = S.name,"scores" = S.high_scores))
+
+	var/static/list/achievement_cats
+	if(isnull(achievement_cats))
+		achievement_cats = list()
+		for(var/datum/award/achievement/earnable as anything in typesof(/datum/award/achievement))
+			achievement_cats |= initial(earnable.category)
+
+	.["categories"] = achievement_cats
 
 /client/verb/checkachievements()
 	set category = "OOC"

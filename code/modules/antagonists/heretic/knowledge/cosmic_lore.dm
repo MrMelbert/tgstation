@@ -273,4 +273,4 @@
 	var/datum/action/cooldown/spell/conjure/cosmic_expansion/cosmic_expansion_spell = locate() in user.actions
 	cosmic_expansion_spell?.ascended = TRUE
 
-	user.client?.give_award(/datum/award/achievement/misc/cosmic_ascension, user)
+	user.client?.give_award(/datum/award/achievement/antag/cosmic_ascension, user)

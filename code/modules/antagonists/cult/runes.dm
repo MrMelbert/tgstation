@@ -568,7 +568,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	if (cult_team.narsie_summoned)
 		for (var/datum/mind/cultist_mind in cult_team.members)
 			var/mob/living/cultist_mob = cultist_mind.current
-			cultist_mob.client?.give_award(/datum/award/achievement/misc/narsupreme, cultist_mob)
+			cultist_mob.client?.give_award(/datum/award/achievement/antag/narsupreme, cultist_mob)
 
 	cult_team.narsie_summoned = TRUE
 	..()

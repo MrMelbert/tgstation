@@ -60,7 +60,7 @@
 
 	if(istype(weapon, /obj/item/gun/ballistic/rocketlauncher) && weapon.chambered)
 		if(target.stat == CONSCIOUS && IS_NUKE_OP(shooter) && !IS_NUKE_OP(target) && (locate(/obj/item/disk/nuclear) in target.get_contents()) && shooter.client)
-			shooter.client.give_award(/datum/award/achievement/misc/rocket_holdup, shooter)
+			shooter.client.give_award(/datum/award/achievement/antag/rocket_holdup, shooter)
 
 	addtimer(CALLBACK(src, PROC_REF(update_stage), 2), GUNPOINT_DELAY_STAGE_2)
 

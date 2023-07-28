@@ -294,7 +294,7 @@
 				if(!cultist.active)
 					return
 
-				cultist.current?.client?.give_award(/datum/award/achievement/misc/summon_narsie_plus_arm, cultist.current)
+				cultist.current?.client?.give_award(/datum/award/achievement/antag/summon_narsie_plus_arm, cultist.current)
 
 		// The cult won, but centcom deployed a nuke. Default
 		if(CULT_VICTORY_NUKE)
@@ -304,7 +304,7 @@
 				if(!cultist.active)
 					return
 
-				cultist.current?.client?.give_award(/datum/award/achievement/misc/summon_narsie, cultist.current)
+				cultist.current?.client?.give_award(/datum/award/achievement/antag/summon_narsie, cultist.current)
 
 #undef NARSIE_CHANCE_TO_PICK_NEW_TARGET
 #undef NARSIE_CONSUME_RANGE

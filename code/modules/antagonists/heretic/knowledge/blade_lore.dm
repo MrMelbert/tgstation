@@ -401,7 +401,7 @@
 /datum/heretic_knowledge/ultimate/blade_final/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = ..()
 	priority_announce("[generate_heretic_text()] Master of blades, the Torn Champion's disciple, [user.real_name] has ascended! Their steel is that which will cut reality in a maelstom of silver! [generate_heretic_text()]","[generate_heretic_text()]", ANNOUNCER_SPANOMALIES)
-	user.client?.give_award(/datum/award/achievement/misc/blade_ascension, user)
+	user.client?.give_award(/datum/award/achievement/antag/blade_ascension, user)
 	user.add_traits(list(TRAIT_STUNIMMUNE, TRAIT_NEVER_WOUNDED), name)
 	RegisterSignal(user, COMSIG_HERETIC_BLADE_ATTACK, PROC_REF(on_eldritch_blade))
 	user.apply_status_effect(/datum/status_effect/protective_blades/recharging, null, 8, 30, 0.25 SECONDS, 1 MINUTES)

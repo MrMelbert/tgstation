@@ -32,7 +32,7 @@
 /obj/machinery/nuclearbomb/syndicate/arm_nuke(mob/armer)
 	. = ..()
 	if(IS_NUKE_OP(armer))
-		armer.client?.give_award(/datum/award/achievement/misc/set_up_the_nuke, armer)
+		armer.client?.give_award(/datum/award/achievement/antag/set_up_the_nuke, armer)
 
 /obj/machinery/nuclearbomb/syndicate/disarm_nuke(mob/disarmer)
 	. = ..()

@@ -550,7 +550,7 @@ Striking a noncultist, however, will tear their flesh."}
 			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(priority_announce), omfg_message, "Priority Alert", 'sound/misc/notice1.ogg', null, "Nanotrasen Department of Transportation: Central Command"), rand(2 SECONDS, 6 SECONDS))
 			for(var/mob/iter_player as anything in GLOB.player_list)
 				if(IS_CULTIST(iter_player))
-					iter_player.client?.give_award(/datum/award/achievement/misc/cult_shuttle_omfg, iter_player)
+					iter_player.client?.give_award(/datum/award/achievement/antag/cult_shuttle_omfg, iter_player)
 
 		qdel(src)
 
