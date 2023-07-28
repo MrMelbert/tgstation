@@ -993,7 +993,7 @@
 		else if(newdir == (EAST|WEST))
 			newdir = EAST
 	if((newdir in GLOB.cardinals) && (prob(50)))
-		newdir = turn(get_dir(target_turf, start), 180)
+		newdir = REVERSE_DIR(get_dir(target_turf, start))
 	if(!blood_exists)
 		new /obj/effect/decal/cleanable/trail_holder(start, get_static_viruses())
 
@@ -1415,6 +1415,7 @@
 				/mob/living/basic/chick,
 				/mob/living/basic/chicken,
 				/mob/living/basic/cow,
+				/mob/living/basic/crab,
 				/mob/living/basic/giant_spider,
 				/mob/living/basic/giant_spider/hunter,
 				/mob/living/basic/mining/goliath,
@@ -1430,7 +1431,6 @@
 				/mob/living/basic/statue,
 				/mob/living/basic/stickman,
 				/mob/living/basic/stickman/dog,
-				/mob/living/simple_animal/crab,
 				/mob/living/simple_animal/hostile/asteroid/basilisk/watcher,
 				/mob/living/simple_animal/hostile/bear,
 				/mob/living/simple_animal/hostile/blob/blobbernaut/independent,
