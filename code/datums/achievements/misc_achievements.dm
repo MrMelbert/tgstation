@@ -230,7 +230,7 @@
 
 // Awarded for being a head-rev and winning the revolution
 /datum/award/achievement/misc/successful_revolution
-	name = "Successful Revolution"
+	name = "Workers, Rise!"
 	desc = "You've successfully lead the revolution to overthrow the station's command staff and established a new order."
 	database_id = MEDAL_REVOLUTION_SUCCESS
 	icon = "viva"
