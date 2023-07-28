@@ -169,9 +169,6 @@
 /obj/item/gun/medbeam/proc/on_beam_release(mob/living/target)
 	return
 
-/obj/item/gun/medbeam/proc/get_beamer()
-	return current_beam?.origin
-
 /obj/effect/ebeam/medical
 	name = "medical beam"
 
