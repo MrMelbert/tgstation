@@ -205,18 +205,21 @@
 	name = "The Geometer of Blood"
 	desc = "Summon Nar'Sie through the veil."
 	database_id = MEDAL_SUMMON_NARSIE
+	icon = "narsie"
 
 // Awarded for being on a cult team that summons Nar'sie and completes the harvest (gets the arm cinematic)
 /datum/award/achievement/misc/summon_narsie_plus_arm
 	name = "Another Torch Extinguished in the Void"
 	desc = "Summon Nar'sie and complete the harvest."
 	database_id = MEDAL_SUMMON_NARSIE_AND_HARVEST
+	icon = "narsie_red"
 
 // Awarded for being a non-cultist when Nar'sie is summoned and killed by someone
 /datum/award/achievement/misc/killed_narsie
 	name = "Geometer Killer"
 	desc = "God is dead!"
 	database_id = MEDAL_KILL_NARSIE
+	icon = "narsie_die"
 
 // Awarded for managing to summon two Nar'sies
 /datum/award/achievement/misc/narsupreme
@@ -230,30 +233,35 @@
 	name = "Successful Revolution"
 	desc = "You've successfully lead the revolution to overthrow the station's command staff and established a new order."
 	database_id = MEDAL_REVOLUTION_SUCCESS
+	icon = "viva"
 
 // Awarded for being a nuke op and setting the nuke
 /datum/award/achievement/misc/set_up_the_nuke
 	name = "Nuclear Warfare"
 	desc = "You've successfully got that fukken disk and armed the Nuclear Device."
 	database_id = MEDAL_SET_UP_THE_NUKE
+	icon = "nuke"
 
 // Awarded for arming the station self destruct as a non-antagonist
 /datum/award/achievement/misc/set_up_the_self_destruct
 	name = "Self-Destruct Sequence Initiated"
 	desc = "You have been awarded the honor of taking the fall for the failure of the station."
 	database_id = MEDAL_SET_UP_THE_SELF_DESTRUCT
+	icon = "selfdes"
 
 // Awarded for defusing a syndicate nuke as a crewmember
 /datum/award/achievement/misc/defused_nuke
 	name = "Nuclear Disarmament"
 	desc = "Somebody left the disk in the nuke, didn't they?"
 	database_id = MEDAL_DEFUSED_NUKE
+	icon = "nukedisk"
 
 // Awarded for pulling the nuke off the z-level while it's armed
 /datum/award/achievement/misc/spaced_nuke
 	name = "Nuclear Nightmare"
 	desc = "Don't forget to anchor the nuke before you return to base!"
 	database_id = MEDAL_SPACED_NUKE
+	icon = "nuke"
 
 // Awarded for winning as a blob
 /datum/award/achievement/misc/blob_win
@@ -339,12 +347,14 @@
 	name = "Nat 20"
 	desc = "Nat 20, baby!"
 	database_id = MEDAL_NAT_TWENTY
+	icon = "dice_20"
 
 // Awarded for rolling 1 on a non-rigged die of fate
 /datum/award/achievement/misc/nat_one
 	name = "Nat 1"
 	desc = "Nat 1, fuck!"
 	database_id = MEDAL_NAT_ONE
+	icon = "dice_1"
 
 /datum/award/achievement/misc/crossed_beams
 	name = "Crossed the Beams"
