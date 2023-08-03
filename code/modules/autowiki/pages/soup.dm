@@ -63,8 +63,9 @@
 		// -- Compiles a list of required reagents and food items --
 		var/list/all_needs_text = list()
 		for(var/datum/reagent/reagent_type as anything in soup_recipe.required_reagents)
-			var/num_needed = soup_recipe.required_reagents[reagent_type]
-			all_needs_text += "[num_needed] units [initial(reagent_type.name)]"
+			all_needs_text += "[soup_recipe.required_reagents[reagent_type]] units [initial(reagent_type.name)]"
+		for(var/datum/reagent/reagent_type as anything in soup_recipe.required_catalysts)
+			all_needs_text += "[soup_recipe.required_catalysts[reagent_type]] units [initial(reagent_type.name)] (not consumed)"
 
 		for(var/obj/item/food_type as anything in soup_recipe.required_ingredients)
 			var/num_needed = soup_recipe.required_ingredients[food_type]
@@ -88,6 +89,8 @@
 		for(var/datum/reagent/reagent_type as anything in soup_recipe.results)
 			var/num_given = soup_recipe.results[reagent_type]
 			all_results_text += "[num_given] units [initial(reagent_type.name)]"
+		if(soup_recipe.resulting_food_path)
+			all_results_text += "1 [initial(soup_recipe.resulting_food_path.name)]"
 
 		all_results_text += soup_recipe.describe_result()
 		var/compiled_results = ""
