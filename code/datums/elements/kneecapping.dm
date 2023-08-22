@@ -66,6 +66,10 @@
 
 	. = COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
 
+	if(DOING_INTERACTION(attacker, type))
+		target.balloon_alert(attacker, "already kneecapping!")
+		return
+
 	INVOKE_ASYNC(src, PROC_REF(do_kneecap_target), source, leg, target, attacker)
 
 /**
@@ -78,7 +82,7 @@
 	attacker.visible_message(span_warning("[attacker] carefully aims [attacker.p_their()] [weapon] for a swing at [target]'s kneecaps!"), span_danger("You carefully aim \the [weapon] for a swing at [target]'s kneecaps!"))
 	log_combat(attacker, target, "started aiming a swing to break the kneecaps of", weapon)
 
-	if(do_after(attacker, 3 SECONDS, target, interaction_key = weapon))
+	if(do_after(attacker, 3 SECONDS, target, interaction_key = type))
 		attacker.visible_message(span_warning("[attacker] swings [attacker.p_their()] [weapon] at [target]'s kneecaps!"), span_danger("You swing \the [weapon] at [target]'s kneecaps!"))
 		var/datum/wound/blunt/severe/severe_wound_type = /datum/wound/blunt/severe
 		var/datum/wound/blunt/critical/critical_wound_type = /datum/wound/blunt/critical

@@ -264,7 +264,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		CRASH("do_after was passed a non-number delay: [delay || "null"].")
 
 	if(!interaction_key && target)
-		interaction_key = target //Use the direct ref to the target
+		interaction_key = REF(target) //Use the direct ref to the target
 	if(interaction_key) //Do we have a interaction_key now?
 		var/current_interaction_count = LAZYACCESS(user.do_afters, interaction_key) || 0
 		if(current_interaction_count >= max_interact_count) //We are at our peak

@@ -86,9 +86,9 @@
 	TEST_ASSERT(!surgery_step.initiate(user, patient_one, BODY_ZONE_CHEST, scalpel, surgery_for_one), "Was allowed to start a second surgery without the rod of asclepius")
 	TEST_ASSERT(!surgery_for_one.step_in_progress, "Surgery for patient one is somehow in progress, despite not initiating")
 
-	user.apply_status_effect(/datum/status_effect/hippocratic_oath)
+	ADD_TRAIT(user, TRAIT_ALLOW_MULTI_SURGERY, TRAIT_SOURCE_UNIT_TESTS)
 	INVOKE_ASYNC(surgery_step, TYPE_PROC_REF(/datum/surgery_step, initiate), user, patient_one, BODY_ZONE_CHEST, scalpel, surgery_for_one)
-	TEST_ASSERT(surgery_for_one.step_in_progress, "Surgery on patient one was not initiated, despite having rod of asclepius")
+	TEST_ASSERT(surgery_for_one.step_in_progress, "Surgery on patient one was not initiated, despite having TRAIT_ALLOW_MULTI_SURGERY")
 
 /// Ensures that the tend wounds surgery can be started
 /datum/unit_test/start_tend_wounds

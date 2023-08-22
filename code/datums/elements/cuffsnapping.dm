@@ -79,6 +79,10 @@
 	if(!istype(cuffs))
 		return
 
+	if(DOING_INTERACTION(cutter_user, type))
+		target.balloon_alert(cutter_user, "already cutting!")
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+
 	if(cuffs.restraint_strength && isnull(src.snap_time_strong))
 		cutter_user.visible_message(span_notice("[cutter_user] tries to cut through [target]'s restraints with [cutter], but fails!"))
 		playsound(source = get_turf(cutter), soundin = cutter.usesound ? cutter.usesound : cutter.hitsound, vol = cutter.get_clamped_volume(), vary = TRUE)
@@ -103,7 +107,7 @@
 	if(cuffs.restraint_strength)
 		snap_time = src.snap_time_strong
 
-	if(snap_time == 0 || do_after(cutter_user, snap_time, target, interaction_key = cutter)) // If 0 just do it. This to bypass the do_after() creating a needless progress bar.
+	if(snap_time == 0 || do_after(cutter_user, snap_time, target, interaction_key = type)) // If 0 just do it. This to bypass the do_after() creating a needless progress bar.
 		cutter_user.do_attack_animation(target, used_item = cutter)
 		cutter_user.visible_message(span_notice("[cutter_user] cuts [target]'s restraints with [cutter]!"))
 		qdel(target.handcuffed)

@@ -70,8 +70,13 @@
 #define SURGERY_SPEED_MORBID_CURIOSITY 0.7
 
 /datum/surgery_step/proc/initiate(mob/living/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, try_to_fail = FALSE)
-	// Only followers of Asclepius have the ability to use Healing Touch and perform miracle feats of surgery.
-	// Prevents people from performing multiple simultaneous surgeries unless they're holding a Rod of Asclepius.
+	// You can't do two surgeries on the same person at once
+	if(DOING_INTERACTION_WITH_TARGET(user, target))
+		return FALSE
+	// Unless you have TRAIT_ALLOW_MULTI_SURGERY, you can only operate on one person at a time
+	if(!HAS_TRAIT(user, TRAIT_ALLOW_MULTI_SURGERY) && DOING_INTERACTION(user, DOAFTER_SOURCE_SURGERY))
+		target.balloon_alert(user, "already operating!")
+		return FALSE
 
 	surgery.step_in_progress = TRUE
 	var/speed_mod = 1
@@ -108,8 +113,7 @@
 		modded_time = time
 
 	var/was_sleeping = (target.stat != DEAD && target.IsSleeping())
-
-	if(do_after(user, modded_time, target = target, interaction_key = user.has_status_effect(/datum/status_effect/hippocratic_oath) ? target : DOAFTER_SOURCE_SURGERY)) //If we have the hippocratic oath, we can perform one surgery on each target, otherwise we can only do one surgery in total.
+	if(do_after(user, modded_time, target = target, interaction_key = DOAFTER_SOURCE_SURGERY))
 
 		var/chem_check_result = chem_check(target)
 		if((prob(100-fail_prob) || (iscyborg(user) && !silicons_obey_prob)) && chem_check_result && !try_to_fail)

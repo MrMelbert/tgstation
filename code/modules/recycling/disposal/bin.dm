@@ -138,7 +138,7 @@
 /// The regal rat spawns ratty treasures from the disposal
 /obj/machinery/disposal/proc/rat_rummage(mob/living/basic/regal_rat/king)
 	king.visible_message(span_warning("[king] starts rummaging through [src]."),span_notice("You rummage through [src]..."))
-	if (!do_after(king, 2 SECONDS, src, interaction_key = "regalrat"))
+	if (!do_after(king, 2 SECONDS, src, interaction_key = REGALRAT_INTERACTION))
 		return
 	var/loot = rand(1,100)
 	switch(loot)
