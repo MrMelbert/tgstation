@@ -91,6 +91,11 @@ GLOBAL_LIST_INIT(attack_styles, init_attack_styles())
 	// Make sure they can't attack while swinging if our swing sleeps
 	if(time_per_turf > 0 SECONDS)
 		attacker.changeNext_move(cd + (time_per_turf * (length(affected_turfs) - 1)))
+
+	// Last chance for components to interrupt before we execute the attack
+	if (SEND_SIGNAL(attacker, COMSIG_LIVING_ATTACK_STYLE_PREPROCESS, src, weapon, affected_turfs) & CANCEL_ATTACK_PREPROCESS)
+		return ATTACK_SWING_CANCEL
+
 	// Make sure they don't rotate while swinging on the move
 	var/pre_set_dir = attacker.set_dir_on_move
 	attacker.set_dir_on_move = FALSE
