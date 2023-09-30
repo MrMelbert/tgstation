@@ -110,7 +110,7 @@ GLOBAL_LIST_INIT(attack_styles, init_attack_styles())
 			addtimer(CALLBACK(attacker, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/attack_style_executed), cd * 0.2)
 		if(cd > 0)
 			var/cd_mult = (attack_result & ATTACK_SWING_MISSED) ? 0.66 : 1
-			attacker.changeNext_move(cd * cd_mult)
+			attacker.changeNext_move(attacker.get_swing_nextmove(cd, cd_mult))
 
 	SEND_SIGNAL(attacker, COMSIG_LIVING_ATTACK_STYLE_PROCESSED, weapon, attack_result, src)
 	if(!isnull(weapon)) // wepaon can be null (mob attack). it can also be a bodypart if an unarmed attack.
