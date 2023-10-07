@@ -67,11 +67,22 @@
 	operated_bodypart = null
 	return ..()
 
-
-/datum/surgery/proc/can_start(mob/user, mob/living/patient) //FALSE to not show in list
+/// Checks if the surgery can be started on the target partient.
+/// Returns TRUE if it can, FALSE if it can't (which hides it from the possible surgery list).
+/datum/surgery/proc/can_start(mob/user, mob/living/patient)
 	. = TRUE
 	if(replaced_by == /datum/surgery)
 		return FALSE
+
+	if(targetable_wound)
+		var/has_the_wound = FALSE
+		var/obj/item/bodypart/targeted_bodypart = patient.get_bodypart(user.zone_selected)
+		for(var/datum/wound/checking as anything in targeted_bodypart?.wounds)
+			if(is_correct_wound(checking))
+				has_the_wound = TRUE
+
+		if(!has_the_wound)
+			return FALSE
 
 	// True surgeons (like abductor scientists) need no instructions
 	if(HAS_MIND_TRAIT(user, TRAIT_SURGEON))
@@ -102,6 +113,13 @@
 		return FALSE
 	if(type in opcomputer.advanced_surgeries)
 		return TRUE
+	return .
+
+/// Checks if the passed wound is valid for this surgery.
+/// Only called if the surgery has a [targetable_wound].
+/datum/surgery/proc/is_correct_wound(datum/wound/checking)
+	SHOULD_CALL_PARENT(TRUE)
+	return istype(checking, targetable_wound)
 
 /datum/surgery/proc/next_step(mob/living/user, modifiers)
 	if(location != user.zone_selected)
