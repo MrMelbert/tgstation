@@ -684,7 +684,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	SEND_SIGNAL(source, COMSIG_REAGENTS_EXPOSE_TURF, src, reagents, methods, volume_modifier, show_message)
 	var/list/skipped_reagents
 	for(var/datum/reagent/reagent as anything in reagents)
-		if(reagent.reagent_flags & REAGENT_BULK_EXPOSE)
+		if(reagent.chemical_flags & REAGENT_BULK_EXPOSE)
 			if(skipped_reagents[reagent])
 				continue
 			if(!islist(skipped_reagents))

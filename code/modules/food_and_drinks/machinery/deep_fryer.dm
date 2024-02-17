@@ -134,7 +134,7 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 	var/datum/reagent/consumable/nutriment/fat/frying_oil = reagents.has_reagent(/datum/reagent/consumable/nutriment/fat, check_subtypes = TRUE)
 	if(!frying_oil)
 		return
-	reagents.chem_temp = frying_oil.fry_temperature
+	reagents.chem_temp = FRY_TEMPERATURE
 	if(!frying)
 		return
 

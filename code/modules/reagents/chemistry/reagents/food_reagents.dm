@@ -149,15 +149,23 @@
 	brute_heal = 0
 	burn_heal = 1
 	nutriment_factor = 18 // Twice as nutritious compared to protein and carbohydrates
-	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
-	var/fry_temperature = 450 //Around ~350 F (117 C) which deep fryers operate around in the real world
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED|REAGENT_BULK_EXPOSE
 
-/datum/reagent/consumable/nutriment/fat/expose_obj(obj/exposed_obj, reac_volume)
+/datum/reagent/consumable/nutriment/fat/bulk_expose_obj(obj/exposed_obj, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents, methods)
 	. = ..()
-	if(!holder || (holder.chem_temp <= fry_temperature))
+	if(!holder || (holder.chem_temp <= FRY_TEMPERATURE))
 		return
 	if(!isitem(exposed_obj) || HAS_TRAIT(exposed_obj, TRAIT_FOOD_FRIED))
 		return
+
+	var/total_fat_volume = 0
+	var/biggest_fat = null
+	for(var/datum/reagent/consumable/nutriment/fat/other_fat in all_reagents)
+		var/other_fat_volume = all_reagents[other_fat]
+		if(isnull(biggest_fat) || other_fat_volume > all_reagents[biggest_fat])
+			biggest_fat = other_fat
+		skipped_reagents[other_fat] = TRUE
+
 	if(is_type_in_typecache(exposed_obj, GLOB.oilfry_blacklisted_items) || (exposed_obj.resistance_flags & INDESTRUCTIBLE))
 		exposed_obj.visible_message(span_notice("The hot oil has no effect on [exposed_obj]!"))
 		return
@@ -165,42 +173,67 @@
 		exposed_obj.visible_message(span_notice("The hot oil splatters about as [exposed_obj] touches it. It seems too full to cook properly!"))
 		return
 
+	total_fat_volume = round(total_fat_volume, CHEMICAL_VOLUME_ROUNDING)
 	exposed_obj.visible_message(span_warning("[exposed_obj] rapidly fries as it's splashed with hot oil! Somehow."))
-	exposed_obj.AddElement(/datum/element/fried_item, volume)
-	exposed_obj.reagents.add_reagent(src.type, reac_volume)
+	exposed_obj.AddElement(/datum/element/fried_item, total_fat_volume)
+	exposed_obj.reagents.add_reagent(biggest_fat.type, total_fat_volume)
 
-/datum/reagent/consumable/nutriment/fat/expose_mob(mob/living/exposed_mob, methods = TOUCH, reac_volume, show_message = TRUE, touch_protection = 0)
-	. = ..()
-	if(!(methods & (VAPOR|TOUCH)) || isnull(holder) || (holder.chem_temp < fry_temperature)) //Directly coats the mob, and doesn't go into their bloodstream
+/datum/reagent/consumable/nutriment/fat/bulk_expose_mob(mob/living/exposed_mob, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents, methods, show_message, touch_protection)
+	if(!(methods & (VAPOR|TOUCH)) || isnull(holder))
 		return
 
-	var/burn_damage = ((holder.chem_temp / fry_temperature) * 0.33) //Damage taken per unit
+	var/total_fat_volume = 0
+	var/normalized_fat_temp = 0
+	for(var/datum/reagent/consumable/nutriment/fat/other_fat in all_reagents)
+		total_fat_volume += all_reagents[other_fat]
+		normalized_fat_temp += (other_fat.holder?.chem_temp || 150) * all_reagents[other_fat]
+		skipped_reagents[other_fat] = TRUE
+
+	total_fat_volume = round(total_fat_volume, CHEMICAL_VOLUME_ROUNDING)
+	normalized_fat_temp /= total_fat_volume
+
+	if(normalized_fat_temp < FRY_TEMPERATURE)
+		return
+
+	var/burn_damage = (normalized_fat_temp / FRY_TEMPERATURE) * 0.33
 	if(methods & TOUCH)
 		burn_damage *= max(1 - touch_protection, 0)
-	var/FryLoss = round(min(38, burn_damage * reac_volume))
+
+	burn_damge = round(min(75, burn_damage * total_fat_volume))
 	if(!HAS_TRAIT(exposed_mob, TRAIT_OIL_FRIED))
-		exposed_mob.visible_message(span_warning("The boiling oil sizzles as it covers [exposed_mob]!"), \
-		span_userdanger("You're covered in boiling oil!"))
-		if(FryLoss)
+		exposed_mob.visible_message(
+			span_warning("The boiling oil sizzles as it covers [exposed_mob]!"),
+			span_userdanger("You're covered in boiling oil!"),
+		)
+		if(burn_damge > 0)
 			exposed_mob.emote("scream")
 		playsound(exposed_mob, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
 		ADD_TRAIT(exposed_mob, TRAIT_OIL_FRIED, "cooking_oil_react")
-		addtimer(CALLBACK(exposed_mob, TYPE_PROC_REF(/mob/living, unfry_mob)), 3)
-	if(FryLoss)
-		exposed_mob.adjustFireLoss(FryLoss)
+		addtimer(TRAIT_CALLBACK_REMOVE(exposed_mob, TRAIT_OIL_FRIED, "cooking_oil_react"), 0.3 SECONDS)
 
-/datum/reagent/consumable/nutriment/fat/expose_turf(turf/open/exposed_turf, reac_volume)
+	if(burn_damage > 0)
+		exposed_mob.apply_damage(burn_damage, BURN, spread_damage = TRUE, wound_bonus = CANT_WOUND)
+
+/datum/reagent/consumable/nutriment/fat/bulk_expose_turf(turf/open/exposed_turf, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents)
 	. = ..()
 	if(!istype(exposed_turf))
 		return
-	exposed_turf.MakeSlippery(TURF_WET_LUBE, min_wet_time = 10 SECONDS, wet_time_to_add = reac_volume*2 SECONDS)
-	var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in exposed_turf)
-	if(hotspot)
-		var/datum/gas_mixture/lowertemp = exposed_turf.remove_air(exposed_turf.air.total_moles())
-		lowertemp.temperature = max( min(lowertemp.temperature-2000,lowertemp.temperature / 2) ,0)
-		lowertemp.react(src)
-		exposed_turf.assume_air(lowertemp)
-		qdel(hotspot)
+
+	var/total_fat_volume = 0
+	for(var/datum/reagent/consumable/nutriment/fat/other_fat in all_reagents)
+		total_fat_volume += all_reagents[other_fat]
+		skipped_reagents[other_fat] = TRUE
+
+	exposed_turf.MakeSlippery(TURF_WET_LUBE, min_wet_time = 10 SECONDS, wet_time_to_add = total_fat_volume * 2 SECONDS)
+
+	var/obj/effect/hotspot/hotspot = locate() in exposed_turf
+	if(isnull(hotspot))
+		return
+	var/datum/gas_mixture/lowertemp = exposed_turf.remove_air(exposed_turf.air.total_moles())
+	lowertemp.temperature = max(min(lowertemp.temperature - 2000, lowertemp.temperature / 2), 0)
+	lowertemp.react(src)
+	exposed_turf.assume_air(lowertemp)
+	qdel(hotspot)
 
 /datum/reagent/consumable/nutriment/fat/oil
 	name = "Vegetable Oil"

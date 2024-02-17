@@ -1044,12 +1044,14 @@
 	name = "Sulfuric Acid"
 	description = "A strong mineral acid with the molecular formula H2SO4."
 	color = "#00FF32"
-	toxpwr = 1
-	var/acidpwr = 10 //the amount of protection removed from the armour
 	taste_description = "acid"
 	self_consuming = TRUE
 	ph = 2.75
-	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED|REAGENT_BULK_EXPOSE
+
+	toxpwr = 1
+	/// Works in tandem with toxpower to determine how much damage (or how well it melts) things
+	var/acidpwr = 10
 
 // ...Why? I mean, clearly someone had to have done this and thought, well,
 // acid doesn't hurt plants, but what brought us here, to this point?
@@ -1058,32 +1060,65 @@
 	mytray.adjust_toxic(round(volume * 1.5))
 	mytray.adjust_weedlevel(-rand(1,2))
 
-/datum/reagent/toxin/acid/expose_mob(mob/living/carbon/exposed_carbon, methods=TOUCH, reac_volume)
-	. = ..()
-	if(!istype(exposed_carbon))
-		return
-	reac_volume = round(reac_volume,0.1)
-	if(methods & INGEST)
-		exposed_carbon.adjustBruteLoss(min(6*toxpwr, reac_volume * toxpwr), required_bodytype = affected_bodytype)
-		return
-	if(methods & INJECT)
-		exposed_carbon.adjustBruteLoss(1.5 * min(6*toxpwr, reac_volume * toxpwr), required_bodytype = affected_bodytype)
-		return
-	exposed_carbon.acid_act(acidpwr, reac_volume)
+/**
+ * Used to apply damage (or the acid component) to apply to an atom when they are exposed to acid.
+ * Factors in multiple types of acid being splashed at once.
+ */
+/datum/reagent/toxin/acid/proc/apply_acid_to(
+	atom/what,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+	show_message = TRUE,
+	touch_protection = 0,
+)
+	var/total_acid_volume = 0
+	var/normalized_acid_power = 0
+	var/normalized_tox_power = 0
+	for(var/datum/reagent/acid/other_acid in all_reagents)
+		total_acid_volume += all_reagents[other_acid]
+		normalized_acid_power += other_acid.acidpwr * all_reagents[other_acid]
+		normalized_tox_power += other_acid.toxpwr * all_reagents[other_acid]
+		// Already handling it here
+		skipped_reagents[other_acid] = TRUE
 
-/datum/reagent/toxin/acid/expose_obj(obj/exposed_obj, reac_volume)
+	total_acid_volume = round(total_acid_volume, CHEMICAL_VOLUME_ROUNDING)
+	normalized_acid_power /= total_acid_volume
+	normalized_tox_power /= total_acid_volume
+
+	if(isliving(what))
+		var/mob/living/living_what = what
+		if(methods & INGEST)
+			living_what.apply_damage(normalized_tox_power * min(12, total_acid_volume), BRUTE, blocked = touch_protection * 100, spread_damage = TRUE, wound_bonus = CANT_WOUND)
+			return
+		if(methods & INJECT)
+			living_what.apply_damage(normalized_tox_power * 1.5 * min(12, total_acid_volume), BRUTE, blocked = touch_protection * 100, spread_damage = TRUE, wound_bonus = CANT_WOUND)
+			return
+
+	what.acid_act(normalized_acid_power, total_acid_volume)
+
+/datum/reagent/toxin/acid/bulk_expose_mob(
+	mob/living/exposed_mob,
+	reac_volume,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+	show_message = TRUE,
+	touch_protection = 0,
+)
+	return apply_acid_to(exposed_mob, all_reagents, skipped_reagents, methods, show_message, touch_protection)
+
+/datum/reagent/toxin/acid/bulk_expose_obj(obj/exposed_obj, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents, methods)
 	. = ..()
 	if(ismob(exposed_obj.loc)) //handled in human acid_act()
 		return
-	reac_volume = round(reac_volume,0.1)
-	exposed_obj.acid_act(acidpwr, reac_volume)
+	return apply_acid_to(exposed_obj, all_reagents, skipped_reagents, methods, show_message, touch_protection)
 
-/datum/reagent/toxin/acid/expose_turf(turf/exposed_turf, reac_volume)
+/datum/reagent/toxin/acid/bulk_expose_turf(turf/exposed_turf, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents)
 	. = ..()
 	if (!istype(exposed_turf))
 		return
-	reac_volume = round(reac_volume,0.1)
-	exposed_turf.acid_act(acidpwr, reac_volume)
+	return apply_acid_to(exposed_turf, all_reagents, skipped_reagents, methods, show_message, touch_protection)
 
 /datum/reagent/toxin/acid/fluacid
 	name = "Fluorosulfuric Acid"

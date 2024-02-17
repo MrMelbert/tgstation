@@ -226,3 +226,7 @@
 #define GRENADE_WIRED 2
 /// Grenade is ready to be finished
 #define GRENADE_READY 3
+
+/// Temperature at which deep fryers operate
+/// Around ~350 F (117 C) which deep fryers operate around in the real world
+#define FRY_TEMPERATURE 450
