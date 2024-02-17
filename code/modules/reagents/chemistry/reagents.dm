@@ -126,17 +126,51 @@
 		if(amount >= 0.5)
 			exposed_mob.reagents.add_reagent(type, amount, added_purity = purity)
 
+/// Called when exposing a [/mob/living] with reagent flag REAGENT_BULK_EXPOSE set
+/// Adding reagents to skipped_reagents will skip that reagent from  being exposed
+/datum/reagent/proc/bulk_expose_mob(
+	mob/living/exposed_mob,
+	reac_volume,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+	show_message = TRUE,
+	touch_protection = 0,
+)
+	return
+
 /// Applies this reagent to an [/obj]
 /datum/reagent/proc/expose_obj(obj/exposed_obj, reac_volume)
 	SHOULD_CALL_PARENT(TRUE)
 
 	return SEND_SIGNAL(src, COMSIG_REAGENT_EXPOSE_OBJ, exposed_obj, reac_volume)
 
+/// Called when exposing a [/obj] with reagent flag REAGENT_BULK_EXPOSE set
+/// Adding reagents to skipped_reagents will skip that reagent from  being exposed
+/datum/reagent/proc/bulk_expose_obj(
+	obj/exposed_obj,
+	reac_volume,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+)
+	return
+
 /// Applies this reagent to a [/turf]
 /datum/reagent/proc/expose_turf(turf/exposed_turf, reac_volume)
 	SHOULD_CALL_PARENT(TRUE)
 
 	return SEND_SIGNAL(src, COMSIG_REAGENT_EXPOSE_TURF, exposed_turf, reac_volume)
+
+/// Called when exposing a [/turf] with reagent flag REAGENT_BULK_EXPOSE set
+/// Adding reagents to skipped_reagents will skip that reagent from  being exposed
+/datum/reagent/proc/bulk_expose_turf(
+	turf/exposed_turf,
+	reac_volume,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+)
+	return
 
 ///Called whenever a reagent is on fire, or is in a holder that is on fire. (WIP)
 /datum/reagent/proc/burn(datum/reagents/holder)

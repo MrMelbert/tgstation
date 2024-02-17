@@ -612,9 +612,17 @@
 
 	var/touch_protection = (methods & VAPOR) ? getarmor(null, BIO) * 0.01 : 0
 	SEND_SIGNAL(source, COMSIG_REAGENTS_EXPOSE_MOB, src, reagents, methods, volume_modifier, show_message, touch_protection)
-	for(var/reagent in reagents)
-		var/datum/reagent/R = reagent
-		. |= R.expose_mob(src, methods, reagents[R], show_message, touch_protection)
+	var/list/skipped_reagents
+	for(var/datum/reagent/reagent as anything in reagents)
+		if(reagent.reagent_flags & REAGENT_BULK_EXPOSE)
+			if(skipped_reagents[reagent])
+				continue
+			if(!islist(skipped_reagents))
+				skipped_reagents = list()
+			. |= reagent.bulk_expose_mob(src, reagents[reagent], reagents, skipped_reagents, methods, show_message, touch_protection)
+			continue
+		. |= reagent.expose_mob(src, methods, reagents[reagent], show_message, touch_protection)
+
 
 /// Simplified ricochet angle calculation for mobs (also the base version doesn't work on mobs)
 /mob/living/handle_ricochet(obj/projectile/ricocheting_projectile)

@@ -353,9 +353,16 @@ GLOBAL_LIST_EMPTY(objects_by_id_tag)
 		return
 
 	SEND_SIGNAL(source, COMSIG_REAGENTS_EXPOSE_OBJ, src, reagents, methods, volume_modifier, show_message)
-	for(var/reagent in reagents)
-		var/datum/reagent/R = reagent
-		. |= R.expose_obj(src, reagents[R])
+	var/list/skipped_reagents
+	for(var/datum/reagent/reagent as anything in reagents)
+		if(reagent.reagent_flags & REAGENT_BULK_EXPOSE)
+			if(skipped_reagents[reagent])
+				continue
+			if(!islist(skipped_reagents))
+				skipped_reagents = list()
+			. |= reagent.bulk_expose_obj(src, reagents[reagent], reagents, skipped_reagents, methods)
+			continue
+		. |= reagent.expose_obj(src, reagents[reagent])
 
 /// Attempt to freeze this obj if possible. returns TRUE if it succeeded, FALSE otherwise.
 /obj/proc/freeze()

@@ -682,9 +682,16 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		return
 
 	SEND_SIGNAL(source, COMSIG_REAGENTS_EXPOSE_TURF, src, reagents, methods, volume_modifier, show_message)
-	for(var/reagent in reagents)
-		var/datum/reagent/R = reagent
-		. |= R.expose_turf(src, reagents[R])
+	var/list/skipped_reagents
+	for(var/datum/reagent/reagent as anything in reagents)
+		if(reagent.reagent_flags & REAGENT_BULK_EXPOSE)
+			if(skipped_reagents[reagent])
+				continue
+			if(!islist(skipped_reagents))
+				skipped_reagents = list()
+			. |= reagent.bulk_expose_turf(src, reagents[reagent], reagents, skipped_reagents, methods)
+			continue
+		. |= reagent.expose_turf(src, reagents[reagent])
 
 /**
  * Called when this turf is being washed. Washing a turf will also wash any mopable floor decals
