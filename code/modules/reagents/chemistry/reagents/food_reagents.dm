@@ -151,7 +151,12 @@
 	nutriment_factor = 18 // Twice as nutritious compared to protein and carbohydrates
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED|REAGENT_BULK_EXPOSE
 
-/datum/reagent/consumable/nutriment/fat/bulk_expose_obj(obj/exposed_obj, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents, methods)
+/datum/reagent/consumable/nutriment/fat/bulk_expose_obj(
+	obj/exposed_obj,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+)
 	. = ..()
 	if(!holder || (holder.chem_temp <= FRY_TEMPERATURE))
 		return
@@ -159,11 +164,8 @@
 		return
 
 	var/total_fat_volume = 0
-	var/biggest_fat = null
 	for(var/datum/reagent/consumable/nutriment/fat/other_fat in all_reagents)
-		var/other_fat_volume = all_reagents[other_fat]
-		if(isnull(biggest_fat) || other_fat_volume > all_reagents[biggest_fat])
-			biggest_fat = other_fat
+		total_fat_volume += all_reagents[other_fat]
 		skipped_reagents[other_fat] = TRUE
 
 	if(is_type_in_typecache(exposed_obj, GLOB.oilfry_blacklisted_items) || (exposed_obj.resistance_flags & INDESTRUCTIBLE))
@@ -176,9 +178,17 @@
 	total_fat_volume = round(total_fat_volume, CHEMICAL_VOLUME_ROUNDING)
 	exposed_obj.visible_message(span_warning("[exposed_obj] rapidly fries as it's splashed with hot oil! Somehow."))
 	exposed_obj.AddElement(/datum/element/fried_item, total_fat_volume)
-	exposed_obj.reagents.add_reagent(biggest_fat.type, total_fat_volume)
+	for(var/datum/reagent/consumable/nutriment/fat/other_fat in all_reagents)
+		exposed_obj.reagents.add_reagent(other_fat.type, all_reagents[other_fat], reagtemp = other_fat.holder?.chem_temp || 150)
 
-/datum/reagent/consumable/nutriment/fat/bulk_expose_mob(mob/living/exposed_mob, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents, methods, show_message, touch_protection)
+/datum/reagent/consumable/nutriment/fat/bulk_expose_mob(
+	mob/living/exposed_mob,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+	show_message = TRUE,
+	touch_protection = 0,
+)
 	if(!(methods & (VAPOR|TOUCH)) || isnull(holder))
 		return
 
@@ -199,13 +209,13 @@
 	if(methods & TOUCH)
 		burn_damage *= max(1 - touch_protection, 0)
 
-	burn_damge = round(min(75, burn_damage * total_fat_volume))
+	burn_damage = round(min(75, burn_damage * total_fat_volume))
 	if(!HAS_TRAIT(exposed_mob, TRAIT_OIL_FRIED))
 		exposed_mob.visible_message(
 			span_warning("The boiling oil sizzles as it covers [exposed_mob]!"),
 			span_userdanger("You're covered in boiling oil!"),
 		)
-		if(burn_damge > 0)
+		if(burn_damage > 0)
 			exposed_mob.emote("scream")
 		playsound(exposed_mob, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
 		ADD_TRAIT(exposed_mob, TRAIT_OIL_FRIED, "cooking_oil_react")
@@ -214,8 +224,12 @@
 	if(burn_damage > 0)
 		exposed_mob.apply_damage(burn_damage, BURN, spread_damage = TRUE, wound_bonus = CANT_WOUND)
 
-/datum/reagent/consumable/nutriment/fat/bulk_expose_turf(turf/open/exposed_turf, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents)
-	. = ..()
+/datum/reagent/consumable/nutriment/fat/bulk_expose_turf(
+	turf/open/exposed_turf,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+)
 	if(!istype(exposed_turf))
 		return
 
@@ -244,7 +258,6 @@
 	nutriment_factor = 7 //Not very healthy on its own
 	metabolization_rate = 10 * REAGENTS_METABOLISM
 	penetrates_skin = NONE
-	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	default_container = /obj/item/reagent_containers/condiment/vegetable_oil
 
 /datum/reagent/consumable/nutriment/fat/oil/olive

@@ -105,7 +105,7 @@
 /// If present, this reagent will not be affected by the mob's metabolism at all, meaning it exits at a fixed rate for all mobs.
 /// Supercedes [REAGENT_REVERSE_METABOLISM].
 #define REAGENT_UNAFFECTED_BY_METABOLISM (1<<11)
-/// When exposing a mob to this reagent, calls bulk_expose first befor exposing, allowing for more complex exposure effects
+/// When exposing a mob to this reagent, calls bulk_expose rather than normal expose, allowing for more complex exposure effects
 #define REAGENT_BULK_EXPOSE (1<<12)
 
 //Chemical reaction flags, for determining reaction specialties

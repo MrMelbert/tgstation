@@ -130,7 +130,6 @@
 /// Adding reagents to skipped_reagents will skip that reagent from  being exposed
 /datum/reagent/proc/bulk_expose_mob(
 	mob/living/exposed_mob,
-	reac_volume,
 	list/datum/reagent/all_reagents,
 	list/datum/reagent/skipped_reagents,
 	methods = TOUCH,
@@ -149,7 +148,6 @@
 /// Adding reagents to skipped_reagents will skip that reagent from  being exposed
 /datum/reagent/proc/bulk_expose_obj(
 	obj/exposed_obj,
-	reac_volume,
 	list/datum/reagent/all_reagents,
 	list/datum/reagent/skipped_reagents,
 	methods = TOUCH,
@@ -166,9 +164,9 @@
 /// Adding reagents to skipped_reagents will skip that reagent from  being exposed
 /datum/reagent/proc/bulk_expose_turf(
 	turf/exposed_turf,
-	reac_volume,
 	list/datum/reagent/all_reagents,
 	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
 )
 	return
 

@@ -612,14 +612,12 @@
 
 	var/touch_protection = (methods & VAPOR) ? getarmor(null, BIO) * 0.01 : 0
 	SEND_SIGNAL(source, COMSIG_REAGENTS_EXPOSE_MOB, src, reagents, methods, volume_modifier, show_message, touch_protection)
-	var/list/skipped_reagents
+	var/list/skipped_reagents = list()
 	for(var/datum/reagent/reagent as anything in reagents)
 		if(reagent.chemical_flags & REAGENT_BULK_EXPOSE)
 			if(skipped_reagents[reagent])
 				continue
-			if(!islist(skipped_reagents))
-				skipped_reagents = list()
-			. |= reagent.bulk_expose_mob(src, reagents[reagent], reagents, skipped_reagents, methods, show_message, touch_protection)
+			. |= reagent.bulk_expose_mob(src, reagents, skipped_reagents, methods, show_message, touch_protection)
 			continue
 		. |= reagent.expose_mob(src, methods, reagents[reagent], show_message, touch_protection)
 

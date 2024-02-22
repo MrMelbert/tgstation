@@ -1069,13 +1069,12 @@
 	list/datum/reagent/all_reagents,
 	list/datum/reagent/skipped_reagents,
 	methods = TOUCH,
-	show_message = TRUE,
 	touch_protection = 0,
 )
 	var/total_acid_volume = 0
 	var/normalized_acid_power = 0
 	var/normalized_tox_power = 0
-	for(var/datum/reagent/acid/other_acid in all_reagents)
+	for(var/datum/reagent/toxin/acid/other_acid in all_reagents)
 		total_acid_volume += all_reagents[other_acid]
 		normalized_acid_power += other_acid.acidpwr * all_reagents[other_acid]
 		normalized_tox_power += other_acid.toxpwr * all_reagents[other_acid]
@@ -1085,7 +1084,6 @@
 	total_acid_volume = round(total_acid_volume, CHEMICAL_VOLUME_ROUNDING)
 	normalized_acid_power /= total_acid_volume
 	normalized_tox_power /= total_acid_volume
-
 	if(isliving(what))
 		var/mob/living/living_what = what
 		if(methods & INGEST)
@@ -1099,26 +1097,33 @@
 
 /datum/reagent/toxin/acid/bulk_expose_mob(
 	mob/living/exposed_mob,
-	reac_volume,
 	list/datum/reagent/all_reagents,
 	list/datum/reagent/skipped_reagents,
 	methods = TOUCH,
 	show_message = TRUE,
 	touch_protection = 0,
 )
-	return apply_acid_to(exposed_mob, all_reagents, skipped_reagents, methods, show_message, touch_protection)
+	return apply_acid_to(exposed_mob, all_reagents, skipped_reagents, methods, touch_protection)
 
-/datum/reagent/toxin/acid/bulk_expose_obj(obj/exposed_obj, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents, methods)
-	. = ..()
+/datum/reagent/toxin/acid/bulk_expose_obj(
+	obj/exposed_obj,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+)
 	if(ismob(exposed_obj.loc)) //handled in human acid_act()
 		return
-	return apply_acid_to(exposed_obj, all_reagents, skipped_reagents, methods, show_message, touch_protection)
+	return apply_acid_to(exposed_obj, all_reagents, skipped_reagents, methods, 0)
 
-/datum/reagent/toxin/acid/bulk_expose_turf(turf/exposed_turf, reac_volume, list/datum/reagent/all_reagents, list/datum/reagent/skipped_reagents)
-	. = ..()
+/datum/reagent/toxin/acid/bulk_expose_turf(
+	turf/exposed_turf,
+	list/datum/reagent/all_reagents,
+	list/datum/reagent/skipped_reagents,
+	methods = TOUCH,
+)
 	if (!istype(exposed_turf))
 		return
-	return apply_acid_to(exposed_turf, all_reagents, skipped_reagents, methods, show_message, touch_protection)
+	return apply_acid_to(exposed_turf, all_reagents, skipped_reagents, methods, 0)
 
 /datum/reagent/toxin/acid/fluacid
 	name = "Fluorosulfuric Acid"
@@ -1129,7 +1134,6 @@
 	toxpwr = 2
 	acidpwr = 42.0
 	ph = 0.0
-	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 // SERIOUSLY
 /datum/reagent/toxin/acid/fluacid/on_hydroponics_apply(obj/machinery/hydroponics/mytray, mob/user)
@@ -1151,7 +1155,6 @@
 	toxpwr = 3
 	acidpwr = 5.0
 	ph = 1.3
-	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/toxin/acid/nitracid/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	. = ..()
