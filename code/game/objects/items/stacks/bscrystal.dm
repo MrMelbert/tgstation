@@ -53,7 +53,7 @@
 	)
 
 	if(.)
-		teleporting.adjust_confusion_up_to(10 SECONDS, 30 SECONDS)
+		teleporting.adjust_confusion_up_to(15 SECONDS, 60 SECONDS)
 		teleporting.adjust_dizzy_up_to(20 SECONDS, 60 SECONDS)
 	return .
 
