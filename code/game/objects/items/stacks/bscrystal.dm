@@ -53,8 +53,13 @@
 	)
 
 	if(.)
-		teleporting.adjust_confusion_up_to(15 SECONDS, 60 SECONDS)
-		teleporting.adjust_dizzy_up_to(20 SECONDS, 60 SECONDS)
+		teleporting.adjust_confusion_up_to(15 SECONDS, 70 SECONDS)
+		teleporting.adjust_dizzy_up_to(20 SECONDS, 75 SECONDS)
+		teleporting.adjust_jitter(20 SECONDS, 75 SECONDS)
+		var/obj/item/drop_thing = teleporting.get_active_held_item()
+		var/confusion_duration = teleporting.get_timed_status_effect_duration(/datum/status_effect/confusion)
+		if(prob(20 SECONDS - confusion_duration) && drop_thing?.dropItemToGround(teleporting))
+			to_chat(teleporting, span_notice("You drop [drop_thing] in your confusion!"))
 	return .
 
 /obj/item/stack/ore/bluespace_crystal/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
