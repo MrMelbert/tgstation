@@ -24,7 +24,29 @@
 			hidden_uplink.uplink_handler.add_telecrystals(amount)
 			use(amount)
 			to_chat(user, span_notice("You press [src] onto yourself and charge your hidden uplink."))
-	return ITEM_INTERACT_SUCCESS
+			return ITEM_INTERACT_SUCCESS
+
+	return ITEM_INTERACT_BLOCKING
+
+// Stacks don't call parent on attack self because they are cringe
+/obj/item/stack/telecrystal/attack_self(mob/user, modifiers)
+	if(loc != user) // Telekinesis moment
+		return TRUE
+
+	user.visible_message(
+		span_warning("[user] crushes [src]!"),
+		span_danger("You crush [src]!"),
+	)
+	playsound(src, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+	do_teleport(
+		teleatom = user,
+		destination = get_ranged_target_turf(user, user.dir, 2),
+		precision = 4,
+		asoundin = 'sound/effects/phasein.ogg',
+		channel = TELEPORT_CHANNEL_QUANTUM,
+	)
+	use(1)
+	return TRUE
 
 /obj/item/stack/telecrystal/five
 	amount = 5

@@ -31,24 +31,42 @@
 	return 1
 
 /obj/item/stack/ore/bluespace_crystal/attack_self(mob/user)
-	user.visible_message(span_warning("[user] crushes [src]!"), span_danger("You crush [src]!"))
-	new /obj/effect/particle_effect/sparks(loc)
-	playsound(loc, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+	if(loc != user) // Telekinesis moment
+		return TRUE
+
+	user.visible_message(
+		span_warning("[user] crushes [src]!"),
+		span_danger("You crush [src]!"),
+	)
+	playsound(src, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	blink_mob(user)
 	use(1)
+	return TRUE
 
-/obj/item/stack/ore/bluespace_crystal/proc/blink_mob(mob/living/L)
-	do_teleport(L, get_turf(L), blink_range, asoundin = 'sound/effects/phasein.ogg', channel = TELEPORT_CHANNEL_BLUESPACE)
+/obj/item/stack/ore/bluespace_crystal/proc/blink_mob(mob/living/teleporting)
+	. = do_teleport(
+		teleatom = teleporting,
+		destination = get_turf(teleporting),
+		precision = blink_range,
+		asoundin = 'sound/effects/phasein.ogg',
+		channel = TELEPORT_CHANNEL_BLUESPACE,
+	)
+
+	if(.)
+		teleporting.adjust_confusion_up_to(10 SECONDS, 30 SECONDS)
+		teleporting.adjust_dizzy_up_to(20 SECONDS, 60 SECONDS)
+	return .
 
 /obj/item/stack/ore/bluespace_crystal/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(!..()) // not caught in mid-air
-		visible_message(span_notice("[src] fizzles and disappears upon impact!"))
-		var/turf/T = get_turf(hit_atom)
-		new /obj/effect/particle_effect/sparks(T)
-		playsound(loc, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
-		if(isliving(hit_atom))
-			blink_mob(hit_atom)
-		use(1)
+	. = ..()
+	if(.)
+		return .
+
+	visible_message(span_notice("[src] fizzles and disappears upon impact!"))
+	playsound(src, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+	if(isliving(hit_atom))
+		blink_mob(hit_atom)
+	use(1)
 
 //Artificial bluespace crystal, doesn't give you much research.
 /obj/item/stack/ore/bluespace_crystal/artificial
