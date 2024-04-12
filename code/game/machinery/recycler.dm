@@ -242,11 +242,9 @@
 	obj_flags = CAN_BE_HIT | EMAGGED
 	crush_damage = 120
 
-/obj/machinery/recycler/deathtrap/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/screwdriver)
-	return NONE
-
-/obj/machinery/recycler/deathtrap/default_deconstruction_crowbar(obj/item/crowbar, ignore_panel, custom_deconstruct)
-	return NONE
+/obj/machinery/recycler/deathtrap/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/block_tool_acts, list(TOOL_SCREWDRIVER, TOOL_CROWBAR))
 
 /obj/item/paper/guides/recycler
 	name = "paper - 'garbage duty instructions'"

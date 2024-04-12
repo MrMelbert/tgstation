@@ -10,11 +10,10 @@
 	///The purity of the created reagent in % (purity uses 0-1 values)
 	var/purity = 100
 
-/obj/machinery/chem_dispenser/chem_synthesizer/screwdriver_act(mob/living/user, obj/item/tool)
-	return NONE
 
-/obj/machinery/chem_dispenser/chem_synthesizer/crowbar_act(mob/living/user, obj/item/tool)
-	return NONE
+/obj/machinery/chem_dispenser/chem_synthesizer/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/block_tool_acts, list(TOOL_SCREWDRIVER, TOOL_CROWBAR))
 
 /obj/machinery/chem_dispenser/chem_synthesizer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

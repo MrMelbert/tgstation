@@ -83,16 +83,11 @@
 /obj/structure/table/abductor/wabbajack/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
+	AddElement(/datum/element/block_tool_acts, list(TOOL_SCREWDRIVER, TOOL_WRENCH))
 
 /obj/structure/table/abductor/wabbajack/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
-
-/obj/structure/table/abductor/wabbajack/screwdriver_act(mob/living/user, obj/item/tool)
-	return NONE
-
-/obj/structure/table/abductor/wabbajack/wrench_act(mob/living/user, obj/item/tool)
-	return NONE
 
 /obj/structure/table/abductor/wabbajack/process()
 	if(isnull(our_statue))
@@ -187,12 +182,7 @@
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
-
-/obj/structure/table/wood/shuttle_bar/screwdriver_act(mob/living/user, obj/item/tool)
-	return NONE
-
-/obj/structure/table/wood/shuttle_bar/wrench_act(mob/living/user, obj/item/tool)
-	return NONE
+	AddElement(/datum/element/block_tool_acts, list(TOOL_SCREWDRIVER, TOOL_WRENCH))
 
 /obj/structure/table/wood/shuttle_bar/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER

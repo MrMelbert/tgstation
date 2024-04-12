@@ -793,17 +793,9 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/tinted/frosted/spaw
 	flags_1 = PREVENT_CLICK_UNDER_1
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
-/obj/structure/window/reinforced/shuttle/indestructible/welder_act(mob/living/user, obj/item/tool)
-	return NONE
-
-/obj/structure/window/reinforced/shuttle/indestructible/screwdriver_act(mob/living/user, obj/item/tool)
-	return NONE
-
-/obj/structure/window/reinforced/shuttle/indestructible/wrench_act(mob/living/user, obj/item/tool)
-	return NONE
-
-/obj/structure/window/reinforced/shuttle/indestructible/crowbar_act(mob/living/user, obj/item/tool)
-	return NONE
+/obj/structure/window/reinforced/shuttle/indestructible/Initialize(mapload, direct)
+	. = ..()
+	AddElement(/datum/element/block_tool_acts)
 
 /obj/structure/window/reinforced/plasma/plastitanium
 	name = "plastitanium window"

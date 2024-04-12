@@ -464,11 +464,9 @@
 /obj/structure/table/reinforced/ctf
 	resistance_flags = INDESTRUCTIBLE
 
-/obj/structure/table/reinforced/ctf/wrench_act_secondary(mob/living/user, obj/item/tool)
-	return NONE
-
-/obj/structure/table/reinforced/ctf/screwdriver_act_secondary(mob/living/user, obj/item/tool)
-	return NONE
+/obj/structure/table/reinforced/ctf/Initialize(mapload, direct)
+	. = ..()
+	AddElement(/datum/element/block_tool_acts)
 
 #define CTF_LOADING_UNLOADED 0
 #define CTF_LOADING_LOADING 1

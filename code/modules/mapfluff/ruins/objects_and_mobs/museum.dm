@@ -161,11 +161,9 @@
 /obj/machinery/vending/hotdog/museum
 	onstation_override = TRUE
 
-/obj/machinery/vending/hotdog/museum/screwdriver_act(mob/living/user, obj/item/attack_item)
-	return NONE
-
-/obj/machinery/vending/hotdog/museum/crowbar_act(mob/living/user, obj/item/attack_item)
-	return NONE
+/obj/machinery/vending/hotdog/museum/Initialize(mapload, direct)
+	. = ..()
+	AddElement(/datum/element/block_tool_acts, list(TOOL_SCREWDRIVER, TOOL_CROWBAR))
 
 #define CAFE_KEYCARD_TOILETS "museum_cafe_key_toilets"
 

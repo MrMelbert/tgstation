@@ -21,6 +21,30 @@
 /// Can be used to scrape rust off an any atom; which will result in the Rust Component being qdel'd
 #define TOOL_RUSTSCRAPER "rustscraper"
 
+/// Global list of all tool types.
+GLOBAL_LIST_INIT(all_tool_types, list(
+	TOOL_ANALYZER,
+	TOOL_BLOODFILTER,
+	TOOL_BONESET,
+	TOOL_CAUTERY,
+	TOOL_CROWBAR,
+	TOOL_DRILL,
+	TOOL_HEMOSTAT,
+	TOOL_KNIFE,
+	TOOL_MINING,
+	TOOL_MULTITOOL,
+	TOOL_RETRACTOR,
+	TOOL_ROLLINGPIN,
+	TOOL_RUSTSCRAPER,
+	TOOL_SAW,
+	TOOL_SCALPEL,
+	TOOL_SCREWDRIVER,
+	TOOL_SHOVEL,
+	TOOL_WELDER,
+	TOOL_WIRECUTTER,
+	TOOL_WRENCH,
+))
+
 // If delay between the start and the end of tool operation is less than MIN_TOOL_SOUND_DELAY,
 // tool sound is only played when op is started. If not, it's played twice.
 #define MIN_TOOL_SOUND_DELAY 20
