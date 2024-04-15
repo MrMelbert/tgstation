@@ -717,7 +717,7 @@
 	register_context()
 	if(!id_tag)
 		id_tag = assign_random_name()
-	AddElement(/datum/element/block_tool_acts, list(TOOL_WRENCH))
+	AddElement(/datum/element/block_tool_acts, TOOL_WRENCH)
 
 /**
  * Mapped or built tram cabinet isn't located on a transport module.
