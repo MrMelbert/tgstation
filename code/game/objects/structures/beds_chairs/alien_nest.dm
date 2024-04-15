@@ -15,15 +15,15 @@
 	elevation = 0
 	var/static/mutable_appearance/nest_overlay = mutable_appearance('icons/mob/nonhuman-player/alien.dmi', "nestoverlay", LYING_MOB_LAYER)
 
+/obj/structure/bed/nest/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/block_tool_acts, TOOL_WRENCH)
+
 /obj/structure/bed/nest/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	if(held_item?.tool_behaviour == TOOL_WRENCH)
 		return NONE
 
 	return ..()
-
-/obj/structure/bed/nest/wrench_act_secondary(mob/living/user, obj/item/weapon)
-	return ITEM_INTERACT_BLOCKING
-
 
 /obj/structure/bed/nest/user_unbuckle_mob(mob/living/captive, mob/living/hero)
 	if(!length(buckled_mobs))
@@ -41,7 +41,7 @@
 		unbuckle_mob(captive)
 		add_fingerprint(hero)
 		return
-	
+
 	captive.visible_message(span_warning("[captive.name] struggles to break free from the gelatinous resin!"),
 		span_notice("You struggle to break free from the gelatinous resin... (Stay still for about a minute and a half.)"),
 		span_hear("You hear squelching..."))

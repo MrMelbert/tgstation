@@ -486,7 +486,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	. = ..()
 	AddElement(/datum/element/block_tool_acts, TOOL_WRENCH)
 
-
 /obj/structure/chair/mime/post_buckle_mob(mob/living/M)
 	M.pixel_y += 5
 
