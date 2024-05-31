@@ -214,6 +214,9 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define ZAP_FUSION_FLAGS ZAP_OBJ_DAMAGE | ZAP_MOB_DAMAGE | ZAP_MOB_STUN
 #define ZAP_SUPERMATTER_FLAGS ZAP_GENERATES_POWER
 
+/// Used in zaps in converting power to burn damage
+#define POWER_TO_DAMAGE_MULTIPLIER 600
+
 ///EMP will protect itself.
 #define EMP_PROTECT_SELF (1<<0)
 ///EMP will protect the contents from also being EMPed.
