@@ -9,11 +9,14 @@
 	instability = 20
 	difficulty = 16
 	synchronizer_coeff = 1
+	power_coeff = 1
 
 	var/bleed_rate_mod = 2
+	var/regen_boost_mod = 4
 
 /datum/mutation/human/blood_regen/on_acquiring(mob/living/carbon/human/owner)
 	bleed_rate_mod *= GET_MUTATION_SYNCHRONIZER(src)
+	regen_boost_mod *= GET_MUTATION_POWER(src)
 	modified = TRUE
 
 	. = ..()
@@ -21,7 +24,7 @@
 		return
 
 	owner.physiology.bleed_mod *= bleed_rate_mod
-	owner.blood_regen_factor *= 4
+	owner.blood_regen_factor *= regen_boost_mod
 
 /datum/mutation/human/blood_regen/on_losing(mob/living/carbon/human/owner)
 	. = ..()
@@ -31,9 +34,14 @@
 		return
 
 	owner.physiology.bleed_mod /= bleed_rate_mod
-	owner.blood_regen_factor /= 4
+	owner.blood_regen_factor /= regen_boost_mod
 
 /datum/mutation/human/blood_regen/modify()
 	owner.physiology.bleed_mod /= bleed_rate_mod
+	owner.blood_regen_factor /= regen_boost_mod
+
 	bleed_rate_mod = initial(bleed_rate_mod) * GET_MUTATION_SYNCHRONIZER(src)
+	regen_boost_mod = initial(regen_boost_mod) * GET_MUTATION_POWER(src)
+
 	owner.physiology.bleed_mod *= bleed_rate_mod
+	owner.blood_regen_factor *= regen_boost_mod
