@@ -1,7 +1,10 @@
 /// This provides different types of magic resistance on an object
 /datum/component/anti_magic
+	dupe_mode = COMPONENT_DUPE_ALLOWED
 	/// A bitflag with the types of magic resistance on the object
 	var/antimagic_flags
+
+	var/self_block_flags
 	/// The amount of times the object can protect the user from magic
 	/// Set to INFINITY to have, well, infinite charges.
 	var/charges
@@ -35,6 +38,7 @@
 **/
 /datum/component/anti_magic/Initialize(
 		antimagic_flags = MAGIC_RESISTANCE,
+		self_block_flags = antimagic_flags,
 		charges = INFINITY,
 		inventory_flags = ~ITEM_SLOT_BACKPACK, // items in a backpack won't activate, anywhere else is fine
 		datum/callback/drain_antimagic,
@@ -51,6 +55,7 @@
 		return COMPONENT_INCOMPATIBLE
 
 	src.antimagic_flags = antimagic_flags
+	src.self_block_flags = self_block_flags
 	src.charges = charges
 	src.inventory_flags = inventory_flags
 	src.drain_antimagic = drain_antimagic
@@ -126,7 +131,7 @@
 /datum/component/anti_magic/proc/restrict_casting_magic(mob/user, magic_flags)
 	SIGNAL_HANDLER
 
-	if(magic_flags & antimagic_flags)
+	if(magic_flags & self_block_flags)
 		if(HAS_TRAIT(user, TRAIT_ANTIMAGIC_NO_SELFBLOCK)) // this trait bypasses magic casting restrictions
 			return NONE
 		return COMPONENT_MAGIC_BLOCKED

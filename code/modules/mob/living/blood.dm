@@ -23,7 +23,7 @@
 			if(satiety > 80)
 				nutrition_ratio *= 1.25
 			adjust_nutrition(-nutrition_ratio * HUNGER_FACTOR * seconds_per_tick)
-			blood_volume = min(blood_volume + (BLOOD_REGEN_FACTOR * nutrition_ratio * seconds_per_tick), BLOOD_VOLUME_NORMAL)
+			blood_volume = min(blood_volume + (blood_regen_factor * nutrition_ratio * seconds_per_tick), BLOOD_VOLUME_NORMAL)
 
 	//Effects of bloodloss
 	if(!(sigreturn & HANDLE_BLOOD_NO_EFFECTS))
@@ -77,9 +77,9 @@
 	for(var/obj/item/bodypart/iter_part as anything in bodyparts)
 		iter_part.update_part_wound_overlay()
 
-//Makes a blood drop, leaking amt units of blood from the mob
+/// Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/carbon/proc/bleed(amt)
-	if(!blood_volume || (status_flags & GODMODE))
+	if(!blood_volume || (status_flags & GODMODE) || HAS_TRAIT(src, TRAIT_NOBLOOD))
 		return
 	blood_volume = max(blood_volume - amt, 0)
 
@@ -89,22 +89,18 @@
 
 /mob/living/carbon/human/bleed(amt)
 	amt *= physiology.bleed_mod
-	if(!HAS_TRAIT(src, TRAIT_NOBLOOD))
-		..()
+	return ..()
 
 /// A helper to see how much blood we're losing per tick
 /mob/living/carbon/proc/get_bleed_rate()
-	if(!blood_volume)
-		return
+	if(!blood_volume || HAS_TRAIT(src, TRAIT_NOBLOOD))
+		return 0
 	var/bleed_amt = 0
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/iter_bodypart = X
+	for(var/obj/item/bodypart/iter_bodypart as anything in bodyparts)
 		bleed_amt += iter_bodypart.get_modified_bleed_rate()
 	return bleed_amt
 
 /mob/living/carbon/human/get_bleed_rate()
-	if(HAS_TRAIT(src, TRAIT_NOBLOOD))
-		return
 	. = ..()
 	. *= physiology.bleed_mod
 

@@ -21,8 +21,6 @@
 #define BLOOD_VOLUME_BAD 224
 #define BLOOD_VOLUME_SURVIVE 122
 
-/// How efficiently humans regenerate blood.
-#define BLOOD_REGEN_FACTOR 0.25
 /// Determines the rate at which humans lose blood when they have the blood deficiency quirk. The default is BLOOD_REGEN_FACTOR + BLOOD_DEFICIENCY_MODIFIER.
 #define BLOOD_DEFICIENCY_MODIFIER 0.025
 

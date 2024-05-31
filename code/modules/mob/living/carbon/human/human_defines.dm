@@ -90,3 +90,6 @@
 
 	/// Height of the mob
 	VAR_PROTECTED/mob_height = HUMAN_HEIGHT_MEDIUM
+
+	/// How efficiently this mob regenerates blood.
+	var/blood_regen_factor = 0.25

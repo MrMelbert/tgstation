@@ -36,3 +36,7 @@
 /datum/generecipe/martyrdom
 	required = "/datum/mutation/human/strong; /datum/mutation/human/stimmed"
 	result = /datum/mutation/human/martyrdom
+
+/datum/generecipe/tesla_coil
+	required = "/datum/mutation/human/insulated; /datum/mutation/human/antenna"
+	result = /datum/mutation/human/tesla
