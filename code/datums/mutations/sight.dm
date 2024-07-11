@@ -199,3 +199,28 @@
 		return
 	REMOVE_TRAIT(owner, TRAIT_ILLITERATE, GENETIC_MUTATION)
 
+/datum/mutation/human/night_vision
+	name = "Night Vision"
+	desc = "The host of this genome can see in the dark."
+	quality = POSITIVE
+	text_gain_indication = span_notice("You can see in the dark.")
+	text_lose_indication = span_notice("You can no longer see in the dark.")
+	instability = POSITIVE_INSTABILITY_MODERATE
+	mutation_traits = list(TRAIT_NIGHT_VISION)
+	difficulty = 18
+
+/datum/mutation/human/night_vision/on_acquiring(mob/living/carbon/human/acquirer)
+	. = ..()
+	if(.)
+		return
+	var/obj/item/organ/internal/eyes/eyes = acquirer.get_organ_by_type(/obj/item/organ/internal/eyes)
+	eyes?.refresh()
+
+/datum/mutation/human/night_vision/on_losing(mob/living/carbon/human/acquirer)
+	. = ..()
+	if(.)
+		return
+	if(QDELING(acquirer))
+		return
+	var/obj/item/organ/internal/eyes/eyes = acquirer.get_organ_by_type(/obj/item/organ/internal/eyes)
+	eyes?.refresh()

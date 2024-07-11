@@ -2,7 +2,7 @@
 /// Negatives that are virtually harmless and mostly just funny (language)
 // Set to 0 because munchkinning via miscommunication = bad
 #define NEGATIVE_STABILITY_MINI 0
-/// Negatives that are slightly annoying (unused)
+/// Negatives that are slightly annoying
 #define NEGATIVE_STABILITY_MINOR -20
 /// Negatives that present an uncommon or weak, consistent hindrance to gameplay (cough, paranoia)
 #define NEGATIVE_STABILITY_MODERATE -30

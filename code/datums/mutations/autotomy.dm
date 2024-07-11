@@ -40,3 +40,11 @@
 
 	var/obj/item/bodypart/to_remove = pick(parts)
 	to_remove.dismember()
+
+/datum/mutation/human/limb_reattachment
+	name = "Loose Ligaments"
+	desc = "The host can re-attach limbs to their body at will."
+	quality = POSITIVE
+	text_gain_indication = span_notice("Your body feels looser.")
+	instability = POSITIVE_INSTABILITY_MODERATE
+	mutation_traits = list(TRAIT_LIMBATTACHMENT)
