@@ -13,7 +13,7 @@ type IconSettings = {
 
 const normalIcon: IconSettings = {
   dmi: 'icons/mob/huds/hud.dmi',
-  transform: 'scale(2.3) translateX(8px) translateY(1px)',
+  transform: 'scale(2.3) translateX(9px) translateY(1px)',
 };
 
 const antagIcon: IconSettings = {
@@ -37,20 +37,15 @@ export function JobIcon(props: Props) {
   return (
     <div className="JobIcon">
       {icon === 'borg' ? (
-        <Icon color="lightblue" name={JOB2ICON[job]} mr={0.5} />
+        <Icon color="lightblue" name={JOB2ICON[job]} ml={0.3} mt={0.4} />
       ) : (
-        <div
+        <DmIcon
+          icon={iconSettings.dmi}
+          icon_state={icon}
           style={{
-            height: '17px',
-            width: '18px',
+            transform: iconSettings.transform,
           }}
-        >
-          <DmIcon
-            icon={iconSettings.dmi}
-            icon_state={icon}
-            style={{ transform: iconSettings.transform }}
-          />
-        </div>
+        />
       )}
     </div>
   );
