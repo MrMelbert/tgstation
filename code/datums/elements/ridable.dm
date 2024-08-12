@@ -193,10 +193,13 @@
 	if(rider == user)
 		return //Piggyback user.
 	user.unbuckle_mob(rider)
-	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+	if(HAS_TRAIT(user, TRAIT_PACIFISM) || HAS_TRAIT(user, TRAIT_NO_THROWING))
 		to_chat(user, span_notice("You gently let go of [rider]."))
 		return
-	return rider
+	var/mob/throwing = rider
+	user.set_pulling(throwing)
+	user.setGrabState(GRAB_AGGRESSIVE)
+	return throwing
 
 /obj/item/riding_offhand/interact_with_atom(atom/movable/interacting_with, mob/living/user, list/modifiers)
 	if(!istype(interacting_with) || !interacting_with.can_buckle)

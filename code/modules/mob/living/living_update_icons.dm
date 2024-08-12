@@ -57,6 +57,9 @@
 
 	if(!changed) //Nothing has been changed, nothing has to be done.
 		return
+	// melbert todo : This is hack to get around buckle handing setting its own pixel y
+	if(buckled)
+		final_pixel_y = pixel_y
 
 	ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, UPDATE_TRANSFORM_TRAIT)
 	addtimer(TRAIT_CALLBACK_REMOVE(src, TRAIT_NO_FLOATING_ANIM, UPDATE_TRANSFORM_TRAIT), 0.3 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)

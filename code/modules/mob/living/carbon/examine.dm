@@ -122,9 +122,6 @@
 			else
 				. += span_bolddanger("[t_He] [t_has] severe [damage_desc[BURN]]!")
 
-	if(pulledby?.grab_state)
-		. += span_warning("[t_He] [t_is] restrained by [pulledby]'s grip.")
-
 	if(nutrition < NUTRITION_LEVEL_STARVING - 50)
 		. += span_warning("[t_He] [t_is] severely malnourished.")
 	else if(nutrition >= NUTRITION_LEVEL_FAT)

@@ -1,6 +1,7 @@
-
-/mob/living/silicon/grippedby(mob/living/carbon/user, instant = FALSE)
-	return //can't upgrade a simple pull into a more aggressive grab.
+/mob/living/silicon/grabbedby(mob/living/carbon/user, supress_message = FALSE)
+	if(user.pulling == src) // cannot upgrade grabs on robots
+		return
+	return ..()
 
 /mob/living/silicon/get_ear_protection()//no ears
 	return 2

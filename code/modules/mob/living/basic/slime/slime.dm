@@ -224,8 +224,7 @@
 	return
 
 /mob/living/basic/slime/get_mob_buckling_height(mob/seat)
-	if(..() != 0)
-		return 3
+	return min(..(), 3)
 
 /mob/living/basic/slime/examine(mob/user)
 	. = ..()
