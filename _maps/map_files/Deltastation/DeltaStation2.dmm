@@ -2208,6 +2208,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/service/kitchen/abandoned)
+"azM" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/barricade/wooden{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/aft)
 "azR" = (
 /obj/machinery/atmospherics/pipe/smart/simple/orange/visible,
 /turf/closed/wall/r_wall,
@@ -14804,7 +14811,9 @@
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/rd)
 "dGs" = (
-/obj/effect/decal/cleanable/cobweb,
+/obj/effect/decal/cleanable/cobweb{
+	pixel_y = 20
+	},
 /obj/structure/dresser,
 /obj/structure/mirror/directional/north,
 /turf/open/floor/wood,
@@ -67827,7 +67836,9 @@
 /area/station/hallway/primary/central/aft)
 "rbj" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/structure/barricade/wooden,
+/obj/structure/barricade/wooden{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/chapel)
 "rbC" = (
@@ -148541,8 +148552,8 @@ nXH
 nXH
 nXH
 nXH
-waI
-waI
+azM
+azM
 nXH
 nXH
 nXH
