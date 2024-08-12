@@ -587,7 +587,8 @@
 /area/station/construction/mining/aux_base)
 "agp" = (
 /obj/machinery/door/airlock/external{
-	name = "Auxiliary Base Airlock"
+	name = "Auxiliary Base Airlock";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -1107,7 +1108,8 @@
 "anC" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/hatch{
-	name = "MiniSat Access"
+	name = "MiniSat Access";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -1404,7 +1406,6 @@
 	dir = 1
 	},
 /obj/item/pillow/random,
-/obj/machinery/status_display/evac/directional/south,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "aqW" = (
@@ -2581,7 +2582,8 @@
 "aFU" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Xenobiology Maintenance"
+	name = "Xenobiology Maintenance";
+	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -3502,10 +3504,18 @@
 	pixel_y = 3
 	},
 /obj/structure/sign/picture_frame/portrait/bar,
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/floor/iron/dark/smooth_half{
 	dir = 1
 	},
 /area/station/service/bar)
+"aRf" = (
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/obj/machinery/status_display/ai/directional/north,
+/turf/open/floor/iron,
+/area/station/commons/dorms)
 "aRq" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -4229,7 +4239,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Solar Access"
+	name = "External Solar Access";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -4639,7 +4650,8 @@
 /area/station/security/prison/mess)
 "bgG" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Security Checkpoint"
+	name = "Security Checkpoint";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -4872,7 +4884,8 @@
 /area/station/science/lobby)
 "bjk" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/stripes/line{
@@ -5201,7 +5214,8 @@
 	},
 /obj/machinery/door/airlock/external{
 	name = "External Docking Port";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
@@ -5611,7 +5625,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "Mining Dock Airlock"
+	name = "Mining Dock Airlock";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -5664,7 +5679,8 @@
 "btX" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Security Maintenance"
+	name = "Security Maintenance";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -5901,6 +5917,7 @@
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp,
 /obj/structure/sign/painting/library,
+/obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "bwU" = (
@@ -6108,7 +6125,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "Observatory"
+	name = "Observatory";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/external,
 /obj/effect/turf_decal/stripes/line{
@@ -6790,7 +6808,8 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/highsecurity{
-	name = "Atmospherics Emergency Access"
+	name = "Atmospherics Emergency Access";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -6866,7 +6885,8 @@
 "bHA" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -7400,7 +7420,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -7611,7 +7632,6 @@
 	name = "HoochMaster Deluxe"
 	},
 /obj/effect/turf_decal/siding/thinplating/dark/corner,
-/obj/machinery/status_display/ai/directional/east,
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /turf/open/floor/iron/dark,
@@ -7720,7 +7740,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Docking Port"
+	name = "External Docking Port";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -9154,7 +9175,8 @@
 "clE" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/line{
@@ -9517,7 +9539,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/public/glass{
-	name = "Holodeck Access"
+	name = "Holodeck Access";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -9863,10 +9886,6 @@
 	},
 /obj/item/reagent_containers/cup/glass/shaker{
 	pixel_x = -6
-	},
-/obj/machinery/requests_console/directional/east{
-	department = "Bar";
-	name = "Bar Requests Console"
 	},
 /obj/effect/mapping_helpers/requests_console/supplies,
 /obj/item/reagent_containers/cup/rag,
@@ -11677,7 +11696,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
@@ -11872,7 +11892,9 @@
 	dir = 4;
 	id = "maint_contraption"
 	},
-/obj/structure/plasticflaps/opaque,
+/obj/structure/plasticflaps/opaque{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "cUn" = (
@@ -12490,7 +12512,8 @@
 /area/station/science/xenobiology)
 "dcz" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
 /obj/effect/decal/cleanable/dirt,
@@ -13375,7 +13398,8 @@
 /area/station/service/kitchen/abandoned)
 "doM" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Permabrig Cell 1"
+	name = "Permabrig Cell 1";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -13469,7 +13493,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "Mining Dock Airlock"
+	name = "Mining Dock Airlock";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -14106,7 +14131,8 @@
 /area/station/security/interrogation)
 "dwX" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Permabrig Cell 5"
+	name = "Permabrig Cell 5";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -14287,7 +14313,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/unres{
@@ -14717,7 +14744,8 @@
 "dFI" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security{
-	name = "Security Transferring Center"
+	name = "Security Transferring Center";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -15312,7 +15340,8 @@
 "dNg" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/hatch{
-	name = "MiniSat Antechamber"
+	name = "MiniSat Antechamber";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -16248,7 +16277,9 @@
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Maintenance Hatch"
 	},
-/obj/structure/barricade/wooden,
+/obj/structure/barricade/wooden{
+	dir = 4
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -16406,7 +16437,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/spawner/random/structure/barricade,
 /obj/effect/turf_decal/stripes/line{
@@ -16726,6 +16758,7 @@
 	},
 /obj/structure/table,
 /obj/machinery/airalarm/directional/east,
+/obj/machinery/requests_console/directional/north,
 /turf/open/floor/iron/checker{
 	dir = 1
 	},
@@ -17468,7 +17501,8 @@
 "eru" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/effect/turf_decal/stripes/line{
@@ -18258,7 +18292,8 @@
 /area/station/hallway/secondary/entry)
 "eCf" = (
 /obj/machinery/door/airlock/grunge{
-	name = "Chapel Quarters"
+	name = "Chapel Quarters";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -19004,7 +19039,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "Observatory"
+	name = "Observatory";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/external,
 /obj/effect/turf_decal/stripes/line{
@@ -19034,14 +19070,6 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron/grimy,
 /area/station/service/bar/backroom)
-"eMb" = (
-/obj/machinery/status_display/ai/directional/south,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/neutral/half/contrasted,
-/turf/open/floor/iron,
-/area/station/commons/dorms)
 "eMc" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -19455,7 +19483,8 @@
 /area/station/engineering/atmos)
 "eQB" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Holodeck Access"
+	name = "Holodeck Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -20801,7 +20830,8 @@
 /area/station/service/library/abandoned)
 "fhE" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Holodeck Access"
+	name = "Holodeck Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -21725,7 +21755,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Drone Bay Maintenance"
+	name = "Drone Bay Maintenance";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -21852,7 +21883,8 @@
 /area/station/medical/treatment_center)
 "fvT" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/spawner/random/structure/barricade,
 /obj/effect/turf_decal/stripes/line{
@@ -22416,7 +22448,8 @@
 "fDm" = (
 /obj/machinery/door/airlock/public/glass{
 	id_tag = "permabolt2";
-	name = "Cell 2"
+	name = "Cell 2";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -23687,7 +23720,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -24679,11 +24713,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/arrivals)
-"gfp" = (
-/obj/structure/table/wood,
-/obj/machinery/computer/security/telescreen/entertainment/directional/south,
-/turf/open/floor/wood,
-/area/station/commons/dorms)
 "gfq" = (
 /obj/structure/rack,
 /obj/effect/spawner/random/techstorage/ai_all,
@@ -25440,7 +25469,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Solar Access"
+	name = "External Solar Access";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -25877,7 +25907,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/maintenance,
 /obj/effect/mapping_helpers/airlock/unres{
@@ -25910,7 +25941,6 @@
 /obj/structure/table/wood,
 /obj/item/storage/briefcase,
 /obj/item/cane,
-/obj/machinery/computer/security/telescreen/entertainment/directional/south,
 /obj/structure/sign/clock/directional/east,
 /obj/effect/spawner/random/clothing/beret_or_rabbitears,
 /turf/open/floor/wood,
@@ -25985,7 +26015,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/highsecurity{
-	name = "Engineering Auxiliary Storage"
+	name = "Engineering Auxiliary Storage";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -26346,7 +26377,8 @@
 /area/station/hallway/secondary/entry)
 "gzQ" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Permabrig Cell 3"
+	name = "Permabrig Cell 3";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -27546,7 +27578,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -28145,7 +28178,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/grunge{
-	name = "Morgue"
+	name = "Morgue";
+	dir = 4
 	},
 /obj/effect/landmark/navigate_destination,
 /obj/machinery/duct,
@@ -29722,7 +29756,8 @@
 "htG" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -30297,7 +30332,8 @@
 /area/station/science/lobby)
 "hCe" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Library Access"
+	name = "Library Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -30329,7 +30365,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Airlock"
+	name = "External Airlock";
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/line{
@@ -31567,7 +31604,8 @@
 "hTm" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public/glass{
-	name = "Starboard Primary Hallway"
+	name = "Starboard Primary Hallway";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -31744,7 +31782,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Airlock"
+	name = "External Airlock";
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/line{
@@ -32065,7 +32104,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/grunge{
-	name = "Chapel Hall"
+	name = "Chapel Hall";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -32429,7 +32469,8 @@
 /area/station/command/heads_quarters/hos)
 "idj" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Library Access"
+	name = "Library Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -32751,7 +32792,8 @@
 /area/station/service/library/abandoned)
 "iib" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -33691,7 +33733,8 @@
 "iud" = (
 /obj/machinery/door/airlock/external{
 	name = "Escape Pod 4";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -34315,7 +34358,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/public/glass{
-	name = "Holodeck Access"
+	name = "Holodeck Access";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -34654,7 +34698,8 @@
 "iGI" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "MiniSat Maintenance"
+	name = "MiniSat Maintenance";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -35901,7 +35946,8 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/atmos/glass{
-	name = "Turbine Generator Access"
+	name = "Turbine Generator Access";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
@@ -37062,7 +37108,8 @@
 /area/station/engineering/main)
 "jkS" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Permabrig Visitation"
+	name = "Permabrig Visitation";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -37184,7 +37231,8 @@
 /area/station/maintenance/starboard/aft)
 "jmm" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Atmospherics Maintenance"
+	name = "Atmospherics Maintenance";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -37281,7 +37329,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Mech Bay Maintenance"
+	name = "Mech Bay Maintenance";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/science/robotics/mechbay)
@@ -37413,7 +37462,9 @@
 	dir = 4;
 	id = "maint_contraption"
 	},
-/obj/structure/plasticflaps/opaque,
+/obj/structure/plasticflaps/opaque{
+	dir = 4
+	},
 /obj/structure/closet/crate/cardboard,
 /obj/item/clothing/suit/toggle/labcoat,
 /turf/open/floor/plating,
@@ -38272,6 +38323,7 @@
 /area/station/engineering/atmos/storage)
 "jAC" = (
 /obj/structure/sign/painting/library,
+/obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/carpet/green,
 /area/station/commons/dorms)
 "jAI" = (
@@ -38852,7 +38904,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -39098,7 +39151,8 @@
 /area/station/cargo/storage)
 "jLm" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Security E.V.A. Storage"
+	name = "Security E.V.A. Storage";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -39278,7 +39332,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Solar Access"
+	name = "External Solar Access";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -39789,7 +39844,8 @@
 "jSQ" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security/glass{
-	name = "Holding Area"
+	name = "Holding Area";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -40034,7 +40090,8 @@
 "jXt" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security/glass{
-	name = "Security Office"
+	name = "Security Office";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
@@ -40500,7 +40557,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/grunge{
-	name = "Chapel Hall"
+	name = "Chapel Hall";
+	dir = 4
 	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
@@ -41319,7 +41377,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
@@ -42680,6 +42739,24 @@
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/department/crew_quarters/bar)
+"kFP" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/machinery/door/airlock/external{
+	name = "External Docking Port";
+	space_dir = 8;
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/hallway/secondary/entry)
 "kFQ" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/trash/moisture_trap,
@@ -43209,7 +43286,8 @@
 	},
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/effect/mapping_helpers/airlock/access/any/security/maintenance,
@@ -43508,7 +43586,8 @@
 "kRN" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/spawner/random/structure/barricade,
 /obj/effect/turf_decal/stripes/line{
@@ -43720,7 +43799,6 @@
 /area/station/engineering/hallway)
 "kUC" = (
 /obj/structure/table/wood,
-/obj/machinery/newscaster/directional/south,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "kUD" = (
@@ -44577,7 +44655,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/grunge{
-	name = "Chapel Hall"
+	name = "Chapel Hall";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
@@ -44864,7 +44943,8 @@
 /area/station/maintenance/department/medical/morgue)
 "ljm" = (
 /obj/machinery/door/airlock/external{
-	name = "Observatory"
+	name = "Observatory";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/space_hut/observatory)
@@ -45324,7 +45404,9 @@
 /area/station/service/hydroponics)
 "lpt" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/chair/office,
+/obj/structure/chair/office{
+	dir = 8
+	},
 /turf/open/floor/carpet/green,
 /area/station/commons/dorms)
 "lpv" = (
@@ -45547,7 +45629,8 @@
 /area/station/science/robotics/lab)
 "lsG" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Holodeck Access"
+	name = "Holodeck Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -45680,7 +45763,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -45944,7 +46028,8 @@
 	},
 /obj/machinery/door/airlock/external{
 	name = "External Docking Port";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -46480,7 +46565,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/line{
@@ -46724,7 +46810,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Kitchen Coldroom"
+	name = "Kitchen Coldroom";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -47316,7 +47403,8 @@
 "lMN" = (
 /obj/machinery/door/airlock/public/glass{
 	id_tag = "permabolt1";
-	name = "Cell 1"
+	name = "Cell 1";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -48040,7 +48128,8 @@
 	cycle_id = "viro-passthrough"
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
 /obj/structure/cable,
@@ -49132,7 +49221,8 @@
 "mpO" = (
 /obj/machinery/door/airlock/public/glass{
 	id_tag = "permabolt3";
-	name = "Cell 3"
+	name = "Cell 3";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -49633,7 +49723,8 @@
 "mvA" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public/glass{
-	name = "Port Primary Hallway"
+	name = "Port Primary Hallway";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -50783,7 +50874,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/public/glass{
-	name = "Service Hall"
+	name = "Service Hall";
+	dir = 4
 	},
 /obj/machinery/door/firedoor,
 /obj/effect/turf_decal/stripes/line{
@@ -50893,6 +50985,7 @@
 "mJS" = (
 /obj/structure/dresser,
 /obj/structure/sign/painting/library,
+/obj/machinery/computer/security/telescreen/entertainment/directional/north,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "mJW" = (
@@ -51046,7 +51139,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/public/glass{
-	name = "Departures Hallway"
+	name = "Departures Hallway";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/medical/medbay/lobby)
@@ -51571,7 +51665,8 @@
 "mUZ" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -51878,7 +51973,8 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -53250,7 +53346,8 @@
 /area/station/service/abandoned_gambling_den)
 "ntc" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Prisoner Workroom"
+	name = "Prisoner Workroom";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -53692,7 +53789,8 @@
 /area/station/service/theater)
 "nyW" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -54143,7 +54241,8 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/public/glass{
-	name = "Departures Hallway"
+	name = "Departures Hallway";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/medical/medbay/lobby)
@@ -54334,7 +54433,8 @@
 "nHd" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/machinery/duct,
 /obj/effect/turf_decal/stripes/line{
@@ -54454,7 +54554,8 @@
 "nIg" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Service Maintenance"
+	name = "Service Maintenance";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -54618,7 +54719,8 @@
 /area/station/science/robotics/lab)
 "nJY" = (
 /obj/machinery/door/airlock/security{
-	name = "Isolation Cell"
+	name = "Isolation Cell";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/airlock/access/all/security/brig,
@@ -55642,7 +55744,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Robotics Maintenance"
+	name = "Robotics Maintenance";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/science/robotics/lab)
@@ -55985,7 +56088,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Solar Access"
+	name = "External Solar Access";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -56320,7 +56424,8 @@
 "ohI" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security{
-	name = "Evidence Storage"
+	name = "Evidence Storage";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -56816,13 +56921,6 @@
 /obj/machinery/status_display/ai/directional/north,
 /turf/open/floor/plating,
 /area/station/security/prison/safe)
-"omY" = (
-/obj/machinery/status_display/evac/directional/south,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/turf_decal/tile/neutral/half/contrasted,
-/turf/open/floor/iron,
-/area/station/commons/dorms)
 "omZ" = (
 /turf/open/floor/iron/dark,
 /area/station/commons/fitness/recreation)
@@ -57896,7 +57994,8 @@
 "oDx" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security{
-	name = "Armoury"
+	name = "Armoury";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -58430,7 +58529,6 @@
 "oLO" = (
 /obj/structure/bed,
 /obj/effect/spawner/random/bedsheet,
-/obj/machinery/status_display/evac/directional/east,
 /obj/item/pillow/random,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
@@ -58573,7 +58671,8 @@
 "oMZ" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security{
-	name = "Armoury"
+	name = "Armoury";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/armory,
 /obj/structure/cable,
@@ -58952,7 +59051,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -59606,7 +59706,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Docking Port"
+	name = "External Docking Port";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
@@ -59933,7 +60034,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/highsecurity{
-	name = "Atmospherics Emergency Access"
+	name = "Atmospherics Emergency Access";
+	dir = 4
 	},
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
@@ -61346,7 +61448,8 @@
 	},
 /obj/machinery/door/airlock/external{
 	name = "External Docking Port";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -62790,7 +62893,8 @@
 "pOP" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -62857,7 +62961,8 @@
 "pPi" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security{
-	name = "Interrogation"
+	name = "Interrogation";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
 /obj/effect/turf_decal/stripes/line{
@@ -63277,7 +63382,8 @@
 "pUl" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security/glass{
-	name = "Gear Room"
+	name = "Gear Room";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -64013,7 +64119,8 @@
 "qcu" = (
 /obj/machinery/door/airlock/external{
 	name = "Escape Pod 3";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -64173,7 +64280,9 @@
 /turf/open/floor/iron,
 /area/station/maintenance/port)
 "qex" = (
-/obj/machinery/door/poddoor/incinerator_ordmix,
+/obj/machinery/door/poddoor/incinerator_ordmix{
+	dir = 4
+	},
 /turf/open/floor/engine/vacuum,
 /area/station/science/ordnance/burnchamber)
 "qey" = (
@@ -64218,7 +64327,8 @@
 "qfd" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security/glass{
-	name = "Security Transferring Control"
+	name = "Security Transferring Control";
+	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -65285,7 +65395,8 @@
 /area/station/commons/toilet/locker)
 "qvo" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -65978,7 +66089,8 @@
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/machinery/door/airlock/vault{
-	name = "Vault Door"
+	name = "Vault Door";
+	dir = 4
 	},
 /obj/structure/sign/warning/secure_area/directional/north,
 /obj/effect/landmark/navigate_destination,
@@ -66326,7 +66438,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -66378,7 +66491,8 @@
 "qIE" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public/glass{
-	name = "Starboard Primary Hallway"
+	name = "Starboard Primary Hallway";
+	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -66910,7 +67024,8 @@
 "qOK" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -67926,7 +68041,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/effect/turf_decal/stripes/line{
@@ -68327,7 +68443,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -68935,6 +69052,7 @@
 /obj/item/folder/red,
 /obj/item/pen/red,
 /obj/structure/sign/painting/library,
+/obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "rqi" = (
@@ -69157,7 +69275,8 @@
 "rtO" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public/glass{
-	name = "Port Primary Hallway"
+	name = "Port Primary Hallway";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -69699,7 +69818,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Docking Port"
+	name = "External Docking Port";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -70201,7 +70321,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -70209,11 +70330,13 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/effect/spawner/random/structure/barricade,
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
+/obj/structure/barricade/wooden{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/service/kitchen/abandoned)
 "rIl" = (
@@ -70742,7 +70865,8 @@
 /area/station/hallway/primary/fore)
 "rOH" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -70959,7 +71083,8 @@
 /area/station/medical/pharmacy)
 "rQn" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -71288,7 +71413,8 @@
 "rTT" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -71527,7 +71653,8 @@
 "rXh" = (
 /obj/machinery/door/airlock/public/glass{
 	id_tag = "permabolt3";
-	name = "Cell 4"
+	name = "Cell 4";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -73476,7 +73603,9 @@
 /turf/open/floor/iron,
 /area/station/ai_monitored/command/storage/eva)
 "sxk" = (
-/obj/structure/barricade/wooden,
+/obj/structure/barricade/wooden{
+	dir = 4
+	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -73487,7 +73616,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
@@ -74953,7 +75083,8 @@
 /area/station/command/meeting_room/council)
 "sQD" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Permabrig Cell 4"
+	name = "Permabrig Cell 4";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -75913,7 +76044,8 @@
 "tcY" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -76231,7 +76363,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/external{
-	name = "External Docking Port"
+	name = "External Docking Port";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -76571,7 +76704,8 @@
 "tnG" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "MiniSat Antechamber"
+	name = "MiniSat Antechamber";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -77042,7 +77176,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -77141,7 +77276,8 @@
 /area/station/engineering/storage)
 "tup" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Theater Maintenance"
+	name = "Theater Maintenance";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -78233,7 +78369,8 @@
 "tIe" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/effect/turf_decal/stripes/line{
@@ -79269,7 +79406,8 @@
 "tWg" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public/glass{
-	name = "Starboard Primary Hallway"
+	name = "Starboard Primary Hallway";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
@@ -79515,6 +79653,7 @@
 "tYs" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp,
+/obj/machinery/newscaster/directional/west,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "tYu" = (
@@ -80342,7 +80481,8 @@
 /area/station/commons/fitness/recreation)
 "ujs" = (
 /obj/machinery/door/airlock/grunge{
-	name = "Chapel Quarters"
+	name = "Chapel Quarters";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -80800,6 +80940,7 @@
 /turf/open/floor/iron/dark,
 /area/station/commons/fitness/recreation)
 "upk" = (
+/obj/machinery/computer/security/telescreen/entertainment/directional/north,
 /turf/open/floor/carpet/green,
 /area/station/commons/dorms)
 "upl" = (
@@ -80884,7 +81025,8 @@
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
 /obj/machinery/door/airlock/external{
 	name = "Escape Pod 4";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/security/execution/transfer)
@@ -80993,7 +81135,9 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "urO" = (
-/obj/structure/barricade/wooden,
+/obj/structure/barricade/wooden{
+	dir = 4
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -81001,7 +81145,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
@@ -81947,7 +82092,6 @@
 "uEo" = (
 /obj/structure/bed/double,
 /obj/effect/spawner/random/bedsheet/double,
-/obj/machinery/status_display/evac/directional/east,
 /obj/effect/landmark/start/hangover,
 /obj/item/pillow/random,
 /turf/open/floor/wood,
@@ -82267,6 +82411,23 @@
 	},
 /turf/open/floor/iron/dark/corner,
 /area/station/commons/fitness/recreation)
+"uIi" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/obj/machinery/door/airlock/external{
+	name = "External Docking Port";
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/hallway/secondary/entry)
 "uIq" = (
 /obj/structure/table/reinforced,
 /obj/effect/spawner/random/maintenance,
@@ -82556,7 +82717,8 @@
 "uLG" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security/glass{
-	name = "Security Office"
+	name = "Security Office";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -82600,7 +82762,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/grunge{
-	name = "Morgue"
+	name = "Morgue";
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/medical/morgue)
@@ -83146,7 +83309,8 @@
 /area/station/hallway/secondary/entry)
 "uSh" = (
 /obj/machinery/door/airlock/security/glass{
-	name = "Permabrig Cell 2"
+	name = "Permabrig Cell 2";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
@@ -83753,7 +83917,8 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public{
-	name = "Service Hall"
+	name = "Service Hall";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/service/general,
 /turf/open/floor/iron/checker,
@@ -84444,7 +84609,8 @@
 	},
 /obj/machinery/door/firedoor/heavy,
 /obj/machinery/door/airlock/atmos/glass{
-	name = "Atmospherics HFR Room"
+	name = "Atmospherics HFR Room";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
 /turf/open/floor/iron,
@@ -84525,7 +84691,8 @@
 /area/station/medical/chemistry)
 "vmL" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Library Access"
+	name = "Library Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -84914,7 +85081,8 @@
 	cycle_id = "viro-passthrough"
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/any/medical/maintenance,
 /obj/structure/disposalpipe/segment{
@@ -85830,7 +85998,8 @@
 /obj/structure/cable,
 /obj/machinery/duct,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Service Airlock"
+	name = "Service Airlock";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -86333,7 +86502,8 @@
 "vJh" = (
 /obj/machinery/door/airlock/public/glass{
 	id_tag = "permabolt3";
-	name = "Cell 5"
+	name = "Cell 5";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -87556,7 +87726,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 4
@@ -87856,7 +88027,8 @@
 "wfv" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/effect/turf_decal/stripes/line{
@@ -88396,7 +88568,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/grunge{
-	name = "Chapel Hall"
+	name = "Chapel Hall";
+	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -88437,7 +88610,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/atmos/glass{
-	name = "Atmospherics Project Closet"
+	name = "Atmospherics Project Closet";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -90025,7 +90199,8 @@
 /area/station/maintenance/department/electrical)
 "wFh" = (
 /obj/machinery/door/airlock/public/glass{
-	name = "Holodeck Access"
+	name = "Holodeck Access";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -90119,7 +90294,8 @@
 "wGg" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security{
-	name = "Shooting Range"
+	name = "Shooting Range";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/general,
 /obj/effect/turf_decal/stripes/line{
@@ -90149,7 +90325,8 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/science/research,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -91363,7 +91540,8 @@
 "xaK" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/security/glass{
-	name = "Gear Room"
+	name = "Gear Room";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -91732,7 +91910,8 @@
 /area/station/security/detectives_office/private_investigators_office)
 "xeH" = (
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/effect/turf_decal/stripes/line{
@@ -93926,7 +94105,8 @@
 "xFk" = (
 /obj/machinery/door/airlock/external{
 	name = "Escape Pod 3";
-	space_dir = 4
+	space_dir = 4;
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -94491,7 +94671,8 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Vacant Room"
+	name = "Vacant Room";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -94739,7 +94920,8 @@
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/machinery/door/airlock/vault{
-	name = "Vault Door"
+	name = "Vault Door";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -94806,6 +94988,7 @@
 /obj/item/clothing/head/costume/rabbitears,
 /obj/item/clothing/under/dress/eveninggown,
 /obj/structure/sign/painting/library,
+/obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/wood,
 /area/station/commons/dorms)
 "xRa" = (
@@ -95359,7 +95542,8 @@
 "xYW" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock/maintenance_hatch{
-	name = "Maintenance Hatch"
+	name = "Maintenance Hatch";
+	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -127678,7 +127862,7 @@ iNg
 saA
 fZV
 qld
-xyL
+uIi
 qld
 qld
 sjt
@@ -131783,14 +131967,14 @@ aad
 aad
 aad
 qld
-pRJ
+kFP
 qld
 aad
 aaa
 aaa
 aad
 qld
-pRJ
+kFP
 qld
 aad
 aad
@@ -132297,7 +132481,7 @@ qld
 sjt
 qld
 qld
-xyL
+uIi
 qld
 vQb
 hfB
@@ -147313,8 +147497,8 @@ tFR
 yaI
 yaI
 yaI
-ouy
-omY
+aRf
+fSK
 nXH
 pMS
 iRY
@@ -148085,7 +148269,7 @@ pvu
 yaI
 yaI
 ouy
-eMb
+geH
 nXH
 iym
 iRY
@@ -148335,7 +148519,7 @@ vqg
 yaI
 mrf
 bhg
-gfp
+kUC
 yaI
 gUJ
 bhg
