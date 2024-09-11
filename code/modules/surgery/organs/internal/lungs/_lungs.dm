@@ -804,7 +804,7 @@
 /obj/item/organ/internal/lungs/proc/emit_breath_particle(mob/living/carbon/human/breather, particle_type)
 	ASSERT(ispath(particle_type, /particles))
 
-	var/obj/effect/abstract/particle_holder/holder = new(breather, particle_type)
+	var/obj/effect/abstract/particle_holder/per_atom/holder = new(breather, particle_type)
 	var/particles/breath_particle = holder.particles
 	var/breath_dir = breather.dir
 

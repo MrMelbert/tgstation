@@ -12,7 +12,7 @@
 	/// A reference to the current soup pot overtop
 	VAR_FINAL/obj/item/container
 	/// A particle holder for the smoke that comes out of the soup while a container is cooking.
-	VAR_FINAL/obj/effect/abstract/particle_holder/soup_smoke
+	VAR_FINAL/obj/effect/abstract/particle_holder/per_atom/soup_smoke
 	/// Typepath of particles to use for the particle holder.
 	VAR_FINAL/particle_type = /particles/smoke/steam/mild
 	/// Ref to our looping sound played when cooking

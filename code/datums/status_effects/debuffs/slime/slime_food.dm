@@ -22,6 +22,13 @@
 	RegisterSignal(owner, COMSIG_SLIME_DRAINED, PROC_REF(on_drained))
 	RegisterSignal(owner, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 
+	add_pooled_particle_effect(owner, /particles/pollen)
+	// particle_effect.particles.color = "[feeder.chat_color]a0"
+	return TRUE
+
+/datum/status_effect/slime_food/on_remove()
+	feeder = null
+	remove_pooled_particle_effect(owner, /particles/pollen)
 	return ..()
 
 ///Handles the source of the pheromones getting deleted, or the owner getting washed
@@ -51,15 +58,3 @@
 	draining_slime.befriend(feeder)
 	new /obj/effect/temp_visual/heart(draining_slime.loc)
 	qdel(src)
-
-/datum/status_effect/slime_food/on_remove()
-	feeder = null
-
-/datum/status_effect/slime_food/update_particles()
-	if(particle_effect)
-		return
-
-	particle_effect = new(owner, /particles/pollen)
-
-	//particle coloured like the "pheromones" of the feeder
-	particle_effect.particles.color = "[feeder.chat_color]a0"

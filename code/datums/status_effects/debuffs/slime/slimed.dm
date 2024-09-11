@@ -63,7 +63,14 @@
 	if(owner.get_organic_health() <= MIN_HEALTH)
 		return FALSE
 	to_chat(owner, span_userdanger("You have been covered in a thick layer of slime! Find a way to wash it off!"))
-	return ..()
+
+	add_pooled_particle_effect(owner, rainbow ? /particles/slime/rainbow : /particles/slime)
+	// if(!rainbow)
+	// 	particle_effect.particles.color = "[slime_color]a0"
+	return TRUE
+
+/datum/status_effect/slimed/on_remove()
+	remove_pooled_particle_effect(owner, rainbow ? /particles/slime/rainbow : /particles/slime)
 
 /datum/status_effect/slimed/proc/remove_stacks(stacks_to_remove = 1)
 	slime_stacks -= stacks_to_remove // lose 1 stack per second
@@ -101,16 +108,6 @@
 		))
 		to_chat(owner, span_userdanger("[feedback_text] as the layer of slime eats away at you!"))
 
-/datum/status_effect/slimed/update_particles()
-	if(particle_effect)
-		return
-
-	// taste the rainbow
-	var/particle_type = rainbow ? /particles/slime/rainbow : /particles/slime
-	particle_effect = new(owner, particle_type)
-
-	if(!rainbow)
-		particle_effect.particles.color = "[slime_color]a0"
 
 /datum/status_effect/slimed/get_examine_text()
 	return span_warning("[owner.p_They()] [owner.p_are()] covered in bubbling slime!")

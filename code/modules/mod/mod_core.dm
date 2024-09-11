@@ -416,7 +416,7 @@
 	/// Mob spawner for the core
 	var/datum/component/spawner/mob_spawner
 	/// Particle holder for pollen particles
-	var/obj/effect/abstract/particle_holder/particle_effect
+	var/obj/effect/abstract/particle_holder/per_atom/particle_effect
 
 /obj/item/mod/core/plasma/lavaland/Destroy()
 	QDEL_NULL(particle_effect)

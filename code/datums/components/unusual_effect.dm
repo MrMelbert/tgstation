@@ -22,7 +22,7 @@
 /datum/component/unusual_effect
 	dupe_mode = COMPONENT_DUPE_HIGHLANDER
 
-	var/obj/effect/abstract/particle_holder/special_effects
+	var/obj/effect/abstract/particle_holder/per_atom/special_effects
 
 	var/color
 

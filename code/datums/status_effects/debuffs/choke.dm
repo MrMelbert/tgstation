@@ -10,7 +10,7 @@
 	var/flaming
 
 	/// The particle holder we're using to run our ash effects
-	var/obj/effect/abstract/particle_holder/ash
+	var/obj/effect/abstract/particle_holder/per_atom/ash
 	/// Our choking audio loop
 	var/datum/looping_sound/choke_loop
 	/// The delta client.pixel_y we've got

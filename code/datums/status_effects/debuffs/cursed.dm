@@ -19,6 +19,8 @@
 	var/obj/item/bodypart/branded_hand = null
 	/// The cached path of the particles we're using to smoke
 	var/smoke_path = null
+	/// A particle effect, for things like embers - Should be set on update_particles()
+	VAR_FINAL/obj/effect/abstract/particle_holder/per_atom/particle_effect
 
 /datum/status_effect/grouped/cursed/on_apply()
 	RegisterSignal(owner, COMSIG_MOB_STATCHANGE, PROC_REF(on_stat_changed))
@@ -26,11 +28,13 @@
 	RegisterSignal(owner, COMSIG_CURSED_SLOT_MACHINE_USE, PROC_REF(check_curses))
 	RegisterSignal(owner, COMSIG_CURSED_SLOT_MACHINE_LOST, PROC_REF(update_curse_count))
 	RegisterSignal(SSdcs, COMSIG_GLOB_CURSED_SLOT_MACHINE_WON, PROC_REF(clear_curses))
+	update_particles()
 	return ..()
 
 /datum/status_effect/grouped/cursed/Destroy()
 	UnregisterSignal(SSdcs, COMSIG_GLOB_CURSED_SLOT_MACHINE_WON)
 	branded_hand = null
+	QDEL_NULL(particle_effect)
 	return ..()
 
 /// Checks the number of curses we have and returns information back to the slot machine. `max_curse_amount` is set by the slot machine itself.
@@ -145,7 +149,7 @@
 
 	QDEL_NULL(particle_effect)
 
-/datum/status_effect/grouped/cursed/update_particles()
+/datum/status_effect/grouped/cursed/proc/update_particles()
 	var/particle_path = /particles/smoke/steam/mild
 	switch(curse_count)
 		if(2 to 3)

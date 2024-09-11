@@ -10,7 +10,7 @@
 	///particles to apply, if applicable
 	var/particles_path
 	///the particle holder of the particle path (created when song starts) ((no i cant think of a better var name because i made the typepath and im perfect))
-	var/obj/effect/abstract/particle_holder/particle_holder
+	var/obj/effect/abstract/particle_holder/per_atom/particle_holder
 	///a funny little glow applied to the instrument while playing
 	var/glow_color
 	///whether to call the rite's finish effect, only true when the song is long enough

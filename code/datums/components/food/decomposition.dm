@@ -27,8 +27,6 @@
 	var/produce_ants = FALSE
 	/// Stink particle type, if we are supposed to create stink particles
 	var/stink_particles
-	/// Stink particle holder
-	var/obj/effect/abstract/particle_holder/particle_effect
 
 /datum/component/decomposition/Initialize(mapload, decomp_req_handle, decomp_flags = NONE, decomp_result, ant_attracting = FALSE, custom_time = 0, stink_particles = /particles/stink)
 	if(!ismovable(parent) || !HAS_TRAIT(parent, TRAIT_GERM_SENSITIVE))
@@ -53,8 +51,8 @@
 
 /datum/component/decomposition/Destroy()
 	. = ..()
-	if(particle_effect)
-		QDEL_NULL(particle_effect)
+	if(stink_particles)
+		remove_pooled_particle_effect(parent, stink_particles)
 
 /datum/component/decomposition/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_ATOM_GERM_EXPOSED, PROC_REF(start_timer))
@@ -109,10 +107,10 @@
 /datum/component/decomposition/proc/stink_up()
 	stink_timerid = null
 	// Neither should happen, but to be sure
-	if(particle_effect || !stink_particles)
+	if(!stink_particles)
 		return
 	// we don't want stink lines on mobs (even though it'd be quite funny)
-	particle_effect = new(parent, stink_particles, isitem(parent) ? NONE : PARTICLE_ATTACH_MOB)
+	add_pooled_particle_effect(parent, stink_particles, isitem(parent) ? NONE : PARTICLE_ATTACH_MOB)
 
 /datum/component/decomposition/proc/decompose()
 	decomp_timerid = null

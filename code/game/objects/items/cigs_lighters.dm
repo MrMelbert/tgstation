@@ -176,9 +176,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	/// When choking, what is the maximum amount of time we COULD choke for
 	var/choke_time_max = 30 SECONDS // I am mean
 	/// The particle effect of the smoke rising out of the cigarette when lit
-	VAR_PRIVATE/obj/effect/abstract/particle_holder/cig_smoke
+	VAR_PRIVATE/obj/effect/abstract/particle_holder/per_atom/cig_smoke
 	/// The particle effect of the smoke rising out of the mob when...smoked
-	VAR_PRIVATE/obj/effect/abstract/particle_holder/mob_smoke
+	VAR_PRIVATE/obj/effect/abstract/particle_holder/per_atom/mob_smoke
 	/// How long the current mob has been smoking this cigarette
 	VAR_FINAL/how_long_have_we_been_smokin = 0 SECONDS
 	/// Which people ate cigarettes and how many
@@ -413,7 +413,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(!isturf(smoker.loc))
 		return
 
-	var/obj/effect/abstract/particle_holder/big_smoke = new(smoker.loc, /particles/smoke/cig/big)
+	var/obj/effect/abstract/particle_holder/per_atom/big_smoke = new(smoker.loc, /particles/smoke/cig/big)
 	update_particle_position(big_smoke, smoker.dir)
 	QDEL_IN(big_smoke, big_smoke.particles.lifespan)
 

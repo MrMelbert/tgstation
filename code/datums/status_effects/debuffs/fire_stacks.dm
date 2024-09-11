@@ -122,6 +122,9 @@
 	owner.update_appearance(UPDATE_OVERLAYS)
 	update_particles()
 
+/datum/status_effect/fire_handler/proc/update_particles()
+	return
+
 /datum/status_effect/fire_handler/fire_stacks
 	id = "fire_stacks" //fire_stacks and wet_stacks should have different IDs or else has_status_effect won't work
 	remove_on_fullheal = TRUE
@@ -151,8 +154,6 @@
 	. = ..()
 	RegisterSignal(owner, COMSIG_ATOM_TOUCHED_SPARKS, PROC_REF(owner_touched_sparks))
 
-/datum/status_effect/fire_handler/fire_stacks/on_remove()
-	UnregisterSignal(owner, COMSIG_ATOM_TOUCHED_SPARKS)
 
 /datum/status_effect/fire_handler/fire_stacks/tick(seconds_between_ticks)
 	if(stacks <= 0)
@@ -178,14 +179,16 @@
 
 /datum/status_effect/fire_handler/fire_stacks/update_particles()
 	if(on_fire)
-		if(!particle_effect)
-			particle_effect = new(owner, /particles/embers)
 		if(stacks > MOB_BIG_FIRE_STACK_THRESHOLD)
-			particle_effect.particles.spawning = 5
+			remove_pooled_particle_effect(owner, /particles/embers)
+			add_pooled_particle_effect(owner, /particles/embers/big)
 		else
-			particle_effect.particles.spawning = 1
-	else if(particle_effect)
-		QDEL_NULL(particle_effect)
+			remove_pooled_particle_effect(owner, /particles/embers/big)
+			add_pooled_particle_effect(owner, /particles/embers)
+
+	else
+		remove_pooled_particle_effect(owner, /particles/embers)
+		remove_pooled_particle_effect(owner, /particles/embers/big)
 
 /**
  * Proc that handles damage dealing and all special effects
@@ -274,6 +277,7 @@
 		extinguish()
 	set_stacks(0)
 	UnregisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS)
+	UnregisterSignal(owner, COMSIG_ATOM_TOUCHED_SPARKS)
 	owner.update_appearance(UPDATE_OVERLAYS)
 	return ..()
 
@@ -310,9 +314,11 @@
 		qdel(src)
 
 /datum/status_effect/fire_handler/wet_stacks/update_particles()
-	if(particle_effect)
-		return
-	particle_effect = new(owner, /particles/droplets)
+	add_pooled_particle_effect(owner, /particles/droplets)
+
+/datum/status_effect/fire_handler/wet_stacks/on_remove()
+	remove_pooled_particle_effect(owner, /particles/droplets)
+	return ..()
 
 /datum/status_effect/fire_handler/wet_stacks/check_basic_mob_immunity(mob/living/basic/basic_owner)
 	return !(basic_owner.basic_mob_flags & IMMUNE_TO_GETTING_WET)

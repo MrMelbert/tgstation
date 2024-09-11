@@ -146,13 +146,17 @@
 	var/tp_damage = 15
 	/// Damage type to deal when teleporting in flux
 	var/tp_damage_type = BRUTE
+	/// A particle effect, for things like embers - Should be set on update_particles()
+	VAR_FINAL/obj/effect/abstract/particle_holder/per_atom/particle_effect
 
 /datum/status_effect/teleport_flux/on_apply()
 	RegisterSignal(owner, COMSIG_MOVABLE_POST_TELEPORT, PROC_REF(teleported))
+	update_particles()
 	return TRUE
 
 /datum/status_effect/teleport_flux/on_remove()
 	UnregisterSignal(owner, COMSIG_MOVABLE_POST_TELEPORT)
+	QDEL_NULL(particle_effect)
 
 /datum/status_effect/teleport_flux/proc/teleported(mob/living/source, turf/destination, channel)
 	SIGNAL_HANDLER
@@ -168,7 +172,7 @@
 	)
 	log_combat(owner, owner, "teleported too soon")
 
-/datum/status_effect/teleport_flux/update_particles()
+/datum/status_effect/teleport_flux/proc/update_particles()
 	if(isnull(particle_effect))
 		particle_effect = new(owner, /particles/teleport_flux)
 

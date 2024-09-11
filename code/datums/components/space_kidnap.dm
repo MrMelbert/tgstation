@@ -36,7 +36,7 @@
 
 /datum/component/space_kidnap/proc/kidnap(mob/living/parent, mob/living/victim)
 	victim.Paralyze(kidnap_time) //so they don't get up if we already got em
-	var/obj/particles = new /obj/effect/abstract/particle_holder (victim, /particles/void_kidnap)
+	var/obj/particles = new /obj/effect/abstract/particle_holder/per_atom (victim, /particles/void_kidnap)
 	kidnapping = TRUE
 
 	if(do_after(parent, kidnap_time, victim, extra_checks = victim.incapacitated))
