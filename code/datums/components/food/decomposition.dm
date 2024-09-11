@@ -77,7 +77,7 @@
 	decomp_timerid = addtimer(CALLBACK(src, PROC_REF(decompose)), time_remaining, TIMER_STOPPABLE | TIMER_UNIQUE)
 
 	// Also start the stinking timer, if have stink particles and aren't stinking yet
-	if(!stink_particles || particle_effect)
+	if(!stink_particles)
 		return
 
 	var/stink_time = max(0, time_remaining - (original_time * 0.5))

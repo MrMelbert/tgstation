@@ -64,9 +64,9 @@
 		return FALSE
 	to_chat(owner, span_userdanger("You have been covered in a thick layer of slime! Find a way to wash it off!"))
 
-	add_pooled_particle_effect(owner, rainbow ? /particles/slime/rainbow : /particles/slime)
-	// if(!rainbow)
-	// 	particle_effect.particles.color = "[slime_color]a0"
+	var/obj/effect/abstract/particle_holder/effect = add_pooled_particle_effect(owner, rainbow ? /particles/slime/rainbow : /particles/slime, NONE, slime_color)
+	if(!rainbow)
+		effect.particles.color = "[slime_color]a0"
 	return TRUE
 
 /datum/status_effect/slimed/on_remove()

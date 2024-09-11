@@ -152,6 +152,7 @@
 			least_used = next_used
 
 	least_used.add_atom(particle_atom)
+	return least_used
 
 /proc/remove_pooled_particle_effect(atom/movable/particle_atom, particle_typepath)
 	for(var/obj/effect/abstract/particle_holder/pooled/pool in particle_atom.vis_contents)

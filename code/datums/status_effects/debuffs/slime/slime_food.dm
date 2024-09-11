@@ -22,8 +22,8 @@
 	RegisterSignal(owner, COMSIG_SLIME_DRAINED, PROC_REF(on_drained))
 	RegisterSignal(owner, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 
-	add_pooled_particle_effect(owner, /particles/pollen)
-	// particle_effect.particles.color = "[feeder.chat_color]a0"
+	var/obj/effect/abstract/particle_holder/effect = add_pooled_particle_effect(owner, /particles/pollen, NONE, feeder.chat_color)
+	effect.particles.color = "[feeder.chat_color]a0"
 	return TRUE
 
 /datum/status_effect/slime_food/on_remove()
