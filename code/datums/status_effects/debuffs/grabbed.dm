@@ -7,10 +7,15 @@
 /obj/item/grabbing_hand
 	name = "grab"
 	icon = 'icons/obj/hand.dmi'
-	icon_state = "grab"
+	icon_state = "grab_right"
+	base_icon_state = "grab"
 	w_class = WEIGHT_CLASS_HUGE
 	item_flags = ABSTRACT | DROPDEL | NOBLUDGEON | EXAMINE_SKIP // not currently a hand item, but we could implement it for stuff like handing grabs off to people
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+
+/obj/item/grabbing_hand/visual_equipped(mob/user, slot)
+	. = ..()
+	icon_state = "[base_icon_state]_[user.get_held_index_of_item(src) % 2 == 1 ? "right" : "left"]"
 
 /obj/item/grabbing_hand/on_thrown(mob/living/carbon/user, atom/target)
 	return user.pulling

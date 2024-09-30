@@ -1305,4 +1305,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 ///A "fake" effect that should not be subject to normal effect removal methods (like the effect remover component)
 #define TRAIT_ILLUSORY_EFFECT "illusory_effect"
 
+/// When aggressively grabbing (or greating), the mob will not be slowed down.
+#define TRAIT_NO_GRAB_SPEED_PENALTY "no_grab_speed_penalty"
+
 // END TRAIT DEFINES
