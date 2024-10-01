@@ -29,8 +29,8 @@
 	tick_interval = -1
 	alert_type = null
 	on_remove_on_mob_delete = TRUE
-	/// Linked grab status effect
-	var/datum/status_effect/grabbed/paired_effect
+	/// Linked grab status effect (belongs to the grabbed)
+	VAR_FINAL/datum/status_effect/grabbed/paired_effect
 	/// Abstract grabbing item to be put in the owner's hands
 	var/obj/item/grabbing_hand/hand
 
@@ -51,9 +51,9 @@
 		COMSIG_ITEM_INTERACTING_WITH_ATOM,
 	), PROC_REF(hand_use))
 	RegisterSignals(hand, list(
-		COMSIG_ITEM_AFTERATTACK,
-		COMSIG_ITEM_AFTERATTACK_SECONDARY,
-	), PROC_REF(hand_use_deprecated))
+		COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM,
+		COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM_SECONDARY,
+	), PROC_REF(ranged_hand_use))
 	return TRUE
 
 /datum/status_effect/grabbing/Destroy()
@@ -62,8 +62,8 @@
 		COMSIG_QDELETING,
 		COMSIG_ITEM_INTERACTING_WITH_ATOM_SECONDARY,
 		COMSIG_ITEM_INTERACTING_WITH_ATOM,
-		COMSIG_ITEM_AFTERATTACK,
-		COMSIG_ITEM_AFTERATTACK_SECONDARY,
+		COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM,
+		COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM_SECONDARY,
 	))
 	if(!QDELING(hand))
 		qdel(hand)
@@ -78,22 +78,20 @@
 		stack_trace("[type] should be qdelled when the hand is deleted via stop_pulling.")
 		qdel(src)
 
-// Allows the grab hand to function like a normal hand for tabling and punching and the like
+// Allows the grab hand to function like a normal hand for all(most) intents and purposes
 /datum/status_effect/grabbing/proc/hand_use(datum/source, mob/living/user, atom/interacting_with, modifiers)
 	SIGNAL_HANDLER
+	// No grab interactions on items
+	if(isitem(interacting_with))
+		return NONE
 	// Mirrored from Click, not ideal (why doesn't punching apply the cd itself??). refactor later I guess
 	if(ismob(interacting_with))
 		user.changeNext_move(CLICK_CD_MELEE)
-	user.UnarmedAttack(interacting_with, TRUE, modifiers)
-	return ITEM_INTERACT_SUCCESS
+	return user.UnarmedAttack(interacting_with, TRUE, modifiers) ? ITEM_INTERACT_SUCCESS : NONE
 
-// Similar to above but we can kill this when we get ranged item interaction because afterattack is cringe
-/datum/status_effect/grabbing/proc/hand_use_deprecated(datum/source, atom/interacting_with, mob/living/user, prox, modifiers)
+/datum/status_effect/grabbing/proc/ranged_hand_use(datum/source, mob/living/user, atom/interacting_with, modifiers)
 	SIGNAL_HANDLER
-	if(prox)
-		return NONE
-	user.RangedAttack(interacting_with, modifiers)
-	return ITEM_INTERACT_SUCCESS
+	return user.RangedAttack(interacting_with, modifiers) ? ITEM_INTERACT_SUCCESS : NONE
 
 /datum/status_effect/grabbing/get_examine_text()
 	if(paired_effect.pin)
@@ -125,13 +123,16 @@
 	alert_type = null
 	on_remove_on_mob_delete = TRUE
 
-	var/datum/status_effect/grabbing/paired_effect
+	/// Linked grab status effect (belongs to the grabber)
+	VAR_FINAL/datum/status_effect/grabbing/paired_effect
 	/// Who is grabbing us
-	var/atom/movable/grabbing_us
-	/// Whether the grab has been side-graded into a pin
-	var/pin = FALSE
-	/// Whether the grabbe is linked to the grabber
-	var/linked = FALSE
+	VAR_FINAL/atom/movable/grabbing_us
+	/// Whether the grab has been side-graded into a pin.
+	VAR_FINAL/pin = FALSE
+	/// Whether the grabbee is "linked" to the grabber
+	/// When linked, the grabber will move the grabbee with them tile-for-tile.
+	/// When unlinked, the grabbee will be dragged behind the grabber / can be moved independently.
+	VAR_FINAL/linked = FALSE
 
 /datum/status_effect/grabbed/on_creation(mob/living/new_owner, mob/living/grabber)
 	grabbing_us = grabber
@@ -168,7 +169,7 @@
 			COMSIG_MOVABLE_SET_GRAB_STATE,
 			COMSIG_QDELETING,
 		))
-		// grabbing_us.setGrabState(GRAB_PASSIVE)
+		// grabbing_us.setGrabState(GRAB_PASSIVE) // this is implied
 		grabbing_us = null
 
 	UnregisterSignal(owner, list(
@@ -496,26 +497,31 @@
 	REMOVE_TRAIT(owner, TRAIT_UNDENSE, LINK_SOURCE(id))
 	REMOVE_TRAIT(owner, TRAIT_FORCED_STANDING, LINK_SOURCE(id))
 	REMOVE_TRAIT(owner, TRAIT_NO_MOVE_PULL, LINK_SOURCE(id))
+	// push them a tile back
 	if(!QDELING(owner) && !QDELING(grabbing_us))
-		owner.Move(get_step(grabbing_us.loc, grabbing_us.dir))
+		owner.Move(get_step(grabbing_us.loc, grabbing_us.dir), grabbing_us.dir)
 	UnregisterSignal(grabbing_us, list(
 		COMSIG_MOVABLE_MOVED,
 		COMSIG_ATOM_PRE_BULLET_ACT,
 		COMSIG_ATOM_POST_DIR_CHANGE,
 	))
 
+/// Moves the grabbee with the grabber
 /datum/status_effect/grabbed/proc/bring_along(datum/source, atom/old_loc, movement_dir)
 	SIGNAL_HANDLER
 
 	if(grabbing_us.loc != old_loc && isturf(grabbing_us.loc))
 		owner.Move(grabbing_us.loc, movement_dir, grabbing_us.glide_size)
 
+/// Updates the grabbee's dir when the grabber changes theirs
 /datum/status_effect/grabbed/proc/dir_changed(datum/source, old_dir, new_dir)
 	SIGNAL_HANDLER
 
 	if(old_dir != new_dir)
 		owner.setDir(new_dir)
 
+/// Intercepts any bullets that would hit the grabber to the grabbee
+/// We can't let this happen naturally because they're on the same turf, meaning inconsistent behavior
 /datum/status_effect/grabbed/proc/bullet_shield(datum/source, obj/projectile/hitting_projectile, def_zone, piercing_hit)
 	SIGNAL_HANDLER
 	if(piercing_hit)
@@ -529,6 +535,8 @@
 	owner.bullet_act(hitting_projectile, def_zone, piercing_hit)
 	return COMPONENT_BULLET_BLOCKED
 
+/// Used to calculate how long it takes to be grabbed (or upgrade a grab).
+/// Base time is some arbitrary value that we modify based on the status of the grabber and the grabbee.
 /datum/status_effect/grabbed/proc/get_grab_time(base_time = 5 SECONDS)
 	var/vulnerability_delta = 0
 	if(isliving(grabbing_us))
@@ -546,30 +554,39 @@
 #undef CRIT_SOURCE
 #undef PIN_SOURCE
 
-/// Checks how strong our grabs are.
+/**
+ * Checks how good we are at grabing are.
+ *
+ * Returns an arbitrary value that we can compare against the grabbee's resist strength.
+ */
 /mob/living/proc/get_grab_strength()
 	. += get_grab_resist_strength()
+	if(HAS_TRAIT(src, TRAIT_STRONG_GRABBER))
+		. += 2
 	if(HAS_TRAIT(src, TRAIT_QUICKER_CARRY))
 		. += 1
 	else if(HAS_TRAIT(src, TRAIT_QUICK_CARRY))
 		. += 0.5
 
-/// Checks how strong we are at resisting being grabbed.
+/**
+ * Checks how strong we are at resisting being grabbed.
+ *
+ * Does not always imply active resistance: A larger mob would be harder to grab even if it is dead.
+ *
+ * Returns an arbitrary value that we can compare against the grabber's grab strength.
+ */
 /mob/living/proc/get_grab_resist_strength()
 	. += mob_size * 2
 	. += clamp(0.5 * ((mind?.get_skill_level(/datum/skill/athletics) || 1) - 1), 0, 3)
-	if(ismonkey(src))
-		. -= 1
 	if(stat == DEAD)
 		. -= 4
-	else if(incapacitated(IGNORE_GRAB|IGNORE_STASIS) \
+	else if(INCAPACITATED_IGNORING(src, INCAPABLE_GRAB|INCAPABLE_STASIS) \
 		|| body_position == LYING_DOWN \
 		|| (has_status_effect(/datum/status_effect/staggered) && (getFireLoss() * 0.5 + getBruteLoss() * 0.5) >= 40) \
 	)
 		. -= 2
 	if(HAS_TRAIT(src, TRAIT_GRABWEAKNESS))
 		. -= 2
-	// these two are not
 	if(HAS_TRAIT(src, TRAIT_DWARF))
 		. -= 2
 	if(HAS_TRAIT(src, TRAIT_HULK))

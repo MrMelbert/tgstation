@@ -381,7 +381,23 @@
 	if(SEND_SIGNAL(AM, COMSIG_LIVING_TRYING_TO_PULL, src, force) & COMSIG_LIVING_CANCEL_PULL)
 		return FALSE
 
-	AM.add_fingerprint(src)
+	if(ishuman(AM))
+		// Wish this was handled more elegantly. but whatever, for the future
+		var/mob/living/carbon/human/grabbed = AM
+		grabbed.wear_suit?.add_fingerprint(src)
+		if(zone_selected == BODY_ZONE_L_ARM || zone_selected == BODY_ZONE_R_ARM)
+			if(grabbed.gloves)
+				grabbed.gloves.add_fingerprint(src)
+			else
+				grabbed.add_fingerprint(src)
+		else
+			if(grabbed.w_uniform)
+				grabbed.w_uniform.add_fingerprint(src)
+			else
+				grabbed.add_fingerprint(src)
+	else
+		AM.add_fingerprint(src)
+
 
 	// If we're pulling something then drop what we're currently pulling and pull this instead.
 	if(pulling)
@@ -431,7 +447,6 @@
 				to_chat(src, span_notice("You grab [M] with a strong grip!"))
 				if(M.is_blind())
 					to_chat(M, span_warning("Someone grabs you with a strong grip!"))
-				M.share_blood_on_touch(src, ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING)
 
 			else if(ishuman(M))
 				var/mob/living/carbon/human/grabbed_human = M
@@ -458,7 +473,6 @@
 				to_chat(src, span_notice("You grab [M] passively!"))
 				if(M.is_blind())
 					to_chat(M, span_warning("Someone grabs you passively!"))
-				M.share_blood_on_touch(src, ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING)
 
 		if(isliving(M))
 			var/mob/living/L = M
@@ -1268,7 +1282,7 @@
 	to_chat(pulledby, span_danger("[src] struggles as they fail to break free of your grip!"))
 	if(is_blind())
 		to_chat(src, span_danger("You struggle as you fail to break free of the grip!"))
-
+	log_combat(pulledby, src, "failed to break grab")
 	if(moving_resist) //we resisted by trying to move
 		client?.move_delay = world.time + 4 SECONDS
 	return TRUE

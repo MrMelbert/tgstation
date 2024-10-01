@@ -105,7 +105,7 @@
 /datum/component/riding/proc/vehicle_mob_buckle(datum/source, mob/living/rider, force = FALSE)
 	SIGNAL_HANDLER
 
-	addtimer(CALLBACK(src, PROC_REF(vehicle_mob_buckle_hack)), 1, TIMER_UNIQUE)
+	addtimer(CALLBACK(src, PROC_REF(vehicle_mob_buckle_hack)), 0.1 SECONDS, TIMER_UNIQUE)
 	if(rider.pulling == source)
 		rider.stop_pulling()
 	RegisterSignal(rider, COMSIG_LIVING_TRY_PULL, PROC_REF(on_rider_try_pull))
@@ -114,7 +114,7 @@
 		if (HAS_TRAIT(parent, trait))
 			ADD_TRAIT(rider, trait, REF(src))
 	rider.add_traits(rider_traits, REF(src))
-	post_vehicle_mob_buckle(movable_parent, rider)
+	post_vehicle_mob_buckle(parent, rider)
 
 // melbert todo : fuck you.
 /datum/component/riding/proc/vehicle_mob_buckle_hack()
