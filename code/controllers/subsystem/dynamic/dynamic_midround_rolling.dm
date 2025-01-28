@@ -26,6 +26,11 @@
 	if (EMERGENCY_PAST_POINT_OF_NO_RETURN)
 		return
 
+	var/active_alive_players = GLOB.alive_player_list.len
+	var/active_alive_antagonists = GLOB.current_living_antags.len
+	if((active_alive_antagonists + 1) / active_alive_players > SSdynamic.midround_antag_percentage)
+		return
+
 	var/spawn_heavy = prob(get_heavy_midround_injection_chance())
 
 	last_midround_injection_attempt = world.time
@@ -44,7 +49,7 @@
 			log_dynamic("FAIL: [ruleset] has a weight of 0")
 			continue
 
-		if (!ruleset.acceptable(GLOB.alive_player_list.len, threat_level))
+		if (!ruleset.acceptable(active_alive_players, threat_level))
 			var/ruleset_forced = GLOB.dynamic_forced_rulesets[type] || RULESET_NOT_FORCED
 			if (ruleset_forced == RULESET_NOT_FORCED)
 				log_dynamic("FAIL: [ruleset] is not acceptable with the current parameters. Alive players: [GLOB.alive_player_list.len], threat level: [threat_level]")

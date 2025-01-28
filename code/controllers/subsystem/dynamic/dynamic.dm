@@ -171,6 +171,11 @@ SUBSYSTEM_DEF(dynamic)
 	/// The chance for latejoins to roll when ready
 	var/latejoin_roll_chance = 50
 
+	/// When scaling roundstart rulesets, we will try to keep the pecentage of antags within the crew below this value.
+	var/roundstart_antag_percentage = 0.2
+	/// When spawning midrounds, we will try to keep the percentage of antags within the crew below this value.
+	var/midround_antag_percentage = 0.4
+
 	// == EVERYTHING BELOW THIS POINT SHOULD NOT BE CONFIGURED ==
 
 	/// A list of recorded "snapshots" of the round, stored in the dynamic.json log
