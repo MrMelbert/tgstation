@@ -50,6 +50,9 @@
 	ui_icon_state = "x"
 
 /datum/loadout_item/shoes/barefoot/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE)
+	// haha, no.
+	if(ispath(outfit.shoes, /obj/item/clothing/shoes/clown_shoes))
+		return
 	outfit.shoes = null
 
 /datum/loadout_item/shoes/barefoot/on_equip_item(obj/item/equipped_item, datum/preferences/preference_source, list/preference_list, mob/living/carbon/human/equipper, visuals_only)
