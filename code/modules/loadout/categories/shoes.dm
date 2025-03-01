@@ -42,3 +42,22 @@
 /datum/loadout_item/shoes/glow_shoes
 	name = "Shoes (Glowing, Colourable)"
 	item_path = /obj/item/clothing/shoes/glow
+
+/datum/loadout_item/shoes/barefoot
+	name = "Barefoot"
+	item_path = /obj/item/clothing/shoes/barefoot
+	ui_icon = 'icons/mob/landmarks.dmi'
+	ui_icon_state = "x"
+
+/datum/loadout_item/shoes/barefoot/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE)
+	outfit.shoes = null
+
+/datum/loadout_item/shoes/barefoot/on_equip_item(obj/item/equipped_item, datum/preferences/preference_source, list/preference_list, mob/living/carbon/human/equipper, visuals_only)
+	return
+
+// loadout items are indexed by typepath, so this is here to be a placeholder.
+/obj/item/clothing/shoes/barefoot
+	name = "barefoot"
+	icon = null
+	icon_state = null
+	item_flags = ABSTRACT|DROPDEL
