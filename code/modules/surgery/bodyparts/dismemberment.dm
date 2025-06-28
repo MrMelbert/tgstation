@@ -86,7 +86,7 @@
 
 ///limb removal. The "special" argument is used for swapping a limb with a new one without the effects of losing a limb kicking in.
 /obj/item/bodypart/proc/drop_limb(special, dismembered, move_to_floor = TRUE)
-	if(!owner)
+	if(isnull(owner))
 		return
 	var/atom/drop_loc = owner.drop_location()
 
@@ -95,7 +95,10 @@
 	bodypart_flags &= ~BODYPART_IMPLANTED //limb is out and about, it can't really be considered an implant
 	add_mob_blood(owner)
 	owner.remove_bodypart(src, special)
-
+	// Some organs might cause a change in bodypart when removed, which would call drop_limb... again, before we resolve
+	// So we need another isnull check here. The bodypart's officially removed by this point regardless anyway
+	if(isnull(owner))
+		return
 	for(var/datum/scar/scar as anything in scars)
 		scar.victim = null
 		LAZYREMOVE(owner.all_scars, scar)
