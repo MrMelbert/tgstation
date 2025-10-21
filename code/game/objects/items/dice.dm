@@ -74,13 +74,25 @@
 		diceroll(thrown_by)
 	return ..()
 
-/obj/item/dice/proc/diceroll(mob/user, in_hand=FALSE)
+/// Checks if we should use the rigged value based on rigged type - return TRUE to use rigged value
+/obj/item/dice/proc/use_rigged_value(mob/user, rigged_type)
+	switch(rigged_type)
+		if(DICE_BASICALLY_RIGGED)
+			return prob(clamp(1 / (sides - 1) * 100 * (HAS_TRAIT(user, TRAIT_CURSED) ? 10 : 1), 25, 80))
+		if(DICE_TOTALLY_RIGGED)
+			return TRUE
+
+	return FALSE
+
+/obj/item/dice/proc/diceroll(mob/user, in_hand = FALSE, roll_rigged = rigged, roll_rigged_value = rigged_value)
 	result = roll(sides)
-	if(rigged != DICE_NOT_RIGGED && result != rigged_value)
-		if(rigged == DICE_BASICALLY_RIGGED && prob(clamp(1/(sides - 1) * 100, 25, 80)))
-			result = rigged_value
-		else if(rigged == DICE_TOTALLY_RIGGED)
-			result = rigged_value
+	// if you are cursed, the roll is rigged towards a low value if it is not already
+	if(HAS_TRAIT(user, TRAIT_CURSED))
+		roll_rigged = max(roll_rigged, DICE_BASICALLY_RIGGED)
+		roll_rigged_value = min(roll_rigged_value || 1, rand(1, ceil(sqrt(sides))))
+
+	if(use_rigged_value(user, roll_rigged))
+		result = roll_rigged_value
 
 	. = result
 	playsound(src, 'sound/items/dice_roll.ogg', 50, TRUE)
