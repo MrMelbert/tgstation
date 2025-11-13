@@ -171,13 +171,14 @@
 	var/heal_burn = 0
 	var/heal_oxy = 0
 
-/obj/item/organ/heart/cursed/attack(mob/living/carbon/human/accursed, mob/living/carbon/human/user, obj/target)
-	if(accursed == user && istype(accursed))
-		playsound(user,'sound/effects/singlebeat.ogg',40,TRUE)
-		user.temporarilyRemoveItemFromInventory(src, TRUE)
-		Insert(user)
-	else
-		return ..()
+/obj/item/organ/heart/cursed/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscarbon(interacting_with) || interacting_with != user)
+		return NONE
+
+	playsound(user,'sound/effects/singlebeat.ogg',40,TRUE)
+	user.temporarilyRemoveItemFromInventory(src, TRUE)
+	Insert(user)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/organ/heart/cursed/on_mob_insert(mob/living/carbon/accursed)
 	. = ..()

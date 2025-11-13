@@ -194,7 +194,7 @@
 /mob/living/attackby(obj/item/attacking_item, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(..())
 		return TRUE
-	user.changeNext_move(attacking_item.attack_speed)
+	user.changeNext_move(CALCULATE_CLICK_CD(attacking_item.attack_speed, attack_modifiers))
 	return attacking_item.attack(src, user, modifiers, attack_modifiers)
 
 /mob/living/attackby_secondary(obj/item/weapon, mob/living/user, list/modifiers, list/attack_modifiers)
@@ -203,9 +203,9 @@
 	// Normal attackby updates click cooldown, so we have to make up for it
 	if (result != SECONDARY_ATTACK_CALL_NORMAL)
 		if(weapon.secondary_attack_speed)
-			user.changeNext_move(weapon.secondary_attack_speed)
+			user.changeNext_move(CALCULATE_CLICK_CD(weapon.secondary_attack_speed, attack_modifiers))
 		else
-			user.changeNext_move(weapon.attack_speed)
+			user.changeNext_move(CALCULATE_CLICK_CD(weapon.attack_speed, attack_modifiers))
 
 	return result
 
@@ -228,7 +228,7 @@
 	if(item_flags & NOBLUDGEON)
 		return FALSE
 
-	var/final_force = CALCULATE_FORCE(src, attack_modifiers)
+	var/final_force = CALCULATE_FORCE(force, attack_modifiers)
 	if(damtype != STAMINA && final_force && HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("You don't want to harm other living beings!"))
 		return FALSE
@@ -279,7 +279,7 @@
 		return FALSE
 	if(item_flags & NOBLUDGEON)
 		return FALSE
-	user.changeNext_move(attack_speed)
+	user.changeNext_move(CALCULATE_CLICK_CD(attack_speed, attack_modifiers))
 	if(get(src, /mob/living) == user) // telekinesis.
 		user.do_attack_animation(attacked_atom)
 	if(attacked_atom.attacked_by(src, user, modifiers, attack_modifiers) == ATTACK_FAILED)
@@ -295,7 +295,7 @@
 		stack_trace("attacked_by() was called on an object that doesn't use integrity!")
 		return ATTACK_FAILED
 
-	var/final_force = CALCULATE_FORCE(attacking_item, attack_modifiers)
+	var/final_force = CALCULATE_FORCE(attacking_item.force, attack_modifiers)
 	if(final_force <= 0)
 		return 0
 
@@ -332,7 +332,7 @@
 			weak_against_armour = attacking_item.weak_against_armour,
 		), ARMOR_MAX_BLOCK)
 
-	var/final_force = CALCULATE_FORCE(attacking_item, attack_modifiers)
+	var/final_force = CALCULATE_FORCE(attacking_item.force, attack_modifiers)
 	if(mob_biotypes & MOB_ROBOTIC)
 		final_force *= attacking_item.get_demolition_modifier(src)
 
@@ -458,8 +458,7 @@
 
 /**
  * Last proc in the [/obj/item/proc/melee_attack_chain].
- * Returns a bitfield containing AFTERATTACK_PROCESSED_ITEM if the user is likely intending to use this item on another item.
- * Some consumers currently return TRUE to mean "processed". These are not consistent and should be taken with a grain of salt.
+ * Called after an attack has been made and damage applied.
  *
  * Arguments:
  * * atom/target - The thing that was hit

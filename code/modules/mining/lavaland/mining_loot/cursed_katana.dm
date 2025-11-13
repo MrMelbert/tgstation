@@ -99,15 +99,20 @@
 	if(isturf(loc))
 		qdel(src)
 
-/obj/item/cursed_katana/attack(mob/living/target, mob/user, list/modifiers, list/attack_modifiers)
-	if(target.stat < DEAD && target != user)
-		drew_blood = TRUE
-		if(ismining(target))
-			user.changeNext_move(CLICK_CD_RAPID)
-	return ..()
+/obj/item/cursed_katana/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	. = ..()
+	if(. || !ismining(target) || target == user)
+		return
+
+	SET_ATTACK_CLICK_CD(attack_modifiers, CLICK_CD_RAPID)
+
+/obj/item/cursed_katana/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target) || !can_combo_attack(user, target))
+		return
+	drew_blood = TRUE
 
 /obj/item/cursed_katana/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == (PROJECTILE_ATTACK || LEAP_ATTACK || OVERWHELMING_ATTACK))
+	if(attack_type & (PROJECTILE_ATTACK | LEAP_ATTACK | OVERWHELMING_ATTACK))
 		final_block_chance = 0 //Don't bring a sword to a gunfight, and also you aren't going to really block someone full body tackling you with a sword. Or a road roller, if one happened to hit you.
 	return ..()
 

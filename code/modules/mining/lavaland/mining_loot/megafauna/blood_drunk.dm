@@ -1,5 +1,14 @@
 // Cleaving saw
 
+/// Helper for checking if a cleaving saw is open
+#define SAW_OPEN(saw) (HAS_TRAIT(saw, TRAIT_TRANSFORM_ACTIVE))
+/// Helper for checking if a cleaving saw is closed
+#define SAW_CLOSED(saw) (!SAW_OPEN(saw))
+/// Special attack modifier applied when doing a swiping attack to stop recursion
+#define SWIPING_ATTACK "swipe_attack"
+/// Special attack modifier applied when attacking nemesis factions
+#define NEMESIS_ATTACK "nemesis"
+
 /obj/item/melee/cleaving_saw
 	name = "cleaving saw"
 	desc = "This saw, effective at drawing the blood of beasts, transforms into a long cleaver that makes use of centrifugal force."
@@ -49,7 +58,7 @@
 
 /obj/item/melee/cleaving_saw/examine(mob/user)
 	. = ..()
-	. += span_notice("It is [HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) ? "open, will cleave enemies in a wide arc and deal additional damage to fauna":"closed, and can be used for rapid consecutive attacks that cause fauna to bleed"].")
+	. += span_notice("It is [SAW_OPEN(src) ? "open, will cleave enemies in a wide arc and deal additional damage to fauna":"closed, and can be used for rapid consecutive attacks that cause fauna to bleed"].")
 	. += span_notice("Both modes will build up existing bleed effects, doing a burst of high damage if the bleed is built up high enough.")
 	. += span_notice("Transforming it immediately after an attack causes the next attack to come out faster.")
 
@@ -58,49 +67,61 @@
 	attack_self(user)
 	return BRUTELOSS
 
-/obj/item/melee/cleaving_saw/melee_attack_chain(mob/user, atom/target, list/modifiers)
+/obj/item/melee/cleaving_saw/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
-		user.changeNext_move(CLICK_CD_MELEE * 0.5) //when closed, it attacks very rapidly
-
-/obj/item/melee/cleaving_saw/attack(mob/living/target, mob/living/carbon/human/user, list/modifiers, list/attack_modifiers)
-	var/is_open = HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE)
-	if(!is_open || swiping || !target.density || get_turf(target) == get_turf(user))
-		for(var/found_faction in target.faction)
-			if(!(found_faction in nemesis_factions))
-				continue
-			if(is_open)
-				MODIFY_ATTACK_FORCE(attack_modifiers, faction_bonus_force)
-			nemesis_effects(user, target)
-			break
-		. = ..()
+	if(. || !isliving(target))
 		return
+	var/mob/living/smacking = target
+	// closed = faster attacks
+	if(SAW_CLOSED(src))
+		SET_ATTACK_CLICK_CD(attack_modifiers, CLICK_CD_MELEE * 0.5)
+	// open = more damage to mining mobs
+	else if(faction_check(smacking.faction, nemesis_factions))
+		MODIFY_ATTACK_FORCE(attack_modifiers, faction_bonus_force)
+		LAZYSET(attack_modifiers, NEMESIS_ATTACK, TRUE)
 
-	var/turf/user_turf = get_turf(user)
-	var/dir_to_target = get_dir(user_turf, get_turf(target))
-	swiping = TRUE
-	var/static/list/cleaving_saw_cleave_angles = list(0, -45, 45) //so that the animation animates towards the target clicked and not towards a side target
-	for(var/i in cleaving_saw_cleave_angles)
-		var/turf/turf = get_step(user_turf, turn(dir_to_target, i))
-		for(var/mob/living/living_target in turf)
-			if(user.Adjacent(living_target) && living_target.body_position != LYING_DOWN)
-				melee_attack_chain(user, living_target)
-	swiping = FALSE
+/obj/item/melee/cleaving_saw/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target) || QDELETED(target))
+		return
+	if(SAW_CLOSED(src))
+		afterattack_closed(target, user, attack_modifiers)
+	else
+		afterattack_open(target, user, attack_modifiers)
 
-/*
- * If we're attacking [target]s in our nemesis list, apply unique effects.
- *
- * user - the mob attacking with the saw
- * target - the mob being attacked
- */
-/obj/item/melee/cleaving_saw/proc/nemesis_effects(mob/living/user, mob/living/target)
+/obj/item/melee/cleaving_saw/proc/afterattack_closed(mob/living/target, mob/user, list/attack_modifiers)
 	if(istype(target, /mob/living/simple_animal/hostile/asteroid/elite))
+		return
+	if(!LAZYACCESS(attack_modifiers, NEMESIS_ATTACK))
 		return
 	var/datum/status_effect/stacking/saw_bleed/existing_bleed = target.has_status_effect(/datum/status_effect/stacking/saw_bleed)
 	if(existing_bleed)
 		existing_bleed.add_stacks(bleed_stacks_per_hit)
 	else
 		target.apply_status_effect(/datum/status_effect/stacking/saw_bleed, bleed_stacks_per_hit)
+
+/obj/item/melee/cleaving_saw/proc/afterattack_open(mob/living/target, mob/user, list/attack_modifiers)
+	if(LAZYACCESS(attack_modifiers, SWIPING_ATTACK) || get_turf(target) == get_turf(user))
+		return
+
+	var/static/list/cleaving_saw_cleave_angles = list(0, -45, 45) //so that the animation animates towards the target clicked and not towards a side target
+	for(var/i in cleaving_saw_cleave_angles)
+		var/turf/turf = get_step(user_turf, turn(dir_to_target, i))
+		if(isnull(turf))
+			continue
+
+		for(var/mob/living/living_target in turf)
+			if(iving_target.body_position == LYING_DOWN)
+				continue
+			if(!living_target.IsReachableBy(user, reach))
+				continue
+			swipe_attack(living_target, user)
+
+/// Basically a mini implementation of the main attack chain, future todo : refactor later
+/obj/item/melee/cleaving_saw/proc/swipe_attack(mob/living/target, mob/living/user)
+	var/list/attack_modifiers = list("[SWIPING_ATTACK]" = TRUE)
+
+	if(pre_attack(target, user, null, attack_modifiers))
+		target.attackby(src, user, null, attack_modifiers)
 
 /*
  * Signal proc for [COMSIG_TRANSFORMING_ON_TRANSFORM].
@@ -115,6 +136,11 @@
 		balloon_alert(user, "[active ? "opened" : "closed"] [src]")
 	playsound(src, 'sound/effects/magic/clockwork/fellowship_armory.ogg', 35, TRUE, frequency = 90000 - (active * 30000))
 	return COMPONENT_NO_DEFAULT_MESSAGE
+
+#undef SAW_OPEN
+#undef SAW_CLOSED
+#undef SWIPING_ATTACK
+#undef NEMESIS_ATTACK
 
 // Wildhunter's butchering knife
 

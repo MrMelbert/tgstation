@@ -214,7 +214,7 @@
 	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
 		return FALSE
 
-	if(attack_type == LEAP_ATTACK)
+	if(attack_type & LEAP_ATTACK)
 		final_block_chance -= 25 //OH GOD GET IT OFF ME
 
 	return ..()
@@ -225,16 +225,18 @@
 	/// The cell cost of hitting something.
 	var/hitcost = 0.05 * STANDARD_CELL_CHARGE
 
-/obj/item/melee/energy/sword/cyborg/attack(mob/target, mob/living/silicon/robot/user)
-	if(!user.cell)
-		return
+/obj/item/melee/energy/sword/cyborg/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	. = ..()
+	if(. || !issilicon(user))
+		return TRUE
 
-	var/obj/item/stock_parts/power_store/our_cell = user.cell
-	if(HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) && !(our_cell.use(hitcost)))
+	var/mob/living/silicon/cyborg_user = user
+	if(HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) && !cyborg_user.cell?.use(hitcost))
 		attack_self(user)
-		to_chat(user, span_notice("It's out of charge!"))
-		return
-	return ..()
+		balloon_alert(user, "out of charge!")
+		return TRUE
+
+	return FALSE
 
 /obj/item/melee/energy/sword/cyborg/cyborg_unequip(mob/user)
 	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
@@ -564,7 +566,7 @@
 	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
 		return FALSE
 
-	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK || attack_type == OVERWHELMING_ATTACK)
+	if(attack_type & (PROJECTILE_ATTACK|LEAP_ATTACK|OVERWHELMING_ATTACK))
 		final_block_chance = 0 //Don't bring a sword to a gunfight, and also you aren't going to really block someone full body tackling you with a sword. Or a road roller, if one happened to hit you.
 
 	return ..()

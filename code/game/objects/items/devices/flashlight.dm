@@ -469,6 +469,7 @@
 		force = on_damage
 		damtype = BURN
 		update_brightness()
+	AddElement(/datum/element/ignite_on_afterattack)
 
 /obj/item/flashlight/flare/init_slapcrafting()
 	return
@@ -476,14 +477,6 @@
 /obj/item/flashlight/flare/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	return ..()
-
-/obj/item/flashlight/flare/afterattack(atom/target, mob/user, click_parameters)
-	if(!isliving(target))
-		return
-	var/mob/living/victim = target
-	if(get_temperature() && victim.ignite_mob())
-		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(victim)] on fire with [src] at [AREACOORD(user)]")
-		user.log_message("set [key_name(victim)] on fire with [src]", LOG_ATTACK)
 
 /obj/item/flashlight/flare/toggle_light()
 	if(light_on || !fuel)

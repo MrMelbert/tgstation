@@ -123,13 +123,9 @@
 		if(status == LIGHT_BURNED || status == LIGHT_OK)
 			shatter(moving_mob)
 
-/obj/item/light/attack(mob/living/M, mob/living/user, def_zone)
-	..()
-	shatter(M)
-
-/obj/item/light/attack_atom(obj/attacked_obj, mob/living/user, list/modifiers, list/attack_modifiers)
-	..()
-	shatter(attacked_obj)
+/obj/item/light/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	. = ..()
+	shatter(target)
 
 /obj/item/light/proc/shatter(target)
 	if(status == LIGHT_OK || status == LIGHT_BURNED)

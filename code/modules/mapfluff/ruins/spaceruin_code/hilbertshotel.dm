@@ -8,6 +8,7 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 	icon_state = "hilbertshotel"
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	item_flags = NOBLUDGEON
 	var/datum/map_template/hilbertshotel/hotelRoomTemp
 	var/datum/map_template/hilbertshotel/empty/hotelRoomTempEmpty
 	var/datum/map_template/hilbertshotel/lore/hotelRoomTempLore
@@ -34,12 +35,17 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 	ejectRooms()
 	return ..()
 
-/obj/item/hilbertshotel/attack(mob/living/M, mob/living/user)
-	if(M.mind)
-		to_chat(user, span_notice("You invite [M] to the hotel."))
-		promptAndCheckIn(user, M)
+/obj/item/hilbertshotel/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
+
+	var/mob/guest = interacting_with
+	if(guest.mind)
+		to_chat(user, span_notice("You invite [guest] to the hotel."))
+		promptAndCheckIn(user, guest)
 	else
-		to_chat(user, span_warning("[M] is not intelligent enough to understand how to use this device!"))
+		to_chat(user, span_warning("[guest] is not intelligent enough to understand how to use this device!"))
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/hilbertshotel/attack_self(mob/user)
 	. = ..()

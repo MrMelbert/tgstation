@@ -414,28 +414,36 @@
 /obj/item/bodypart/blob_act()
 	receive_damage(max_damage, wound_bonus = CANT_WOUND)
 
-/obj/item/bodypart/attack(mob/living/carbon/victim, mob/user)
-	SHOULD_CALL_PARENT(TRUE)
+/obj/item/bodypart/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!ishuman(interacting_with))
+		return NONE
+	if(!HAS_TRAIT(interacting_with, TRAIT_LIMBATTACHMENT) && !HAS_TRAIT(src, TRAIT_EASY_ATTACH))
+		return NONE
 
-	if(ishuman(victim))
-		var/mob/living/carbon/human/human_victim = victim
-		if(HAS_TRAIT(victim, TRAIT_LIMBATTACHMENT) || HAS_TRAIT(src, TRAIT_EASY_ATTACH))
-			if(!human_victim.get_bodypart(body_zone))
-				user.temporarilyRemoveItemFromInventory(src, TRUE)
-				if(!try_attach_limb(victim))
-					to_chat(user, span_warning("[human_victim]'s body rejects [src]!"))
-					forceMove(human_victim.loc)
-					return
-				if(check_for_frankenstein(victim))
-					bodypart_flags |= BODYPART_IMPLANTED
-				if(human_victim == user)
-					human_victim.visible_message(span_warning("[human_victim] jams [src] into [human_victim.p_their()] empty socket!"),\
-					span_notice("You force [src] into your empty socket, and it locks into place!"))
-				else
-					human_victim.visible_message(span_warning("[user] jams [src] into [human_victim]'s empty socket!"),\
-					span_notice("[user] forces [src] into your empty socket, and it locks into place!"))
-				return
-	return ..()
+	var/mob/living/carbon/human/human_victim = victim
+	if(human_victim.get_bodypart(body_zone))
+		return NONE
+
+	user.temporarilyRemoveItemFromInventory(src, TRUE)
+	if(!try_attach_limb(victim))
+		to_chat(user, span_warning("[human_victim]'s body rejects [src]!"))
+		forceMove(human_victim.loc)
+		return ITEM_INTERACT_BLOCKING
+	if(check_for_frankenstein(victim))
+		bodypart_flags |= BODYPART_IMPLANTED
+	if(human_victim == user)
+		human_victim.visible_message(
+			span_warning("[human_victim] jams [src] into [human_victim.p_their()] empty socket!"),
+			span_notice("You force [src] into your empty socket, and it locks into place!"),
+			visible_message_flags = ALWAYS_SHOW_SELF_MESSAGE,
+		)
+	else
+		human_victim.visible_message(
+			span_warning("[user] jams [src] into [human_victim]'s empty socket!"),
+			span_notice("[user] forces [src] into your empty socket, and it locks into place!"),
+			visible_message_flags = ALWAYS_SHOW_SELF_MESSAGE,
+		)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/bodypart/attackby(obj/item/weapon, mob/user, list/modifiers, list/attack_modifiers)
 	SHOULD_CALL_PARENT(TRUE)

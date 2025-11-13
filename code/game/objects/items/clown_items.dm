@@ -190,14 +190,25 @@
 	. = ..()
 	var/list/sound_list = list()
 	sound_list[sound_file] = 1
-	AddComponent(/datum/component/squeak, sound_list, 50, falloff_exponent = 20)
+	AddComponent( \
+		/datum/component/squeak, \
+		sound_list, \
+		50, \
+		falloff_exponent = 20, \
+		on_attack = CALLBACK(src, PROC_REF(on_attack_squeak)), \
+		on_squeak = CALLBACK(src, PROC_REF(on_squeak)), \
+	)
 
-/obj/item/bikehorn/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(user != M && ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if (HAS_TRAIT(H, TRAIT_CLUMSY)) //only clowns can unlock its true powers
-			M.add_mood_event("honk", /datum/mood_event/honk)
-	return ..()
+/obj/item/bikehorn/proc/on_attack_squeak(atom/hit, mob/attacker)
+	if(!isliving(hit) || hit == attacker || !HAS_TRAIT(attacker, TRAIT_CLUMSY))
+		return
+	var/mob/living/living_hit = hit
+	if(!living_hit.can_hear())
+		return
+	living_hit.add_mood_event("honk", /datum/mood_event/honk)
+
+/obj/item/bikehorn/proc/on_squeak()
+	return
 
 /obj/item/bikehorn/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] solemnly points [src] at [user.p_their()] temple! It looks like [user.p_theyre()] trying to commit suicide!"))
@@ -230,21 +241,12 @@
 	worn_icon_state = "horn_gold"
 	COOLDOWN_DECLARE(golden_horn_cooldown)
 
-/obj/item/bikehorn/golden/attack()
-	flip_mobs()
-	return ..()
-
-/obj/item/bikehorn/golden/attack_self(mob/user)
-	flip_mobs()
-	..()
-
-/obj/item/bikehorn/golden/proc/flip_mobs(mob/living/carbon/M, mob/user)
+/obj/item/bikehorn/golden/on_squeak()
 	if(!COOLDOWN_FINISHED(src, golden_horn_cooldown))
 		return
-	var/turf/T = get_turf(src)
-	for(M in ohearers(7, T))
-		if(M.can_hear())
-			M.emote("flip")
+	for(var/mob/hearer in ohearers(7, get_turf(src)))
+		if(hearer.can_hear())
+			hearer.emote("flip")
 	COOLDOWN_START(src, golden_horn_cooldown, 1 SECONDS)
 
 /obj/item/bikehorn/rubberducky/plasticducky

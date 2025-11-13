@@ -53,6 +53,8 @@
 		active_slots = ITEM_SLOT_SUITSTORE,\
 		on_intercepted = CALLBACK(src, PROC_REF(on_intercepted_bullet)),\
 	)
+	AddElement(/datum/element/ignite_on_afterattack)
+	AddElement(/datum/element/ignite_friendly_sig)
 	update_appearance()
 
 /obj/item/lighter/examine(mob/user)
@@ -98,8 +100,19 @@
 	return mutable_appearance(icon, "lighter_overlay_[overlay_state][lit ? "-on" : ""]")
 
 /obj/item/lighter/ignition_effect(atom/A, mob/user)
-	if(get_temperature())
-		. = span_infoplain(span_rose("With a single flick of [user.p_their()] wrist, [user] smoothly lights [A] with [src]. Damn [user.p_theyre()] cool."))
+	if(!get_temperature())
+		return ""
+
+	return span_rose("With a single flick of [user.p_their()] wrist, [user] smoothly lights [A] with [src]. Damn [user.p_theyre()] cool.")
+
+/obj/item/lighter/worn_item_ignition_effect(obj/item/igniting, mob/wearer, mob/user)
+	if(!get_temperature())
+		return ""
+
+	if(!fancy)
+		return ..()
+
+	return span_rose("[user] whips [src] out and holds it for [wearer]. [user.p_Their()] arm is as steady as the unflickering flame [user.p_they()] light[user.p_s()] \the [igniting] with.")
 
 /obj/item/lighter/proc/set_lit(new_lit)
 	if(lit == new_lit)
@@ -195,26 +208,9 @@
 	)
 	user.add_mood_event("burnt_thumb", /datum/mood_event/burnt_thumb)
 
-/obj/item/lighter/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
+/obj/item/lighter/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(lit)
 		use(0.5)
-		if(target_mob.ignite_mob())
-			message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(target_mob)] on fire with [src] at [AREACOORD(user)]")
-			log_game("[key_name(user)] set [key_name(target_mob)] on fire with [src] at [AREACOORD(user)]")
-	var/obj/item/cigarette/cig = help_light_cig(target_mob)
-	if(!lit || !cig || user.combat_mode)
-		return ..()
-
-	if(cig.lit)
-		to_chat(user, span_warning("\The [cig] is already lit!"))
-	if(target_mob == user)
-		cig.attackby(src, user)
-		return
-
-	if(fancy)
-		cig.light(span_rose("[user] whips \the [src] out and holds it for [target_mob]. [user.p_Their()] arm is as steady as the unflickering flame [user.p_they()] light[user.p_s()] \the [cig] with."))
-	else
-		cig.light(span_notice("[user] holds \the [src] out for [target_mob], and lights [target_mob.p_their()] [cig.name]."))
 
 ///Checks if the lighter is able to perform a welding task.
 /obj/item/lighter/tool_use_check(mob/living/user, amount, heat_required)
@@ -357,7 +353,7 @@
 
 /obj/item/lighter/bright/ignition_effect(atom/A, mob/user)
 	if(get_temperature())
-		. = span_infoplain(span_rose("[user] lifts the [src] to the [A], igniting it with a brilliant flash of light!"))
+		. = span_rose("[user] lifts the [src] to the [A], igniting it with a brilliant flash of light!")
 		var/mob/living/current_viewer = user
 		current_viewer.flash_act(4)
 

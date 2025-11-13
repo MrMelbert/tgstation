@@ -96,20 +96,25 @@
 	if(!awakened)
 		INVOKE_ASYNC(src, PROC_REF(awaken), user)
 
-/obj/item/his_grace/attack(mob/living/M, mob/user)
-	if(awakened && M.stat)
-		if(gender == FEMALE)
-			var/dx = M.x - user.x
-			var/dy = M.y - user.y
-			if(dx && dy)
-				var/obj/item/reagent_containers/spray/chemsprayer/party/party_popper = new /obj/item/reagent_containers/spray/chemsprayer/party(get_turf(user))
-				dx = dx / abs(dx)
-				dy = dy / abs(dy)
-				party_popper.spray(locate(M.x + dx * 2, M.y + dy * 2, M.z), user)
-				qdel(party_popper)
-		consume(M)
-	else
-		..()
+/obj/item/his_grace/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!awakened || !isliving(target))
+		return
+
+	var/mob/living/eaten = target
+	if(eaten.stat != DEAD)
+		return
+
+	if(gender == FEMALE)
+		var/dx = eaten.x - user.x
+		var/dy = eaten.y - user.y
+		if(dx && dy)
+			var/obj/item/reagent_containers/spray/chemsprayer/party/party_popper = new(get_turf(user))
+			dx = dx / abs(dx)
+			dy = dy / abs(dy)
+			party_popper.spray(locate(eaten.x + dx * 2, eaten.y + dy * 2, eaten.z), user)
+			qdel(party_popper)
+
+	consume(eaten)
 
 /obj/item/his_grace/item_ctrl_click(mob/user)
 	//you can't pull his grace

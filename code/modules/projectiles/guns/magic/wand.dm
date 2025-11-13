@@ -29,10 +29,8 @@
 	icon_state = "[base_icon_state][charges ? null : "-drained"]"
 	return ..()
 
-/obj/item/gun/magic/wand/attack(atom/target, mob/living/user)
-	if(target == user)
-		return
-	..()
+/obj/item/gun/magic/wand/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	return ..() || (target == user) // don't smack ourselves with the wand when we clearly want to zap ourselves
 
 /obj/item/gun/magic/wand/try_fire_gun(atom/target, mob/living/user, params)
 	if(!charges)

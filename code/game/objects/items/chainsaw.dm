@@ -97,27 +97,36 @@
 		myhead.dismember()
 	return BRUTELOSS
 
-/obj/item/chainsaw/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	if (target_mob.stat != DEAD)
-		return ..()
+/obj/item/chainsaw/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if (!iscarbon(interacting_with))
+		return NONE
 
 	if (user.zone_selected != BODY_ZONE_HEAD)
-		return ..()
+		return NONE
 
+	var/mob/living/carbon/target_mob = interacting_with
 	var/obj/item/bodypart/head = target_mob.get_bodypart(BODY_ZONE_HEAD)
 	if (isnull(head))
-		return ..()
+		return NONE
 
 	playsound(user, 'sound/items/weapons/slice.ogg', vol = 80, vary = TRUE)
 
-	target_mob.balloon_alert(user, "cutting off head...")
+	user.visible_message(
+		span_warning("[user] raises [user.p_their()] [name] high above [target_mob]'s head, preparing to bring it down..."),
+		span_warning("You raise [name] high above [target_mob]'s head, preparing to decapitate them!"),
+	)
 	if (!do_after(user, behead_time, target_mob, extra_checks = CALLBACK(src, PROC_REF(has_same_head), target_mob, head)))
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 
-	head.dismember(silent = FALSE)
-	user.put_in_hands(head)
-
-	return TRUE
+	user.visible_message(
+		span_warning("[user] brings down [user.p_their()] [name] on [target_mob]'s head!"),
+		span_warning("You bring down [name] on [target_mob]'s head!"),
+	)
+	if(HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
+		head.dismember(silent = FALSE)
+	else
+		target_mob.cause_wound_of_type_and_severity(WOUND_BLUNT, head, WOUND_SEVERITY_CRITICAL, wound_source = src)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/chainsaw/proc/has_same_head(mob/living/target_mob, obj/item/bodypart/head)
 	return target_mob.get_bodypart(BODY_ZONE_HEAD) == head
@@ -137,7 +146,7 @@
 	behead_time = 2 SECONDS
 
 /obj/item/chainsaw/doomslayer/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == PROJECTILE_ATTACK)
+	if(attack_type & PROJECTILE_ATTACK)
 		owner.visible_message(span_danger("Ranged attacks just make [owner] angrier!"))
 		playsound(src, SFX_BULLET_MISS, 75, TRUE)
 		return TRUE

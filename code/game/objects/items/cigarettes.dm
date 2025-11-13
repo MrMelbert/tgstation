@@ -32,6 +32,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	/// If the match is broken
 	var/broken = FALSE
 
+/obj/item/match/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/ignite_friendly_sig)
+	AddElement(/datum/element/ignite_on_afterattack)
+
 /obj/item/match/process(seconds_per_tick)
 	smoketime -= seconds_per_tick * (1 SECONDS)
 	if(smoketime <= 0)
@@ -130,32 +135,6 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	matchburnout()
 	return ..()
 
-/obj/item/match/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(!isliving(M))
-		return
-
-	if(lit && M.ignite_mob())
-		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(M)] on fire with [src] at [AREACOORD(user)]")
-		user.log_message("set [key_name(M)] on fire with [src]", LOG_ATTACK)
-
-	var/obj/item/cigarette/cig = help_light_cig(M)
-	if(!lit || !cig || user.combat_mode)
-		..()
-		return
-
-	if(cig.lit)
-		to_chat(user, span_warning("[cig] is already lit!"))
-	if(M == user)
-		cig.attackby(src, user)
-	else
-		cig.light(span_notice("[user] holds [src] out for [M], and lights [cig]."))
-
-/// Finds a cigarette on another mob to help light.
-/obj/item/proc/help_light_cig(mob/living/M)
-	var/mask_item = M.get_item_by_slot(ITEM_SLOT_MASK)
-	if(istype(mask_item, /obj/item/cigarette))
-		return mask_item
-
 /obj/item/match/get_temperature()
 	return lit * heat
 
@@ -250,6 +229,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	. = ..()
 	AddComponent(/datum/component/knockoff, 90, list(BODY_ZONE_PRECISE_MOUTH), slot_flags) //90% to knock off when wearing a mask
 	AddElement(/datum/element/update_icon_updates_onmob)
+	AddElement(/datum/element/ignite_friendly_sig)
 	RegisterSignal(src, COMSIG_ATOM_TOUCHED_SPARKS, PROC_REF(sparks_touched))
 	icon_state = icon_off
 	inhand_icon_state = inhand_icon_off
@@ -340,22 +320,13 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	user.visible_message(span_suicide("[user] is huffing [src] as quickly as [user.p_they()] can! It looks like [user.p_theyre()] trying to give [user.p_them()]self cancer."))
 	return (TOXLOSS|OXYLOSS)
 
-/obj/item/cigarette/attackby(obj/item/W, mob/user, list/modifiers, list/attack_modifiers)
-	if(lit)
-		return ..()
-
-	var/lighting_text = W.ignition_effect(src, user)
+/obj/item/cigarette/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	var/lighting_text = tool.ignition_effect(src, user)
 	if(!lighting_text)
-		return ..()
+		return NONE
 
-	if(!check_oxygen(user)) //cigarettes need oxygen
-		balloon_alert(user, "no air!")
-		return ..()
-
-	if(smoketime > 0)
-		light(lighting_text)
-	else
-		to_chat(user, span_warning("There is nothing to smoke!"))
+	try_light(user, lighting_text)
+	return ITEM_INTERACT_SUCCESS
 
 /// Checks that we have enough air to smoke
 /obj/item/cigarette/proc/check_oxygen(mob/user)
@@ -372,11 +343,20 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/cigarette/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(lit) //can't dip if cigarette is lit (it will heat the reagents in the glass instead)
 		return NONE
+
+	if(isliving(interacting_with))
+		var/mob/living/body = interacting_with
+		if(body.on_fire)
+			try_light(user, span_rose("[user] lights [src] with [M]'s burning body. What a cold-blooded badass."))
+			return ITEM_INTERACT_SUCCESS
+		return NONE
+
 	var/obj/item/reagent_containers/cup/glass = interacting_with
 	if(!istype(glass)) //you can dip cigarettes into beakers
 		return NONE
 	if(istype(glass, /obj/item/reagent_containers/cup/mortar))
 		return NONE
+
 	if(glass.reagents.trans_to(src, chem_volume, transferred_by = user)) //if reagents were transferred, show the message
 		to_chat(user, span_notice("You dip \the [src] into \the [glass]."))
 	//if not, either the beaker was empty, or the cigarette was full
@@ -402,6 +382,19 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(lit)
 		return
 	light()
+
+/obj/item/cigarette/proc/try_light(mob/living/igniter, ignition_message)
+	if(lit)
+		igniter.balloon_alert("already lit!")
+		return FALSE
+	if(!check_oxygen(igniter))
+		igniter.balloon_alert("no air!")
+		return FALSE
+	if(smoketime <= 0)
+		igniter.balloon_alert("nothing to smoke!")
+		return FALSE
+	light(lighting_text)
+	return TRUE
 
 /// Lights the cigarette with given flavor text.
 /obj/item/cigarette/proc/light(flavor_text = null)
@@ -606,23 +599,6 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			to_chat(user, span_notice("Your [name] goes out."))
 	new type_butt(location)
 	qdel(src)
-
-/obj/item/cigarette/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(!istype(M))
-		return ..()
-	if(M.on_fire && !lit)
-		light(span_notice("[user] lights [src] with [M]'s burning body. What a cold-blooded badass."))
-		return
-	var/obj/item/cigarette/cig = help_light_cig(M)
-	if(!lit || !cig || user.combat_mode)
-		return ..()
-
-	if(cig.lit)
-		to_chat(user, span_warning("\The [cig] is already lit!"))
-	if(M == user)
-		cig.attackby(src, user)
-	else
-		cig.light(span_notice("[user] holds \the [src] out for [M], and lights [M.p_their()] [cig.name]."))
 
 /obj/item/cigarette/fire_act(exposed_temperature, exposed_volume)
 	light()
@@ -957,27 +933,29 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	STOP_PROCESSING(SSobj, src)
 	QDEL_NULL(cig_smoke)
 
-/obj/item/cigarette/pipe/attackby(obj/item/thing, mob/user, list/modifiers, list/attack_modifiers)
-	if(!(istype(thing, /obj/item/food/grown) || istype(thing, /obj/item/food/drug)))
-		return ..()
+/obj/item/cigarette/pipe/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	. = ..()
+	if(. & ITEM_INTERACT_ANY_BLOCKER)
+		return .
+
+	if(!istype(tool, /obj/item/food/grown) && !istype(tool, /obj/item/food/drug))
+		return NONE
 
 	if(packeditem)
-		to_chat(user, span_warning("It is already packed!"))
-		return
+		balloon_alert(user, "already packed!")
+		return ITEM_INTERACT_BLOCKING
 
-	var/obj/item/to_smoke = thing
-	if(istype(to_smoke, /obj/item/food/grown) && !HAS_TRAIT(to_smoke, TRAIT_DRIED))
-		to_chat(user, span_warning("It has to be dried first!"))
-		return
+	if(istype(tool, /obj/item/food/grown) && !HAS_TRAIT(tool, TRAIT_DRIED))
+		balloon_alert(user, "has to be dried first!")
+		return ITEM_INTERACT_BLOCKING
 
-	to_chat(user, span_notice("You stuff [to_smoke] into [src]."))
+	balloon_alert(user, "packed")
 	smoketime = 13 MINUTES
-	packeditem = to_smoke.name
-	update_name()
-	if(to_smoke.reagents)
-		to_smoke.reagents.trans_to(src, to_smoke.reagents.total_volume, transferred_by = user)
-	qdel(to_smoke)
-
+	packeditem = tool.name
+	update_appearance()
+	tool.reagents?.trans_to(src, tool.reagents.total_volume, transferred_by = user)
+	qdel(tool)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/cigarette/pipe/attack_self(mob/user)
 	var/atom/location = drop_location()

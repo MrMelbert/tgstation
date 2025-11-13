@@ -123,7 +123,7 @@ Striking a noncultist, however, will tear their flesh."}
 	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
 
 /obj/item/melee/cultblade/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == OVERWHELMING_ATTACK)
+	if(attack_type & OVERWHELMING_ATTACK)
 		return FALSE
 
 	if(IS_CULTIST(owner) && prob(final_block_chance))
@@ -133,19 +133,23 @@ Striking a noncultist, however, will tear their flesh."}
 	else
 		return FALSE
 
-/obj/item/melee/cultblade/attack(mob/living/target, mob/living/carbon/human/user)
+/obj/item/melee/cultblade/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	. = ..()
+	if(.)
+		return TRUE
+
 	if(!IS_CULTIST(user) && !free_use)
-		user.Paralyze(100)
+		user.Paralyze(10 SECONDS)
 		user.dropItemToGround(src, TRUE)
-		user.visible_message(span_warning("A powerful force shoves [user] away from [target]!"), \
-				span_cult_large("\"You shouldn't play with sharp things. You'll poke someone's eye out.\""))
-		if(ishuman(user))
-			var/mob/living/carbon/human/miscreant = user
-			miscreant.apply_damage(rand(force/2, force), BRUTE, pick(GLOB.arm_zones))
-		else
-			user.adjustBruteLoss(rand(force/2,force))
-		return
-	..()
+		user.visible_message(
+			span_warning("A powerful force shoves [user] away from [target]!"), \
+			span_cult_large("\"You shouldn't play with sharp things. You'll poke someone's eye out.\""), \
+			visible_message_flags = ALWAYS_SHOW_SELF_MESSAGE,
+		)
+		user.apply_damage(rand(force / 2, force), BRUTE, user.get_active_hand())
+		return TRUE
+
+	return FALSE
 
 #define WIELDER_SPELLS "wielder_spell"
 #define SWORD_SPELLS "sword_spell"
@@ -878,7 +882,7 @@ Striking a noncultist, however, will tear their flesh."}
 	qdel(src)
 
 /obj/item/melee/cultblade/halberd/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == OVERWHELMING_ATTACK)
+	if(attack_type & OVERWHELMING_ATTACK)
 		return FALSE
 	if(HAS_TRAIT(src, TRAIT_WIELDED))
 		final_block_chance *= 2
@@ -1099,7 +1103,7 @@ Striking a noncultist, however, will tear their flesh."}
 
 /obj/item/shield/mirror/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
 	if(IS_CULTIST(owner))
-		if(attack_type == PROJECTILE_ATTACK)
+		if(attack_type & PROJECTILE_ATTACK)
 			if(damage_type == BRUTE || damage_type == BURN)
 				if(damage >= 30)
 					var/turf/T = get_turf(owner)

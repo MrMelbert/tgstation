@@ -48,20 +48,52 @@
 	UnregisterSignal(user, COMSIG_MOB_AFTER_EXIT_JAUNT)
 	remove_crit()
 
-/obj/item/light_eater/attack(mob/living/target, mob/living/user, list/modifiers, list/attack_modifiers)
+#define CRIT_ATTACK "critical_strike"
+/// No stun but double damage
+#define DAMAGE_CRIT 1
+/// Full stun
+#define STUN_CRIT 2
+
+/obj/item/light_eater/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-	if(!has_crit)
+	if(. || !has_crit || !isliving(target))
 		return
-	playsound(target, 'sound/effects/wounds/crackandbleed.ogg', 100, TRUE)
-	if(target.stat == DEAD)
-		user.visible_message(span_warning("[user] gores [target] with [src]!"), span_warning("You gore [target] with [src], which doesn't accomplish much, but it does make you feel a little better."))
-	else if(!HAS_TRAIT(target, TRAIT_HULK) && (iscarbon(target) || issilicon(target)))
-		user.visible_message(span_boldwarning("[user] gores [target] with [src], bringing them to a halt!"), span_userdanger("You gore [target] with [src], bringing them to a halt!"))
-		target.Paralyze(issilicon(target) ? 2 SECONDS : 1 SECONDS)
+
+	var/mob/living/attacking = target
+	HIDE_ATTACK_MESSAGES(attack_modifiers)
+	if(attacking.check_stun_immunity(CANSTUN))
+		LAZYSET(attack_modifiers, CRIT_ATTACK, DAMAGE_CRIT)
+		MODIFY_ATTACK_FORCE_MULTIPLIER(attack_modifiers, 2)
 	else
-		user.visible_message(span_boldwarning("[user] gores [target] with [src], ripping into them!"), span_userdanger("You gore [target] with [src], ripping into them!"))
-		target.apply_damage(damage = force, forced = TRUE)
+		LAZYSET(attack_modifiers, CRIT_ATTACK, STUN_CRIT)
+
+/obj/item/light_eater/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target) || !LAZYACCESS(attack_modifiers, CRIT_ATTACK))
+		return
+
+	var/mob/living/attacking = target
+	playsound(attacking, 'sound/effects/wounds/crackandbleed.ogg', 100, TRUE)
+	if(attacking.stat == DEAD)
+		user.visible_message(
+			span_warning("[user] gores [attacking] with [src]!"),
+			span_warning("You gore [attacking] with [src], which doesn't accomplish much, but it does make you feel a little better."),
+		)
+	else if(LAZYACCESS(attack_modifiers, CRIT_ATTACK) == STUN_CRIT)
+		user.visible_message(
+			span_boldwarning("[user] gores [attacking] with [src], bringing them to a halt!"),
+			span_userdanger("You gore [attacking] with [src], bringing them to a halt!"),
+		)
+		attacking.Paralyze(issilicon(attacking) ? 2 SECONDS : 1 SECONDS)
+	else
+		user.visible_message(
+			span_boldwarning("[user] gores [attacking] with [src], ripping into them!"),
+			span_userdanger("You gore [attacking] with [src], ripping into them!"),
+		)
 	remove_crit()
+
+#undef CRIT_ATTACK
+#undef DAMAGE_CRIT
+#undef STUN_CRIT
 
 /obj/item/light_eater/proc/prepare_crit_timer()
 	crit_timer = addtimer(CALLBACK(src, PROC_REF(add_crit)), 7 SECONDS, TIMER_DELETE_ME | TIMER_STOPPABLE)

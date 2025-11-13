@@ -44,10 +44,15 @@
 	. = ..()
 	. += soul.ckey ? span_nicegreen("There is a soul inhabiting it.") : span_danger("It's dormant.")
 
-/obj/item/soulscythe/attack(mob/living/attacked, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(attacked.stat != DEAD)
-		give_blood(10)
+/obj/item/soulscythe/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target))
+		return
+
+	var/mob/living/attacked = target
+	if(attacked.stat == DEAD)
+		return
+
+	give_blood(10)
 
 /obj/item/soulscythe/attack_hand(mob/user, list/modifiers)
 	if(soul.ckey && !soul.faction_check_atom(user))

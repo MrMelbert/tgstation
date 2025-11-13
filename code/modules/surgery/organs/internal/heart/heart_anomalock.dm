@@ -1,8 +1,6 @@
 /*!
  * Contains Voltaic Combat Cyberheart
  */
-#define DOAFTER_IMPLANTING_HEART "implanting"
-
 /obj/item/organ/heart/cybernetic/anomalock
 	name = "voltaic combat cyberheart"
 	desc = "A cutting-edge cyberheart, originally designed for Nanotrasen killsquad usage but later declassified for normal research. Voltaic technology allows the heart to keep the body upright in dire circumstances, alongside redirecting anomalous flux energy to fully shield the user from shocks and electro-magnetic pulses. Requires a refined Flux core as a power source."
@@ -52,22 +50,24 @@
 	tesla_zap(source = organ_owner, zap_range = 20, power = 2.5e5, cutoff = 1e3)
 	qdel(src)
 
-/obj/item/organ/heart/cybernetic/anomalock/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(target_mob != user || !istype(target_mob) || !core)
-		return ..()
-
-	if(DOING_INTERACTION(user, DOAFTER_IMPLANTING_HEART))
-		return
+/obj/item/organ/heart/cybernetic/anomalock/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with) || isnull(core))
+		return NONE
+	var/mob/living/carbon/human/target_mob = interacting_with
+	if(target_mob != user)
+		return ITEM_INTERACT_BLOCKING
+	if(DOING_INTERACTION_WITH_TARGET(user, user))
+		return ITEM_INTERACT_BLOCKING
 	user.balloon_alert(user, "this will hurt...")
-	to_chat(user, span_userdanger("Black cyberveins tear your skin apart, pulling the heart into your ribcage. This feels unwise.."))
-	if(!do_after(user, 5 SECONDS, interaction_key = DOAFTER_IMPLANTING_HEART))
-		return ..()
+	to_chat(user, span_userdanger("Black cyberveins tear your skin apart, pulling [src] into your ribcage. This feels unwise..."))
+	if(!do_after(user, 5 SECONDS, user))
+		return ITEM_INTERACT_BLOCKING
 	playsound(target_mob, 'sound/items/weapons/slice.ogg', 100, TRUE)
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	Insert(user)
 	user.apply_damage(100, BRUTE, BODY_ZONE_CHEST)
 	user.emote("scream")
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/organ/heart/cybernetic/anomalock/proc/on_emp_act(severity)
 	SIGNAL_HANDLER

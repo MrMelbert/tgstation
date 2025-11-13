@@ -17,6 +17,7 @@
 	light_on = FALSE
 	w_class = WEIGHT_CLASS_SMALL
 	obj_flags = CONDUCTS_ELECTRICITY
+	item_flags = NOBLUDGEON
 	slot_flags = ITEM_SLOT_NECK
 	custom_materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass = SMALL_MATERIAL_AMOUNT*1.5)
 	custom_price = PAYCHECK_CREW * 2
@@ -126,14 +127,12 @@
 	user.put_in_hands(disk)
 	disk = null
 
-/obj/item/camera/attack(mob/living/carbon/human/M, mob/user)
-	return
-
 /obj/item/camera/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if(istype(tool, /obj/item/camera_film))
 		return camera_film_act(user, tool)
 	if(istype(tool, /obj/item/disk/holodisk))
 		return holodisk_act(user, tool)
+	return NONE
 
 /obj/item/camera/proc/camera_film_act(mob/living/user, obj/item/camera_film/new_film)
 	if(pictures_left)

@@ -177,10 +177,8 @@
 	if (isturf(loc))
 		bell.forceMove(loc)
 
-/obj/item/inhand_desk_bell/attack(mob/living/target_mob, mob/living/user, params)
+/obj/item/inhand_desk_bell/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-	if (.)
-		return
 	bell.ring_bell(user)
 
 /obj/item/inhand_desk_bell/attack_self(mob/user, modifiers)

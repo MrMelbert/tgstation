@@ -289,7 +289,7 @@
 	if(!can_deflect(carp_user))
 		return
 
-	if(attack_type == PROJECTILE_ATTACK || attack_type == THROWN_PROJECTILE_ATTACK)
+	if(attack_type & (PROJECTILE_ATTACK | THROWN_PROJECTILE_ATTACK))
 		return NONE
 
 	if(!prob(determine_avoidance))

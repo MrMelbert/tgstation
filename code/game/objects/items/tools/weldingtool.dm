@@ -58,6 +58,7 @@
 	AddElement(/datum/element/update_icon_updates_onmob)
 	AddElement(/datum/element/tool_flash, light_range)
 	AddElement(/datum/element/falling_hazard, damage = force, wound_bonus = wound_bonus, hardhat_safety = TRUE, crushes = FALSE, impact_sound = hitsound)
+	AddElement(/datum/element/ignite_on_afterattack)
 
 	create_reagents(max_fuel)
 	if(starting_fuel)
@@ -179,14 +180,6 @@
 	if(!isOn())
 		return
 	use(1)
-	var/turf/location = get_turf(user)
-	location.hotspot_expose(700, 50, 1)
-	if(QDELETED(target) || !isliving(target)) // can't ignite something that doesn't exist
-		return
-	var/mob/living/attacked_mob = target
-	if(attacked_mob.ignite_mob())
-		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(attacked_mob)] on fire with [src] at [AREACOORD(user)]")
-		user.log_message("set [key_name(attacked_mob)] on fire with [src].", LOG_ATTACK)
 
 /obj/item/weldingtool/attack_self(mob/user)
 	if(reagents.has_reagent(/datum/reagent/toxin/plasma))

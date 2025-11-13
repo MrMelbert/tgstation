@@ -11,7 +11,7 @@ Slimecrossing Weapons
 	force = 15
 	force_string = "painful"
 
-/obj/item/melee/arm_blade/slime/attack(mob/living/L, mob/user)
+/obj/item/melee/arm_blade/slime/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	. = ..()
 	if(prob(20))
 		user.emote("scream")

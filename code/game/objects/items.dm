@@ -1011,10 +1011,17 @@
 
 /// If an object can successfully be used as a fire starter it will return a message
 /obj/item/proc/ignition_effect(atom/A, mob/user)
-	if(get_temperature())
-		. = span_notice("[user] lights [A] with [src].")
-	else
-		. = ""
+	if(!get_temperature())
+		return ""
+
+	return span_notice("[user] lights [A] with [src].")
+
+/// Similar to ignition_effect but asserts that the item is being worn - allows for more personalized messages
+/obj/item/proc/worn_item_ignition_effect(obj/item/igniting, mob/wearer, mob/user)
+	if(!get_temperature())
+		return ""
+
+	return span_notice("[user] holds [src] out for [wearer], and lights [wearer.p_their()] [igniting.name].")
 
 /obj/item/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	return SEND_SIGNAL(src, COMSIG_ATOM_HITBY, AM, skipcatch, hitpush, blocked, throwingdatum)

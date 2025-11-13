@@ -51,14 +51,12 @@
 	icon = 'icons/obj/toys/balloons.dmi'
 	icon_state = "balloon_red-e"
 	inhand_icon_state = "balloon-empty"
+	item_flags = NOBLUDGEON
 
 /obj/item/toy/waterballoon/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
 	create_reagents(10)
-
-/obj/item/toy/waterballoon/attack(mob/living/carbon/human/M, mob/user)
-	return
 
 /obj/item/toy/waterballoon/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if (!istype(interacting_with, /obj/structure/reagent_dispensers))

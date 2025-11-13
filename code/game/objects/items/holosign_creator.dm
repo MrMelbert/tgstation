@@ -82,9 +82,6 @@
 	target_holosign = create_holosign(interacting_with, user)
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/holosign_creator/attack(mob/living/carbon/human/M, mob/user)
-	return
-
 /obj/item/holosign_creator/proc/create_holosign(atom/target, mob/user)
 	var/atom/new_holosign = new holosign_type(get_turf(target), src)
 	new_holosign.add_hiddenprint(user)

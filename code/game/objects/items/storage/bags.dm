@@ -361,7 +361,7 @@
 	pickup_sound = SFX_TRAY_PICKUP
 	drop_sound = SFX_TRAY_DROP
 
-/obj/item/storage/bag/tray/attack(mob/living/M, mob/living/user)
+/obj/item/storage/bag/tray/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	. = ..()
 	// Drop all the things. All of them.
 	var/list/obj/item/oldContents = contents.Copy()
@@ -371,13 +371,13 @@
 		do_scatter(tray_item)
 
 	if(prob(50))
-		playsound(M, 'sound/items/trayhit/trayhit1.ogg', 50, TRUE)
+		playsound(target, 'sound/items/trayhit/trayhit1.ogg', 50, TRUE)
 	else
-		playsound(M, 'sound/items/trayhit/trayhit2.ogg', 50, TRUE)
+		playsound(target, 'sound/items/trayhit/trayhit2.ogg', 50, TRUE)
 
-	if(ishuman(M))
-		if(prob(10))
-			M.Paralyze(40)
+	if(ishuman(target) && prob(10))
+		var/mob/living/human/slammed = target
+		slammed.Paralyze(40)
 	update_appearance()
 
 /obj/item/storage/bag/tray/proc/do_scatter(obj/item/tray_item)

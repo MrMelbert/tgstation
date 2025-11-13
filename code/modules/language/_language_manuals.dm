@@ -24,23 +24,37 @@
 
 	use_charge(user)
 
-/obj/item/language_manual/attack(mob/living/M, mob/living/user)
-	if(!istype(M) || !istype(user))
-		return
-	if(M == user)
+/obj/item/language_manual/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with) || !isliving(user))
+		return NONE
+	if(interacting_with == user)
 		attack_self(user)
-		return
+		return ITEM_INTERACT_SUCCESS
 
-	playsound(loc, SFX_PUNCH, 25, TRUE, -1)
+	playsound(src, SFX_PUNCH, 25, TRUE, -1)
 
-	if(M.stat == DEAD)
-		M.visible_message(span_danger("[user] smacks [M]'s lifeless corpse with [src]."), span_userdanger("[user] smacks your lifeless corpse with [src]."), span_hear("You hear smacking."))
-	else if(M.has_language(language))
-		M.visible_message(span_danger("[user] beats [M] over the head with [src]!"), span_userdanger("[user] beats you over the head with [src]!"), span_hear("You hear smacking."))
+	var/mob/living/learning = interacting_with
+	if(learning.stat == DEAD)
+		learning.visible_message(
+			span_danger("[user] smacks [learning]'s lifeless corpse with [src]."),
+			span_userdanger("[user] smacks your lifeless corpse with [src]."),
+			span_hear("You hear smacking."),
+		)
+	else if(learning.has_language(language))
+		learning.visible_message(
+			span_danger("[user] beats [learning] over the head with [src]!"),
+			span_userdanger("[user] beats you over the head with [src]!"),
+			span_hear("You hear smacking."),
+		)
 	else
-		M.visible_message(span_notice("[user] teaches [M] by beating [M.p_them()] over the head with [src]!"), span_boldnotice("As [user] hits you with [src], [flavour_text]."), span_hear("You hear smacking."))
-		M.grant_language(language, source = LANGUAGE_MIND)
+		learning.visible_message(
+			span_notice("[user] teaches [learning] by beating [learning.p_them()] over the head with [src]!"),
+			span_boldnotice("As [user] hits you with [src], [flavour_text]."),
+			span_hear("You hear smacking."),
+		)
+		learning.grant_language(language, source = LANGUAGE_MIND)
 		use_charge(user)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/language_manual/proc/use_charge(mob/user)
 	charges--
@@ -101,11 +115,17 @@
 	flavour_text = "suddenly the drone chittering makes sense"
 	charges = INFINITY
 
-/obj/item/language_manual/dronespeak_manual/attack(mob/living/M, mob/living/user)
+/obj/item/language_manual/dronespeak_manual/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with) || !isliving(user))
+		return NONE
 	// If they are not drone or silicon, we don't want them to learn this language.
-	if(!(isdrone(M) || issilicon(M)))
-		M.visible_message(span_danger("[user] beats [M] over the head with [src]!"), span_userdanger("[user] beats you over the head with [src]!"), span_hear("You hear smacking."))
-		return
+	if(!isdrone(interacting_with) || !issilicon(interacting_with))
+		interacting_with.visible_message(
+			span_danger("[user] beats [interacting_with] over the head with [src]!"),
+			span_userdanger("[user] beats you over the head with [src]!"),
+			span_hear("You hear smacking."),
+		)
+		return ITEM_INTERACT_BLOCKING
 
 	return ..()
 

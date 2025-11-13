@@ -135,20 +135,22 @@
 	for(var/mob/dead/observer/ghost in spirits - current_spirits)
 		ghost.RemoveInvisibility(type)
 
-	var/new_force = clamp((length(current_spirits) * 4), 0, 75)
-	var/old_force = clamp((length(spirits) * 4), 0, 75)
-	force += new_force - old_force
 	spirits = current_spirits
+
 	return length(spirits)
 
-/obj/item/melee/ghost_sword/attack(mob/living/target, mob/living/carbon/human/user)
-	var/ghost_counter = ghost_check()
-	user.visible_message(span_danger("[user] strikes with the force of [ghost_counter] vengeful spirits!"))
+/obj/item/melee/ghost_sword/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
+	if(.)
+		return
+
+	var/ghost_counter = ghost_check()
+	MODIFY_ATTACK_FORCE(attack_modifiers, min(18, ghost_counter) * 4)
+	user.visible_message(span_danger("[user] strikes with the force of [ghost_counter] vengeful spirits!"))
 
 /obj/item/melee/ghost_sword/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
 	var/ghost_counter = ghost_check()
-	final_block_chance += clamp((ghost_counter * 5), 0, 75)
+	final_block_chance += (min(15, ghost_counter) * 5)
 	owner.visible_message(span_danger("[owner] is protected by a ring of [ghost_counter] ghosts!"))
 	return ..()
 

@@ -48,7 +48,7 @@
 
 	if(!can_use(cqc_user) || !cqc_user.throw_mode || INCAPACITATED_IGNORING(cqc_user, INCAPABLE_GRAB))
 		return NONE
-	if(attack_type == PROJECTILE_ATTACK)
+	if(attack_type & PROJECTILE_ATTACK)
 		return NONE
 	if(!prob(block_chance))
 		return NONE

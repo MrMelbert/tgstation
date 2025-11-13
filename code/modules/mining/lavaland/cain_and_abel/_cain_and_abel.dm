@@ -12,7 +12,6 @@
 	attack_verb_continuous = list("attacks", "saws", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "saw", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	force = 15
-	attack_speed = 6
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	actions_types = list(/datum/action/cooldown/dagger_swing)
 	hitsound = 'sound/items/weapons/bladeslice.ogg'
@@ -94,18 +93,17 @@
 		addtimer(CALLBACK(src, PROC_REF(fire_wisp), user, interacting_with), index * 0.15 SECONDS)
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/cain_and_abel/attack(mob/living/target, mob/living/carbon/human/user)
-	if(!istype(target) || target.mob_size < MOB_SIZE_LARGE || target.stat == DEAD)
-		attack_speed = CLICK_CD_MELEE
-		return ..()
-
-	attack_speed = initial(attack_speed)
-	var/old_force = force
-	var/bonus_value = combo_count || 1
-	force = CEILING((bonus_value * damage_boost) * force, 1)
+/obj/item/cain_and_abel/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-	force = old_force
-	set_combo(new_value = combo_count + 1, user = user)
+	if(. || !isliving(target) || QDELETED(target))
+		return
+	var/mob/living/stabbing = target
+	if(stabbing.mob_size < MOB_SIZE_LARGE && stabbing.stat == DEAD)
+		return
+
+	MODIFY_ATTACK_FORCE_MULTIPLIER(user, (combo_count || 1) * damage_boost)
+	MODIFY_ATTACK_CLICK_CD(user, -2)
+	set_combo(combo_count + 1, user)
 
 /obj/item/cain_and_abel/attack_self(mob/user)
 	. = ..()

@@ -19,7 +19,7 @@
 		context[SCREENTIP_CONTEXT_LMB] = "Refill"
 		return CONTEXTUAL_SCREENTIP_SET
 
-/obj/item/tattoo_kit/examine(mob/tattoo_artist)
+/obj/item/tattoo_kit/examine(mob/user)
 	. = ..()
 	if(!uses)
 		. += span_warning("This kit has no uses left!")
@@ -44,38 +44,40 @@
 	balloon_alert(user, "added tattoo ink")
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/tattoo_kit/attack(mob/living/tattoo_holder, mob/living/tattoo_artist, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return TRUE
-	if(!tattoo_artist.mind || tattoo_artist.combat_mode)
-		return
-	if(!uses)
-		balloon_alert(tattoo_artist, "not enough ink!")
-		return
-	if(!length(tattoo_artist.mind.memories))
-		balloon_alert(tattoo_artist, "nothing memorable to engrave!")
-		return
-	var/selected_zone = tattoo_artist.zone_selected
-	var/obj/item/bodypart/tattoo_target = tattoo_holder.get_bodypart(selected_zone)
-	if(!tattoo_target)
-		balloon_alert(tattoo_artist, "no limb to tattoo!")
-		return
-	if(HAS_TRAIT_FROM(tattoo_target, TRAIT_NOT_ENGRAVABLE, ENGRAVED_TRAIT))
-		balloon_alert(tattoo_artist, "bodypart already tattooed!")
-		return
-	if(HAS_TRAIT(tattoo_target, TRAIT_NOT_ENGRAVABLE))
-		balloon_alert(tattoo_artist, "bodypart cannot be tattooed!")
-		return
-	var/datum/memory/memory_to_tattoo = tattoo_artist.mind.select_memory("tattoo")
-	if(!memory_to_tattoo || !tattoo_artist.Adjacent(tattoo_holder) || !tattoo_holder.get_bodypart(selected_zone))
-		return
+/obj/item/tattoo_kit/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with) || user.combat_mode || !user.Adjacent(interacting_with)) // telekinesis check
+		return NONE
 
-	tattoo_artist.visible_message(span_notice("[tattoo_artist] begins to tattoo something onto [tattoo_target] of [tattoo_holder]..."))
-	if(!do_after(tattoo_artist, 5 SECONDS, tattoo_holder))
-		return
-	if(!tattoo_holder.get_bodypart(selected_zone))
-		return
+	if(!uses)
+		balloon_alert(user, "not enough ink!")
+		return ITEM_INTERACT_BLOCKING
+	if(!length(user.mind?.memories))
+		balloon_alert(user, "nothing memorable to engrave!")
+		return ITEM_INTERACT_BLOCKING
+
+	var/selected_zone = user.zone_selected
+	var/mob/living/carbon/human/to_tattoo = interacting_with
+	var/obj/item/bodypart/tattoo_target = to_tattoo.get_bodypart(selected_zone)
+	if(!tattoo_target)
+		balloon_alert(user, "no limb to tattoo!")
+		return ITEM_INTERACT_BLOCKING
+	if(HAS_TRAIT_FROM(tattoo_target, TRAIT_NOT_ENGRAVABLE, ENGRAVED_TRAIT))
+		balloon_alert(user, "bodypart already tattooed!")
+		return ITEM_INTERACT_BLOCKING
+	if(HAS_TRAIT(tattoo_target, TRAIT_NOT_ENGRAVABLE))
+		balloon_alert(user, "bodypart cannot be tattooed!")
+		return ITEM_INTERACT_BLOCKING
+	var/datum/memory/memory_to_tattoo = user.mind.select_memory("tattoo")
+	if(!memory_to_tattoo || !user.Adjacent(to_tattoo) || !to_tattoo.get_bodypart(selected_zone))
+		return ITEM_INTERACT_BLOCKING
+
+	user.visible_message(span_notice("[user] begins to tattoo something onto [to_tattoo]'s [tattoo_target.plaintext_zone]..."))
+	if(!do_after(user, 5 SECONDS, to_tattoo))
+		return ITEM_INTERACT_BLOCKING
+	if(!to_tattoo.get_bodypart(selected_zone))
+		return ITEM_INTERACT_BLOCKING
 	tattoo_target.AddComponent(/datum/component/tattoo, memory_to_tattoo.generate_story(STORY_TATTOO))
 	//prevent this memory from being used again this round
 	memory_to_tattoo.memory_flags |= MEMORY_FLAG_ALREADY_USED
+	uses--
+	return ITEM_INTERACT_SUCCESS

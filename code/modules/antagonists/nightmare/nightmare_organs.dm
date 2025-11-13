@@ -93,9 +93,10 @@
 	/// The armblade granted to the host of this heart.
 	var/obj/item/light_eater/blade
 
-/obj/item/organ/heart/nightmare/attack(mob/M, mob/living/carbon/user, obj/target)
-	if(M != user)
-		return ..()
+/obj/item/organ/heart/nightmare/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscarbon(interacting_with) || interacting_with != user)
+		return NONE
+
 	user.visible_message(
 		span_warning("[user] raises [src] to [user.p_their()] mouth and tears into it with [user.p_their()] teeth!"),
 		span_danger("[src] feels unnaturally cold in your hands. You raise [src] to your mouth and devour it!")

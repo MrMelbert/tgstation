@@ -129,18 +129,18 @@ DEFINE_BITFIELD(status_flags, list(
 
 //Attack types for checking block reactions
 /// Attack was made with a melee weapon
-#define MELEE_ATTACK 1
+#define MELEE_ATTACK (1<<0)
 /// Attack is a punch or kick.
 /// Mob attacks are not classified as unarmed (currently).
-#define UNARMED_ATTACK 2
+#define UNARMED_ATTACK (1<<1)
 /// A projectile is hitting us.
-#define PROJECTILE_ATTACK 3
+#define PROJECTILE_ATTACK (1<<2)
 /// A thrown item is hitting us.
-#define THROWN_PROJECTILE_ATTACK 4
+#define THROWN_PROJECTILE_ATTACK (1<<3)
 /// We're being tackled or leaped at.
-#define LEAP_ATTACK 5
+#define LEAP_ATTACK (1<<4)
 /// We're being attacked with an oversized object, perhaps a road roller. Not that anyone use such a thing as a waepon. So only relevant for certain mech based attacks.
-#define OVERWHELMING_ATTACK 6
+#define OVERWHELMING_ATTACK (1<<5)
 
 /// Used in check block to get what mob is attacking the blocker.
 #define GET_ASSAILANT(weapon) (get(weapon, /mob/living))
@@ -405,22 +405,44 @@ GLOBAL_LIST_INIT(leg_zones, list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
 #define SILENCE_DEFAULT_MESSAGES "silence_default_messages"
 /// If set in modifiers, default hitsound is silenced
 #define SILENCE_HITSOUND "silence_hitsound"
+/// Sets the cd after attacking to this value
+#define CLICK_CD_OVERRIDE "click_cd_override"
+/// Modifies the cd after attacking by this value (additive)
+#define CLICK_CD_MODIFIER "click_cd_modifier"
+/// Multiplies the cd after attacking by this value. Applied AFTER [CLICK_CD_MODIFIER]
+#define CLICK_CD_MULTIPLIER "click_cd_multiplier"
 
 /// Used in attack chain to set the force of the attack without changing the base force of the item.
 #define SET_ATTACK_FORCE(atk_mods, value) \
 	if(!islist(atk_mods)) { atk_mods = list() }; \
-	atk_mods[FORCE_OVERRIDE] = value;
+	atk_mods[FORCE_OVERRIDE] = (value);
 
 /// Used in attack chain to add or remove force from the attack without changing the base force of the item.
 #define MODIFY_ATTACK_FORCE(atk_mods, amount) \
 	if(!islist(atk_mods)) { atk_mods = list() }; \
-	atk_mods[FORCE_MODIFIER] += amount;
+	atk_mods[FORCE_MODIFIER] += (amount);
 
 /// Used in attack chain to multiply the force of the attack without changing the base force of the item.
 #define MODIFY_ATTACK_FORCE_MULTIPLIER(atk_mods, amount) \
 	if(!islist(atk_mods)) { atk_mods = list() }; \
 	if(!(FORCE_MULTIPLIER in atk_mods)) { atk_mods[FORCE_MULTIPLIER] = 1 }; \
-	atk_mods[FORCE_MULTIPLIER] *= amount;
+	atk_mods[FORCE_MULTIPLIER] *= (amount);
+
+/// Used in attack chain to set the click cooldown after the attack.
+#define SET_ATTACK_CLICK_CD(atk_mods, value) \
+	if(!islist(atk_mods)) { atk_mods = list() }; \
+	atk_mods[CLICK_CD_OVERRIDE] = (value);
+
+/// Used in attack chain to add or remove time from the click cooldown after the attack.
+#define MODIFY_ATTACK_CLICK_CD(atk_mods, amount) \
+	if(!islist(atk_mods)) { atk_mods = list() }; \
+	atk_mods[CLICK_CD_MODIFIER] += (amount);
+
+/// Used in attack chain to multiply the click cooldown after the attack.
+#define MODIFY_ATTACK_CLICK_CD_MULTIPLIER(atk_mods, amount) \
+	if(!islist(atk_mods)) { atk_mods = list() }; \
+	if(!(CLICK_CD_MULTIPLIER in atk_mods)) { atk_mods[CLICK_CD_MULTIPLIER] = 1 }; \
+	atk_mods[CLICK_CD_MULTIPLIER] *= (amount);
 
 /// Used in attack chain to prevent hitsounds on attack (to allow for custom sounds)
 #define MUTE_ATTACK_HITSOUND(atk_mods) \
@@ -434,8 +456,13 @@ GLOBAL_LIST_INIT(leg_zones, list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
 
 /// Calculates the final force of some item based on atk_mods
 /// Needs to have support for force overrides and multipliers of 0 (hence why we ternaries are used over 'or's)
-#define CALCULATE_FORCE(some_item, atk_mods) \
-	((((FORCE_OVERRIDE in atk_mods) ? atk_mods[FORCE_OVERRIDE] : some_item.force) + (atk_mods?[FORCE_MODIFIER] || 0)) * ((FORCE_MULTIPLIER in atk_mods) ? atk_mods[FORCE_MULTIPLIER] : 1))
+#define CALCULATE_FORCE(base_force, atk_mods) \
+	max(0, ((((FORCE_OVERRIDE in atk_mods) ? atk_mods[FORCE_OVERRIDE] : base_force) + (atk_mods?[FORCE_MODIFIER] || 0)) * ((FORCE_MULTIPLIER in atk_mods) ? atk_mods[FORCE_MULTIPLIER] : 1)))
+
+/// Calculates the final click cooldown of some item based on atk_mods
+/// Needs to have support for click cd overrides and multipliers of 0 (hence why we ternaries are used over 'or's)
+#define CALCULATE_CLICK_CD(base_cd, atk_mods) \
+	max(0, ((((CLICK_CD_OVERRIDE in atk_mods) ? atk_mods[CLICK_CD_OVERRIDE] : base_cd) + (atk_mods?[CLICK_CD_MODIFIER] || 0)) * ((CLICK_CD_MULTIPLIER in atk_mods) ? atk_mods[CLICK_CD_MULTIPLIER] : 1)))
 
 /// Return from attacked_by to indicate the attack did not connect
 /// A negative number is used here to people can easily check "attacks that failed or did 0 damage" with <= 0

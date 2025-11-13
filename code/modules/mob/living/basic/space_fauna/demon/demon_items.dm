@@ -10,9 +10,9 @@
 	AddElement(/datum/element/update_icon_blocker)
 	return ..()
 
-/obj/item/organ/heart/demon/attack(mob/target_mob, mob/living/carbon/user, obj/target)
-	if(target_mob != user)
-		return ..()
+/obj/item/organ/heart/demon/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscarbon(interacting_with) || interacting_with != user)
+		return NONE
 
 	user.visible_message(
 		span_warning("[user] raises [src] to [user.p_their()] mouth and tears into it with [user.p_their()] teeth!"),
@@ -23,7 +23,7 @@
 	if(locate(/datum/action/cooldown/spell/jaunt/bloodcrawl) in user.actions)
 		to_chat(user, span_warning("...and you don't feel any different."))
 		qdel(src)
-		return
+		return ITEM_INTERACT_SUCCESS
 
 	user.visible_message(
 		span_warning("[user]'s eyes flare a deep crimson!"),
@@ -31,7 +31,8 @@
 	)
 
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
-	src.Insert(user) //Consuming the heart literally replaces your heart with a demon heart. H A R D C O R E
+	Insert(user) //Consuming the heart literally replaces your heart with a demon heart. H A R D C O R E
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/organ/heart/demon/on_mob_insert(mob/living/carbon/heart_owner)
 	. = ..()

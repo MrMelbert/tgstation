@@ -2,6 +2,7 @@
 #define GOLIATH_SCLERA_COLOR "#ac0f32"
 #define GOLIATH_PUPIL_COLOR COLOR_RED
 #define GOLIATH_COLORS GOLIATH_ORGAN_COLOR + GOLIATH_SCLERA_COLOR + GOLIATH_PUPIL_COLOR
+#define NEMESIS_ATTACK "nemesis"
 
 ///bonus of the goliath: you can swim through space!
 /datum/status_effect/organ_set_bonus/goliath
@@ -123,6 +124,11 @@
 	var/mining_bonus_force = 80
 	/// Our cooldown declare for our special knockback hit
 	COOLDOWN_DECLARE(tendril_hammer_cd)
+	/// Factions that are weak to the tendril hammer
+	var/list/nemesis_factions = list(
+		FACTION_MINING,
+		FACTION_BOSS,
+	)
 
 /obj/item/goliath_infuser_hammer/Initialize(mapload)
 	. = ..()
@@ -132,37 +138,27 @@
 	. = ..()
 	. += "You can use your tendril hammer arm to deliver a devastating blow against mining fauna, but only once every two seconds."
 
-/obj/item/goliath_infuser_hammer/attack(mob/living/target, mob/living/carbon/human/user, list/modifiers, list/attack_modifiers)
+/obj/item/goliath_infuser_hammer/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-
-	//If we're on cooldown, we'll do a normal attack.
-	if(!COOLDOWN_FINISHED(src, tendril_hammer_cd))
+	if(. || !isliving(target) || !COOLDOWN_FINISHED(src, tendril_hammer_cd))
 		return
 
-	//do a normal attack if our target isn't living, since we're gonna define them after this.
-	if(!isliving(target))
+	var/mob/living/smacking = target
+	if(!faction_check(smacking.faction, nemesis_factions))
 		return
 
-	var/mob/living/fresh_pancake = target
-
-	// Check for nemesis factions on the target.
-	if(!(FACTION_MINING in fresh_pancake.faction) && !(FACTION_BOSS in fresh_pancake.faction))
-		// Target is not a nemesis, so attack normally.
-		return
-
-	// Apply nemesis-specific effects.
-	nemesis_effects(user, fresh_pancake)
-
-	// Target is a nemesis, and so now we do the extra big damage and go on cooldown
-	fresh_pancake.apply_damage(mining_bonus_force, damtype) //smush
+	MODIFY_ATTACK_FORCE(attack_modifiers, mining_bonus_force)
+	LAZYSET(attack_modifiers, NEMESIS_ATTACK, TRUE)
 	COOLDOWN_START(src, tendril_hammer_cd, 2 SECONDS)
 
-/obj/item/goliath_infuser_hammer/proc/nemesis_effects(mob/living/user, mob/living/target)
-	if(istype(target, /mob/living/simple_animal/hostile/asteroid/elite))
+/obj/item/goliath_infuser_hammer/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target) || istype(target, /mob/living/simple_animal/hostile/asteroid/elite) || QDELETED(target))
 		return
-	///we obtain the relative direction from the bat itself to the target
-	if(!QDELETED(target))
-		target.throw_at(get_edge_target_turf(target, get_cardinal_dir(src, target)), rand(1, 2), prob(60) ? 1 : 4, user)
+	// checking attack modifiers to see if this was a boosted hit
+	if(LAZYACCESS(attack_modifiers, NEMESIS_ATTACK))
+		return
+	// and if it was a boosted hit, yeet the target away
+	target.throw_at(get_edge_target_turf(target, get_cardinal_dir(src, target)), rand(1, 2), prob(60) ? 1 : 4, user)
 
 /// goliath heart gives you the ability to survive ash storms.
 /obj/item/organ/heart/goliath
@@ -187,3 +183,4 @@
 #undef GOLIATH_SCLERA_COLOR
 #undef GOLIATH_PUPIL_COLOR
 #undef GOLIATH_COLORS
+#undef NEMESIS_ATTACK

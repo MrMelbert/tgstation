@@ -58,7 +58,7 @@
 )
 	SIGNAL_HANDLER
 
-	if(attack_type == PROJECTILE_ATTACK || damage >= 75 || damage <= 0 || damage_type == STAMINA)
+	if((attack_type & PROJECTILE_ATTACK) || damage >= 75 || damage <= 0 || damage_type == STAMINA)
 		return NONE
 
 	playsound(owner, 'sound/items/weapons/parry.ogg', 75, TRUE)

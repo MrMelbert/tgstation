@@ -63,14 +63,6 @@
 		qdel(src)
 		return PROCESS_KILL
 
-/obj/effect/rend/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
-	if(!HAS_TRAIT(tool, TRAIT_NULLROD_ITEM))
-		return NONE
-
-	user.visible_message(span_danger("[user] seals \the [src] with \the [tool]."))
-	qdel(src)
-	return ITEM_INTERACT_SUCCESS
-
 /obj/effect/rend/singularity_act()
 	return
 

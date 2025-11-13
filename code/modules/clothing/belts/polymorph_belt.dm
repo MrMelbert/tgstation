@@ -61,36 +61,34 @@
 	qdel(tool)
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/polymorph_belt/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if (.)
-		return
+/obj/item/polymorph_belt/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if (!isliving(target_mob))
-		return
+		return NONE
+	var/mob/living/target_mob = interacting_with
 	if (!isanimal_or_basicmob(target_mob))
 		balloon_alert(user, "target too complex!")
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	if (target_mob.mob_biotypes & (MOB_HUMANOID|MOB_ROBOTIC|MOB_SPECIAL|MOB_SPIRIT|MOB_UNDEAD))
 		balloon_alert(user, "incompatible!")
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	if (!target_mob.compare_sentience_type(SENTIENCE_ORGANIC))
 		balloon_alert(user, "target too intelligent!")
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	if (stored_mob_type == target_mob.type)
 		balloon_alert(user, "already scanned!")
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	if (DOING_INTERACTION_WITH_TARGET(user, target_mob))
 		balloon_alert(user, "busy!")
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	balloon_alert(user, "scanning...")
 	visible_message(span_notice("[user] begins scanning [target_mob] with [src]."))
 	if (!do_after(user, delay = 5 SECONDS, target = target_mob))
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	visible_message(span_notice("[user] scans [target_mob] with [src]."))
 	stored_mob_type = target_mob.type
 	update_transform_action()
 	playsound(src, 'sound/machines/ping.ogg', 50, FALSE)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /// Make sure we can transform into the scanned target
 /obj/item/polymorph_belt/proc/update_transform_action()

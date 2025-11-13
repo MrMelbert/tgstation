@@ -167,6 +167,7 @@
 	create_reagents(max_volume, TRANSPARENT)//We have our own refillable - since we want to heat and pour
 	if(reagent_type)
 		reagents.add_reagent(reagent_type, 15)
+	AddElement(/datum/element/ignite_on_afterattack)
 
 /obj/item/burner/attackby(obj/item/I, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
@@ -249,13 +250,6 @@
 	if(lit)
 		set_lit(FALSE)
 		user.visible_message(span_notice("[user] snuffs out [src]'s flame."))
-
-/obj/item/burner/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(lit && M.ignite_mob())
-		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(M)] on fire with [src] at [AREACOORD(user)]")
-		user.log_message("set [key_name(M)] on fire with [src]", LOG_GAME)
-		M.log_message("was set on fire by [key_name(user)] with [src]", LOG_VICTIM, log_globally = FALSE)
-	return ..()
 
 /obj/item/burner/process()
 	var/current_heat = 0

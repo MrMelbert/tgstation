@@ -992,7 +992,7 @@
 	randomize_state()
 
 /obj/item/melee/baton/nunchaku/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text, final_block_chance, damage, attack_type, damage_type)
-	if(attack_type == PROJECTILE_ATTACK || !owner.throw_mode)
+	if((attack_type & PROJECTILE_ATTACK) || !owner.throw_mode)
 		return ..()
 
 	randomize_state()

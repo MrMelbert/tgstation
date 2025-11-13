@@ -21,17 +21,18 @@
 	throw_speed = 3
 	throw_range = 5
 	hitsound = 'sound/effects/bonk.ogg'
+	attack_verb_simple = list("bap", "bonk", "tap")
+	attack_verb_continuous = list("baps", "bonks", "taps")
 
 /obj/item/stack/wrapping_paper/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND, INNATE_TRAIT)
 
-/obj/item/stack/wrapping_paper/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	user.visible_message(
-		span_warning("[user] baps [target_mob] on the head with [src]!"),
-		span_warning("You bap [target_mob] on the head with [src]!"),
-	)
+/obj/item/stack/wrapping_paper/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target))
+		return
+
+	var/mob/living/target_mob = target
 	target_mob.add_mood_event("roll", /datum/mood_event/bapped)
 
 /obj/item/stack/wrapping_paper/Initialize(mapload)
@@ -224,15 +225,16 @@
 	throw_speed = 3
 	throw_range = 5
 	hitsound = 'sound/effects/bonk.ogg'
+	attack_verb_simple = list("bap", "bonk", "tap")
+	attack_verb_continuous = list("baps", "bonks", "taps")
 
 /obj/item/c_tube/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND, INNATE_TRAIT)
 
-/obj/item/c_tube/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	user.visible_message(
-		span_warning("[user] baps [target_mob] on the head with [src]!"),
-		span_warning("You bap [target_mob] on the head with [src]!"),
-	)
+/obj/item/c_tube/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target))
+		return
+
+	var/mob/living/target_mob = target
 	target_mob.add_mood_event("roll", /datum/mood_event/bapped)

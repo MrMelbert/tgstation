@@ -54,6 +54,7 @@ GLOBAL_LIST_INIT(nullrod_variants, init_nullrod_variants())
 /obj/item/nullrod/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/nullrod_core, chaplain_spawnable)
+	AddComponent(/datum/component/on_finishing_blow, finishing_attack = CALLBACK(src, PROC_REF(on_finishing_blow_attack)))
 
 	if((GLOB.holy_weapon_type && station_holy_item) || type != /obj/item/nullrod)
 		return
@@ -71,17 +72,12 @@ GLOBAL_LIST_INIT(nullrod_variants, init_nullrod_variants())
 	user.visible_message(span_suicide("[user] is killing [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to get closer to god!"))
 	return (BRUTELOSS|FIRELOSS)
 
-/obj/item/nullrod/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
+/obj/item/nullrod/proc/on_finishing_blow_attack(mob/living/target, mob/living/user)
 	if(!user.mind?.holy_role)
-		return ..()
-	if(!IS_CULTIST(target_mob) || istype(target_mob, /mob/living/carbon/human/cult_ghost))
-		return ..()
-
-	var/old_stat = target_mob.stat
-	. = ..()
-	if(old_stat < target_mob.stat)
-		LAZYOR(cultists_slain, REF(target_mob))
-	return .
+		return
+	if(!IS_CULTIST(target) || istype(target, /mob/living/carbon/human/cult_ghost))
+		return
+	LAZYOR(cultists_slain, REF(target))
 
 /obj/item/nullrod/examine(mob/user)
 	. = ..()
@@ -128,7 +124,7 @@ GLOBAL_LIST_INIT(nullrod_variants, init_nullrod_variants())
 	AddComponent(/datum/component/alternative_sharpness, SHARP_POINTY, alt_continuous, alt_simple, -3)
 
 /obj/item/nullrod/claymore/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == (PROJECTILE_ATTACK || LEAP_ATTACK || OVERWHELMING_ATTACK))
+	if(attack_type & (PROJECTILE_ATTACK | LEAP_ATTACK | OVERWHELMING_ATTACK))
 		final_block_chance = 0 //Don't bring a sword to a gunfight, and also you aren't going to really block someone full body tackling you with a sword. Or a road roller, if one happened to hit you.
 	return ..()
 
@@ -620,7 +616,7 @@ GLOBAL_LIST_INIT(nullrod_variants, init_nullrod_variants())
 	return ..()
 
 /obj/item/nullrod/bostaff/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(attack_type == (PROJECTILE_ATTACK || LEAP_ATTACK || OVERWHELMING_ATTACK))
+	if(attack_type & (PROJECTILE_ATTACK | LEAP_ATTACK | OVERWHELMING_ATTACK))
 		final_block_chance = 0 //Don't bring a stick to a gunfight, and also you aren't going to really block someone full body tackling you with a stick. Or a road roller, if one happened to hit you.
 	return ..()
 

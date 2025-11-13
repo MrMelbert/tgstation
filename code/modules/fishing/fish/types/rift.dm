@@ -744,16 +744,19 @@
 	. = ..()
 	limb.remove_bodypart_overlay(babbel_overlay)
 
-/obj/item/organ/ears/babbelfish/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
+/obj/item/organ/ears/babbelfish/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
+
+	var/mob/living/target_mob = interacting_with
 	var/obj/item/organ/ears/ears = target_mob.get_organ_slot(ORGAN_SLOT_EARS)
 	if(!ears)
 		to_chat(user, span_notice("[target_mob == user ? "You don't have" : target_mob + "has no"] ears to shove [src] into!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	to_chat(user, span_danger("You start shoving [src] into [target_mob == user ? "your" : target_mob + "'s"] ears. Probably a bad idea."))
 	if(!do_after(user, 2.5 SECONDS * (target_mob == user ? 1 : 3), src))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	user.apply_damage(25, BRUTE, user.get_bodypart(ears.zone), attacking_item = src)
 	to_chat(user, span_notice("As you're shoving them in, the [src] take on a life of their own and brutishly crawl right into [target_mob == user ? "your" : target_mob + "'s"] ears, taking their place entirely while maiming [target_mob == user ? "your" : target_mob.p_their()]  [ears.zone]!"))
@@ -761,6 +764,7 @@
 	// bad moodlet
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	Insert(user, special = TRUE, movement_flags = DELETE_IF_REPLACED)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/organ/ears/babbelfish/on_mob_insert(mob/living/carbon/organ_owner, special, movement_flags)
 	..()
