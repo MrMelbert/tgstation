@@ -1534,6 +1534,10 @@
 		return "bone"
 	if (biological_state & BIO_METAL)
 		return "metal"
+	if (biological_state & BIO_FLESH)
+		return "shreds of ligaments"
+	if (biological_state & BIO_WOOD)
+		return "splinters of poorly manufactured wood"
 
 	return "error"
 

@@ -214,6 +214,9 @@
 	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
 		return FALSE
 
+	if(attack_type & OVERWHELMING_ATTACK)
+		return FALSE
+
 	if(attack_type & LEAP_ATTACK)
 		final_block_chance -= 25 //OH GOD GET IT OFF ME
 
@@ -511,9 +514,17 @@
 	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
 		return FALSE
 
+	if(attack_type & OVERWHELMING_ATTACK)
+		return FALSE
+
+	if(attack_type & LEAP_ATTACK)
+		final_block_chance -= 25
+
 	if(prob(final_block_chance) && charge)
 		expend_charge(owner)
 		return TRUE
+
+	return FALSE
 
 /obj/item/melee/energy/sword/surplus/proc/expend_charge(mob/user)
 	if(!charge) // not that this will ever get here without charge, but...
