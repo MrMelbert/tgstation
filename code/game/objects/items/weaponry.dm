@@ -275,14 +275,14 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/claymore/highlander/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(isliving(target) || QDELETED(target))
 		return
-	var/mob/living/target = target
-	if(target.stat != DEAD || !target.mind?.has_antag_datum(/datum/antagonist/highlander))
+	var/mob/living/targetmob = target
+	if(targetmob.stat != DEAD || !targetmob.mind?.has_antag_datum(/datum/antagonist/highlander))
 		return
 	user.fully_heal() //STEAL THE LIFE OF OUR FALLEN FOES
 	add_notch(user)
-	target.visible_message(span_warning("[target] crumbles to dust beneath [user]'s blows!"), span_userdanger("As you fall, your body crumbles to dust!"))
-	target.investigate_log("has been dusted by a highlander claymore.", INVESTIGATE_DEATHS)
-	target.dust()
+	targetmob.visible_message(span_warning("[targetmob] crumbles to dust beneath [user]'s blows!"), span_userdanger("As you fall, your body crumbles to dust!"))
+	targetmob.investigate_log("has been dusted by a highlander claymore.", INVESTIGATE_DEATHS)
+	targetmob.dust()
 
 /obj/item/claymore/highlander/attack_self(mob/living/user)
 	var/closest_victim
