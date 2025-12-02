@@ -90,7 +90,7 @@
 		return NONE
 
 	var/obj/item/food_item = interacting_with
-	if(interacting_with.w_class > WEIGHT_CLASS_NORMAL)
+	if(food_item.w_class > WEIGHT_CLASS_NORMAL)
 		return NONE
 
 	tonged = food_item
