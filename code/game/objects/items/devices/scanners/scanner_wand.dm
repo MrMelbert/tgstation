@@ -20,20 +20,20 @@
 
 	if((HAS_TRAIT(user, TRAIT_CLUMSY) || HAS_TRAIT(user, TRAIT_DUMB)) && prob(25))
 		user.visible_message(span_warning("[user] targets himself for scanning."), \
-		to_chat(user, span_info("You try scanning [M], before realizing you're holding the scanner backwards. Whoops.")))
+		to_chat(user, span_info("You try scanning [interacting_with], before realizing you're holding the scanner backwards. Whoops.")))
 		selected_target = user
 		return ITEM_INTERACT_SUCCESS
 
-	if(!ishuman(interact_with_atom))
+	if(!ishuman(interacting_with))
 		to_chat(user, span_info("You can only scan human-like, non-robotic beings."))
 		selected_target = null
 		return ITEM_INTERACT_BLOCKING
 
 	user.visible_message(
-		span_notice("[user] targets [interact_with_atom] for scanning."),
-		span_notice("You target [interact_with_atom] vitals."),
+		span_notice("[user] targets [interacting_with] for scanning."),
+		span_notice("You target [interacting_with] vitals."),
 	)
-	selected_target = interact_with_atom
+	selected_target = interacting_with
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/scanner_wand/attack_self(mob/user)

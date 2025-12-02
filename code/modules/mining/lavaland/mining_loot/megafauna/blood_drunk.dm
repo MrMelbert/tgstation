@@ -103,14 +103,15 @@
 	if(LAZYACCESS(attack_modifiers, SWIPING_ATTACK) || get_turf(target) == get_turf(user))
 		return
 
+	var/dir_to_target = get_dir(user, target)
 	var/static/list/cleaving_saw_cleave_angles = list(0, -45, 45) //so that the animation animates towards the target clicked and not towards a side target
 	for(var/i in cleaving_saw_cleave_angles)
-		var/turf/turf = get_step(user_turf, turn(dir_to_target, i))
+		var/turf/turf = get_step(user, turn(dir_to_target, i))
 		if(isnull(turf))
 			continue
 
 		for(var/mob/living/living_target in turf)
-			if(iving_target.body_position == LYING_DOWN)
+			if(living_target.body_position == LYING_DOWN)
 				continue
 			if(!living_target.IsReachableBy(user, reach))
 				continue

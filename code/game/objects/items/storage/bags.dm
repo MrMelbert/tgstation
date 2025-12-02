@@ -370,14 +370,11 @@
 	for(var/obj/item/tray_item in oldContents)
 		do_scatter(tray_item)
 
-	if(prob(50))
-		playsound(target, 'sound/items/trayhit/trayhit1.ogg', 50, TRUE)
-	else
-		playsound(target, 'sound/items/trayhit/trayhit2.ogg', 50, TRUE)
+	playsound(target, prob(50) ? 'sound/items/trayhit/trayhit1.ogg' : 'sound/items/trayhit/trayhit2.ogg', 50, TRUE)
 
 	if(ishuman(target) && prob(10))
-		var/mob/living/human/slammed = target
-		slammed.Paralyze(40)
+		var/mob/living/carbon/human/slammed = target
+		slammed.Paralyze(4 SECONDS)
 	update_appearance()
 
 /obj/item/storage/bag/tray/proc/do_scatter(obj/item/tray_item)

@@ -420,16 +420,16 @@
 	if(!HAS_TRAIT(interacting_with, TRAIT_LIMBATTACHMENT) && !HAS_TRAIT(src, TRAIT_EASY_ATTACH))
 		return NONE
 
-	var/mob/living/carbon/human/human_victim = victim
+	var/mob/living/carbon/human/human_victim = interacting_with
 	if(human_victim.get_bodypart(body_zone))
 		return NONE
 
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
-	if(!try_attach_limb(victim))
+	if(!try_attach_limb(human_victim))
 		to_chat(user, span_warning("[human_victim]'s body rejects [src]!"))
 		forceMove(human_victim.loc)
 		return ITEM_INTERACT_BLOCKING
-	if(check_for_frankenstein(victim))
+	if(check_for_frankenstein(human_victim))
 		bodypart_flags |= BODYPART_IMPLANTED
 	if(human_victim == user)
 		human_victim.visible_message(

@@ -158,7 +158,8 @@
 	if(LAZYACCESS(attack_modifiers, NEMESIS_ATTACK))
 		return
 	// and if it was a boosted hit, yeet the target away
-	target.throw_at(get_edge_target_turf(target, get_cardinal_dir(src, target)), rand(1, 2), prob(60) ? 1 : 4, user)
+	var/mob/living/targetmob = target
+	targetmob.throw_at(get_edge_target_turf(target, get_cardinal_dir(src, target)), rand(1, 2), prob(60) ? 1 : 4, user)
 
 /// goliath heart gives you the ability to survive ash storms.
 /obj/item/organ/heart/goliath

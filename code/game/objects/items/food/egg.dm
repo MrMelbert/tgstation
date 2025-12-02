@@ -283,24 +283,6 @@ GLOBAL_VAR_INIT(chicks_from_eggs, 0)
 	. = ..()
 	AddElement(/datum/element/love_food_buff, /datum/status_effect/food/speech/french)
 
-/obj/item/food/omelette/attackby(obj/item/item, mob/user, list/modifiers, list/attack_modifiers)
-	if(istype(item, /obj/item/kitchen/fork))
-		var/obj/item/kitchen/fork/fork = item
-		if(fork.forkload)
-			to_chat(user, span_warning("You already have omelette on your fork!"))
-		else
-			fork.icon_state = "forkloaded"
-			user.visible_message(span_notice("[user] takes a piece of omelette with [user.p_their()] fork!"), \
-				span_notice("You take a piece of omelette with your fork."))
-
-			var/datum/reagent/reagent = pick(reagents.reagent_list)
-			reagents.remove_reagent(reagent.type, 1)
-			fork.forkload = reagent
-			if(reagents.total_volume <= 0)
-				qdel(src)
-		return
-	..()
-
 /obj/item/food/benedict
 	name = "eggs benedict"
 	desc = "There is only one egg on this, how rude."

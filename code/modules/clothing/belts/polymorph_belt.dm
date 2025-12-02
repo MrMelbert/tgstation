@@ -62,7 +62,7 @@
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/polymorph_belt/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	if (!isliving(target_mob))
+	if (!isliving(interacting_with))
 		return NONE
 	var/mob/living/target_mob = interacting_with
 	if (!isanimal_or_basicmob(target_mob))

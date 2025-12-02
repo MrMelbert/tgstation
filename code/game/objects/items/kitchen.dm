@@ -23,6 +23,7 @@
 	name = "fork"
 	desc = "Pointy."
 	icon_state = "fork"
+	base_icon_state = "fork"
 	icon_angle = -90
 	force = 4
 	w_class = WEIGHT_CLASS_TINY
@@ -55,21 +56,48 @@
 	playsound(src, 'sound/items/eatfood.ogg', 50, TRUE)
 	return BRUTELOSS
 
-/obj/item/kitchen/fork/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(!istype(M))
-		return ..()
+/obj/item/kitchen/fork/update_icon_state()
+	. = ..()
+	icon_state = "[base_icon_state][forkload ? "loaded" : ""]"
 
-	if(forkload)
-		if(M == user)
-			M.visible_message(span_notice("[user] eats a delicious forkful of omelette!"))
-			M.reagents.add_reagent(forkload.type, 1)
+/obj/item/kitchen/fork/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(iscarbon(interacting_with) && forkload)
+		if(interacting_with == user)
+			interacting_with.visible_message(
+				span_notice("[user] eats a delicious forkful of omelette!"),
+				span_notice("You eat a delicious forkful of omelette!"),
+			)
 		else
-			M.visible_message(span_notice("[user] feeds [M] a delicious forkful of omelette!"))
-			M.reagents.add_reagent(forkload.type, 1)
-		icon_state = "fork"
+			interacting_with.visible_message(
+				span_notice("[user] feeds [interacting_with] a delicious forkful of omelette!"),
+				span_notice("[user] feeds you a delicious forkful of omelette!"),
+			)
+		interacting_with.reagents.add_reagent(forkload.type, 1)
+
 		forkload = null
-	else
-		return ..()
+		update_appearance()
+		return ITEM_INTERACT_SUCCESS
+
+	if(istype(interacting_with, /obj/item/food/omelette))
+		if(forkload)
+			to_chat(user, span_warning("You already have omelette on your fork!"))
+			return ITEM_INTERACT_BLOCKING
+
+		user.visible_message(
+			span_notice("[user] takes a piece of omelette with [user.p_their()] fork!"),
+			span_notice("You take a piece of omelette with your fork."),
+		)
+
+		var/datum/reagent/reagent = pick(interacting_with.reagents.reagent_list)
+		interacting_with.reagents.remove_reagent(reagent.type, 1)
+		if(interacting_with.reagents.total_volume <= 0)
+			qdel(interacting_with)
+
+		forkload = reagent.type
+		update_appearance()
+		return ITEM_INTERACT_SUCCESS
+
+	return NONE
 
 /obj/item/kitchen/fork/plastic
 	name = "plastic fork"

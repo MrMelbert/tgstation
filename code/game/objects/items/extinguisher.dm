@@ -229,11 +229,10 @@
 	balloon_alert(user, "safety [safety ? "on" : "off"]")
 	return
 
-/obj/item/extinguisher/attack(mob/M, mob/living/user)
+/obj/item/extinguisher/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(!user.combat_mode && !safety) //If we're on help intent and going to spray people, don't bash them.
 		return FALSE
-	else
-		return ..()
+	return ..()
 
 /obj/item/extinguisher/attack_atom(obj/attacked_obj, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(AttemptRefill(attacked_obj, user))

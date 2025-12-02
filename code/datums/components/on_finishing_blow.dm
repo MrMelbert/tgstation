@@ -30,7 +30,8 @@
 	if(!isliving(target))
 		return
 
-	LAZYSET(attack_modifiers, PRE_STAT_KEY, target.stat)
+	var/mob/living/living_target = target
+	LAZYSET(attack_modifiers, PRE_STAT_KEY, living_target.stat)
 
 /datum/component/on_finishing_blow/proc/check_finishing_blow(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	SIGNAL_HANDLER
@@ -38,8 +39,9 @@
 	if(!isliving(target))
 		return
 
+	var/mob/living/living_target = target
 	var/pre_stat = LAZYACCESS(attack_modifiers, PRE_STAT_KEY)
-	if(target.stat >= finishing_stat && pre_stat < finishing_stat)
+	if(living_target.stat >= finishing_stat && pre_stat < finishing_stat)
 		finishing_attack.Invoke(target, user)
 
 #undef PRE_STAT_KEY

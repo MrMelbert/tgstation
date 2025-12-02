@@ -92,7 +92,7 @@
 	if(play_squeak())
 		on_attack?.Invoke(hit, attacker)
 
-/datum/component/squeak/proc/sig_play_squeak(....)
+/datum/component/squeak/proc/sig_play_squeak(...)
 	SIGNAL_HANDLER
 
 	play_squeak()

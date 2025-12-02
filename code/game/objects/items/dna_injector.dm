@@ -66,26 +66,31 @@
 			target.updateappearance(mutcolor_update = TRUE, mutations_overlay_update = TRUE)
 	return TRUE
 
-/obj/item/dnainjector/attack(mob/target, mob/user)
+/obj/item/dnainjector/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
 	if(!ISADVANCEDTOOLUSER(user))
 		to_chat(user, span_warning("You don't have the dexterity to do this!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 	if(used)
 		to_chat(user, span_warning("This injector is used up!"))
-		return
-	if(ishuman(target))
-		var/mob/living/carbon/human/humantarget = target
-		if (!humantarget.try_inject(user, injection_flags = INJECT_TRY_SHOW_ERROR_MESSAGE))
-			return
+		return ITEM_INTERACT_BLOCKING
+	var/mob/living/target = interacting_with
+	if (!target.try_inject(user, injection_flags = INJECT_TRY_SHOW_ERROR_MESSAGE))
+		return ITEM_INTERACT_BLOCKING
 	log_combat(user, target, "attempted to inject", src)
 
 	if(target != user)
-		target.visible_message(span_danger("[user] is trying to inject [target] with [src]!"), \
-			span_userdanger("[user] is trying to inject you with [src]!"))
+		target.visible_message(
+			span_danger("[user] is trying to inject [target] with [src]!"),
+			span_userdanger("[user] is trying to inject you with [src]!"),
+		)
 		if(!do_after(user, 3 SECONDS, target) || used)
-			return
-		target.visible_message(span_danger("[user] injects [target] with the syringe with [src]!"), \
-						span_userdanger("[user] injects you with the syringe with [src]!"))
+			return ITEM_INTERACT_BLOCKING
+		target.visible_message(
+			span_danger("[user] injects [target] with the syringe with [src]!"),
+			span_userdanger("[user] injects you with the syringe with [src]!"),
+		)
 
 	else
 		to_chat(user, span_notice("You inject yourself with [src]."))
@@ -94,10 +99,11 @@
 
 	if(!inject(target, user)) //Now we actually do the heavy lifting.
 		to_chat(user, span_notice("It appears that [target] does not have compatible DNA."))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	used = TRUE
 	update_appearance()
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/dnainjector/timed
 	var/duration = 60 SECONDS

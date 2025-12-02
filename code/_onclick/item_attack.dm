@@ -466,7 +466,7 @@
  * * proximity_flag - is 1 if this afterattack was called on something adjacent, in your square, or on your person.
  * * click_parameters - is the params string from byond [/atom/proc/Click] code, see that documentation.
  */
-/obj/item/proc/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+/obj/item/proc/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	PROTECTED_PROC(TRUE)
 	return
 

@@ -230,7 +230,7 @@
 	if(. || !issilicon(user))
 		return TRUE
 
-	var/mob/living/silicon/cyborg_user = user
+	var/mob/living/silicon/robot/cyborg_user = user
 	if(HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) && !cyborg_user.cell?.use(hitcost))
 		attack_self(user)
 		balloon_alert(user, "out of charge!")

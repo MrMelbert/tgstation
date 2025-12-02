@@ -347,7 +347,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(isliving(interacting_with))
 		var/mob/living/body = interacting_with
 		if(body.on_fire)
-			try_light(user, span_rose("[user] lights [src] with [M]'s burning body. What a cold-blooded badass."))
+			try_light(user, span_rose("[user] lights [src] with [body]'s burning body. What a cold-blooded badass."))
 			return ITEM_INTERACT_SUCCESS
 		return NONE
 
@@ -393,7 +393,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(smoketime <= 0)
 		igniter.balloon_alert("nothing to smoke!")
 		return FALSE
-	light(lighting_text)
+	light(ignition_message)
 	return TRUE
 
 /// Lights the cigarette with given flavor text.

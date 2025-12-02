@@ -124,14 +124,14 @@
 	if(!isliving(interacting_with))
 		return NONE
 
-	use_autosurgeon(target, user, 8 SECONDS)
+	use_autosurgeon(interacting_with, user, 8 SECONDS)
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/autosurgeon/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if(!isorgan(tool))
 		return NONE
 
-	load_organ(attacking_item, user)
+	load_organ(tool, user)
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/autosurgeon/screwdriver_act(mob/living/user, obj/item/screwtool)

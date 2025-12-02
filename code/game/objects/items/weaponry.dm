@@ -65,24 +65,29 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 
 /obj/item/balloon_mallet/examine(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user,TRAIT_BALLOON_SUTRA))
+	if(HAS_TRAIT(user, TRAIT_BALLOON_SUTRA))
 		. += "A sacred weapon of the higher castes from the clown planet, used to strike fear into the hearts of their foes. Wield it with care."
 
-/obj/item/balloon_mallet/attack(mob/living/target, mob/living/user)
-	playsound(loc, 'sound/mobs/non-humanoids/clown/hehe.ogg', 20)
-	if (!isliving(target))
+/obj/item/balloon_mallet/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	. = ..()
+	if(.)
 		return
-	switch(target.mob_mood.sanity)
-		if (SANITY_INSANE to SANITY_CRAZY)
-			force = 8
-		if (SANITY_UNSTABLE to SANITY_DISTURBED)
-			force = 4
-			target.add_mood_event("humiliated", /datum/mood_event/mallet_humiliation)
-		if (SANITY_NEUTRAL to SANITY_GREAT)
-			target.add_mood_event("humiliated", /datum/mood_event/mallet_humiliation)
 
-	if(user.combat_mode)
-		return ..(target, user)
+	if(!isliving(target))
+		return
+
+	var/mob/living/targetmob = target
+	switch(targetmob.mob_mood ? targetmob.mob_mood.sanity : SANITY_NEUTRAL)
+		if (SANITY_INSANE to SANITY_CRAZY)
+			SET_ATTACK_FORCE(attack_modifiers, 8)
+		if (SANITY_UNSTABLE to SANITY_DISTURBED)
+			SET_ATTACK_FORCE(attack_modifiers, 4)
+			targetmob.add_mood_event("humiliated", /datum/mood_event/mallet_humiliation)
+		if (SANITY_NEUTRAL to SANITY_GREAT)
+			targetmob.add_mood_event("humiliated", /datum/mood_event/mallet_humiliation)
+
+/obj/item/balloon_mallet/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	playsound(src, 'sound/mobs/non-humanoids/clown/hehe.ogg', 20)
 
 /obj/item/sord
 	name = "\improper SORD"
@@ -269,14 +274,17 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	if(nuke_disk)
 		. += span_boldwarning("It's holding the nuke disk!")
 
-/obj/item/claymore/highlander/attack(mob/living/target, mob/living/user)
-	. = ..()
-	if(!QDELETED(target) && target.stat == DEAD && target.mind?.has_antag_datum(/datum/antagonist/highlander))
-		user.fully_heal() //STEAL THE LIFE OF OUR FALLEN FOES
-		add_notch(user)
-		target.visible_message(span_warning("[target] crumbles to dust beneath [user]'s blows!"), span_userdanger("As you fall, your body crumbles to dust!"))
-		target.investigate_log("has been dusted by a highlander claymore.", INVESTIGATE_DEATHS)
-		target.dust()
+/obj/item/claymore/highlander/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	if(isliving(target) || QDELETED(target))
+		return
+	var/mob/living/target = target
+	if(target.stat != DEAD || !target.mind?.has_antag_datum(/datum/antagonist/highlander))
+		return
+	user.fully_heal() //STEAL THE LIFE OF OUR FALLEN FOES
+	add_notch(user)
+	target.visible_message(span_warning("[target] crumbles to dust beneath [user]'s blows!"), span_userdanger("As you fall, your body crumbles to dust!"))
+	target.investigate_log("has been dusted by a highlander claymore.", INVESTIGATE_DEATHS)
+	target.dust()
 
 /obj/item/claymore/highlander/attack_self(mob/living/user)
 	var/closest_victim
@@ -913,24 +921,24 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		homerun_ready = TRUE
 	return ..()
 
-/obj/item/melee/baseball_bat/attack(mob/living/target, mob/living/user)
+/obj/item/melee/baseball_bat/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	if(QDELETED(target) || !ismovable(target))
+		return
+
+	var/atom/movable/throw_target = target
 	// we obtain the relative direction from the bat itself to the target
 	var/relative_direction = get_cardinal_dir(src, target)
 	var/atom/throw_target = get_edge_target_turf(target, relative_direction)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_PACIFISM))
-		return
 	if(homerun_ready)
 		user.visible_message(span_userdanger("It's a home run!"))
-		if(!QDELETED(target))
-			target.throw_at(throw_target, rand(8,10), 14, user)
+		throw_target.throw_at(throw_target, rand(8, 10), 14, user)
 		SSexplosions.medturf += throw_target
-		playsound(get_turf(src), 'sound/items/weapons/homerun.ogg', 100, TRUE)
+		playsound(src, 'sound/items/weapons/homerun.ogg', 100, TRUE)
 		homerun_ready = FALSE
-		return
-	else if(!QDELETED(target) && !target.anchored)
+
+	else if(!throw_target.anchored)
 		var/whack_speed = (prob(60) ? 1 : 4)
-		target.throw_at(throw_target, rand(1, 2), whack_speed, user, gentle = TRUE) // sorry friends, 7 speed batting caused wounds to absolutely delete whoever you knocked your target into (and said target)
+		throw_target.throw_at(throw_target, rand(1, 2), whack_speed, user, gentle = TRUE) // sorry friends, 7 speed batting caused wounds to absolutely delete whoever you knocked your target into (and said target)
 
 /obj/item/melee/baseball_bat/Destroy(force)
 	for(var/target in thrown_datums)
@@ -1086,15 +1094,13 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	throwforce = 5
 	reach = 2
 
-	var/active = FALSE
-
 /obj/item/extendohand/acme
 	name = "\improper ACME Extendo-Hand"
 	desc = "A novelty extendo-hand produced by the ACME corporation. Originally designed to knock out roadrunners."
 
 /obj/item/extendohand/attack(atom/M, mob/living/carbon/human/user, list/modifiers, list/attack_modifiers)
 	var/dist = get_dist(M, user)
-	if(dist < min_reach)
+	if(dist < reach)
 		to_chat(user, span_warning("[M] is too close to use [src] on."))
 		return
 	M.attack_hand(user, modifiers)

@@ -4,7 +4,6 @@
 	desc = "A label on the side of this potato reads \"Product of Donk Co. Service Wing. Activate far away from populated areas. Device will only attach to sapient creatures.\" <span class='boldnotice'>You can attack anyone with it to force it on them instead of yourself!</span>"
 	icon = 'icons/obj/service/hydroponics/harvest.dmi'
 	icon_state = "potato"
-	item_flags = NOBLUDGEON
 	force = 0
 	var/icon_off = "potato"
 	var/icon_on = "potato_active"
@@ -98,20 +97,19 @@
 	if(active)
 		to_chat(user, span_userdanger("You have a really bad feeling about [src]!"))
 
-/obj/item/hot_potato/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return .
-
-	return force_onto(target_mob, user)
+/obj/item/hot_potato/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+	force_onto(target, user)
 
 /obj/item/hot_potato/proc/force_onto(mob/living/victim, mob/user)
 	if(!istype(victim) || user != loc || victim == user)
 		return FALSE
 	if(!victim.client)
 		to_chat(user, span_boldwarning("[src] refuses to attach to a non-sapient creature!"))
+		return FALSE
 	if(victim.stat != CONSCIOUS || !victim.usable_legs)
 		to_chat(user, span_boldwarning("[src] refuses to attach to someone incapable of using it!"))
+		return FALSE
+
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	. = FALSE
 	if(!victim.put_in_hands(src))
@@ -133,6 +131,7 @@
 		log_combat(user, victim, "tried to force a hot potato with explosive variables ([detonate_explosion]-[detonate_dev_range]/[detonate_heavy_range]/[detonate_light_range]/[detonate_flash_range]/[detonate_fire_range]) onto")
 		user.visible_message(span_boldwarning("[user] tried to force [src] onto [victim], but it could not attach!"), span_boldwarning("You try to force [src] onto [victim], but it is unable to attach!"), span_boldwarning("You hear a mechanical click and two buzzes."))
 		user.put_in_hands(src)
+	return .
 
 /obj/item/hot_potato/dropped(mob/user)
 	. = ..()
