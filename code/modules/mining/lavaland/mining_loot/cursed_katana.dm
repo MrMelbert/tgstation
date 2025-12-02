@@ -101,7 +101,11 @@
 
 /obj/item/cursed_katana/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-	if(. || !ismining(target) || target == user)
+	if(. || !isliving(target) || target == user)
+		return
+
+	var/mob/living/target_mob = target
+	if(!ismining(target_mob))
 		return
 
 	SET_ATTACK_CLICK_CD(attack_modifiers, CLICK_CD_RAPID)
