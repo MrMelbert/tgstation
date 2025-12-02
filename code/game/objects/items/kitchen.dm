@@ -278,16 +278,20 @@
 	filled_overlay.color = mix_color_from_reagents(reagents.reagent_list)
 	. += filled_overlay
 
-/obj/item/kitchen/spoon/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
+/obj/item/kitchen/spoon/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
+
+	var/mob/living/target_mob = interacting_with
 	if(!target_mob.reagents || reagents.total_volume <= 0)
-		return  ..()
+		return NONE
 
 	if(target_mob.is_mouth_covered(ITEM_SLOT_HEAD) || target_mob.is_mouth_covered(ITEM_SLOT_MASK))
 		if(target_mob == user)
 			target_mob.balloon_alert(user, "can't eat with mouth covered!")
 		else
 			target_mob.balloon_alert(user, "[target_mob.p_their()] mouth is covered!")
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 
 	if(target_mob == user)
 		user.visible_message(
@@ -300,7 +304,7 @@
 		target_mob.balloon_alert(user, "feeding spoonful...")
 		if(!do_after(user, 3 SECONDS, target_mob))
 			target_mob.balloon_alert(user, "interrupted!")
-			return TRUE
+			return ITEM_INTERACT_BLOCKING
 
 		to_chat(target_mob, span_userdanger("[target_mob.is_blind() ? "You are forced to" : "[user] forces you to"] swallow a spoonful of something!"))
 		user.visible_message(
@@ -310,7 +314,7 @@
 
 	playsound(target_mob, 'sound/items/drink.ogg', rand(10,50), vary = TRUE)
 	reagents.trans_to(target_mob, spoon_sip_size, methods = INGEST)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/kitchen/spoon/pre_attack(atom/attacked_atom, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()

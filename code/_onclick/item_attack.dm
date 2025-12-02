@@ -336,7 +336,7 @@
 	if(mob_biotypes & MOB_ROBOTIC)
 		final_force *= attacking_item.get_demolition_modifier(src)
 
-	var/wounding = attacking_item.wound_bonus
+	var/wounding = CALCULATE_WOUNDING(attacking_item.wounding, attack_modifiers)
 	if((attacking_item.item_flags & SURGICAL_TOOL) && !user.combat_mode && body_position == LYING_DOWN && (LAZYLEN(surgeries) > 0))
 		wounding = CANT_WOUND
 

@@ -36,6 +36,8 @@ Behavior that's still missing from this component that original food items had t
 	var/datum/callback/on_consume
 	///Callback to be ran for when the code check if the food is liked, allowing for unique overrides for special foods like donuts with cops.
 	var/datum/callback/check_liked
+	/// Callback to be ran to check if the food can be consumed
+	var/datum/callback/can_consume
 	///Last time we checked for food likes
 	var/last_check_time
 	///Assoc list of sources and their foodtypes
@@ -58,6 +60,7 @@ Behavior that's still missing from this component that original food items had t
 	datum/callback/after_eat,
 	datum/callback/on_consume,
 	datum/callback/check_liked,
+	datum/callback/can_consume,
 	reagent_purity = 0.5,
 )
 	if(!isatom(parent))
@@ -139,6 +142,7 @@ Behavior that's still missing from this component that original food items had t
 	datum/callback/after_eat,
 	datum/callback/on_consume,
 	datum/callback/check_liked,
+	datum/callback/can_consume,
 	reagent_purity = 0.5,
 )
 	. = ..()
@@ -191,6 +195,8 @@ Behavior that's still missing from this component that original food items had t
 		src.on_consume = on_consume
 	if(!isnull(check_liked))
 		src.check_liked = check_liked
+	if(!isnull(can_consume))
+		src.can_consume = can_consume
 
 /datum/component/edible/on_source_remove(source)
 	//rebuild the foodtypes and food_flags bitfields without the removed source
@@ -559,6 +565,8 @@ Behavior that's still missing from this component that original food items had t
 		return FALSE
 	if(eater.is_mouth_covered())
 		eater.balloon_alert(feeder, "mouth is covered!")
+		return FALSE
+	if(can_consume && !can_consume.Invoke(eater, feeder))
 		return FALSE
 
 	var/atom/food = parent

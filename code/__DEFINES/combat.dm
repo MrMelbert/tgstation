@@ -411,6 +411,10 @@ GLOBAL_LIST_INIT(leg_zones, list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
 #define CLICK_CD_MODIFIER "click_cd_modifier"
 /// Multiplies the cd after attacking by this value. Applied AFTER [CLICK_CD_MODIFIER]
 #define CLICK_CD_MULTIPLIER "click_cd_multiplier"
+/// Sets the wound strength of the attack to this value
+#define SET_WOUNDING "set_wounding"
+/// Modifies the wound strength of the attack by this value (additive)
+#define MODIFY_WOUNDING "modify_wounding"
 
 /// Used in attack chain to set the force of the attack without changing the base force of the item.
 #define SET_ATTACK_FORCE(atk_mods, value) \
@@ -454,6 +458,16 @@ GLOBAL_LIST_INIT(leg_zones, list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
 	if(!islist(atk_mods)) { atk_mods = list() }; \
 	atk_mods[SILENCE_DEFAULT_MESSAGES] = TRUE;
 
+/// Used in attack chain to set the wound strength of the attack.
+#define SET_ATTACK_WOUNDING(atk_mods, value) \
+	if(!islist(atk_mods)) { atk_mods = list() }; \
+	atk_mods[SET_WOUNDING] = (value);
+
+/// Used in attack chain to add or remove from the wound strength of the attack.
+#define MODIFY_ATTACK_WOUNDING(atk_mods, amount) \
+	if(!islist(atk_mods)) { atk_mods = list() }; \
+	atk_mods[MODIFY_WOUNDING] += (amount);
+
 /// Calculates the final force of some item based on atk_mods
 /// Needs to have support for force overrides and multipliers of 0 (hence why we ternaries are used over 'or's)
 #define CALCULATE_FORCE(base_force, atk_mods) \
@@ -463,6 +477,11 @@ GLOBAL_LIST_INIT(leg_zones, list(BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
 /// Needs to have support for click cd overrides and multipliers of 0 (hence why we ternaries are used over 'or's)
 #define CALCULATE_CLICK_CD(base_cd, atk_mods) \
 	max(0, ((((CLICK_CD_OVERRIDE in atk_mods) ? atk_mods[CLICK_CD_OVERRIDE] : base_cd) + (atk_mods?[CLICK_CD_MODIFIER] || 0)) * ((CLICK_CD_MULTIPLIER in atk_mods) ? atk_mods[CLICK_CD_MULTIPLIER] : 1)))
+
+/// Calculates the final wound strength of some item based on atk_mods
+/// Needs to have support for wound strength overrides (hence why we ternaries are used over 'or's)
+#define CALCULATE_WOUNDING(base_wounding, atk_mods) \
+	max(0, ((SET_WOUNDING in atk_mods) ? atk_mods[SET_WOUNDING] : base_wounding) + (atk_mods?[MODIFY_WOUNDING] || 0))
 
 /// Return from attacked_by to indicate the attack did not connect
 /// A negative number is used here to people can easily check "attacks that failed or did 0 damage" with <= 0

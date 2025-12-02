@@ -142,25 +142,26 @@
 	item_flags = NOBLUDGEON | ABSTRACT | DROPDEL
 	icon = 'icons/mob/nonhuman-player/alien.dmi'
 
-/obj/item/queen_promotion/attack(mob/living/to_promote, mob/living/carbon/alien/adult/queen)
-	. = ..()
-	if(.)
-		return
+/obj/item/queen_promotion/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isalien(interacting_with))
+		return NONE
 
+	var/mob/living/carbon/alien/to_promote = user
 	var/datum/action/cooldown/alien/promote/promotion = locate() in queen.actions
 	if(!promotion)
-		CRASH("[type] was created and handled by a mob ([queen]) that didn't have a promotion action associated.")
+		stack_trace("[type] was created and handled by a mob ([queen]) that didn't have a promotion action associated.")
+		return ITEM_INTERACT_BLOCKING
 
 	if(!isalienadult(to_promote) || isalienroyal(to_promote))
 		to_chat(queen, span_noticealien("You may only use this with your adult, non-royal children!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	if(!promotion.IsAvailable())
 		to_chat(queen, span_noticealien("You cannot promote a child right now!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	if(to_promote.stat != CONSCIOUS || !to_promote.mind || !to_promote.key)
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	queen.adjustPlasma(-promotion.promotion_plasma_cost)
 
@@ -170,11 +171,10 @@
 		span_noticealien("The queen has granted you a promotion to Praetorian!"),
 	)
 
-	var/mob/living/carbon/alien/lucky_winner = to_promote
-	var/mob/living/carbon/alien/adult/royal/praetorian/new_prae = new(lucky_winner.loc)
-	lucky_winner.alien_evolve(new_prae)
+	var/mob/living/carbon/alien/adult/royal/praetorian/new_prae = new(to_promote.loc)
+	to_promote.alien_evolve(new_prae)
 	qdel(src)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/queen_promotion/attack_self(mob/user)
 	to_chat(user, span_noticealien("You discard [src]."))

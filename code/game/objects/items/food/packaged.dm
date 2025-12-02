@@ -31,11 +31,15 @@
 		icon_state = "[icon_state]_open"
 	return ..()
 
-/obj/item/food/canned/attack(mob/living/target, mob/user, def_zone)
+/obj/item/food/canned/make_edible()
+	. = ..()
+	AddComponentFrom(SOURCE_EDIBLE_INNATE, /datum/component/edible, can_consume = CALLBACK(src, PROC_REF(can_consume)))
+
+/obj/item/food/canned/proc/can_consume(mob/living/eater, mob/living/feeder)
 	if (!is_drainable())
-		to_chat(user, span_warning("[src]'s lid hasn't been opened!"))
+		to_chat(feeder, span_warning("[src]'s lid hasn't been opened!"))
 		return FALSE
-	return ..()
+	return TRUE
 
 /obj/item/food/canned/beans
 	name = "tin of beans"

@@ -176,31 +176,42 @@ Slimecrossing Items
 		TRAIT_AI_PAUSED,
 	)
 
-/obj/item/capturedevice/attack(mob/living/pokemon, mob/user)
+/obj/item/capturedevice/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
+
 	if(length(contents))
 		to_chat(user, span_warning("The device already has something inside."))
-		return
+		return ITEM_INTERACT_BLOCKING
+
+	var/mob/living/pokemon = interacting_with
 	if(!isanimal_or_basicmob(pokemon))
 		to_chat(user, span_warning("The capture device only works on simple creatures."))
-		return
-	if(pokemon.mind)
+		return ITEM_INTERACT_BLOCKING
+
+	if(pokemon.client)
 		to_chat(user, span_notice("You offer the device to [pokemon]."))
-		if(tgui_alert(pokemon, "Would you like to enter [user]'s capture device?", "Gold Capture Device", list("Yes", "No")) == "Yes")
-			if(user.can_perform_action(src) && user.can_perform_action(pokemon))
-				to_chat(user, span_notice("You store [pokemon] in the capture device."))
-				to_chat(pokemon, span_notice("The world warps around you, and you're suddenly in an endless void, with a window to the outside floating in front of you."))
-				store(pokemon, user)
-			else
-				to_chat(user, span_warning("You were too far away from [pokemon]."))
-				to_chat(pokemon, span_warning("You were too far away from [user]."))
-		else
+		if(!tgui_alert(pokemon, "Would you like to enter [user]'s capture device?", "Gold Capture Device", list("Yes", "No")) == "Yes")
 			to_chat(user, span_warning("[pokemon] refused to enter the device."))
-			return
-	else if(!(FACTION_NEUTRAL in pokemon.faction))
+			return ITEM_INTERACT_BLOCKING
+
+		if(user.is_holding(src) && user.can_perform_action(pokemon))
+			to_chat(user, span_notice("You store [pokemon] in the capture device."))
+			to_chat(pokemon, span_notice("The world warps around you, and you're suddenly in an endless void, with a window to the outside floating in front of you."))
+			store(pokemon, user)
+			return ITEM_INTERACT_SUCCESS
+
+		to_chat(user, span_warning("You were too far away from [pokemon]."))
+		to_chat(pokemon, span_warning("You were too far away from [user]."))
+		return ITEM_INTERACT_BLOCKING
+
+	if(!(FACTION_NEUTRAL in pokemon.faction))
 		to_chat(user, span_warning("This creature is too aggressive to capture."))
-		return
+		return ITEM_INTERACT_BLOCKING
+
 	to_chat(user, span_notice("You store [pokemon] in the capture device."))
 	store(pokemon)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/capturedevice/attack_self(mob/user)
 	if(contents.len)

@@ -149,12 +149,14 @@
 
 	user.balloon_alert_to_viewers("fumbles the ball")
 
-/obj/item/toy/basketball/attack(mob/living/carbon/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!iscarbon(target) || user.combat_mode)
-		return ..()
+/obj/item/toy/basketball/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscarbon(interacting_with) || user.combat_mode)
+		return NONE
 
+	var/mob/living/carbon/target = interacting_with
 	playsound(src, 'sound/items/basketball_bounce.ogg', 75, FALSE)
 	target.put_in_hands(src)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/toy/basketball/attack_self(mob/living/user)
 	if(!user.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
