@@ -98,8 +98,7 @@ If the scythe isn't empowered when you sheath it, you take a heap of damage and 
 /obj/item/vorpalscythe/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(empowerment == SCYTHE_EMPOWERED)
 		MODIFY_ATTACK_FORCE_MULTIPLIER(attack_modifiers, bonus_force_multiplier)
-
-	return ..()
+	return TRUE
 
 //Borrows some amputation shear code, but much more specific
 /obj/item/vorpalscythe/attack_secondary(mob/living/victim, mob/living/user, params)

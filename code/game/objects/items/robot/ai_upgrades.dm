@@ -7,10 +7,10 @@
 	///The upgrade that will be applied to the AI when installed
 	var/datum/ai_module/to_gift = /datum/ai_module
 
-/obj/item/aiupgrade/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!isAI(target))
-		return ..()
-	var/mob/living/silicon/ai/AI = target
+/obj/item/aiupgrade/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isAI(interacting_with))
+		return NONE
+	var/mob/living/silicon/ai/AI = interacting_with
 	var/datum/action/innate/ai/action = locate(to_gift.power_type) in AI.actions
 	var/datum/ai_module/gifted_ability = new to_gift
 	if(!to_gift.upgrade)
@@ -37,7 +37,7 @@
 	to_chat(AI, span_userdanger("[user] has upgraded you with [src]!"))
 	user.log_message("has upgraded [key_name(AI)] with a [src].", LOG_GAME)
 	qdel(src)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 
 //Malf Picker
@@ -51,10 +51,10 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
 
-/obj/item/malf_upgrade/pre_attack(atom/A, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!isAI(A))
-		return ..()
-	var/mob/living/silicon/ai/AI = A
+/obj/item/malf_upgrade/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isAI(interacting_with))
+		return NONE
+	var/mob/living/silicon/ai/AI = interacting_with
 	if(AI.malf_picker)
 		AI.malf_picker.processing_time += 50
 		to_chat(AI, span_userdanger("[user] has attempted to upgrade you with combat software that you already possess. You gain 50 points to spend on Malfunction Modules instead."))
@@ -67,7 +67,7 @@
 		message_admins("[ADMIN_LOOKUPFLW(user)] has upgraded [ADMIN_LOOKUPFLW(AI)] with a [src].")
 	to_chat(user, span_notice("You install [src], upgrading [AI]."))
 	qdel(src)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 
 //Lipreading

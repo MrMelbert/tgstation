@@ -185,7 +185,7 @@ GLOBAL_LIST_INIT(nullrod_variants, init_nullrod_variants())
 
 /obj/item/nullrod/claymore/multiverse/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	SET_ATTACK_FORCE(attack_modifiers, rand(max(force - 15, 1), force + 15))
-	return ..()
+	return TRUE
 
 /obj/item/nullrod/claymore/spellblade
 	name = "dormant spellblade"
@@ -831,7 +831,7 @@ GLOBAL_LIST_INIT(nullrod_variants, init_nullrod_variants())
 		strength_value = round((wielding_bodypart.unarmed_damage_low + wielding_bodypart.unarmed_damage_high) * 0.25, 1)
 	// Our force becomes 1d6 + strength + some modifier (based on force - base force) to account for whetstones and other things.
 	SET_ATTACK_FORCE(attack_modifiers, roll("1d6") + strength_value + (force - initial(force)))
-	return ..()
+	return TRUE
 
 /obj/item/nullrod/nullblade/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!isliving(target))

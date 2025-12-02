@@ -178,13 +178,10 @@
 	return TRUE
 
 /obj/item/kinetic_crusher/pre_attack(atom/A, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return TRUE
 	if(!HAS_TRAIT(src, TRAIT_WIELDED))
 		user.balloon_alert(user, "must be wielded!")
-		return TRUE
-	return .
+		return FALSE
+	return TRUE
 
 /obj/item/kinetic_crusher/attack(mob/living/target, mob/living/carbon/user)
 	target.apply_status_effect(/datum/status_effect/crusher_damage)

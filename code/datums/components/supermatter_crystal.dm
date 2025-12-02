@@ -301,6 +301,15 @@
 
 	if(isliving(consumed_object))
 		var/mob/living/consumed_mob = consumed_object
+		// if we're have something supermatter immune, get it out before we get dusted
+		for(var/obj/item/thing in consumed_mob.get_all_contents())
+			if(!(thing.flags_1 & SUPERMATTER_IGNORES_1))
+				continue
+			if(thing.loc == consumed_mob)
+				consumed_mob.transferItemToLoc(thing, consumed_mob.loc, force = TRUE, silent = TRUE)
+			else
+				thing.forceMove(consumed_mob.loc)
+
 		object_size = consumed_mob.mob_size + 2
 		message_admins("[atom_source] has consumed [key_name_admin(consumed_mob)] [ADMIN_JMP(atom_source)].")
 		atom_source.investigate_log("has consumed [key_name(consumed_mob)].", INVESTIGATE_ENGINE)

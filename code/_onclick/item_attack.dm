@@ -37,42 +37,54 @@
 
 	// At this point it means we're not doing a non-combat interaction so let's just try to bash it
 
-	var/pre_attack_result
-	if (is_right_clicking)
-		switch (pre_attack_secondary(target, user, modifiers, attack_modifiers))
-			if (SECONDARY_ATTACK_CALL_NORMAL)
-				pre_attack_result = pre_attack(target, user, modifiers, attack_modifiers)
-			if (SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-				return TRUE
-			if (SECONDARY_ATTACK_CONTINUE_CHAIN)
-				EMPTY_BLOCK_GUARD // Normal behavior
-			else
-				CRASH("pre_attack_secondary must return an SECONDARY_ATTACK_* define, please consult code/__DEFINES/combat.dm")
-	else
-		pre_attack_result = pre_attack(target, user, modifiers, attack_modifiers)
+	var/pre_secondary_result = SECONDARY_ATTACK_CALL_NORMAL
 
-	if(pre_attack_result)
-		return TRUE
+	if (is_right_clicking)
+		var/signal_result = SEND_SIGNAL(src, COMSIG_ITEM_PRE_ATTACK_SECONDARY, target, user, modifiers, attack_modifiers) \
+			| SEND_SIGNAL(user, COMSIG_USER_PRE_ITEM_ATTACK_SECONDARY, src, target, modifiers, attack_modifiers)
+
+		if(signal_result & COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN)
+			pre_secondary_result = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+
+		else if(signal_result & COMPONENT_SECONDARY_CONTINUE_ATTACK_CHAIN)
+			pre_secondary_result = SECONDARY_ATTACK_CONTINUE_CHAIN
+
+		else
+			pre_secondary_result = pre_attack_secondary(target, user, modifiers, attack_modifiers)
+
+	switch (pre_secondary_result)
+		if (SECONDARY_ATTACK_CALL_NORMAL)
+			var/signal_result = SEND_SIGNAL(src, COMSIG_ITEM_PRE_ATTACK, target, user, modifiers, attack_modifiers) | SEND_SIGNAL(user, COMSIG_USER_PRE_ITEM_ATTACK, src, target, modifiers, attack_modifiers)
+			if(signal_result & COMPONENT_CANCEL_ATTACK_CHAIN)
+				return TRUE
+			if(!pre_attack(target, user, modifiers, attack_modifiers))
+				return TRUE
+
+		if (SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+			return TRUE
+		if (SECONDARY_ATTACK_CONTINUE_CHAIN)
+			EMPTY_BLOCK_GUARD // Normal behavior
+		else
+			CRASH("pre_attack_secondary must return an SECONDARY_ATTACK_* define, please consult code/__DEFINES/combat.dm")
 
 	// At this point the attack is really about to happen
 
-	var/attackby_result
-	if (is_right_clicking)
-		switch (target.attackby_secondary(src, user, modifiers, attack_modifiers))
-			if (SECONDARY_ATTACK_CALL_NORMAL)
-				attackby_result = target.attackby(src, user, modifiers, attack_modifiers)
-			if (SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-				return TRUE
-			if (SECONDARY_ATTACK_CONTINUE_CHAIN)
-				EMPTY_BLOCK_GUARD // Normal behavior
-			else
-				CRASH("attackby_secondary must return an SECONDARY_ATTACK_* define, please consult code/__DEFINES/combat.dm")
-	else
-		attackby_result = target.attackby(src, user, modifiers, attack_modifiers)
+	var/attack_secondary_result = SECONDARY_ATTACK_CALL_NORMAL
 
-	if (attackby_result)
-		// This means the attack failed or was handled for whatever reason
-		return TRUE
+	if (is_right_clicking)
+		attack_secondary_result = target.attackby_secondary(src, user, modifiers, attack_modifiers)
+
+	switch (attack_secondary_result)
+		if (SECONDARY_ATTACK_CALL_NORMAL)
+			if(target.attackby(src, user, modifiers, attack_modifiers))
+				return TRUE
+
+		if (SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+			return TRUE
+		if (SECONDARY_ATTACK_CONTINUE_CHAIN)
+			EMPTY_BLOCK_GUARD // Normal behavior
+		else
+			CRASH("attackby_secondary must return an SECONDARY_ATTACK_* define, please consult code/__DEFINES/combat.dm")
 
 	// At this point it means the attack was "successful", or at least unhandled, in some way
 	// This can mean nothing happened, this can mean the target took damage, etc.
@@ -99,22 +111,26 @@
 /**
  * Called on the item before it hits something
  *
+ * Put stuff like "if you attack a dog, deal 2x damage" or "can we attack cats" here
+ *
  * Arguments:
  * * atom/target - The atom about to be hit
  * * mob/living/user - The mob doing the htting
  * * list/modifiers - click params such as alt/shift etc
  * * attack_modifiers - attack modifiers such as force, damage type, etc
-
+ *
+ * Return TRUE to allow the attack
+ * Return FALSE to stop the attack
+ *
  * See: [/obj/item/proc/melee_attack_chain]
  */
-/obj/item/proc/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers) //do stuff before attackby!
-	var/signal_result = SEND_SIGNAL(src, COMSIG_ITEM_PRE_ATTACK, target, user, modifiers, attack_modifiers) | SEND_SIGNAL(user, COMSIG_USER_PRE_ITEM_ATTACK, src, target, modifiers, attack_modifiers)
-	if(signal_result & COMPONENT_CANCEL_ATTACK_CHAIN)
-		return TRUE
-	return FALSE //return TRUE to avoid calling attackby after this proc does stuff
+/obj/item/proc/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	return TRUE
 
 /**
  * Called on the item before it hits something, when right clicking.
+ *
+ * Put stuff like "if you attack a dog, deal 2x damage" or "can we attack cats" here
  *
  * Arguments:
  * * atom/target - The atom about to be hit
@@ -122,17 +138,13 @@
  * * list/modifiers - click params such as alt/shift etc
  * * list/attack_modifiers - attack modifiers such as force, damage type, etc
  *
+ * Return SECONDARY_ATTACK_CALL_NORMAL to call pre_attack as normal
+ * Return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN to stop the attack entirely
+ * Return SECONDARY_ATTACK_CONTINUE_CHAIN to skip pre_attack and continue to attackby_secondary
+ *
  * See: [/obj/item/proc/melee_attack_chain]
  */
 /obj/item/proc/pre_attack_secondary(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	var/signal_result = SEND_SIGNAL(src, COMSIG_ITEM_PRE_ATTACK_SECONDARY, target, user, modifiers, attack_modifiers) | SEND_SIGNAL(user, COMSIG_USER_PRE_ITEM_ATTACK_SECONDARY, src, target, modifiers, attack_modifiers)
-
-	if(signal_result & COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
-
-	if(signal_result & COMPONENT_SECONDARY_CONTINUE_ATTACK_CHAIN)
-		return SECONDARY_ATTACK_CONTINUE_CHAIN
-
 	return SECONDARY_ATTACK_CALL_NORMAL
 
 /**

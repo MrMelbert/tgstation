@@ -55,9 +55,8 @@
 #define STUN_CRIT 2
 
 /obj/item/light_eater/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !has_crit || !isliving(target))
-		return
+	if(!isliving(target))
+		return TRUE
 
 	var/mob/living/attacking = target
 	HIDE_ATTACK_MESSAGES(attack_modifiers)
@@ -66,6 +65,7 @@
 		MODIFY_ATTACK_FORCE_MULTIPLIER(attack_modifiers, 2)
 	else
 		LAZYSET(attack_modifiers, CRIT_ATTACK, STUN_CRIT)
+	return TRUE
 
 /obj/item/light_eater/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(!isliving(target) || !LAZYACCESS(attack_modifiers, CRIT_ATTACK))

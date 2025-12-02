@@ -360,17 +360,8 @@
 	///Number of hits made since the Lap button (alt-click) was last pushed
 	var/lap_hits = 0
 
-/obj/item/training_toolbox/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return .
-	if(target == user || !user.combat_mode)
-		return .
-	if(!check_hit(target))
-		return .
-	user.changeNext_move(CLICK_CD_MELEE)
-	user.do_attack_animation(target)
-	return TRUE
+/obj/item/training_toolbox/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	check_hit(target)
 
 /**
  * Check if we should increment the hit counter
@@ -383,17 +374,15 @@
 /obj/item/training_toolbox/proc/check_hit(atom/target)
 	var/target_is_machine = istype(target, /obj/structure/training_machine)
 	if (!ismob(target) && !istype(target, /obj/item/target) && !target_is_machine)
-		return FALSE
+		return
 	if (target_is_machine)
 		var/obj/structure/training_machine/trainer = target
 		if (!trainer.attached_item)
-			return FALSE
+			return
 	total_hits++
 	lap_hits++
-	playsound(src,'sound/items/weapons/smash.ogg',50,FALSE)
 	if (lap_hits % HITS_TO_KILL == 0)
 		playsound(src,'sound/machines/beep/twobeep.ogg',25,FALSE)
-	return TRUE
 
 /obj/item/training_toolbox/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()

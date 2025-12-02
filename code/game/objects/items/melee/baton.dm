@@ -119,35 +119,27 @@
 
 // Stun attack
 /obj/item/melee/baton/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !isliving(target))
-		return .
-
 	if(!can_baton(target, user))
-		return TRUE
+		return FALSE
 
 	if(!COOLDOWN_FINISHED(src, cooldown_check))
 		if(wait_desc)
 			balloon_alert(user, wait_desc)
-		return TRUE
+		return FALSE
 
 	if(HAS_TRAIT_FROM(target, TRAIT_IWASBATONED, REF(user))) //no doublebaton abuse anon!
 		target.balloon_alert(user, "can't stun yet!")
-		return TRUE
+		return FALSE
 
 	if(active)
 		// when we continue to attack, deal 0 (brute) damage (just stun)
 		SET_ATTACK_FORCE(attack_modifiers, 0)
 		MUTE_ATTACK_HITSOUND(attack_modifiers)
 		HIDE_ATTACK_MESSAGES(attack_modifiers)
-	return .
+	return TRUE
 
 // Harm attack
 /obj/item/melee/baton/pre_attack_secondary(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. != SECONDARY_ATTACK_CALL_NORMAL || !isliving(target))
-		return .
-
 	if(!can_baton(target, user))
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
@@ -674,8 +666,10 @@
 
 /obj/item/melee/baton/security/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	. = ..()
-	if(. || !isliving(target))
-		return .
+	if(!.)
+		return FALSE
+	if(!isliving(target))
+		return TRUE
 
 	if(!active && !user.combat_mode)
 		target.visible_message(
@@ -683,9 +677,9 @@
 			span_warning("[user] prods you with [src]. Luckily it was off."),
 			visible_message_flags = ALWAYS_SHOW_SELF_MESSAGE,
 		)
-		return TRUE
+		return FALSE
 
-	return .
+	return TRUE
 
 /obj/item/melee/baton/security/baton_effect(mob/living/target, mob/living/user, modifiers, stun_override)
 	if(iscyborg(loc))

@@ -26,13 +26,13 @@
 		var/datum/micro_organism/MO = i
 		. += MO.get_details()
 
-/obj/item/petri_dish/pre_attack(atom/A, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(!sample || !istype(A, /obj/structure/sink))
-		return FALSE
+/obj/item/petri_dish/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!sample || !istype(interacting_with, /obj/structure/sink))
+		return NONE
 	to_chat(user, span_notice("You wash the sample out of [src]."))
 	sample = null
 	update_appearance()
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/petri_dish/update_overlays()
 	. = ..()

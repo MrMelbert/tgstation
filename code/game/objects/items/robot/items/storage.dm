@@ -61,25 +61,21 @@
 	stored.forceMove(user.drop_location())
 	return CLICK_ACTION_SUCCESS
 
-/obj/item/borg/apparatus/pre_attack(atom/atom, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(istype(atom.loc, /mob/living/silicon/robot) || istype(atom.loc, /obj/item/robot_model) || HAS_TRAIT(atom, TRAIT_NODROP))
-		return ..() // Borgs should not be grabbing their own modules
+/obj/item/borg/apparatus/interact_with_atom(atom/movable/interacting_with, mob/living/user, list/modifiers)
+	// this stops a borg from storing their own modules in the apparatus
+	if(istype(interacting_with.loc, /mob/living/silicon/robot) || istype(interacting_with.loc, /obj/item/robot_model) || HAS_TRAIT(interacting_with, TRAIT_NODROP))
+		return NONE
 
-	var/itemcheck = FALSE
-	for(var/storable_type in storable)
-		if(istype(atom, storable_type))
-			itemcheck = TRUE
-			break
-	if(itemcheck)
-		var/obj/item/item = atom
-		item.pixel_x = 0
-		item.pixel_y = 0
-		item.forceMove(src)
-		stored = item
-		RegisterSignal(stored, COMSIG_ATOM_UPDATED_ICON, PROC_REF(on_stored_updated_icon))
-		update_appearance()
-		return TRUE
-	return ..()
+	if(!is_type_in_list(interacting_with, storable) || stored)
+		return NONE
+
+	interacting_with.pixel_x = 0
+	interacting_with.pixel_y = 0
+	interacting_with.forceMove(src)
+	stored = interacting_with
+	RegisterSignal(stored, COMSIG_ATOM_UPDATED_ICON, PROC_REF(on_stored_updated_icon))
+	update_appearance()
+	return ITEM_INTERACT_SUCCESS
 
 /**
  * Updates the appearance of the apparatus when the stored object's icon gets updated.
@@ -322,16 +318,19 @@
 		. += "The apparatus currently has [stored] secured."
 	. += span_notice(" <i>Alt-click</i> will drop the currently stored item. ")
 
-/obj/item/borg/apparatus/engineering/pre_attack(atom/atom, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(istype(atom, /obj/item/ai_module) && !stored) //If an admin wants a borg to upload laws, who am I to stop them? Otherwise, we can hint that it fails
-		to_chat(user, span_warning("This circuit board doesn't seem to have standard robot apparatus pin holes. You're unable to pick it up."))
-	return ..()
-
-// stops them from cell interactions with other borgos
 /obj/item/borg/apparatus/engineering/interact_with_atom(atom/movable/interacting_with, mob/living/user, list/modifiers)
+	// stops them from cell interactions with other borgos
 	if(iscyborg(user) && iscyborg(interacting_with))
-		balloon_alert(user, "your manipulator isn't dexterous enough to interact with this properly.")
+		if(user != interacting_with)
+			balloon_alert(user, "can't work on other cyborgs!")
 		return ITEM_INTERACT_FAILURE
+
+	. = ..()
+	// snowflake message for failing to pick up an ai module
+	if(!. && istype(interacting_with, /obj/item/ai_module))
+		balloon_alert(user, "can't pick that up!")
+
+	return .
 
 /obj/item/borg/apparatus/service
 	name = "service apparatus"

@@ -243,6 +243,7 @@
 	armour_penetration = 1000
 	force_string = "INFINITE"
 	item_flags = NEEDS_PERMIT|NO_BLOOD_ON_ITEM
+	flags_1 = SUPERMATTER_IGNORES_1
 	var/obj/machinery/power/supermatter_crystal/shard
 	var/balanced = 1
 
@@ -256,35 +257,25 @@
 	RegisterSignal(src, COMSIG_ATOM_PRE_BULLET_ACT, PROC_REF(eat_bullets))
 
 /obj/item/melee/supermatter_sword/process()
-	if(balanced || throwing || ismob(src.loc) || isnull(src.loc))
+	if(balanced || throwing || ismob(loc) || isnull(loc))
 		return
-	if(!isturf(src.loc))
-		var/atom/target = src.loc
-		forceMove(target.loc)
-		consume_everything(target)
-	else
-		var/turf/turf = get_turf(src)
-		if(!isspaceturf(turf))
-			consume_turf(turf)
+	if(isturf(loc))
+		if(!isspaceturf(loc))
+			consume_everything(loc)
+		return
 
-/obj/item/melee/supermatter_sword/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return .
-
-	if(target == user)
-		user.dropItemToGround(src, TRUE)
-	else
-		user.do_attack_animation(target)
+	var/atom/target = loc
+	forceMove(target.loc)
 	consume_everything(target)
-	return TRUE
+
+/obj/item/melee/supermatter_sword/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	if(QDELETED(target))
+		return
+	consume_everything(target)
 
 /obj/item/melee/supermatter_sword/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	..()
-	if(ismob(hit_atom))
-		var/mob/mob = hit_atom
-		if(src.loc == mob)
-			mob.dropItemToGround(src, TRUE)
+	. = ..()
+	// no "has been caught" check. if you catch it, you die
 	consume_everything(hit_atom)
 
 /obj/item/melee/supermatter_sword/pickup(user)
@@ -321,27 +312,28 @@
 /obj/item/melee/supermatter_sword/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] touches [src]'s blade. It looks like [user.p_theyre()] tired of waiting for the radiation to kill [user.p_them()]!"))
 	user.dropItemToGround(src, TRUE)
-	shard.Bumped(user)
+	consume_everything(user)
 
-/obj/item/melee/supermatter_sword/proc/consume_everything(target)
-	if(isnull(target))
-		shard.Bump(target)
-	else if(!isturf(target))
-		shard.Bumped(target)
-	else
-		consume_turf(target)
-
-/obj/item/melee/supermatter_sword/proc/consume_turf(turf/turf)
-	var/oldtype = turf.type
-	var/turf/newT = turf.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
-	if(newT.type == oldtype)
+/obj/item/melee/supermatter_sword/proc/consume_everything(atom/dusted)
+	if(QDELETED(dusted))
+		shard.Bumped() // fixme: this is a goofy way to make the sm component emit rads, but it doesn't work
 		return
-	playsound(turf, 'sound/effects/supermatter.ogg', 50, TRUE)
-	turf.visible_message(
-		span_danger("[turf] smacks into [src] and rapidly flashes to ash."),
-		span_hear("You hear a loud crack as you are washed with a wave of heat."),
-	)
-	shard.Bump(turf)
+
+	if(isturf(dusted))
+		var/turf/dusted_turf = dusted
+		var/oldtype = dusted_turf.type
+		var/turf/new_turf = dusted_turf.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+		if(new_turf.type == oldtype)
+			return
+		playsound(new_turf, 'sound/effects/supermatter.ogg', 50, TRUE)
+		new_turf.visible_message(
+			span_danger("[dusted_turf] smacks into [src] and rapidly flashes to ash."),
+			span_hear("You hear a loud crack as you are washed with a wave of heat."),
+		)
+		shard.Bumped() // fixme: this is a goofy way to make the sm component emit rads, but it doesn't work
+		return
+
+	shard.Bumped(dusted)
 
 /obj/item/melee/curator_whip
 	name = "curator's whip"

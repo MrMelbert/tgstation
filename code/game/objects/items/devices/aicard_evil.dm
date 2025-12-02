@@ -95,16 +95,19 @@
 	max_capacity = 1000
 	w_class = WEIGHT_CLASS_NORMAL
 
-/obj/item/computer_disk/syndie_ai_upgrade/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+/obj/item/computer_disk/syndie_ai_upgrade/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	var/mob/living/silicon/ai/AI
-	if(isAI(target))
-		AI = target
+	if(isAI(interacting_with))
+		AI = interacting_with
 	else
-		AI = locate() in target
-	if(!AI || AI.interaction_range == INFINITY)
+		AI = locate() in interacting_with
+	if(!AI)
+		return NONE
+	if(AI.interaction_range == INFINITY)
 		playsound(src,'sound/machines/buzz/buzz-sigh.ogg',50,FALSE)
-		to_chat(user, span_notice("Error! Incompatible object!"))
-		return ..()
+		to_chat(user, span_notice("Error! Already upgraded!"))
+		return ITEM_INTERACT_BLOCKING
+
 	AI.interaction_range += 2
 	if(AI.interaction_range > 7)
 		AI.interaction_range = INFINITY
@@ -112,3 +115,4 @@
 	to_chat(user, span_notice("You insert [src] into [AI]'s compartment, and it beeps as it processes the data."))
 	to_chat(AI, span_notice("You process [src], and find yourself able to manipulate electronics from up to [AI.interaction_range] meters!"))
 	qdel(src)
+	return ITEM_INTERACT_SUCCESS

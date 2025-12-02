@@ -69,12 +69,8 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		. += "A sacred weapon of the higher castes from the clown planet, used to strike fear into the hearts of their foes. Wield it with care."
 
 /obj/item/balloon_mallet/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return
-
 	if(!isliving(target))
-		return
+		return TRUE
 
 	var/mob/living/targetmob = target
 	switch(targetmob.mob_mood ? targetmob.mob_mood.sanity : SANITY_NEUTRAL)
@@ -85,6 +81,8 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 			targetmob.add_mood_event("humiliated", /datum/mood_event/mallet_humiliation)
 		if (SANITY_NEUTRAL to SANITY_GREAT)
 			targetmob.add_mood_event("humiliated", /datum/mood_event/mallet_humiliation)
+
+	return TRUE
 
 /obj/item/balloon_mallet/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	playsound(src, 'sound/mobs/non-humanoids/clown/hehe.ogg', 20)
@@ -958,14 +956,10 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	return ..()
 
 /obj/item/melee/baseball_bat/pre_attack(atom/movable/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	var/turf/target_turf = get_turf(target)
-	if(!target_turf)
-		return ..()
-	for(var/atom/movable/atom as anything in target_turf)
-		if(!try_launch(atom, user))
-			continue
-		return TRUE
-	return ..()
+	for(var/atom/movable/atom as anything in get_turf(target))
+		if(try_launch(atom, user))
+			return FALSE
+	return TRUE
 
 /obj/item/melee/baseball_bat/proc/try_launch(atom/movable/target, mob/living/user)
 	if(!target.throwing || (ismob(target) && !mob_thrower))
@@ -1222,15 +1216,13 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	return FALSE
 
 /obj/item/highfrequencyblade/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return .
 	if(!HAS_TRAIT(src, TRAIT_WIELDED))
-		return . // Default attack
+		return TRUE // Default attack
 	if(isliving(target) && HAS_TRAIT(src, TRAIT_PACIFISM))
-		return . // Default attack (ultimately nothing)
+		return TRUE // Default attack (ultimately nothing)
 
-	return slash(target, user, modifiers)
+	slash(target, user, modifiers)
+	return FALSE // No default attack
 
 /// triggered on wield of two handed item
 /obj/item/highfrequencyblade/proc/on_wield(obj/item/source, mob/user)

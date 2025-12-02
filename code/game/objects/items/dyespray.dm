@@ -4,13 +4,17 @@
 	w_class = WEIGHT_CLASS_TINY
 	icon = 'icons/obj/cosmetic.dmi'
 	icon_state = "dyespray"
+	item_flags = NOBLUDGEON
 
 /obj/item/dyespray/attack_self(mob/user)
 	dye(user, user)
 
-/obj/item/dyespray/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	dye(target, user)
-	return ..()
+/obj/item/dyespray/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
+
+	dye(interacting_with, user)
+	return ITEM_INTERACT_SUCCESS
 
 /**
  * Applies a gradient and a gradient color to a mob.

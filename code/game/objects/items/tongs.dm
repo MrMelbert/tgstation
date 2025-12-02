@@ -73,21 +73,31 @@
 	tonged = null
 	update_appearance(UPDATE_ICON)
 
-/obj/item/kitchen/tongs/pre_attack(obj/item/attacked, mob/living/user, list/modifiers, list/attack_modifiers)
-	if (!isnull(tonged) && tonged.force <= 0) // prevents tongs from giving food-weapons extra range
-		attacked.attackby(tonged, user)
-		return TRUE
-	if (isliving(attacked))
-		if (COOLDOWN_FINISHED(src, clack_cooldown))
-			click_clack()
-		return ..()
-	if (!IS_EDIBLE(attacked) || attacked.w_class > WEIGHT_CLASS_NORMAL || !isnull(tonged))
-		return ..()
-	tonged = attacked
-	attacked.do_pickup_animation(src)
-	attacked.forceMove(src)
+/obj/item/kitchen/tongs/get_proxy_attacker_for(atom/target, mob/user)
+	// try to feed the tonged item to the target
+	// (but don't give food weapons extra reach)
+	if(tonged && tonged.force <= 0)
+		return tonged
+
+	return src
+
+/obj/item/kitchen/tongs/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	if(isliving(target) && COOLDOWN_FINISHED(src, clack_cooldown))
+		click_clack()
+
+/obj/item/kitchen/tongs/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if (!isitem(interacting_with) || !IS_EDIBLE(interacting_with) || !isnull(tonged))
+		return NONE
+
+	var/obj/item/food_item = interacting_with
+	if(interacting_with.w_class > WEIGHT_CLASS_NORMAL)
+		return NONE
+
+	tonged = food_item
+	food_item.do_pickup_animation(src)
+	food_item.forceMove(src)
 	update_appearance(UPDATE_ICON)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/kitchen/tongs/update_overlays()
 	. = ..()

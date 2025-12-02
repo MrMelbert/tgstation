@@ -160,7 +160,7 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 	AddComponent(/datum/component/two_handed)
 
 /obj/item/firelance/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	return ..() && !user.combat_mode
+	return user.combat_mode
 
 /obj/item/firelance/get_cell()
 	return cell

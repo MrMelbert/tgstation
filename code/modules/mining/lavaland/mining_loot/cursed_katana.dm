@@ -100,15 +100,15 @@
 		qdel(src)
 
 /obj/item/cursed_katana/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !isliving(target) || target == user)
-		return
+	if(!isliving(target) || target == user)
+		return TRUE
 
 	var/mob/living/target_mob = target
 	if(!ismining(target_mob))
-		return
+		return TRUE
 
 	SET_ATTACK_CLICK_CD(attack_modifiers, CLICK_CD_RAPID)
+	return TRUE
 
 /obj/item/cursed_katana/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!isliving(target) || !can_combo_attack(user, target))

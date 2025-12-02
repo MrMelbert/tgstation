@@ -229,17 +229,16 @@
 	var/hitcost = 0.05 * STANDARD_CELL_CHARGE
 
 /obj/item/melee/energy/sword/cyborg/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !issilicon(user))
+	if(!iscyborg(user))
 		return TRUE
 
 	var/mob/living/silicon/robot/cyborg_user = user
 	if(HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE) && !cyborg_user.cell?.use(hitcost))
 		attack_self(user)
 		balloon_alert(user, "out of charge!")
-		return TRUE
+		return FALSE
 
-	return FALSE
+	return TRUE
 
 /obj/item/melee/energy/sword/cyborg/cyborg_unequip(mob/user)
 	if(!HAS_TRAIT(src, TRAIT_TRANSFORM_ACTIVE))
@@ -456,17 +455,14 @@
 
 // A weapon best employed by someone in a desperate struggle
 /obj/item/melee/energy/sword/surplus/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!isliving(target))
-		return ..()
-
-	if(sharpness == NONE)
-		return ..()
+	if(!isliving(target) || sharpness == NONE)
+		return TRUE
 
 	var/mob/living/living_target = target
 	var/vulnerable_target = FALSE
 
 	if(living_target.stat == DEAD) // I know it doesn't make a lot of sense but it makes it a bit too good for dismemberment otherwise
-		return ..()
+		return TRUE
 
 	if(living_target.get_timed_status_effect_duration(/datum/status_effect/staggered))
 		vulnerable_target = TRUE
@@ -480,7 +476,7 @@
 	if(vulnerable_target)
 		MODIFY_ATTACK_FORCE_MULTIPLIER(attack_modifiers, 2)
 
-	return ..()
+	return TRUE
 
 /obj/item/melee/energy/sword/surplus/attack_self_secondary(mob/user, list/modifiers)
 	. = ..()

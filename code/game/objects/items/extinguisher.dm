@@ -230,9 +230,7 @@
 	return
 
 /obj/item/extinguisher/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!user.combat_mode && !safety) //If we're on help intent and going to spray people, don't bash them.
-		return FALSE
-	return ..()
+	return user.combat_mode || !safety //If we're on help intent and going to spray people, don't bash them.
 
 /obj/item/extinguisher/attack_atom(obj/attacked_obj, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(AttemptRefill(attacked_obj, user))

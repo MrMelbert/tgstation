@@ -128,15 +128,12 @@
 	. = ..()
 
 /obj/item/dualsaber/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return TRUE
 	if(HAS_TRAIT(src, TRAIT_WIELDED) && HAS_TRAIT(user, TRAIT_HULK))
 		to_chat(user, span_warning("You grip the blade too hard and accidentally drop it!"))
 		user.dropItemToGround(src, force = TRUE)
-		return TRUE
+		return FALSE
 
-	return FALSE
+	return TRUE
 
 /obj/item/dualsaber/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!HAS_TRAIT(src, TRAIT_WIELDED))

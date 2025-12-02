@@ -68,9 +68,8 @@
 	return BRUTELOSS
 
 /obj/item/melee/cleaving_saw/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !isliving(target))
-		return
+	if(!isliving(target))
+		return TRUE
 	var/mob/living/smacking = target
 	// closed = faster attacks
 	if(SAW_CLOSED(src))
@@ -79,6 +78,7 @@
 	else if(faction_check(smacking.faction, nemesis_factions))
 		MODIFY_ATTACK_FORCE(attack_modifiers, faction_bonus_force)
 		LAZYSET(attack_modifiers, NEMESIS_ATTACK, TRUE)
+	return TRUE
 
 /obj/item/melee/cleaving_saw/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!isliving(target) || QDELETED(target))

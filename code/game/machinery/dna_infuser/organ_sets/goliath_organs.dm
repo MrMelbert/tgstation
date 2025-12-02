@@ -139,17 +139,17 @@
 	. += "You can use your tendril hammer arm to deliver a devastating blow against mining fauna, but only once every two seconds."
 
 /obj/item/goliath_infuser_hammer/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !isliving(target) || !COOLDOWN_FINISHED(src, tendril_hammer_cd))
-		return
+	if(!isliving(target) || !COOLDOWN_FINISHED(src, tendril_hammer_cd))
+		return TRUE
 
 	var/mob/living/smacking = target
 	if(!faction_check(smacking.faction, nemesis_factions))
-		return
+		return TRUE
 
 	MODIFY_ATTACK_FORCE(attack_modifiers, mining_bonus_force)
 	LAZYSET(attack_modifiers, NEMESIS_ATTACK, TRUE)
 	COOLDOWN_START(src, tendril_hammer_cd, 2 SECONDS)
+	return TRUE
 
 /obj/item/goliath_infuser_hammer/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!isliving(target) || istype(target, /mob/living/simple_animal/hostile/asteroid/elite) || QDELETED(target))

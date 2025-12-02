@@ -140,13 +140,10 @@
 	return length(spirits)
 
 /obj/item/melee/ghost_sword/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return
-
 	var/ghost_counter = ghost_check()
 	MODIFY_ATTACK_FORCE(attack_modifiers, min(18, ghost_counter) * 4)
 	user.visible_message(span_danger("[user] strikes with the force of [ghost_counter] vengeful spirits!"))
+	return TRUE
 
 /obj/item/melee/ghost_sword/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
 	var/ghost_counter = ghost_check()

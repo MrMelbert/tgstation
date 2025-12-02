@@ -134,10 +134,6 @@ Striking a noncultist, however, will tear their flesh."}
 		return FALSE
 
 /obj/item/melee/cultblade/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return TRUE
-
 	if(!IS_CULTIST(user) && !free_use)
 		user.Paralyze(10 SECONDS)
 		user.dropItemToGround(src, TRUE)
@@ -147,9 +143,9 @@ Striking a noncultist, however, will tear their flesh."}
 			visible_message_flags = ALWAYS_SHOW_SELF_MESSAGE,
 		)
 		user.apply_damage(rand(force / 2, force), BRUTE, user.get_active_hand())
-		return TRUE
+		return FALSE
 
-	return FALSE
+	return TRUE
 
 #define WIELDER_SPELLS "wielder_spell"
 #define SWORD_SPELLS "sword_spell"

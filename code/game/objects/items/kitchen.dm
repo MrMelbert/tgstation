@@ -280,7 +280,19 @@
 
 /obj/item/kitchen/spoon/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(!isliving(interacting_with))
-		return NONE
+		if(!interacting_with.is_open_container())
+			return NONE
+		if(reagents.total_volume <= 0)
+			return NONE
+
+		var/amount_given = reagents.trans_to(interacting_with, reagents.maximum_volume)
+		if(amount_given >= reagents.total_volume)
+			interacting_with.balloon_alert(user, "spoon emptied")
+		else if(amount_given > 0)
+			interacting_with.balloon_alert(user, "spoon partially emptied")
+		else
+			interacting_with.balloon_alert(user, "it's full!")
+		return ITEM_INTERACT_SUCCESS
 
 	var/mob/living/target_mob = interacting_with
 	if(!target_mob.reagents || reagents.total_volume <= 0)
@@ -316,43 +328,19 @@
 	reagents.trans_to(target_mob, spoon_sip_size, methods = INGEST)
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/kitchen/spoon/pre_attack(atom/attacked_atom, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return
-	if(isliving(attacked_atom))
-		return
-	if(!attacked_atom.is_open_container())
-		return
-	if(reagents.total_volume <= 0)
-		return
+/obj/item/kitchen/spoon/interact_with_atom_secondary(atom/interacting_with, mob/living/user, list/modifiers)
+	if(isliving(interacting_with))
+		return NONE
+	if(!interacting_with.is_open_container())
+		return NONE
+	if(reagents.total_volume >= reagents.maximum_volume || interacting_with.reagents.total_volume <= 0)
+		return NONE
 
-	var/amount_given = reagents.trans_to(attacked_atom, reagents.maximum_volume)
-	if(amount_given >= reagents.total_volume)
-		attacked_atom.balloon_alert(user, "spoon emptied")
-	else if(amount_given > 0)
-		attacked_atom.balloon_alert(user, "spoon partially emptied")
+	if(interacting_with.reagents.trans_to(src, reagents.maximum_volume))
+		interacting_with.balloon_alert(user, "grabbed spoonful")
 	else
-		attacked_atom.balloon_alert(user, "it's full!")
-	return TRUE
-
-/obj/item/kitchen/spoon/pre_attack_secondary(atom/attacked_atom, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	if(isliving(attacked_atom))
-		return SECONDARY_ATTACK_CALL_NORMAL
-	if(!attacked_atom.is_open_container())
-		return SECONDARY_ATTACK_CALL_NORMAL
-
-	if(reagents.total_volume >= reagents.maximum_volume || attacked_atom.reagents.total_volume <= 0)
-		return SECONDARY_ATTACK_CALL_NORMAL
-
-	if(attacked_atom.reagents.trans_to(src, reagents.maximum_volume))
-		attacked_atom.balloon_alert(user, "grabbed spoonful")
-	else
-		attacked_atom.balloon_alert(user, "spoon is full!")
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		interacting_with.balloon_alert(user, "spoon is full!")
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/kitchen/spoon/plastic
 	name = "plastic spoon"

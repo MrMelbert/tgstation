@@ -190,14 +190,14 @@
 
 /obj/item/scythe/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(!istype(target, /obj/structure/alien/resin/flower_bud) && !istype(target, /obj/structure/spacevine))
-		return ..()
+		return TRUE
 	if(swiping || get_turf(target) == get_turf(user))
-		return ..()
+		return TRUE
 	var/turf/user_turf = get_turf(user)
 	var/dir_to_target = get_dir(user_turf, get_turf(target))
 	swiping = TRUE
 	var/static/list/scythe_slash_angles = list(0, 45, 90, -45, -90)
-	for(var/i in scythe_slash_angles)
+	for(var/i in scythe_slash_angles) // melbert todo : afterattack
 		var/turf/adjacent_turf = get_step(user_turf, turn(dir_to_target, i))
 		for(var/obj/structure/spacevine/vine in adjacent_turf)
 			if(user.Adjacent(vine))
@@ -206,7 +206,7 @@
 			if(user.Adjacent(flower))
 				melee_attack_chain(user, flower)
 	swiping = FALSE
-	return TRUE
+	return FALSE
 
 /obj/item/secateurs
 	name = "secateurs"

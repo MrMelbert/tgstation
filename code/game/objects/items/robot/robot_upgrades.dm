@@ -855,26 +855,27 @@
 	icon = 'icons/obj/devices/circuitry_n_data.dmi'
 	icon_state = "cyborg_upgrade1"
 
-/obj/item/borg_restart_board/pre_attack(mob/living/silicon/robot/borgo, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!istype(borgo))
-		return ..()
+/obj/item/borg_restart_board/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscyborg(interacting_with))
+		return NONE
+	var/mob/living/silicon/robot/borgo = interacting_with
 	if(!borgo.opened)
 		to_chat(user, span_warning("You must access the cyborg's internals!"))
-		return ..()
+		return ITEM_INTERACT_BLOCKING
 	if(borgo.health < 0)
 		to_chat(user, span_warning("You have to repair the cyborg before using this module!"))
-		return ..()
-	if(!(borgo.stat & DEAD))
+		return ITEM_INTERACT_BLOCKING
+	if(borgo.stat != DEAD)
 		to_chat(user, span_warning("This cyborg is already operational!"))
-		return ..()
+		return ITEM_INTERACT_BLOCKING
 
 	if(borgo.mind)
 		borgo.mind.grab_ghost()
-		playsound(loc, 'sound/mobs/non-humanoids/cyborg/liveagain.ogg', 75, TRUE)
+		playsound(src, 'sound/mobs/non-humanoids/cyborg/liveagain.ogg', 75, TRUE)
 	else
-		playsound(loc, 'sound/machines/ping.ogg', 75, TRUE)
+		playsound(src, 'sound/machines/ping.ogg', 75, TRUE)
 
 	borgo.revive()
 	borgo.logevent("WARN -- System recovered from unexpected shutdown.")
 	borgo.logevent("System brought online.")
-	return ..()
+	return ITEM_INTERACT_SUCCESS

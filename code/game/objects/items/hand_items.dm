@@ -119,22 +119,26 @@
 	desc = "Get someone in an aggressive grab then use this on them to ruin their day."
 	inhand_icon_state = "nothing"
 
-/obj/item/hand_item/noogie/attack(mob/living/carbon/target, mob/living/carbon/human/user)
-	if(!istype(target))
-		to_chat(user, span_warning("You don't think you can give this a noogie!"))
-		return
+/obj/item/hand_item/noogie/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
 
+	if(!iscarbon(interacting_with))
+		to_chat(user, span_warning("You don't think you can give this a noogie!"))
+		return ITEM_INTERACT_BLOCKING
+
+	var/mob/living/carbon/target = interacting_with
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("You can't bring yourself to noogie [target]! You don't want to risk harming anyone..."))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	if(!(target?.get_bodypart(BODY_ZONE_HEAD)) || user.pulling != target || user.grab_state < GRAB_AGGRESSIVE || user.get_stamina_loss() > 80)
-		return FALSE
+		return ITEM_INTERACT_BLOCKING
 
 	var/obj/item/bodypart/head/the_head = target.get_bodypart(BODY_ZONE_HEAD)
 	if(!(the_head.biological_state & BIO_FLESH))
 		to_chat(user, span_warning("You can't noogie [target], [target.p_they()] [target.p_have()] no skin on [target.p_their()] head!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	// [user] gives [target] a [prefix_desc] noogie[affix_desc]!
 	var/brutal_noogie = FALSE // was it an extra hard noogie?
@@ -160,7 +164,7 @@
 	if(!do_after(user, 1.5 SECONDS, target))
 		to_chat(user, span_warning("You fail to give [target] a noogie!"))
 		to_chat(target, span_danger("[user] fails to give you a noogie!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	if(brutal_noogie)
 		target.add_mood_event("noogie_harsh", /datum/mood_event/noogie_harsh)
@@ -168,11 +172,12 @@
 		target.add_mood_event("noogie", /datum/mood_event/noogie)
 
 	noogie_loop(user, target, 0)
+	return ITEM_INTERACT_SUCCESS
 
 /// The actual meat and bones of the noogie'ing
 /obj/item/hand_item/noogie/proc/noogie_loop(mob/living/carbon/human/user, mob/living/carbon/target, iteration)
 	if(!(target?.get_bodypart(BODY_ZONE_HEAD)) || user.pulling != target)
-		return FALSE
+		return
 
 	if(user.get_stamina_loss() > 80)
 		to_chat(user, span_warning("You're too tired to continue giving [target] a noogie!"))
@@ -287,19 +292,19 @@
 	playsound(slapped, 'sound/items/weapons/slap.ogg', slap_volume, TRUE, -1)
 	return
 
-/obj/item/hand_item/slapper/pre_attack_secondary(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!loc.Adjacent(target) || !istype(target, /obj/structure/table))
+/obj/item/hand_item/slapper/interact_with_atom_secondary(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!istype(interacting_with, /obj/structure/table))
 		return ..()
 
-	slam_table(target, user)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	slam_table(interacting_with, user)
+	return ITEM_INTERACT_SUCCESS
 
-/obj/item/hand_item/slapper/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!loc.Adjacent(target) || !istype(target, /obj/structure/table))
+/obj/item/hand_item/slapper/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!istype(interacting_with, /obj/structure/table))
 		return ..()
 
-	slap_table(target, user)
-	return TRUE
+	slap_table(interacting_with, user)
+	return ITEM_INTERACT_SUCCESS
 
 /// Slap the table, get some attention
 /obj/item/hand_item/slapper/proc/slap_table(obj/structure/table/table, mob/living/user)
@@ -343,33 +348,19 @@
 	desc = "Sometimes, you just want to act gentlemanly."
 	inhand_icon_state = "nothing"
 
-/obj/item/hand_item/hand/pre_attack(mob/living/carbon/help_target, mob/living/carbon/helper, list/modifiers, list/attack_modifiers)
-	if(!loc.Adjacent(help_target) || !istype(helper) || !istype(help_target))
+/obj/item/hand_item/hand/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscarbon(interacting_with) || !iscarbon(user))
 		return ..()
+
+	var/mob/living/carbon/help_target = interacting_with
+	var/mob/living/carbon/helper = user
 
 	if(helper.resting)
 		to_chat(helper, span_warning("You can't act gentlemanly when you're lying down!"))
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 
-
-/obj/item/hand_item/hand/pre_attack_secondary(mob/living/carbon/help_target, mob/living/carbon/helper, list/modifiers, list/attack_modifiers)
-	if(!loc.Adjacent(help_target) || !istype(helper) || !istype(help_target))
-		return ..()
-
-	if(helper.resting)
-		to_chat(helper, span_warning("You can't act gentlemanly when you're lying down!"))
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
-
-	return SECONDARY_ATTACK_CALL_NORMAL
-
-
-/obj/item/hand_item/hand/attack(mob/living/carbon/target_mob, mob/living/carbon/user, list/modifiers, list/attack_modifiers)
-	if(!loc.Adjacent(target_mob) || !istype(user) || !istype(target_mob))
-		return TRUE
-
-	user.give(target_mob)
-	return TRUE
-
+	helper.give(help_target)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/hand_item/hand/on_offered(mob/living/carbon/offerer, mob/living/carbon/offered)
 	. = TRUE
@@ -449,30 +440,30 @@
 	attack_verb_continuous = list("steals")
 	attack_verb_simple = list("steal")
 
-/obj/item/hand_item/stealer/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if (!ishuman(target_mob))
-		return
-	var/mob/living/carbon/human/target_human = target_mob
+/obj/item/hand_item/stealer/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if (!ishuman(interacting_with))
+		return NONE
+	var/mob/living/carbon/human/target_human = interacting_with
 	if(target_human == user)
 		to_chat(user, span_notice("Why would you try stealing your own shoes?"))
-		return
+		return ITEM_INTERACT_BLOCKING
 	if (!target_human.shoes)
-		return
+		return ITEM_INTERACT_BLOCKING
 	if (user.body_position != LYING_DOWN)
-		return
+		return ITEM_INTERACT_BLOCKING
 	var/obj/item/clothing/shoes/item_to_strip = target_human.shoes
 	user.visible_message(span_warning("[user] starts stealing [target_human]'s [item_to_strip.name]!"), \
 		span_danger("You start stealing [target_human]'s [item_to_strip.name]..."))
 	to_chat(target_human, span_userdanger("[user] starts stealing your [item_to_strip.name]!"))
 	if (!do_after(user, item_to_strip.strip_delay, target_human))
-		return
+		return ITEM_INTERACT_BLOCKING
 	if(!target_human.dropItemToGround(item_to_strip))
-		return
+		return ITEM_INTERACT_BLOCKING
 	user.put_in_hands(item_to_strip)
 	user.visible_message(span_warning("[user] stole [target_human]'s [item_to_strip.name]!"), \
 		span_notice("You stole [target_human]'s [item_to_strip.name]!"))
 	to_chat(target_human, span_userdanger("[user] stole your [item_to_strip.name]!"))
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/hand_item/kisser
 	name = "kiss"

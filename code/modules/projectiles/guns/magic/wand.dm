@@ -30,7 +30,7 @@
 	return ..()
 
 /obj/item/gun/magic/wand/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	return ..() || (target == user) // don't smack ourselves with the wand when we clearly want to zap ourselves
+	return target != user // don't smack ourselves with the wand when we clearly want to zap ourselves
 
 /obj/item/gun/magic/wand/try_fire_gun(atom/target, mob/living/user, params)
 	if(!charges)

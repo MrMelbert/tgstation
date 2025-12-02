@@ -42,16 +42,13 @@
 	return IS_HERETIC_OR_MONSTER(user)
 
 /obj/item/melee/sickly_blade/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(.)
-		return .
 	if(!check_usability(user))
 		to_chat(user, span_danger("You feel a pulse of alien intellect lash out at your mind!"))
 		var/mob/living/carbon/human/human_user = user
 		human_user.AdjustParalyzed(5 SECONDS)
-		return TRUE
+		return FALSE
 
-	return .
+	return TRUE
 
 /obj/item/melee/sickly_blade/attack_self(mob/user)
 	var/datum/antagonist/heretic/heretic_datum = GET_HERETIC(user)

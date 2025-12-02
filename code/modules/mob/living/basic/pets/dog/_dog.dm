@@ -105,16 +105,16 @@
 	attack_verb_continuous = list("attacks", "bashes", "batters", "bludgeons", "whacks")
 	attack_verb_simple = list("attack", "bash", "batter", "bludgeon", "whack")
 
-/obj/item/dog_bone/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if (!isdog(target) || user.combat_mode)
-		return ..()
-	var/mob/living/basic/pet/dog/dog_target = target
+/obj/item/dog_bone/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if (!isdog(interacting_with) || user.combat_mode)
+		return NONE
+	var/mob/living/basic/pet/dog/dog_target = interacting_with
 	if (dog_target.stat != CONSCIOUS)
-		return ..()
+		return ITEM_INTERACT_BLOCKING
 	dog_target.emote("spin")
 	dog_target.fully_heal()
 	if (dog_target.befriend(user))
 		dog_target.tamed(user)
-	new /obj/effect/temp_visual/heart(target.loc)
+	new /obj/effect/temp_visual/heart(interacting_with.loc)
 	qdel(src)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS

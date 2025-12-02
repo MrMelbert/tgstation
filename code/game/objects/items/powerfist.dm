@@ -114,17 +114,16 @@
 #define POWERFIST_FULL_GAS "full_gas"
 
 /obj/item/melee/powerfist/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !isliving(target))
-		return .
+	if(!isliving(target))
+		return TRUE
 
 	if(!tank)
 		to_chat(user, span_warning("[src] can't operate without a source of gas!"))
-		return TRUE
+		return FALSE
 
 	var/turf/our_turf = get_turf(src)
 	if(!our_turf)
-		return TRUE
+		return FALSE
 
 	MUTE_ATTACK_HITSOUND(attack_modifiers)
 	HIDE_ATTACK_MESSAGES(attack_modifiers)
@@ -145,7 +144,7 @@
 		LAZYSET(attack_modifiers, POWERFIST_GAS_LEVEL, POWERFIST_FULL_GAS)
 
 	our_turf.assume_air(gas_used)
-	return FALSE
+	return TRUE
 
 /obj/item/melee/powerfist/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(!isliving(target))

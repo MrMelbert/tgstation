@@ -38,16 +38,12 @@
 	if (!isnull(attached_circuit))
 		. += span_notice("It is attached to [attached_circuit.shell || attached_circuit].")
 
-/obj/item/usb_cable/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if (.)
-		return
+/obj/item/usb_cable/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	var/signal_result = SEND_SIGNAL(interacting_with, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, src, user)
 
-	if (prob(1))
+	if (signal_result && prob(1))
 		balloon_alert(user, "wrong way, god damnit")
-		return TRUE
-
-	var/signal_result = SEND_SIGNAL(target, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, src, user)
+		return ITEM_INTERACT_BLOCKING
 
 	if (signal_result & COMSIG_USB_CABLE_CONNECTED_TO_CIRCUIT)
 		if (isnull(attached_circuit))
@@ -56,25 +52,25 @@
 
 		playsound(src, 'sound/machines/pda_button/pda_button1.ogg', 20, TRUE)
 
-		return TRUE
+		return ITEM_INTERACT_SUCCESS
 
 	if (signal_result & COMSIG_USB_CABLE_ATTACHED)
 		// Short messages are better to read
 		var/connection_description = "port"
-		if (istype(target, /obj/machinery/computer))
+		if (istype(interacting_with, /obj/machinery/computer))
 			connection_description = "computer"
-		else if (ismachinery(target))
+		else if (ismachinery(interacting_with))
 			connection_description = "machine"
 
 		balloon_alert(user, "connected to [connection_description]")
 		playsound(src, 'sound/items/tools/screwdriver2.ogg', 20, TRUE)
 
-		return TRUE
+		return ITEM_INTERACT_SUCCESS
 
 	if (signal_result & COMSIG_CANCEL_USB_CABLE_ATTACK)
-		return TRUE
+		return ITEM_INTERACT_SUCCESS
 
-	return FALSE
+	return NONE
 
 /obj/item/usb_cable/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is wrapping [src] around [user.p_their()] neck! It looks like [user.p_theyre()] trying to commit suicide!"))

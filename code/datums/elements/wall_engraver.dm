@@ -26,7 +26,7 @@
 
 	INVOKE_ASYNC(src, PROC_REF(try_chisel), source, target, user)
 
-	return COMPONENT_CANCEL_ATTACK_CHAIN
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /datum/element/wall_engraver/proc/try_chisel(obj/item/item, turf/closed/wall, mob/living/user)
 	if(!istype(wall) || !user.mind)

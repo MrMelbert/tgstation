@@ -47,14 +47,13 @@
 	AddToPlate(tool, user)
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/plate/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!iscarbon(target))
-		return
-	if(!contents.len)
-		return
+/obj/item/plate/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!iscarbon(interacting_with) || user.combat_mode || !length(contents))
+		return NONE
+
 	var/obj/item/object_to_eat = contents[1]
-	target.attackby(object_to_eat, user)
-	return TRUE //No normal attack
+	object_to_eat.melee_attack_chain(user, interacting_with, modifiers)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/plate/IsContainedAtomAccessible(atom/contained, atom/movable/user)
 	return TRUE

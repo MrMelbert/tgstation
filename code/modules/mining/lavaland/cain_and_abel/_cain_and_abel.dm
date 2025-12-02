@@ -94,16 +94,16 @@
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/cain_and_abel/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(. || !isliving(target) || QDELETED(target))
-		return
+	if(!isliving(target))
+		return TRUE
 	var/mob/living/stabbing = target
 	if(stabbing.mob_size < MOB_SIZE_LARGE && stabbing.stat == DEAD)
-		return
+		return TRUE
 
 	MODIFY_ATTACK_FORCE_MULTIPLIER(user, (combo_count || 1) * damage_boost)
 	MODIFY_ATTACK_CLICK_CD(user, -2)
 	set_combo(combo_count + 1, user)
+	return TRUE
 
 /obj/item/cain_and_abel/attack_self(mob/user)
 	. = ..()

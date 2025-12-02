@@ -104,33 +104,33 @@
 
 	return ..()
 
-/obj/item/modular_computer/pda/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
-	if(!inserted_disk || !ismachinery(target))
-		return ..()
+/obj/item/modular_computer/pda/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!inserted_disk || !ismachinery(interacting_with))
+		return NONE
 
-	var/obj/machinery/target_machine = target
-	if(!target_machine.panel_open && !istype(target, /obj/machinery/computer))
-		return ..()
-
+	var/obj/machinery/target_machine = interacting_with
+	if(!target_machine.panel_open && !istype(target_machine, /obj/machinery/computer))
+		return NONE
 	if(!istype(inserted_disk, /obj/item/computer_disk/virus/clown))
-		return ..()
+		return NONE
+
 	var/obj/item/computer_disk/virus/clown/installed_cartridge = inserted_disk
 	if(!installed_cartridge.charges)
 		to_chat(user, span_notice("Out of virus charges."))
-		return ..()
+		return ITEM_INTERACT_BLOCKING
 
-	to_chat(user, span_notice("You upload the virus to [target]!"))
+	to_chat(user, span_notice("You upload the virus to [target_machine]!"))
 	var/sig_list = list(COMSIG_ATOM_ATTACK_HAND)
-	if(istype(target,/obj/machinery/door/airlock))
+	if(istype(target_machine, /obj/machinery/door/airlock))
 		sig_list = list(COMSIG_AIRLOCK_OPEN, COMSIG_AIRLOCK_CLOSE)
 
 	installed_cartridge.charges--
-	target.AddComponent(
+	target_machine.AddComponent(
 		/datum/component/sound_player, \
-		uses = rand(15,20), \
+		uses = rand(15, 20), \
 		signal_list = sig_list, \
 	)
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/modular_computer/pda/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
