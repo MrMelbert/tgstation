@@ -223,16 +223,14 @@
 /obj/item/necromantic_stone/unlimited
 	unlimited = 1
 
-/obj/item/necromantic_stone/attack(mob/living/carbon/human/target, mob/living/carbon/human/user)
-	if(!istype(target))
-		return ..()
+/obj/item/necromantic_stone/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!ishuman(interacting_with))
+		return NONE
 
-	if(!istype(user) || !user.can_perform_action(target))
-		return
-
+	var/mob/living/carbon/human/target = interacting_with
 	if(target.stat != DEAD)
 		to_chat(user, span_warning("This artifact can only affect the dead!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	for(var/mob/dead/observer/ghost in GLOB.dead_mob_list) //excludes new players
 		if(ghost.mind && ghost.mind.current == target && ghost.client)  //the dead mobs list can contain clientless mobs
@@ -241,12 +239,12 @@
 
 	if(!target.mind || !target.client)
 		to_chat(user, span_warning("There is no soul connected to this body..."))
-		return
+		return ITEM_INTERACT_BLOCKING
 
 	check_spooky()//clean out/refresh the list
 	if(spooky_scaries.len >= max_thralls && !unlimited)
 		to_chat(user, span_warning("This artifact can only affect [convert_integer_to_words(max_thralls)] thralls at a time!"))
-		return
+		return ITEM_INTERACT_BLOCKING
 	if(applied_species)
 		target.set_species(applied_species, icon_update=0)
 	target.revive(ADMIN_HEAL_ALL)
@@ -260,6 +258,7 @@
 		target.mind.add_antag_datum(/datum/antagonist/wizard_minion, antag_datum.wiz_team)
 
 	equip_revived_servant(target)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/necromantic_stone/examine(mob/user)
 	. = ..()

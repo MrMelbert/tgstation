@@ -935,20 +935,20 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	if(QDELETED(target) || !ismovable(target))
 		return
 
-	var/atom/movable/throw_target = target
+	var/atom/movable/throwmovable = target
 	// we obtain the relative direction from the bat itself to the target
 	var/relative_direction = get_cardinal_dir(src, target)
 	var/atom/throw_target = get_edge_target_turf(target, relative_direction)
 	if(homerun_ready)
 		user.visible_message(span_userdanger("It's a home run!"))
-		throw_target.throw_at(throw_target, rand(8, 10), 14, user)
+		throwmovable.throw_at(throw_target, rand(8, 10), 14, user)
 		SSexplosions.medturf += throw_target
 		playsound(src, 'sound/items/weapons/homerun.ogg', 100, TRUE)
 		homerun_ready = FALSE
 
-	else if(!throw_target.anchored)
+	else if(!throwmovable.anchored)
 		var/whack_speed = (prob(60) ? 1 : 4)
-		throw_target.throw_at(throw_target, rand(1, 2), whack_speed, user, gentle = TRUE) // sorry friends, 7 speed batting caused wounds to absolutely delete whoever you knocked your target into (and said target)
+		throwmovable.throw_at(throw_target, rand(1, 2), whack_speed, user, gentle = TRUE) // sorry friends, 7 speed batting caused wounds to absolutely delete whoever you knocked your target into (and said target)
 
 /obj/item/melee/baseball_bat/Destroy(force)
 	for(var/target in thrown_datums)

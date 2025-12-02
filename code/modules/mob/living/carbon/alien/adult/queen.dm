@@ -143,10 +143,11 @@
 	icon = 'icons/mob/nonhuman-player/alien.dmi'
 
 /obj/item/queen_promotion/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	if(!isalien(interacting_with))
+	if(!isalien(interacting_with) || !isalienqueen(user))
 		return NONE
 
 	var/mob/living/carbon/alien/to_promote = user
+	var/mob/living/carbon/alien/adult/royal/queen/queen = user
 	var/datum/action/cooldown/alien/promote/promotion = locate() in queen.actions
 	if(!promotion)
 		stack_trace("[type] was created and handled by a mob ([queen]) that didn't have a promotion action associated.")

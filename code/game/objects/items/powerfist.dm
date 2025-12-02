@@ -148,6 +148,10 @@
 	return FALSE
 
 /obj/item/melee/powerfist/afterattack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+	if(!isliving(target))
+		return
+
+	var/mob/living/targetmob = target
 	switch(LAZYACCESS(attack_modifiers, POWERFIST_GAS_LEVEL))
 		if(POWERFIST_NO_GAS)
 			to_chat(user, span_warning("[src]'s tank is empty!"))
@@ -175,7 +179,7 @@
 			new /obj/effect/temp_visual/kinetic_blast(target.loc)
 			if(!QDELETED(target))
 				var/atom/throw_target = get_edge_target_turf(target, get_dir(src, get_step_away(target, src)))
-				target.throw_at(throw_target, 5 * fist_pressure_setting, 0.5 + (fist_pressure_setting / 2))
+				targetmob.throw_at(throw_target, 5 * fist_pressure_setting, 0.5 + (fist_pressure_setting / 2))
 
 #undef POWERFIST_GAS_LEVEL
 

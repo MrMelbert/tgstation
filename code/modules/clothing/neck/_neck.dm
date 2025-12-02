@@ -245,46 +245,45 @@
 	user.visible_message(span_suicide("[user] puts \the [src] to [user.p_their()] chest! It looks like [user.p_they()] won't hear much!"))
 	return OXYLOSS
 
-/obj/item/clothing/neck/stethoscope/attack(mob/living/target, mob/living/user)
-	if(!ishuman(target) || !isliving(user))
-		return ..()
+/obj/item/clothing/neck/stethoscope/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!ishuman(interacting_with))
+		return NONE
 	if(user.combat_mode)
-		return
+		return NONE
 
-	var/mob/living/carbon/carbon_patient = target
-	var/body_part = carbon_patient.parse_zone_with_bodypart(user.zone_selected)
-	var/oxy_loss = carbon_patient.get_oxy_loss()
+	var/mob/living/target = interacting_with
+	var/body_part = target.parse_zone_with_bodypart(user.zone_selected)
+	var/oxy_loss = target.get_oxy_loss()
 
 	var/heart_strength
 	var/pulse_pressure
-	var/having_heart_attack = carbon_patient.has_status_effect(/datum/status_effect/heart_attack)
+	var/having_heart_attack = target.has_status_effect(/datum/status_effect/heart_attack)
 	var/heart_noises = TRUE
 
-	var/obj/item/organ/heart/heart = carbon_patient.get_organ_slot(ORGAN_SLOT_HEART)
-	var/obj/item/organ/lungs/lungs = carbon_patient.get_organ_slot(ORGAN_SLOT_LUNGS)
-	var/obj/item/organ/liver/liver = carbon_patient.get_organ_slot(ORGAN_SLOT_LIVER)
-	var/obj/item/organ/appendix/appendix = carbon_patient.get_organ_slot(ORGAN_SLOT_APPENDIX)
+	var/obj/item/organ/heart/heart = target.get_organ_slot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/lungs/lungs = target.get_organ_slot(ORGAN_SLOT_LUNGS)
+	var/obj/item/organ/liver/liver = target.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/appendix/appendix = target.get_organ_slot(ORGAN_SLOT_APPENDIX)
 
 	var/render_list = list()//information will be packaged in a list for clean display to the user
 
 	//determine what specific action we're taking
 	switch (body_part)
 		if(BODY_ZONE_CHEST)//Listening to the chest
-			user.visible_message(span_notice("[user] places [src] against [carbon_patient]'s [body_part] and listens attentively."), ignored_mobs = user)
+			user.visible_message(span_notice("[user] places [src] against [target]'s [body_part] and listens attentively."), ignored_mobs = user)
 			if(!user.can_hear())
-				to_chat(user, span_notice("You place [src] against [carbon_patient]'s [body_part]. Fat load of good it does you though, since you can't hear."))
-				return
-			else
-				render_list += span_info("You place [src] against [carbon_patient]'s [body_part]:\n")
+				to_chat(user, span_notice("You place [src] against [target]'s [body_part]. Fat load of good it does you though, since you can't hear."))
+				return ITEM_INTERACT_BLOCKING
+
+			render_list += span_info("You place [src] against [target]'s [body_part]:\n")
 
 			//assess breathing
 			var/lung_noises = TRUE
 			if(isnull(lungs) \
-				|| carbon_patient.stat == DEAD \
-				|| (HAS_TRAIT(carbon_patient, TRAIT_FAKEDEATH)) \
-				|| (HAS_TRAIT(carbon_patient, TRAIT_NOBREATH))\
-				|| carbon_patient.failed_last_breath \
-				|| carbon_patient.losebreath)//If pt is dead or otherwise not breathing
+				|| !target.appears_alive() \
+				|| HAS_TRAIT(target, TRAIT_NOBREATH) \
+				|| target.losebreath \
+			)
 				render_list += "<span class='danger ml-1'>[target.p_Theyre()] not breathing!</span>\n"
 				lung_noises = FALSE
 
@@ -298,12 +297,12 @@
 				render_list += "<span class='notice ml-1'>[lungs.hear_breath_noise(user)]</span>\n"
 			//assess heart
 			if(body_part == BODY_ZONE_CHEST)//if we're listening to the chest
-				if(isnull(heart) || !heart.is_beating() || carbon_patient.stat == DEAD)
+				if(isnull(heart) || !heart.is_beating() || target.stat == DEAD)
 					render_list += "<span class='danger ml-1'>You don't hear a heartbeat!</span>\n"//they're dead or their heart isn't beating
 					heart_noises = FALSE
 				else if(having_heart_attack)
 					render_list += "<span class='danger ml-1'>You hear a rapid, irregular heartbeat.</span>\n"
-				else if(heart.damage > 10 || carbon_patient.get_blood_volume(apply_modifiers = TRUE) <= BLOOD_VOLUME_OKAY)
+				else if(heart.damage > 10 || target.get_blood_volume(apply_modifiers = TRUE) <= BLOOD_VOLUME_OKAY)
 					render_list += "<span class='danger ml-1'>You hear a weak heartbeat.</span>\n"//their heart is damaged, or they have critical blood
 				else
 					render_list += "<span class='notice ml-1'>You hear a healthy heartbeat.</span>\n"//they're okay :D
@@ -311,8 +310,8 @@
 					render_list += "<span class='notice ml-1'>[heart.hear_beat_noise(user)]</span>\n"
 
 		if(BODY_ZONE_PRECISE_GROIN)//If we're targeting the groin
-			render_list += span_info("You carefully press down on [carbon_patient]'s abdomen:\n")
-			user.visible_message(span_notice("[user] presses their hands against [carbon_patient]'s abdomen."), ignored_mobs = user)
+			render_list += span_info("You carefully press down on [target]'s abdomen:\n")
+			user.visible_message(span_notice("[user] presses their hands against [target]'s abdomen."), ignored_mobs = user)
 
 			//assess abdominal organs
 			var/appendix_okay = TRUE
@@ -328,7 +327,7 @@
 				render_list += "<span class='danger ml-1'>You can't feel anything where [target.p_their()] appendix would be.</span>\n"
 				appendix_okay = FALSE
 			else
-				if(appendix.damage > 10 && carbon_patient.stat == CONSCIOUS)
+				if(appendix.damage > 10 && target.stat == CONSCIOUS)
 					render_list += "<span class='danger ml-1'>[target] screams when you lift your hand from [target.p_their()] appendix!</span>\n"//scream if their appendix is damaged and they're awake
 					target.emote("scream")
 					appendix_okay = FALSE
@@ -337,24 +336,24 @@
 
 		if(BODY_ZONE_PRECISE_EYES)
 			balloon_alert(user, "can't do that!")
-			return
+			return ITEM_INTERACT_BLOCKING
 
 		if(BODY_ZONE_PRECISE_MOUTH)
 			balloon_alert(user, "can't do that!")
-			return
+			return ITEM_INTERACT_BLOCKING
 
 		else//targeting an extremity or the head
 			if(body_part ==  BODY_ZONE_HEAD)
-				render_list += span_info("You carefully press your fingers to [carbon_patient]'s neck:\n")
-				user.visible_message(span_notice("[user] presses their fingers against [carbon_patient]'s neck."), ignored_mobs = user)
+				render_list += span_info("You carefully press your fingers to [target]'s neck:\n")
+				user.visible_message(span_notice("[user] presses their fingers against [target]'s neck."), ignored_mobs = user)
 			else
-				render_list += span_info("You carefully press your fingers to [carbon_patient]'s [body_part]:\n")
-				user.visible_message(span_notice("[user] presses their fingers against [carbon_patient]'s [body_part]."), ignored_mobs = user)
+				render_list += span_info("You carefully press your fingers to [target]'s [body_part]:\n")
+				user.visible_message(span_notice("[user] presses their fingers against [target]'s [body_part]."), ignored_mobs = user)
 
-			var/cached_blood_volume = carbon_patient.get_blood_volume(apply_modifiers = TRUE)
+			var/cached_blood_volume = target.get_blood_volume(apply_modifiers = TRUE)
 
 			//assess pulse (heart & blood level)
-			if(isnull(heart) || !heart.is_beating() || cached_blood_volume <= BLOOD_VOLUME_OKAY || carbon_patient.stat == DEAD)
+			if(isnull(heart) || !heart.is_beating() || cached_blood_volume <= BLOOD_VOLUME_OKAY || target.stat == DEAD)
 				render_list += "<span class='danger ml-1'>You can't find a pulse!</span>\n"//they're dead, their heart isn't beating, or they have critical blood
 			else
 				if(having_heart_attack)
@@ -373,6 +372,7 @@
 
 	//display our packaged information in an examine block for easy reading
 	to_chat(user, boxed_message(jointext(render_list, "")), type = MESSAGE_TYPE_INFO)
+	return ITEM_INTERACT_SUCCESS
 
 ///////////
 //SCARVES//

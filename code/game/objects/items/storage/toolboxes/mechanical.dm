@@ -52,13 +52,13 @@
 	force = initial(force) + power
 	throwforce = initial(throwforce) + power
 
-/obj/item/storage/toolbox/mechanical/old/clean/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
+/obj/item/storage/toolbox/mechanical/old/clean/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	. = ..()
 	calc_damage()
-	return ..()
 
-/obj/item/storage/toolbox/mechanical/old/clean/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+/obj/item/storage/toolbox/mechanical/old/clean/Exited(atom/movable/gone, direction)
+	. = ..()
 	calc_damage()
-	return ..()
 
 /obj/item/storage/toolbox/mechanical/old/clean/PopulateContents()
 	new /obj/item/screwdriver(src)
