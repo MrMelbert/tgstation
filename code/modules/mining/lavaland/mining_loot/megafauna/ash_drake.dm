@@ -78,6 +78,7 @@
 	attack_verb_continuous = list("attacks", "slashes", "slices", "tears", "lacerates", "rips", "dices", "rends")
 	attack_verb_simple = list("attack", "slash", "slice", "tear", "lacerate", "rip", "dice", "rend")
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	override_notes = TRUE
 	var/list/mob/dead/observer/spirits
 	var/list/alt_continuous = list("stabs", "pierces", "impales")
 	var/list/alt_simple = list("stab", "pierce", "impale")
@@ -96,6 +97,22 @@
 		speed = 15 SECONDS, \
 		effectiveness = 90, \
 	)
+
+/obj/item/melee/ghost_sword/add_weapon_description()
+	AddElement(/datum/element/weapon_description, attached_proc = PROC_REF(add_ghost_notes))
+
+/obj/item/melee/baton/proc/add_ghost_notes()
+	var/list/readout = list()
+
+	readout += "For every spirit orbiting the blade('s wielder), the weapon gains additional power and protection."
+	var/ghost_counter = ghost_check()
+
+	readout += "Currently, [ghost_counter] spirit\s are empowering the blade..."
+	readout += "...Which causes the blade to down an enemy in [span_warning("[HITS_TO_CRIT(source.force + calculate_force_bonus(ghost_counter))] melee hit\s")]..."
+	readout += "...And provides [span_warning("[percentage_to_adjective(calculate_block_bonus(ghost_counter))]")] additional blocking capability."
+	readout += "And of course, being an ancient blade, it is sharp and could cause bleeding wounds with sufficient spectral energy."
+
+	return readout.Join("\n")
 
 /obj/item/melee/ghost_sword/Destroy()
 	for(var/mob/dead/observer/ghost in spirits)
@@ -139,15 +156,21 @@
 
 	return length(spirits)
 
+/obj/item/melee/ghost_sword/proc/calculate_force_bonus(ghost_number = 0)
+	return min(18, ghost_number) * 4
+
+/obj/item/melee/ghost_sword/proc/calculate_block_bonus(ghost_number = 0)
+	return min(15, ghost_number) * 3
+
 /obj/item/melee/ghost_sword/pre_attack(atom/target, mob/living/user, list/modifiers, list/attack_modifiers)
 	var/ghost_counter = ghost_check()
-	MODIFY_ATTACK_FORCE(attack_modifiers, min(18, ghost_counter) * 4)
+	MODIFY_ATTACK_FORCE(attack_modifiers, calculate_force_bonus(ghost_counter))
 	user.visible_message(span_danger("[user] strikes with the force of [ghost_counter] vengeful spirits!"))
 	return TRUE
 
 /obj/item/melee/ghost_sword/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
 	var/ghost_counter = ghost_check()
-	final_block_chance += (min(15, ghost_counter) * 5)
+	final_block_chance += calculate_block_bonus(ghost_counter)
 	owner.visible_message(span_danger("[owner] is protected by a ring of [ghost_counter] ghosts!"))
 	return ..()
 

@@ -88,7 +88,8 @@
 		else
 			readout += "It does not deal noticeable throwing damage."
 		if(source.armour_penetration > 0 || source.block_chance > 0)
-			readout += "It has [span_warning("[weapon_tag_convert(source.armour_penetration)]")] armor-piercing capability and [span_warning("[weapon_tag_convert(source.block_chance)]")] blocking capability."
+			readout += "It has [span_warning("[percentage_to_adjective(source.armour_penetration)]")] armor-piercing capability \
+				and [span_warning("[percentage_to_adjective(source.block_chance)]")] blocking capability."
 	// Custom manual notes
 	if(source.offensive_notes)
 		readout += source.offensive_notes
@@ -102,13 +103,12 @@
 
 /**
  *
- * Converts percentile based stats to an adjective appropriate for the
- * examined warning label
+ * Converts percentile based stats to an appropriate adjective
  *
  * Arguments:
  *  * tag_val: The value of the item to be added to the tag
  */
-/datum/element/weapon_description/proc/weapon_tag_convert(tag_val)
+/proc/percentage_to_adjective(tag_val)
 	switch(tag_val)
 		if(0)
 			return "NO"
