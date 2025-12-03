@@ -108,7 +108,7 @@
 	var/ghost_counter = ghost_check()
 
 	readout += "Currently, [ghost_counter] spirit\s are empowering the blade..."
-	readout += "...Which causes the blade to down an enemy in [span_warning("[HITS_TO_CRIT(source.force + calculate_force_bonus(ghost_counter))] melee hit\s")]..."
+	readout += "...Which causes the blade to down an enemy in [span_warning("[HITS_TO_CRIT(force + calculate_force_bonus(ghost_counter))] melee hit\s")]..."
 	readout += "...And provides [span_warning("[percentage_to_adjective(calculate_block_bonus(ghost_counter))]")] additional blocking capability."
 	readout += "And of course, being an ancient blade, it is sharp and could cause bleeding wounds with sufficient spectral energy."
 
