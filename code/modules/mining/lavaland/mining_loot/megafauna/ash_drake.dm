@@ -101,7 +101,7 @@
 /obj/item/melee/ghost_sword/add_weapon_description()
 	AddElement(/datum/element/weapon_description, attached_proc = PROC_REF(add_ghost_notes))
 
-/obj/item/melee/baton/proc/add_ghost_notes()
+/obj/item/melee/ghost_sword/proc/add_ghost_notes()
 	var/list/readout = list()
 
 	readout += "For every spirit orbiting the blade('s wielder), the weapon gains additional power and protection."
