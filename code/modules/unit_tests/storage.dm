@@ -41,3 +41,38 @@
 		var/obj/item/item = allocate(item_type, run_loc_floor_bottom_left)
 		item.melee_attack_chain(dummy, bag)
 		TEST_ASSERT_EQUAL(item.loc, bag, "[item_type] was unable to be inserted into a backpack on click while off combat mode")
+
+/datum/unit_test/initial_storage
+
+/datum/unit_test/initial_storage/Run()
+	for(var/storage_item in subtypesof(/obj/item/storage))
+		if(findtext("[storage_item]", "directional"))
+			continue
+		var/obj/item/storage/created = allocate(storage_item)
+		if(QDELETED(created))
+			continue // INITIALIZE_HINT_QDEL
+		var/list/reported_holdables = list()
+		var/list/reported_unholdables = list()
+		for(var/obj/item/thing in created)
+			if(!(thing.type in reported_holdables) && !check_is_holdable(created, thing))
+				reported_holdables += thing.type
+			if(!(thing.type in reported_unholdables) && !check_is_not_holdable(created, thing))
+				reported_unholdables += thing.type
+
+/datum/unit_test/initial_storage/proc/check_is_holdable(obj/item/storage, obj/item/thing)
+	if(!length(storage.atom_storage.can_hold))
+		return TRUE
+	if(is_type_in_typecache(thing, storage.atom_storage.can_hold))
+		return TRUE
+	if(is_type_in_typecache(thing, storage.atom_storage.exception_hold))
+		return TRUE
+	TEST_FAIL("[thing.type] is pre-stocked in [storage.type] but is not in its can_hold list!")
+	return FALSE
+
+/datum/unit_test/initial_storage/proc/check_is_not_holdable(obj/item/storage, obj/item/thing)
+	if(!length(storage.atom_storage.cant_hold))
+		return TRUE
+	if(!is_type_in_typecache(thing, storage.atom_storage.cant_hold))
+		return TRUE
+	TEST_FAIL("[thing.type] is pre-stocked in [storage.type] but is not in its cant_hold list!")
+	return FALSE

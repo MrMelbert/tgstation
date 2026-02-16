@@ -89,6 +89,7 @@
 /datum/storage/bag/sheet_snatcher_debug/New(atom/parent, max_slots, max_specific_storage, max_total_storage, rustle_sound, remove_rustle_sound)
 	. = ..()
 	set_holdable(list(
+		/obj/item/stack/rods,
 		/obj/item/stack/sheet,
 		/obj/item/stack/sheet/mineral/sandstone,
 		/obj/item/stack/sheet/mineral/wood,
