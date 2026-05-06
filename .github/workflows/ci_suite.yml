@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - "project/**"
+      - frillfix
   merge_group:
     branches:
       - master
