@@ -1,7 +1,6 @@
 function shouldMarkAsOutdated(comment) {
   return (
     !comment.isMinimized &&
-    comment.author.login === 'github-actions[bot]' &&
     comment.bodyText.toLowerCase().includes('screenshot test')
   );
 }
