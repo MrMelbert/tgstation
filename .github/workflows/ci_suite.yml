@@ -5,7 +5,7 @@ on:
     branches:
       - master
       - "project/**"
-      - frillfix
+      - screenshotmark2
   merge_group:
     branches:
       - master
