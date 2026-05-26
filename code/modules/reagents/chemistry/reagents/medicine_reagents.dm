@@ -150,26 +150,43 @@
 	burning_volume = 0.1
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	randomized_spawns = REAGENT_SPAWN_ALL_RANDOM_SPAWNS
+	/// Traits applied when our mob is sufficiently cold
+	var/static/list/cold_traits = list(
+		TRAIT_NO_CORE_TEMP_REGULATION,
+		TRAIT_RESISTCOLD,
+		TRAIT_RESISTLOWPRESSURE,
+	)
 
 /datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, metabolization_ratio)
 	. = ..()
 	metabolization_rate = REAGENTS_METABOLISM * (0.00001 * (affected_mob.bodytemperature ** 2) + 0.5)
-	if(affected_mob.bodytemperature >= T0C || !HAS_TRAIT(affected_mob, TRAIT_KNOCKEDOUT))
+	if(affected_mob.bodytemperature >= T0C)
+		affected_mob.remove_traits(cold_traits, METABOLIZATION_TRAIT(type))
 		return
 	var/power = -0.00003 * (affected_mob.bodytemperature ** 2) + 3
+	if(!HAS_TRAIT(affected_mob, TRAIT_KNOCKEDOUT))
+		power *= 0.5
+
 	var/need_mob_update
 	need_mob_update = affected_mob.adjust_oxy_loss(-1.5 * power * metabolization_ratio * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
 	need_mob_update += affected_mob.adjust_brute_loss(-0.5 * power * metabolization_ratio * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
 	need_mob_update += affected_mob.adjust_fire_loss(-0.5 * power * metabolization_ratio * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
 	need_mob_update += affected_mob.adjust_tox_loss(-0.5 * power * metabolization_ratio * seconds_per_tick, updating_health = FALSE, forced = TRUE, required_biotype = affected_biotype) //heals TOXINLOVERs
-	for(var/i in affected_mob.all_wounds)
-		var/datum/wound/iter_wound = i
+	for(var/datum/wound/iter_wound as anything in affected_mob.all_wounds)
 		iter_wound.on_xadone(0.5 * power * metabolization_ratio * seconds_per_tick)
+	if(affected_mob.bodytemperature < (affected_mob.dna?.species?.bodytemp_cold_damage_limit || BODYTEMP_COLD_DAMAGE_LIMIT))
+		affected_mob.add_traits(cold_traits, METABOLIZATION_TRAIT(type))
+	else
+		affected_mob.remove_traits(cold_traits, METABOLIZATION_TRAIT(type))
 	var/obj/item/bodypart/head = affected_mob.get_bodypart(BODY_ZONE_HEAD)
 	if (head)
 		REMOVE_TRAIT(head, TRAIT_DISFIGURED, TRAIT_GENERIC) //fixes common causes for disfiguration
 	if(need_mob_update)
 		return UPDATE_MOB_HEALTH
+
+/datum/reagent/medicine/cryoxadone/on_mob_end_metabolize(mob/living/affected_mob, metabolization_ratio)
+	. = ..()
+	affected_mob.remove_traits(cold_traits, METABOLIZATION_TRAIT(type))
 
 // Healing
 /datum/reagent/medicine/cryoxadone/on_hydroponics_apply(obj/machinery/hydroponics/mytray, mob/user)
@@ -184,10 +201,17 @@
 	ph = 12
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	randomized_spawns = REAGENT_SPAWN_ALL_RANDOM_SPAWNS
+	/// Traits applied when our mob is sufficiently hot
+	var/static/list/heat_traits = list(
+		TRAIT_NO_CORE_TEMP_REGULATION,
+		TRAIT_RESISTHEAT,
+		TRAIT_RESISTHIGHPRESSURE,
+	)
 
 /datum/reagent/medicine/pyroxadone/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, metabolization_ratio)
 	. = ..()
 	if(affected_mob.bodytemperature <= BODYTEMP_HEAT_DAMAGE_LIMIT)
+		affected_mob.remove_traits(heat_traits, METABOLIZATION_TRAIT(type))
 		return
 	var/power = 0
 	switch(affected_mob.bodytemperature)
@@ -207,12 +231,19 @@
 	need_mob_update += affected_mob.adjust_tox_loss(-0.5 * power * metabolization_ratio * seconds_per_tick, updating_health = FALSE, forced = TRUE, required_biotype = affected_biotype)
 	if(need_mob_update)
 		. = UPDATE_MOB_HEALTH
-	for(var/i in affected_mob.all_wounds)
-		var/datum/wound/iter_wound = i
+	for(var/datum/wound/iter_wound as anything in affected_mob.all_wounds)
 		iter_wound.on_xadone(0.5 * power * metabolization_ratio * seconds_per_tick)
 	var/obj/item/bodypart/head = affected_mob.get_bodypart(BODY_ZONE_HEAD)
 	if (head)
 		REMOVE_TRAIT(head, TRAIT_DISFIGURED, TRAIT_GENERIC)
+	if(affected_mob.bodytemperature > (affected_mob.dna?.species?.bodytemp_heat_damage_limit || BODYTEMP_HEAT_DAMAGE_LIMIT))
+		affected_mob.add_traits(heat_traits, METABOLIZATION_TRAIT(type))
+	else
+		affected_mob.remove_traits(heat_traits, METABOLIZATION_TRAIT(type))
+
+/datum/reagent/medicine/pyroxadone/on_mob_end_metabolize(mob/living/affected_mob, metabolization_ratio)
+	. = ..()
+	affected_mob.remove_traits(heat_traits, METABOLIZATION_TRAIT(type))
 
 /datum/reagent/medicine/rezadone
 	name = "Rezadone"

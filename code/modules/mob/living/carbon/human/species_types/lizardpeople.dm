@@ -5,6 +5,7 @@
 	id = SPECIES_LIZARD
 	inherent_traits = list(
 		TRAIT_MUTANT_COLORS,
+		TRAIT_NO_CORE_TEMP_REGULATION,
 	)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_REPTILE
 	body_markings = list(
@@ -45,10 +46,6 @@
 		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/lizard,
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard,
 	)
-
-/// Lizards are cold blooded and do not stabilize body temperature naturally
-/datum/species/lizard/body_temperature_core(mob/living/carbon/human/humi, seconds_per_tick)
-	return
 
 /datum/species/lizard/randomize_features()
 	var/list/features = ..()
@@ -176,6 +173,7 @@ Lizard subspecies: ASHWALKERS
 	mutantbrain = /obj/item/organ/brain/primitive
 	inherent_traits = list(
 		TRAIT_MUTANT_COLORS,
+		TRAIT_NO_CORE_TEMP_REGULATION,
 		TRAIT_VIRUSIMMUNE,
 	)
 	inherent_factions = list(FACTION_ASHWALKER)
@@ -205,6 +203,7 @@ Lizard subspecies: SILVER SCALED
 	inherent_traits = list(
 		TRAIT_HOLY,
 		TRAIT_NOBREATH,
+		TRAIT_NO_CORE_TEMP_REGULATION,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_RESISTHIGHPRESSURE,
 		TRAIT_RESISTLOWPRESSURE,

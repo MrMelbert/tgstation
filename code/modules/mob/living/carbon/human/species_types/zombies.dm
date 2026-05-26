@@ -14,9 +14,10 @@
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_LIVERLESS_METABOLISM,
 		TRAIT_NOBREATH,
-		TRAIT_NODEATH,
 		TRAIT_NOCRITDAMAGE,
+		TRAIT_NODEATH,
 		TRAIT_NOHUNGER,
+		TRAIT_NO_CORE_TEMP_REGULATION,
 		TRAIT_NO_DNA_COPY,
 		TRAIT_NO_ZOMBIFY,
 		TRAIT_RADIMMUNE,
@@ -55,10 +56,6 @@
 		'sound/effects/hallucinations/veryfar_noise.ogg',
 		'sound/effects/hallucinations/wail.ogg',
 	)
-
-/// Zombies do not stabilize body temperature they are the walking dead and are cold blooded
-/datum/species/zombie/body_temperature_core(mob/living/carbon/human/humi, seconds_per_tick)
-	return
 
 /datum/species/zombie/check_roundstart_eligible()
 	if(check_holidays(HALLOWEEN))
@@ -113,6 +110,7 @@
 		TRAIT_NOCRITDAMAGE,
 		TRAIT_NODEATH,
 		TRAIT_NOHUNGER,
+		TRAIT_NO_CORE_TEMP_REGULATION,
 		TRAIT_NO_DNA_COPY,
 		TRAIT_RADIMMUNE,
 		TRAIT_RESISTCOLD,
