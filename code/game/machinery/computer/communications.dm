@@ -184,10 +184,13 @@
 			SSshuttle.requestEvac(user, reason)
 			post_status("shuttle")
 		if ("changeSecurityLevel")
-			if (!authenticated_as_silicon_or_captain(user))
+			// Check if they have
+			var/new_level_name = params["newSecurityLevel"]
+			var/datum/security_level/new_level = SSsecurity_level.available_levels[new_level_name]
+			var/datum/security_level/current_level = SSsecurity_level.current_security_level
+			if(isnull(new_level) || !new_level.in_comms_console || current_level == new_level)
 				return
 
-			// Check if they have
 			if (!HAS_SILICON_ACCESS(user))
 				var/obj/item/held_item = user.get_active_held_item()
 				var/obj/item/card/id/id_card = held_item?.GetID()
@@ -195,29 +198,25 @@
 					to_chat(user, span_warning("You need to swipe your ID!"))
 					playsound(src, 'sound/machines/terminal/terminal_prompt_deny.ogg', 50, FALSE)
 					return
-				if (!(ACCESS_CAPTAIN in id_card.access))
+				if (!authenticated_as_non_silicon_captain(user) && !current_level.in_comms_console)
 					to_chat(user, span_warning("You are not authorized to do this!"))
 					playsound(src, 'sound/machines/terminal/terminal_prompt_deny.ogg', 50, FALSE)
 					return
 
-			var/new_sec_level = SSsecurity_level.text_level_to_number(params["newSecurityLevel"])
-			if (new_sec_level != SEC_LEVEL_GREEN && new_sec_level != SEC_LEVEL_BLUE)
-				return
-			if (SSsecurity_level.get_current_level_as_number() >= SEC_LEVEL_DELTA)
+			if (current_level.number_level >= SEC_LEVEL_DELTA)
 				to_chat(user, span_warning("Central Command has placed a lock on the alert level due to a doomsday!"))
-				return
-			if (SSsecurity_level.get_current_level_as_number() == new_sec_level)
+				playsound(src, 'sound/machines/terminal/terminal_prompt_deny.ogg', 50, FALSE)
 				return
 
-			SSsecurity_level.set_level(new_sec_level)
+			SSsecurity_level.set_level(new_level_name)
 
 			to_chat(user, span_notice("Authorization confirmed. Modifying security level."))
 			playsound(src, 'sound/machines/terminal/terminal_prompt_confirm.ogg', 50, FALSE)
 
 			// Only notify people if an actual change happened
-			user.log_message("changed the security level to [params["newSecurityLevel"]] with [src].", LOG_GAME)
-			message_admins("[ADMIN_LOOKUPFLW(user)] has changed the security level to [params["newSecurityLevel"]] with [src] at [AREACOORD(user)].")
-			deadchat_broadcast(" has changed the security level to [params["newSecurityLevel"]] with [src] at [span_name("[get_area_name(user, TRUE)]")].", span_name("[user.real_name]"), user, message_type=DEADCHAT_ANNOUNCEMENT)
+			user.log_message("changed the security level to [new_level_name] with [src].", LOG_GAME)
+			message_admins("[ADMIN_LOOKUPFLW(user)] has changed the security level to [new_level_name] with [src] at [AREACOORD(user)].")
+			deadchat_broadcast(" has changed the security level to [new_level_name] with [src] at [span_name("[get_area_name(user, TRUE)]")].", span_name("[user.real_name]"), user, message_type=DEADCHAT_ANNOUNCEMENT)
 
 			alert_level_tick += 1
 		if ("deleteMessage")
@@ -533,13 +532,13 @@
 				data["canRecallShuttles"] = !HAS_SILICON_ACCESS(user)
 				data["canRequestNuke"] = FALSE
 				data["canSendToSectors"] = FALSE
-				data["canSetAlertLevel"] = FALSE
+				data["canSetAlertLevel"] = HAS_SILICON_ACCESS(user) ? "NO_SWIPE_NEEDED" : authenticated_as_non_silicon_captain(user) ? "SWIPE_CAPTAIN" : "SWIPE_NEEDED"
 				data["canToggleEmergencyAccess"] = FALSE
 				data["importantActionReady"] = COOLDOWN_FINISHED(src, important_action_cooldown)
 				data["shuttleCalled"] = FALSE
 				data["shuttleLastCalled"] = FALSE
 				data["aprilFools"] = check_holidays(APRIL_FOOLS)
-				data["alertLevel"] = SSsecurity_level.get_current_level_as_text()
+				data["alertLevel"] = list("name" = SSsecurity_level.get_current_level_as_text(), "level" = SSsecurity_level.get_current_level_as_number())
 				data["authorizeName"] = authorize_name
 				data["canLogOut"] = !HAS_SILICON_ACCESS(user)
 				data["shuttleCanEvacOrFailReason"] = SSshuttle.canEvac()
@@ -569,7 +568,6 @@
 
 					data["alertLevelTick"] = alert_level_tick
 					data["canMakeAnnouncement"] = TRUE
-					data["canSetAlertLevel"] = HAS_SILICON_ACCESS(user) ? "NO_SWIPE_NEEDED" : "SWIPE_NEEDED"
 				else if(syndicate)
 					data["canMakeAnnouncement"] = TRUE
 
@@ -633,13 +631,23 @@
 		ui.open()
 
 /obj/machinery/computer/communications/ui_static_data(mob/user)
-	return list(
-		"callShuttleReasonMinLength" = CALL_SHUTTLE_REASON_LENGTH,
-		"maxStatusLineLength" = MAX_STATUS_LINE_LENGTH,
-		"maxMessageLength" = MAX_MESSAGE_LEN,
-		"displayed_currency_full_name" = " [MONEY_NAME]",
-		"displayed_currency_name" = " [MONEY_SYMBOL]",
-	)
+	var/list/data = list()
+
+	data["callShuttleReasonMinLength"] = CALL_SHUTTLE_REASON_LENGTH
+	data["maxStatusLineLength"] = MAX_STATUS_LINE_LENGTH
+	data["maxMessageLength"] = MAX_MESSAGE_LEN
+	data["displayedCurrencyFullName"] = " [MONEY_NAME]"
+	data["displayedCurrencyName"] = " [MONEY_SYMBOL]"
+	data["securityLevels"] = list()
+	for(var/datum/security_level/security_level as anything in assoc_to_values(SSsecurity_level.available_levels))
+		if(!security_level.in_comms_console)
+			continue
+		data["securityLevels"] += list(list(
+			"name" = security_level.name,
+			"level" = security_level.number_level,
+		))
+
+	return data
 
 /obj/machinery/computer/communications/Topic(href, href_list)
 	if (href_list["reject_cross_comms_message"])

@@ -37,6 +37,8 @@
 	var/elevating_to_configuration_key
 	/// if TRUE, stops mail shipments from being sent during this security level
 	var/disables_mail = FALSE
+	/// Whether the level can be set in the comms console
+	var/in_comms_console = FALSE
 
 /datum/security_level/New()
 	. = ..()
@@ -60,6 +62,7 @@
 	fire_alarm_light_color = LIGHT_COLOR_BLUEGREEN
 	lowering_to_configuration_key = /datum/config_entry/string/alert_green
 	shuttle_call_time_mod = ALERT_COEFF_GREEN
+	in_comms_console = TRUE
 
 /**
  * BLUE
@@ -77,6 +80,7 @@
 	lowering_to_configuration_key = /datum/config_entry/string/alert_blue_downto
 	elevating_to_configuration_key = /datum/config_entry/string/alert_blue_upto
 	shuttle_call_time_mod = ALERT_COEFF_BLUE
+	in_comms_console = TRUE
 
 /**
  * RED
@@ -95,6 +99,7 @@
 	elevating_to_configuration_key = /datum/config_entry/string/alert_red_upto
 	shuttle_call_time_mod = ALERT_COEFF_RED
 	disables_mail = TRUE
+
 /**
  * DELTA
  *

@@ -33,8 +33,19 @@ type Message = {
   possibleAnswers: string[];
 };
 
+export type AlertLevel = {
+  name: string;
+  level: number;
+};
+
+export enum CanSetAlertLevel {
+  NO_SWIPE_NEEDED = 'NO_SWIPE_NEEDED',
+  SWIPE_CAPTAIN = 'SWIPE_CAPTAIN',
+  SWIPE_NEEDED = 'SWIPE_NEEDED',
+}
+
 export type CommsConsoleData = {
-  alertLevel: string;
+  alertLevel: AlertLevel;
   alertLevelTick: number;
   aprilFools: BooleanLike;
   authenticated: BooleanLike;
@@ -48,7 +59,7 @@ export type CommsConsoleData = {
   canRequestNuke: BooleanLike;
   canRequestSafeCode: BooleanLike;
   canSendToSectors: BooleanLike;
-  canSetAlertLevel: string;
+  canSetAlertLevel: CanSetAlertLevel;
   canToggleEmergencyAccess: BooleanLike;
   emagged: BooleanLike;
   emergencyAccess: BooleanLike;
@@ -71,4 +82,5 @@ export type CommsConsoleData = {
   callShuttleReasonMinLength: number;
   maxMessageLength: number;
   maxStatusLineLength: number;
+  securityLevels: AlertLevel[];
 };

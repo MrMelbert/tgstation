@@ -5,7 +5,7 @@ import { capitalize } from 'tgui-core/string';
 import { useBackend } from '../../backend';
 import { AlertButton } from './AlertButton';
 import { MessageModal } from './MessageModal';
-import { type CommsConsoleData, ShuttleState } from './types';
+import { CanSetAlertLevel, type CommsConsoleData, ShuttleState } from './types';
 
 export function PageMain(props) {
   const { act, data } = useBackend<CommsConsoleData>();
@@ -30,6 +30,7 @@ export function PageMain(props) {
     shuttleCanEvacOrFailReason,
     shuttleLastCalled,
     shuttleRecallable,
+    securityLevels,
   } = data;
 
   const [callingShuttle, setCallingShuttle] = useState(false);
@@ -38,7 +39,11 @@ export function PageMain(props) {
   const [requestingNukeCodes, setRequestingNukeCodes] = useState(false);
 
   const [newAlertLevel, setNewAlertLevel] = useState('');
-  const showAlertLevelConfirm = newAlertLevel && newAlertLevel !== alertLevel;
+  const showAlertLevelSetters =
+    canSetAlertLevel !== CanSetAlertLevel.SWIPE_NEEDED ||
+    securityLevels.find((level) => level.name === alertLevel.name);
+  const showAlertLevelConfirm =
+    newAlertLevel && newAlertLevel !== alertLevel.name && showAlertLevelSetters;
 
   return (
     <Box>
@@ -87,25 +92,23 @@ export function PageMain(props) {
         </Section>
       )}
 
-      {!!canSetAlertLevel && (
+      {showAlertLevelSetters && (
         <Section title="Alert Level">
           <Flex justify="space-between">
             <Flex.Item>
               <Box>
-                Currently on <b>{capitalize(alertLevel)}</b> Alert
+                Currently on <b>{capitalize(alertLevel.name)}</b> Alert
               </Box>
             </Flex.Item>
 
             <Flex.Item>
-              <AlertButton
-                alertLevel="green"
-                onClick={() => setNewAlertLevel('green')}
-              />
-
-              <AlertButton
-                alertLevel="blue"
-                onClick={() => setNewAlertLevel('blue')}
-              />
+              {securityLevels.map((level) => (
+                <AlertButton
+                  key={level.name}
+                  newAlertLevel={level}
+                  onClick={() => setNewAlertLevel(level.name)}
+                />
+              ))}
             </Flex.Item>
           </Flex>
         </Section>
@@ -246,7 +249,7 @@ export function PageMain(props) {
         />
       )}
 
-      {!!canSetAlertLevel && showAlertLevelConfirm && (
+      {showAlertLevelConfirm && (
         <Modal>
           <Flex direction="column" textAlign="center" width="300px">
             <Flex.Item fontSize="16px" mb={2}>

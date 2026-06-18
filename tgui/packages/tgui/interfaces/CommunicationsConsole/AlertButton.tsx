@@ -2,21 +2,24 @@ import { Button } from 'tgui-core/components';
 import { capitalize } from 'tgui-core/string';
 
 import { useBackend } from '../../backend';
-import { SWIPE_NEEDED } from './constants';
-import type { CommsConsoleData } from './types';
+import {
+  type AlertLevel,
+  CanSetAlertLevel,
+  type CommsConsoleData,
+} from './types';
 
 type Props = {
-  alertLevel: string;
+  newAlertLevel: AlertLevel;
   onClick: () => void;
 };
 
 export function AlertButton(props: Props) {
-  const { alertLevel, onClick } = props;
+  const { newAlertLevel, onClick } = props;
 
   const { act, data } = useBackend<CommsConsoleData>();
   const { canSetAlertLevel } = data;
 
-  const thisIsCurrent = data.alertLevel === alertLevel;
+  const thisIsCurrent = data.alertLevel.name === newAlertLevel.name;
 
   return (
     <Button
@@ -27,16 +30,16 @@ export function AlertButton(props: Props) {
           return;
         }
 
-        if (canSetAlertLevel === SWIPE_NEEDED) {
+        if (canSetAlertLevel === CanSetAlertLevel.SWIPE_NEEDED) {
           onClick();
         } else {
           act('changeSecurityLevel', {
-            newSecurityLevel: alertLevel,
+            newSecurityLevel: newAlertLevel.name,
           });
         }
       }}
     >
-      {capitalize(alertLevel)}
+      {capitalize(newAlertLevel.name)}
     </Button>
   );
 }
