@@ -14,8 +14,12 @@
 	smoothing_flags = SMOOTH_BITMASK
 	smoothing_groups = SMOOTH_GROUP_LATTICE
 	canSmoothWith = SMOOTH_GROUP_LATTICE + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_OPEN_FLOOR
+	/// Number of rods to give back on deconstruct
 	var/number_of_mats = 1
+	/// Type of materials (typically rods) to give back on deconstruct
 	var/build_material = /obj/item/stack/rods
+	/// List of traits applied to the turf under the lattice.
+	/// These are essentially used to modify the behavior of the turf to reflect the lattice being there (such as stopping people from falling in chasms)
 	var/list/give_turf_traits = list(TRAIT_CHASM_STOPPED, TRAIT_HYPERSPACE_STOPPED, TRAIT_TURF_IGNORE_SLOWDOWN, TRAIT_IMMERSE_STOPPED)
 
 /obj/structure/lattice/Initialize(mapload)
@@ -39,7 +43,9 @@
 
 /obj/structure/lattice/examine(mob/user)
 	. = ..()
-	. += deconstruction_hints(user)
+	var/hint = deconstruction_hints(user)
+	if(hint)
+		. += hint
 
 /obj/structure/lattice/Destroy(force) // so items on the lattice fall when the lattice is destroyed
 	var/turf/turfloc = loc
@@ -52,29 +58,44 @@
 	if(isspaceturf(turfloc) && istype(turf_area, /area/space/nearstation))
 		set_turf_to_area(turfloc, GLOB.areas_by_type[/area/space])
 
+/// Returns hint text on examine on how you deconstruct the thing
 /obj/structure/lattice/proc/deconstruction_hints(mob/user)
+	if(resistance_flags & INDESTRUCTIBLE)
+		return ""
+
 	return span_notice("The rods look like they could be <b>cut</b>. There's space for more <i>rods</i> or a <i>tile</i>.")
 
 /obj/structure/lattice/Initialize(mapload)
 	. = ..()
-	for(var/obj/structure/lattice/LAT in loc)
-		if(LAT == src)
+	for(var/obj/structure/lattice/other_lattice in loc)
+		if(other_lattice == src)
 			continue
-		log_mapping("multiple lattices found in ([loc.x], [loc.y], [loc.z], [get_area(LAT)])")
+		log_mapping("multiple lattices found in ([loc.x], [loc.y], [loc.z], [get_area(other_lattice)])")
 		return INITIALIZE_HINT_QDEL
 
 /obj/structure/lattice/blob_act(obj/structure/blob/B)
 	return
 
-/obj/structure/lattice/attackby(obj/item/C, mob/user, list/modifiers, list/attack_modifiers)
+/obj/structure/lattice/wirecutter_act(mob/living/user, obj/item/tool)
 	if(resistance_flags & INDESTRUCTIBLE)
-		return
-	if(C.tool_behaviour == TOOL_WIRECUTTER)
-		to_chat(user, span_notice("Slicing [name] joints ..."))
-		deconstruct()
-	else
-		var/turf/T = get_turf(src)
-		return T.attackby(C, user) //hand this off to the turf instead (for building plating, catwalks, etc)
+		return NONE
+
+	loc.balloon_alert(user, "[name] cut apart")
+	deconstruct(TRUE)
+	return ITEM_INTERACT_SUCCESS
+
+/obj/structure/lattice/wirecutter_act_secondary(mob/living/user, obj/item/tool)
+	return wirecutter_act(user, tool)
+
+// Item interactions redirected to the turf (so the turf can handle building tiles or placing cable)
+/obj/structure/lattice/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	var/turf/lattice_turf = get_turf(src)
+	return lattice_turf.item_interaction(user, tool, modifiers)
+
+// Attackbys are also redirected, primarily for legacy reasons (it also means you can't attack lattices)
+/obj/structure/lattice/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+	var/turf/lattice_turf = get_turf(src)
+	return lattice_turf.attackby(attacking_item, user, modifiers, attack_modifiers)
 
 /obj/structure/lattice/atom_deconstruct(disassembled = TRUE)
 	if(!isnull(build_material) && number_of_mats >= 1)
@@ -95,7 +116,7 @@
 				qdel(src)
 				return TRUE
 		if(design_structure == /obj/structure/lattice/catwalk)
-			replace_with_catwalk()
+			replace_with_catwalk(/obj/structure/lattice/catwalk)
 			return TRUE
 	return FALSE
 
@@ -103,14 +124,18 @@
 	if(current_size >= STAGE_FOUR)
 		deconstruct()
 
-/obj/structure/lattice/proc/replace_with_catwalk()
+/obj/structure/lattice/proc/replace_with_catwalk(catwalk_type = /obj/structure/lattice/catwalk)
 	var/list/post_replacement_callbacks = list()
 	SEND_SIGNAL(src, COMSIG_LATTICE_PRE_REPLACE_WITH_CATWALK, post_replacement_callbacks)
 	var/turf/turf = loc
 	qdel(src)
-	var/new_catwalk = new /obj/structure/lattice/catwalk(turf)
+	var/new_catwalk = new catwalk_type(turf)
 	for(var/datum/callback/callback as anything in post_replacement_callbacks)
 		callback.Invoke(new_catwalk)
+
+/// Check if the lattice can have plating placed on top
+/obj/structure/lattice/proc/can_support_floor(mob/user)
+	return TRUE
 
 /obj/structure/lattice/catwalk
 	name = "catwalk"
@@ -129,16 +154,14 @@
 	return span_notice("The supporting rods look like they could be <b>cut</b>.")
 
 /obj/structure/lattice/catwalk/Move()
-	var/turf/T = loc
-	for(var/obj/structure/cable/C in T)
-		C.deconstruct()
-	..()
+	for(var/obj/structure/cable/holding in loc)
+		holding.deconstruct()
+	return ..()
 
 /obj/structure/lattice/catwalk/atom_deconstruct(disassembled = TRUE)
-	..()
-	var/turf/T = loc
-	for(var/obj/structure/cable/C in T)
-		C.deconstruct()
+	. = ..()
+	for(var/obj/structure/cable/holding in loc)
+		holding.deconstruct()
 
 /obj/structure/lattice/catwalk/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if(the_rcd.mode == RCD_DECONSTRUCT)
@@ -153,20 +176,12 @@
 		qdel(src)
 		return TRUE
 
+	return FALSE
+
 /obj/structure/lattice/catwalk/mining
 	name = "reinforced catwalk"
 	desc = "A heavily reinforced catwalk used to build bridges in hostile environments. It doesn't look like anything could make this budge."
 	resistance_flags = INDESTRUCTIBLE
-
-/obj/structure/lattice/catwalk/mining/attackby(obj/item/C, mob/user, list/modifiers, list/attack_modifiers)
-	// Allow cable placement even though we're indestructible
-	if(istype(C, /obj/item/stack/cable_coil))
-		var/turf/T = get_turf(src)
-		return T.attackby(C, user)
-	return ..()
-
-/obj/structure/lattice/catwalk/mining/deconstruction_hints(mob/user)
-	return
 
 /obj/structure/lattice/catwalk/lava
 	name = "heatproof catwalk"
@@ -181,21 +196,22 @@
 /obj/structure/lattice/catwalk/lava/deconstruction_hints(mob/user)
 	return span_notice("The rods look like they could be <b>cut</b>, but the <i>heat treatment will shatter off</i>. There's space for a <i>tile</i>.")
 
-/obj/structure/lattice/catwalk/lava/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
-	. = ..()
-	if(!ismetaltile(attacking_item))
-		return
-	var/obj/item/stack/tile/iron/attacking_tiles = attacking_item
-	if(!attacking_tiles.use(1))
-		to_chat(user, span_warning("You need one floor tile to build atop [src]."))
-		return
-	to_chat(user, span_notice("You construct new plating with [src] as support."))
-	playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
+// /obj/structure/lattice/catwalk/lava/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+// 	if(!ismetaltile(tool))
+// 		return ..()
+// 	var/obj/item/stack/tile/tiles = tool
+// 	if(!tiles.use(1))
+// 		to_chat(user, span_warning("You need one floor tile to build atop [src]."))
+// 		return ITEM_INTERACT_BLOCKING
 
-	var/turf/turf_we_place_on = get_turf(src)
-	turf_we_place_on.place_on_top(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
+// 	to_chat(user, span_notice("You construct new plating with [src] as support."))
+// 	playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
 
-	qdel(src)
+// 	var/turf/turf_we_place_on = get_turf(src)
+// 	turf_we_place_on.place_on_top(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
+
+// 	qdel(src)
+// 	return ITEM_INTERACT_SUCCESS
 
 /obj/structure/lattice/catwalk/boulder
 	name = "boulder platform"
@@ -214,17 +230,16 @@
 	fast_emissive_blocker(src)
 	AddElement(/datum/element/elevation, pixel_shift = 8)
 
-/obj/structure/lattice/catwalk/boulder/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
-	if(ismetaltile(attacking_item))
-		balloon_alert(user, "too unstable!")
-		return FALSE
-	return ..()
+/obj/structure/lattice/catwalk/boulder/can_support_floor(mob/user)
+	balloon_alert(user, "too unstable!")
+	return FALSE
 
 /obj/structure/lattice/catwalk/boulder/CanAllowThrough(atom/movable/mover, border_dir)
 	if(istype(mover, /obj/structure/ore_box))
 		self_destruct()
 		return TRUE
-	. = ..()
+
+	return ..()
 
 /obj/structure/lattice/catwalk/boulder/proc/pre_self_destruct()
 	var/mutable_appearance/cracks_overlay = mutable_appearance('icons/obj/ore.dmi', istype(loc, /turf/open/lava/plasma) ? "plasma_cracks" : "lava_cracks", src)

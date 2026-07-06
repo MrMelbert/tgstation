@@ -617,7 +617,7 @@
 		if(used_rods.use(1))
 			to_chat(user, span_notice("You construct a catwalk."))
 			playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
-			catwalk_bait.replace_with_catwalk()
+			catwalk_bait.replace_with_catwalk(used_rods.catwalk_type)
 		else
 			to_chat(user, span_warning("You need two rods to build a catwalk!"))
 		return
@@ -625,22 +625,24 @@
 	if(used_rods.use(1))
 		to_chat(user, span_notice("You construct a lattice."))
 		playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
-		var/obj/structure/lattice/new_lattice = new (src)
-		if(istype(used_rods, /obj/item/stack/rods/shuttle) && !istype(loc, /area/shuttle))
-			new_lattice.AddElement(/datum/element/shuttle_construction_lattice)
+		used_rods.make_lattice(src)
 	else
 		to_chat(user, span_warning("You need one rod to build a lattice."))
 
 /// Very similar to build_with_rods, this exists to allow consistent behavior between different types in terms of how
 /// Building floors works
-/turf/open/proc/build_with_floor_tiles(obj/item/stack/tile/iron/used_tiles, user)
+/turf/open/proc/build_with_floor_tiles(obj/item/stack/tile/iron/used_tiles, mob/user)
 	var/obj/structure/lattice/lattice = locate(/obj/structure/lattice, src)
-	if(!has_valid_support() && !lattice)
-		balloon_alert(user, "needs support, place rods!")
-		return
+	if(!has_valid_support())
+		if(isnull(lattice))
+			balloon_alert(user, "needs support, place rods!")
+			return FALSE
+		if(!lattice.can_support_floor(user))
+			return FALSE
+
 	if(!used_tiles.use(1))
 		balloon_alert(user, "need a floor tile to build!")
-		return
+		return FALSE
 
 	playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
 	var/turf/open/floor/plating/new_plating = place_on_top(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
@@ -650,10 +652,12 @@
 		qdel(lattice)
 	else
 		new_plating.lattice_underneath = FALSE
+	return TRUE
 
+/// Check if a turf is naturally supported
 /turf/open/proc/has_valid_support()
 	for (var/direction in GLOB.cardinals)
-		if(istype(get_step(src, direction), /turf/open/floor))
+		if(isfloorturf(get_step(src, direction)))
 			return TRUE
 	return FALSE
 

@@ -62,6 +62,7 @@
 /turf/open/lava/Destroy()
 	checked_atoms = null
 	UnregisterSignal(src, COMSIG_ATOM_AFTER_SUCCESSFUL_INITIALIZED_ON)
+	UnregisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_LAVA_STOPPED))
 	for(var/mob/living/leaving_mob in contents)
 		leaving_mob.RemoveElement(/datum/element/perma_fire_overlay)
 		REMOVE_TRAIT(leaving_mob, TRAIT_NO_EXTINGUISH, TURF_TRAIT)
@@ -204,36 +205,7 @@
 	. = lava_temperature
 
 /turf/open/lava/TakeTemperature(temp)
-
-/turf/open/lava/attackby(obj/item/C, mob/user, list/modifiers)
-	..()
-	if(istype(C, /obj/item/stack/rods/lava))
-		var/obj/item/stack/rods/lava/R = C
-		var/obj/structure/lattice/catwalk/lava/H = locate(/obj/structure/lattice/catwalk/lava, src)
-		if(H)
-			to_chat(user, span_warning("There is already a lattice here!"))
-			return
-		if(R.use(1))
-			to_chat(user, span_notice("You construct a lattice."))
-			playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
-			new /obj/structure/lattice/catwalk/lava(locate(x, y, z))
-		else
-			to_chat(user, span_warning("You need one rod to build a heatproof lattice."))
-		return
-	// Light a cigarette in the lava
-	if(istype(C, /obj/item/cigarette))
-		var/obj/item/cigarette/ciggie = C
-		if(ciggie.lit)
-			to_chat(user, span_warning("\The [ciggie] is already lit!"))
-			return TRUE
-		var/clumsy_modifier = HAS_TRAIT(user, TRAIT_CLUMSY) ? 2 : 1
-		if(prob(25 * clumsy_modifier) && isliving(user))
-			ciggie.light(span_warning("[user] expertly dips \the [ciggie.name] into [src], along with the rest of [user.p_their()] arm. What a dumbass."))
-			var/mob/living/burned_guy = user
-			burned_guy.apply_damage(90, BURN, user.get_active_hand())
-		else
-			ciggie.light(span_rose("[user] expertly dips \the [ciggie.name] into [src], lighting it with the scorching heat of the planet. Witnessing such a feat is almost enough to make you cry."))
-		return TRUE
+	return
 
 /turf/open/lava/proc/is_safe()
 	return HAS_TRAIT(src, TRAIT_LAVA_STOPPED)
@@ -356,6 +328,35 @@
 
 /turf/open/lava/can_cross_safely(atom/movable/crossing)
 	return HAS_TRAIT(src, TRAIT_LAVA_STOPPED) || HAS_TRAIT(crossing, immunity_trait ) || HAS_TRAIT(crossing, TRAIT_MOVE_FLYING)
+
+/turf/open/lava/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(ismetaltile(tool))
+		build_with_floor_tiles(tool, user) // only feasibly can build on lavaproof catwalk
+		return ITEM_INTERACT_SUCCESS
+
+	if(istype(tool, /obj/item/stack/rods) && (tool.resistance_flags & LAVA_PROOF))
+		build_with_rods(tool, user)
+		return ITEM_INTERACT_SUCCESS
+
+	// Light a cigarette in the lava
+	if(istype(tool, /obj/item/cigarette))
+		var/obj/item/cigarette/ciggie = tool
+		if(ciggie.lit)
+			to_chat(user, span_warning("\The [ciggie] is already lit!"))
+			return ITEM_INTERACT_BLOCKING
+		var/clumsy_modifier = HAS_TRAIT(user, TRAIT_CLUMSY) ? 2 : 1
+		if(prob(25 * clumsy_modifier) && isliving(user))
+			ciggie.light(span_warning("[user] expertly dips \the [ciggie.name] into [src], along with the rest of [user.p_their()] arm. What a dumbass."))
+			var/mob/living/burned_guy = user
+			burned_guy.apply_damage(90, BURN, user.get_active_hand())
+		else
+			ciggie.light(span_rose("[user] expertly dips \the [ciggie.name] into [src], lighting it with the scorching heat of the planet. Witnessing such a feat is almost enough to make you cry."))
+		return ITEM_INTERACT_SUCCESS
+
+	return ..()
+
+/turf/open/lava/has_valid_support()
+	return FALSE
 
 /turf/open/lava/airless
 	initial_gas_mix = AIRLESS_ATMOS

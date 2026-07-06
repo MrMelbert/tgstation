@@ -44,6 +44,8 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 	sound_vary = TRUE
 	usable_for_construction = TRUE
 
+	var/catwalk_type = /obj/structure/lattice/catwalk
+
 /datum/embedding/rods
 	embed_chance = 50
 
@@ -72,6 +74,10 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 
 /obj/item/stack/rods/handle_openspace_click(turf/target, mob/user, list/modifiers)
 	target.attackby(src, user, list2params(modifiers))
+
+/obj/item/stack/rods/proc/make_lattice(turf/lattice_loc)
+	var/obj/structure/lattice/new_lattice = new catwalk_type(lattice_loc)
+	return new_lattice
 
 /obj/item/stack/rods/get_main_recipes()
 	. = ..()
@@ -144,6 +150,8 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 	resistance_flags = FIRE_PROOF | LAVA_PROOF
 	merge_type = /obj/item/stack/rods/lava
 
+	catwalk_type = /obj/structure/lattice/catwalk/lava
+
 /obj/item/stack/rods/lava/thirty
 	amount = 30
 
@@ -154,6 +162,12 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 	icon_state = "shuttlerods"
 	mats_per_unit = list(/datum/material/iron=HALF_SHEET_MATERIAL_AMOUNT,  /datum/material/titanium=SMALL_MATERIAL_AMOUNT)
 	merge_type = /obj/item/stack/rods/shuttle
+
+/obj/item/stack/rods/shuttle/make_lattice(turf/lattice_loc)
+	var/obj/structure/lattice/new_lattice = ..()
+	if(!istype(lattice_loc.loc, /area/shuttle))
+		new_lattice.AddElement(/datum/element/shuttle_construction_lattice)
+	return new_lattice
 
 /obj/item/stack/rods/shuttle/five
 	amount = 5
