@@ -506,9 +506,12 @@
 /obj/item/bodypart/chest/mushroom
 	limb_id = SPECIES_MUSHROOM
 	is_dimorphic = TRUE
-	bodypart_traits = list(TRAIT_NO_JUMPSUIT)
 	burn_modifier = 1.25
 	wing_types = null
+
+/obj/item/bodypart/chest/mushroom/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CAN_EQUIP_ITEMS_TO, INNATE_TRAIT)
 
 /obj/item/bodypart/arm/left/mushroom
 	limb_id = SPECIES_MUSHROOM
@@ -616,7 +619,6 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
-	bodypart_traits = list(TRAIT_NO_JUMPSUIT)
 	wing_types = null
 	brute_modifier = 0.5
 	burn_modifier = 0.5
@@ -628,7 +630,8 @@
 		feature_key = OFFSET_BELT,
 		offset_x = list("north" = 1, "south" = -1, "east" = 1, "west" = -1),
 	)
-	return ..()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CAN_EQUIP_ITEMS_TO, INNATE_TRAIT)
 
 /obj/item/bodypart/arm/left/golem
 	icon = 'icons/mob/human/species/golems.dmi'

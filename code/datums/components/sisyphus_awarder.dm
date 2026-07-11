@@ -13,10 +13,10 @@
 		return COMPONENT_INCOMPATIBLE
 
 /datum/component/sisyphus_awarder/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(on_picked_up))
+	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_picked_up))
 
 /datum/component/sisyphus_awarder/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_ITEM_POST_EQUIPPED, COMSIG_MOVABLE_MOVED))
+	UnregisterSignal(parent, list(COMSIG_ITEM_EQUIPPED, COMSIG_MOVABLE_MOVED))
 	if (!isnull(sisyphus))
 		UnregisterSignal(sisyphus, list(COMSIG_ENTER_AREA, COMSIG_QDELETING))
 	sisyphus = null
@@ -27,7 +27,7 @@
 	if (!istype(get_area(the_taker), /area/lavaland))
 		qdel(src)
 		return
-	UnregisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED)
+	UnregisterSignal(parent, COMSIG_ITEM_EQUIPPED)
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_dropped))
 	RegisterSignal(the_taker, COMSIG_ENTER_AREA, PROC_REF(on_bearer_changed_area))
 	RegisterSignal(the_taker, COMSIG_QDELETING, PROC_REF(on_dropped))

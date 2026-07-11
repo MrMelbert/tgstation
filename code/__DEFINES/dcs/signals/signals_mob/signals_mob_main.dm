@@ -250,7 +250,7 @@
 /// from /mob/living/carbon/human/can_equip(): (mob/living/carbon/human/source_human, obj/item/equip_target, slot)
 #define COMSIG_HUMAN_EQUIPPING_ITEM "mob_equipping_item"
 	/// cancels the equip.
-	#define COMPONENT_BLOCK_EQUIP (1<<0)
+	// #define BLOCK_ITEM_EQUIP (1<<0)
 
 /// from mob/proc/dropItemToGround()
 #define COMSIG_MOB_DROPPING_ITEM "mob_dropping_item"

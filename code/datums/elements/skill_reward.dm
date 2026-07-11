@@ -13,7 +13,11 @@
 	src.associated_skill = associated_skill
 	RegisterSignal(target, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(target, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
-	RegisterSignal(target, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(drop_if_unworthy))
+	RegisterSignal(target, COMSIG_ITEM_MOB_CAN_EQUIP, PROC_REF(block_equip))
+
+/datum/element/skill_reward/Detach(datum/source, ...)
+	. = ..()
+	UnregisterSignal(source, list(COMSIG_ATOM_EXAMINE, COMSIG_ATOM_ATTACK_HAND, COMSIG_ITEM_MOB_CAN_EQUIP))
 
 /datum/element/skill_reward/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
@@ -27,13 +31,13 @@
 	return NONE
 
 ///We check if the item can be equipped, otherwise we drop it.
-/datum/element/skill_reward/proc/drop_if_unworthy(datum/source, mob/living/user)
+/datum/element/skill_reward/proc/block_equip(datum/source, mob/living/user, slot, disable_warning, ignore_equipped)
 	SIGNAL_HANDLER
-	if(check_equippable(user) || !(source in user.get_equipped_items(INCLUDE_POCKETS | INCLUDE_ACCESSORIES)))
+	if(check_equippable(user))
 		return NONE
-	to_chat(user, span_warning("You feel completely and utterly unworthy to even touch \the [source]."))
-	user.dropItemToGround(source, TRUE)
-	return COMPONENT_EQUIPPED_FAILED
+	if(!disable_warning)
+		to_chat(user, span_warning("You feel completely and utterly unworthy to even touch \the [source]."))
+	return BLOCK_ITEM_EQUIP
 
 /datum/element/skill_reward/proc/check_equippable(mob/living/user)
 	return user.mind?.get_skill_level(associated_skill) >= SKILL_LEVEL_LEGENDARY

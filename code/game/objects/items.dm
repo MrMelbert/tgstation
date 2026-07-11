@@ -725,22 +725,6 @@ GAME_VERB_SRC(/obj/item, move_to_top, oview(1), "Move To Top", null)
 	return
 
 /**
- * Called after an item is placed in an equipment slot. Runs equipped(), then sends a signal.
- * This should be called last or near-to-last, after all other inventory code stuff is handled.
- *
- * Arguments:
- * * user is mob that equipped it
- * * slot uses the slot_X defines found in setup.dm for items that can be placed in multiple slots
- * * initial is used to indicate whether or not this is the initial equipment (job datums etc) or just a player doing it
- */
-/obj/item/proc/on_equipped(mob/user, slot, initial = FALSE)
-	SHOULD_NOT_OVERRIDE(TRUE)
-	equipped(user, slot, initial)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_POST_EQUIPPED, user, slot) & COMPONENT_EQUIPPED_FAILED)
-		return FALSE
-	return TRUE
-
-/**
  * To be overwritten to only perform visual tasks;
  * this is directly called instead of `equipped` on visual-only features like human dummies equipping outfits.
  *
@@ -762,7 +746,7 @@ GAME_VERB_SRC(/obj/item, move_to_top, oview(1), "Move To Top", null)
  */
 /obj/item/proc/equipped(mob/user, slot, initial = FALSE)
 	SHOULD_CALL_PARENT(TRUE)
-	PROTECTED_PROC(TRUE)
+
 	visual_equipped(user, slot, initial)
 	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED, user, slot)
 	SEND_SIGNAL(user, COMSIG_MOB_EQUIPPED_ITEM, src, slot)
@@ -814,11 +798,11 @@ GAME_VERB_SRC(/obj/item, move_to_top, oview(1), "Move To Top", null)
  * * ignore_equipped ignores any already equipped items in that slot
  * * indirect_action allows inserting into "soft locked" bags, things that can be easily opened by the owner
  */
-/obj/item/proc/mob_can_equip(mob/living/M, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
-	if(!M)
+/obj/item/proc/mob_can_equip(mob/living/equipping, slot, disable_warning = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
+	if(SEND_SIGNAL(src, COMSIG_ITEM_MOB_CAN_EQUIP, equipping, slot, disable_warning, ignore_equipped) & BLOCK_ITEM_EQUIP)
 		return FALSE
 
-	return M.can_equip(src, slot, disable_warning, bypass_equip_delay_self, ignore_equipped, indirect_action = indirect_action)
+	return equipping.can_equip(src, slot, disable_warning, ignore_equipped, indirect_action)
 
 GAME_VERB_SRC(/obj/item, verb_pickup, oview(1), "Pick up", null)
 

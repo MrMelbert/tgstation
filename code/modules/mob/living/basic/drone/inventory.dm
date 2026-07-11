@@ -16,16 +16,13 @@
 /mob/living/basic/drone/can_equip(obj/item/item, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
 	switch(slot)
 		if(ITEM_SLOT_HEAD)
-			if(head)
-				return FALSE
-			if(!((item.slot_flags & ITEM_SLOT_HEAD) || (item.slot_flags & ITEM_SLOT_MASK)))
-				return FALSE
-			return TRUE
+			if((item.slot_flags & (ITEM_SLOT_HEAD|ITEM_SLOT_MASK)))
+				return isnull(head)
+
 		if(ITEM_SLOT_DEX_STORAGE)
-			if(internal_storage)
-				return FALSE
-			return TRUE
-	..()
+			return isnull(internal_storage)
+
+	return FALSE
 
 
 /mob/living/basic/drone/get_item_by_slot(slot_id)

@@ -15,14 +15,148 @@
 		items += worn_under.attached_accessories
 	return items
 
-/mob/living/carbon/human/can_equip(obj/item/equip_target, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
-	if(SEND_SIGNAL(src, COMSIG_HUMAN_EQUIPPING_ITEM, equip_target, slot) == COMPONENT_BLOCK_EQUIP)
+/mob/living/carbon/human/can_equip(obj/item/equip_target, slot, disable_warning = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
+	if(SEND_SIGNAL(src, COMSIG_HUMAN_EQUIPPING_ITEM, equip_target, slot, disable_warning) & BLOCK_ITEM_EQUIP)
 		return FALSE
-	if(HAS_TRAIT(equip_target, TRAIT_NODROP) && (equip_target in held_items))
-		if(!disable_warning)
-			to_chat(src, span_warning("[equip_target] won't budge, it's impossible to put it on!"))
+
+	// if there's an item in the slot we want, fail
+	if(!ignore_equipped && get_item_by_slot(slot))
 		return FALSE
-	return dna.species.can_equip(equip_target, slot, disable_warning, src, bypass_equip_delay_self, ignore_equipped, indirect_action)
+
+	switch(slot)
+		if(ITEM_SLOT_HANDCUFFED)
+			if(!istype(equip_target, /obj/item/restraints/handcuffs))
+				return FALSE
+		if(ITEM_SLOT_LEGCUFFED)
+			if(!istype(equip_target, /obj/item/restraints/legcuffs))
+				return FALSE
+		if(ITEM_SLOT_SUITSTORE)
+			if(HAS_TRAIT(equip_target, TRAIT_NODROP))
+				return FALSE
+
+			if(!is_type_in_typecache(equip_target, GLOB.any_suit_storage) && equip_target.w_class > WEIGHT_CLASS_TINY)
+				if(equip_target.w_class > WEIGHT_CLASS_BULKY)
+					if(!disable_warning)
+						to_chat(src, span_warning("\The [equip_target] is too big to attach!")) //should be src?
+					return FALSE
+				if(!is_type_in_list(equip_target, wear_suit.allowed))
+					return FALSE
+
+	if(!can_equip_to_slot(slot, disable_warning))
+		return FALSE
+
+	return TRUE
+
+/**
+ * Checks if the spassed slot is valid for the mob to equip something to
+ *
+ * * slot - Required, the slot to check
+ * * disable_warning - Optional flag, determines if the mob receives feedback if the slot is invalid
+ * * equip_target - Optional, you can pass an item that is being equipped to use it in feedback/for special exceptions
+ */
+/mob/living/carbon/human/proc/can_equip_to_slot(slot, disable_warning = FALSE, obj/item/equip_target)
+	if(dna?.species?.no_equip_flags & slot)
+		if(isnull(equip_target))
+			return FALSE
+		if(!is_type_in_list(dna?.species, equip_target.species_exception))
+			return FALSE
+
+	if(!isnull(equip_target))
+		// this check prevents us from moving a nodrop item from hands to a slot, since you would be unable to remove it from the slot later
+		if(HAS_TRAIT(equip_target, TRAIT_NODROP) && (equip_target in held_items))
+			if(!disable_warning)
+				to_chat(src, span_warning("[equip_target] won't budge, it's impossible to put it on!"))
+			return FALSE
+
+		// this check prevents us from equipping something to a slot it doesn't support, WITH the exceptions of storage slots (pockets, suit storage, and backpacks)
+		// we don't require having those slots defined in the item's slot_flags, so we'll rely on their own checks further down
+		if(!(equip_target.slot_flags & slot))
+			// Anything that's small or smaller can fit into a pocket by default
+			if((slot & (ITEM_SLOT_RPOCKET|ITEM_SLOT_LPOCKET)) && equip_target.w_class <= POCKET_WEIGHT_CLASS)
+				return FALSE
+			if(slot & (ITEM_SLOT_SUITSTORE|ITEM_SLOT_HANDS))
+				return FALSE
+
+	switch(slot)
+		if(ITEM_SLOT_HANDS)
+			if(!(mobility_flags & MOBILITY_PICKUP))
+				return FALSE
+			if(!get_empty_held_indexes())
+				return FALSE
+
+		if(ITEM_SLOT_MASK, ITEM_SLOT_HEAD, ITEM_SLOT_EARS)
+			if(!get_bodypart(BODY_ZONE_HEAD))
+				return FALSE
+
+		if(ITEM_SLOT_EYES)
+			if(!get_bodypart(BODY_ZONE_HEAD))
+				return FALSE
+			var/obj/item/organ/eyes/eyes = get_organ_slot(ORGAN_SLOT_EYES)
+			if(eyes?.no_glasses)
+				return FALSE
+
+		if(ITEM_SLOT_NECK, ITEM_SLOT_BACK, ITEM_SLOT_OCLOTHING, ITEM_SLOT_ICLOTHING, ITEM_SLOT_EARS, )
+			EMPTY_BLOCK_GUARD
+
+		if(ITEM_SLOT_GLOVES)
+			if(num_hands <= 0)
+				return FALSE
+
+		if(ITEM_SLOT_FEET)
+			if(num_legs < 2)
+				return FALSE
+			if(!isnull(equip_target) && (bodytype & BODYTYPE_DIGITIGRADE) && !(equip_target.item_flags & IGNORE_DIGITIGRADE))
+				if(!(equip_target.supports_variations_flags & DIGITIGRADE_VARIATIONS))
+					if(!disable_warning)
+						to_chat(src, span_warning("The footwear around here isn't compatible with your feet!"))
+					return FALSE
+
+		if(ITEM_SLOT_BELT, ITEM_SLOT_ID)
+			var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
+			if(isnull(w_uniform) && (isnull(chest) || !HAS_TRAIT(chest, TRAIT_CAN_EQUIP_ITEMS_TO)))
+				if(!disable_warning)
+					to_chat(src, span_warning("You need a jumpsuit before you can attach [equip_target || "something there"]!"))
+				return FALSE
+
+		if(ITEM_SLOT_LPOCKET)
+			if(!isnull(equip_target) && HAS_TRAIT(equip_target, TRAIT_NODROP))
+				return FALSE
+
+			var/obj/item/bodypart/left_leg = get_bodypart(BODY_ZONE_L_LEG)
+			if(isnull(w_uniform) && (isnull(left_leg) || !HAS_TRAIT(left_leg, TRAIT_CAN_EQUIP_ITEMS_TO)))
+				if(!disable_warning)
+					to_chat(src, span_warning("You need a jumpsuit before you can attach [equip_target || "something there"]!"))
+				return FALSE
+
+		if(ITEM_SLOT_RPOCKET)
+			if(!isnull(equip_target) && HAS_TRAIT(equip_target, TRAIT_NODROP))
+				return FALSE
+
+			var/obj/item/bodypart/right_leg = get_bodypart(BODY_ZONE_R_LEG)
+			if(isnull(w_uniform) && (isnull(right_leg) || !HAS_TRAIT(right_leg, TRAIT_CAN_EQUIP_ITEMS_TO)))
+				if(!disable_warning)
+					to_chat(src, span_warning("You need a jumpsuit before you can attach [equip_target || "something there"]!"))
+				return FALSE
+
+		if(ITEM_SLOT_SUITSTORE)
+			if(isnull(wear_suit))
+				if(!disable_warning)
+					to_chat(src, span_warning("You need a suit before you can attach [equip_target || "something there"]!"))
+				return FALSE
+
+		if(ITEM_SLOT_HANDCUFFED)
+			if(num_hands < 2)
+				return FALSE
+
+		if(ITEM_SLOT_LEGCUFFED)
+			if(num_legs < 2)
+				return FALSE
+
+		else
+			stack_trace("Unsupported slot [slot || "null"]")
+			return FALSE
+
+	return TRUE
 
 /mob/living/carbon/human/get_item_by_slot(slot_id)
 	switch(slot_id)
@@ -226,14 +360,14 @@
 		if(!QDELETED(src))
 			update_worn_undersuit()
 		if(invdrop)
-			if(r_store && !can_equip(r_store, ITEM_SLOT_RPOCKET, TRUE, ignore_equipped = TRUE))
+			if(r_store?.mob_can_equip(src, ITEM_SLOT_RPOCKET, disable_warning = TRUE, ignore_equipped = TRUE))
 				dropItemToGround(r_store, TRUE) //Again, makes sense for pockets to drop.
-			if(l_store && !can_equip(l_store, ITEM_SLOT_LPOCKET, TRUE, ignore_equipped = TRUE))
+			if(l_store?.mob_can_equip(src, ITEM_SLOT_LPOCKET, disable_warning = TRUE, ignore_equipped = TRUE))
 				dropItemToGround(l_store, TRUE)
-			if(wear_id && !can_equip(wear_id, ITEM_SLOT_ID, TRUE, ignore_equipped = TRUE))
-				dropItemToGround(wear_id)
-			if(belt && !can_equip(belt, ITEM_SLOT_BELT, TRUE, ignore_equipped = TRUE))
-				dropItemToGround(belt)
+			if(wear_id?.mob_can_equip(src, ITEM_SLOT_ID, disable_warning = TRUE, ignore_equipped = TRUE))
+				dropItemToGround(wear_id, TRUE)
+			if(belt?.mob_can_equip(src, ITEM_SLOT_BELT, disable_warning = TRUE, ignore_equipped = TRUE))
+				dropItemToGround(belt, TRUE)
 	else if(item_dropping == gloves)
 		gloves = null
 		if(!QDELETED(src))

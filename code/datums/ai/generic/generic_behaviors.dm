@@ -140,8 +140,8 @@
 	if(QDELETED(held_item) || QDELETED(target))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	var/has_left_pocket = target.can_equip(held_item, ITEM_SLOT_LPOCKET)
-	var/has_right_pocket = target.can_equip(held_item, ITEM_SLOT_RPOCKET)
+	var/has_left_pocket = held_item.mob_can_equip(target, ITEM_SLOT_LPOCKET, disable_warning = TRUE)
+	var/has_right_pocket = held_item.mob_can_equip(target, ITEM_SLOT_RPOCKET, disable_warning = TRUE)
 	var/has_valid_hand
 
 	for(var/hand_index in target.get_empty_held_indexes())

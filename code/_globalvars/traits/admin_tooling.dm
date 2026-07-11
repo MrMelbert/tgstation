@@ -372,6 +372,7 @@ GLOBAL_LIST_INIT(admin_visible_traits, list(
 		"TRAIT_UNCATCHABLE" = TRAIT_UNCATCHABLE,
 		),
 	/obj/item/bodypart = list(
+		"TRAIT_CAN_EQUIP_ITEMS_TO" = TRAIT_CAN_EQUIP_ITEMS_TO,
 		"TRAIT_PARALYSIS" = TRAIT_PARALYSIS,
 	),
 	/obj/item/bodypart/head = list(

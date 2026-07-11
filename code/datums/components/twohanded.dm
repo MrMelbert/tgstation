@@ -138,7 +138,8 @@
 
 // register signals withthe parent item
 /datum/component/two_handed/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(on_equip))
+	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
+	RegisterSignal(parent, COMSIG_ITEM_MOB_CAN_EQUIP, PROC_REF(can_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(on_attack_self))
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK, PROC_REF(on_attack))
@@ -155,7 +156,8 @@
 // Remove all siginals registered to the parent item
 /datum/component/two_handed/UnregisterFromParent()
 	UnregisterSignal(parent, list(
-		COMSIG_ITEM_POST_EQUIPPED,
+		COMSIG_ITEM_EQUIPPED,
+		COMSIG_ITEM_MOB_CAN_EQUIP,
 		COMSIG_ITEM_DROPPED,
 		COMSIG_ITEM_ATTACK_SELF,
 		COMSIG_ITEM_ATTACK,
@@ -168,14 +170,48 @@
 		COMSIG_ATOM_FINALIZE_REMOVE_MATERIAL_EFFECTS,
 	))
 
+/datum/component/two_handed/proc/can_equip(datum/source, mob/living/user, slot, disable_warning, ignore_equipped)
+	SIGNAL_HANDLER
+
+	if(!(slot & ITEM_SLOT_HANDS))
+		return NONE
+
+	if(!HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS))
+		return NONE
+
+	var/atom/atom_parent = parent
+	if(HAS_TRAIT(user, TRAIT_NO_TWOHANDING))
+		if(!disable_warning)
+			atom_parent.balloon_alert(user, "can't wield with both hands!")
+		return BLOCK_ITEM_EQUIP
+
+	if(user.get_inactive_held_item())
+		if(!disable_warning)
+			atom_parent.balloon_alert(user, "can't carry in one hand!")
+		return BLOCK_ITEM_EQUIP
+
+	if(user.usable_hands < 2)
+		if(!disable_warning)
+			atom_parent.balloon_alert(user, "not enough hands!")
+		return BLOCK_ITEM_EQUIP
+
+	return NONE
+
 /// Triggered on equip of the item containing the component
 /datum/component/two_handed/proc/on_equip(datum/source, mob/user, slot)
 	SIGNAL_HANDLER
 
-	if(HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS) && (slot & ITEM_SLOT_HANDS)) // force equip the item
-		wield(user)
-	if(!user.is_holding(parent) && wielded && !HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS))
-		unwield(user)
+	if(HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS)) // force equip the item
+		if(slot & ITEM_SLOT_HANDS)
+			// this is asserted to word thanks to the can_equip check
+			wield(user)
+			if(!wielded)
+				stack_trace("We asserted a mob could wield a forced two-handed item, but it failed to wield on equip")
+				addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, dropItemToGround), parent, TRUE), 0.1 SECONDS)
+
+	else
+		if(!user.is_holding(parent) && wielded)
+			unwield(user)
 
 /// Triggered on drop of item containing the component
 /datum/component/two_handed/proc/on_drop(datum/source, mob/user)
@@ -216,31 +252,21 @@
 
 	var/atom/atom_parent = parent
 	if(HAS_TRAIT(user, TRAIT_NO_TWOHANDING))
-		if(HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS))
-			atom_parent.balloon_alert(user, "can't wield!")
-			user.dropItemToGround(parent, force = TRUE)
-		else
-			atom_parent.balloon_alert(user, "can't wield with both hands!")
-		return COMPONENT_EQUIPPED_FAILED
+		atom_parent.balloon_alert(user, "can't wield with both hands!")
+		return
 	if(user.get_inactive_held_item())
-		if(HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS))
-			atom_parent.balloon_alert(user, "can't carry in one hand!")
-			user.dropItemToGround(parent, force = TRUE)
-		else
-			atom_parent.balloon_alert(user, "holding something in other hand!")
-		return COMPONENT_EQUIPPED_FAILED
+		atom_parent.balloon_alert(user, "holding something in other hand!")
+		return
 	if(user.usable_hands < 2)
-		if(HAS_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS))
-			user.dropItemToGround(parent, force = TRUE)
 		atom_parent.balloon_alert(user, "not enough hands!")
-		return COMPONENT_EQUIPPED_FAILED
+		return
 
 	// wield update status
 	if(SEND_SIGNAL(parent, COMSIG_TWOHANDED_WIELD, user) & COMPONENT_TWOHANDED_BLOCK_WIELD)
-		user.dropItemToGround(parent, force = TRUE)
-		return COMPONENT_EQUIPPED_FAILED // blocked wield from item
+		return
 	if (wield_callback?.Invoke(parent, user) & COMPONENT_TWOHANDED_BLOCK_WIELD)
 		return
+
 	wielded = TRUE
 	ADD_TRAIT(parent, TRAIT_WIELDED, REF(src))
 	RegisterSignal(user, COMSIG_MOB_SWAPPING_HANDS, PROC_REF(on_swapping_hands))

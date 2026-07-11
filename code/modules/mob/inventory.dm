@@ -161,7 +161,8 @@
 
 //Returns if a certain item can be equipped to a certain slot.
 // Currently invalid for two-handed items - call obj/item/mob_can_equip() instead.
-/mob/proc/can_equip(obj/item/I, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
+/mob/living/proc/can_equip(obj/item/I, slot, disable_warning = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
+	PRIVATE_PROC(TRUE)
 	return FALSE
 
 /mob/proc/can_put_in_hand(I, hand_index)
@@ -512,16 +513,27 @@
  *
  * set indirect_action to allow insertions into "soft" locked objects, things that are easily opened by the owning mob
  */
-/mob/proc/equip_to_slot_if_possible(obj/item/W, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial = FALSE, indirect_action = FALSE)
-	if(!istype(W) || QDELETED(W)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
+/mob/proc/equip_to_slot_if_possible(obj/item/equipping, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial = FALSE, indirect_action = FALSE)
+	if(!istype(equipping) || QDELETED(equipping)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
 		return FALSE
-	if(!W.mob_can_equip(src, slot, disable_warning, bypass_equip_delay_self, indirect_action = indirect_action))
+	if(!equipping.mob_can_equip(src, slot, disable_warning, bypass_equip_delay_self, indirect_action = indirect_action))
 		if(qdel_on_fail)
-			qdel(W)
+			qdel(equipping)
 		else if(!disable_warning)
 			to_chat(src, span_warning("You are unable to equip that!"))
 		return FALSE
-	equip_to_slot(W, slot, initial, redraw_mob, indirect_action = indirect_action) //This proc should not ever fail.
+
+	if(!bypass_equip_delay_self && equipping.equip_delay_self > 0)
+		visible_message(
+			span_notice("[src] start putting on [equipping]..."),
+			span_notice("You start putting on [equipping]..."),
+		)
+		if(!do_after(src, equipping.equip_delay_self, src))
+			if(qdel_on_fail)
+				qdel(equipping)
+			return FALSE
+
+	equip_to_slot(equipping, slot, initial, redraw_mob, indirect_action = indirect_action) // This proc should not ever fail.
 	return TRUE
 
 /**
@@ -539,9 +551,8 @@
 /mob/proc/has_equipped(obj/item/item, slot, initial = FALSE)
 	SHOULD_CALL_PARENT(TRUE)
 	item.item_flags |= IN_INVENTORY
-	. = item.on_equipped(src, slot, initial)
-	if(.)
-		update_equipment_speed_mods()
+	item.equipped(src, slot, initial)
+	update_equipment_speed_mods()
 
 /// This proc is called after an item has been removed from a mob but before it has been officially deslotted.
 /mob/proc/has_unequipped(obj/item/item, silent = FALSE)
@@ -560,8 +571,18 @@
  * Initial is used to indicate whether or not this is the initial equipment (job datums etc) or just a player doing it
  * set indirect_action to allow insertions into "soft" locked objects, things that are easily opened by the owning mob
  */
-/mob/proc/equip_to_slot_or_del(obj/item/W, slot, initial = FALSE, indirect_action = FALSE)
-	return equip_to_slot_if_possible(W, slot, TRUE, TRUE, FALSE, TRUE, initial, indirect_action)
+/mob/proc/equip_to_slot_or_del(obj/item/equipping, slot, initial = FALSE, indirect_action = FALSE)
+	set waitfor = FALSE
+	return equip_to_slot_if_possible(
+		equipping = equipping,
+		slot = slot,
+		qdel_on_fail = TRUE,
+		disable_warning = TRUE,
+		redraw_mob = FALSE,
+		bypass_equip_delay_self = TRUE,
+		initial = initial,
+		indirect_action = indirect_action,
+	)
 
 /**
  * Auto equip the passed in item the appropriate slot based on equipment priority

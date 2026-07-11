@@ -164,9 +164,6 @@
 
 /mob/living/carbon/has_equipped(obj/item/item, slot, initial = FALSE)
 	. = ..()
-	if(!.)
-		return
-
 	hud_used?.update_locked_slots()
 	if(!(slot & item.slot_flags)) // Things below only update if slotted in (ie: not held)
 		return

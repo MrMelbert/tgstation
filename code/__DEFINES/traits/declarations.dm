@@ -469,8 +469,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NOFLASH "noflash"
 /// prevents xeno huggies implanting skeletons
 #define TRAIT_XENO_IMMUNE "xeno_immune"
-/// Allows the species to equip items that normally require a jumpsuit without having one equipped. Used by golems.
-#define TRAIT_NO_JUMPSUIT "no_jumpsuit"
 #define TRAIT_NAIVE "naive"
 /// always detect storms on icebox
 #define TRAIT_DETECT_STORM "detect_storm"
@@ -1683,5 +1681,10 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 /// Mobs with this trait will always have be a priority target for mining mobs
 #define TRAIT_MINING_AGGRO "mining_aggro"
+
+/// Applied to bodyparts, allows it to act as clothing for the purpose of nested equipment,
+/// i.e. you can equip an ID to the bodypart without having the prerequisite jumpsuit equipped
+/// We play fast and loose with this one so YMMV
+#define TRAIT_CAN_EQUIP_ITEMS_TO "can_equip_items_to"
 
 // END TRAIT DEFINES

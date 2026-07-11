@@ -109,11 +109,13 @@ Fluoride Stare: After someone says 5 words, blah blah blah...
 	UnregisterSignal(liver_owner, list(COMSIG_HUMAN_EQUIPPING_ITEM, COMSIG_LIVING_TRY_PULL, COMSIG_CARBON_HELPED))
 
 /// signal sent when prompting if an item can be equipped
-/obj/item/organ/liver/gondola/proc/on_owner_equipping_item(mob/living/carbon/human/owner, obj/item/equip_target, slot)
+/obj/item/organ/liver/gondola/proc/on_owner_equipping_item(mob/living/carbon/human/owner, obj/item/equip_target, slot, disable_warning)
 	SIGNAL_HANDLER
-	if(equip_target.w_class > WEIGHT_CLASS_TINY)
+	if(equip_target.w_class <= WEIGHT_CLASS_TINY)
+		return NONE
+	if(!disable_warning)
 		equip_target.balloon_alert(owner, "too weak to hold this!")
-		return COMPONENT_BLOCK_EQUIP
+	return BLOCK_ITEM_EQUIP
 
 /// signal sent when owner tries to pull an item
 /obj/item/organ/liver/gondola/proc/on_owner_try_pull(mob/living/carbon/owner, atom/movable/target, force)

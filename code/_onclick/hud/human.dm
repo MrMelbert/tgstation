@@ -35,41 +35,16 @@
 	add_screen_object(/atom/movable/screen/hunger, HUD_MOB_HUNGER, HUD_GROUP_INFO)
 
 /datum/hud/human/update_locked_slots()
-	if(!mymob)
+	if(!ishuman(mymob))
 		return
-	var/blocked_slots = NONE
 
-	var/mob/living/carbon/human/human_mob = mymob
-	if(istype(human_mob))
-		blocked_slots |= human_mob.dna?.species?.no_equip_flags
-		if((isnull(human_mob.w_uniform) || !(human_mob.w_uniform.item_flags & IN_INVENTORY)) && !HAS_TRAIT(human_mob, TRAIT_NO_JUMPSUIT))
-			var/obj/item/bodypart/chest = human_mob.get_bodypart(BODY_ZONE_CHEST)
-			if(isnull(chest) || IS_ORGANIC_LIMB(chest))
-				blocked_slots |= ITEM_SLOT_ID|ITEM_SLOT_BELT
-			var/obj/item/bodypart/left_leg = human_mob.get_bodypart(BODY_ZONE_L_LEG)
-			if(isnull(left_leg) || IS_ORGANIC_LIMB(left_leg))
-				blocked_slots |= ITEM_SLOT_LPOCKET
-			var/obj/item/bodypart/right_leg = human_mob.get_bodypart(BODY_ZONE_R_LEG)
-			if(isnull(right_leg) || IS_ORGANIC_LIMB(right_leg))
-				blocked_slots |= ITEM_SLOT_RPOCKET
-		if(isnull(human_mob.wear_suit) || !(human_mob.wear_suit.item_flags & IN_INVENTORY))
-			blocked_slots |= ITEM_SLOT_SUITSTORE
-		if(human_mob.num_hands <= 0)
-			blocked_slots |= ITEM_SLOT_GLOVES
-		if(human_mob.num_legs < 2) // update this when you can wear shoes on one foot
-			blocked_slots |= ITEM_SLOT_FEET
-		var/obj/item/bodypart/head/head = human_mob.get_bodypart(BODY_ZONE_HEAD)
-		if(isnull(head))
-			blocked_slots |= ITEM_SLOT_HEAD|ITEM_SLOT_EARS|ITEM_SLOT_EYES|ITEM_SLOT_MASK
-		var/obj/item/organ/eyes/eyes = human_mob.get_organ_slot(ORGAN_SLOT_EYES)
-		if(eyes?.no_glasses)
-			blocked_slots |= ITEM_SLOT_EYES
-
+	var/mob/living/carbon/human/myhuman = mymob
 	for(var/slot_key in screen_objects)
 		var/atom/movable/screen/inventory/inv = screen_objects[slot_key]
 		if(!istype(inv) || !inv.slot_id)
 			continue
-		inv.alpha = (blocked_slots & inv.slot_id) ? 128 : initial(inv.alpha)
+
+		inv.alpha = myhuman.can_equip_to_slot(inv.slot_id, disable_warning = TRUE) ? initial(inv.alpha) : 128
 
 GAME_VERB_DESC(/mob/living/carbon/human, toggle_hotkey_verbs, "Toggle hotkey buttons", "This disables or enables the user interface buttons which can be used with hotkeys.", "OOC")
 

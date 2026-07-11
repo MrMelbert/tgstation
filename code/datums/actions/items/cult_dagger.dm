@@ -27,7 +27,7 @@
 		target_item.attack_self(owner)
 		return TRUE
 
-	if(owner.can_equip(target_item, ITEM_SLOT_HANDS))
+	if(target_item.mob_can_equip(living_owner, ITEM_SLOT_HANDS))
 		owner.temporarilyRemoveItemFromInventory(target_item)
 		owner.put_in_hands(target_item)
 		target_item.attack_self(owner)

@@ -395,7 +395,8 @@
 		return
 
 	if(prob(80)) // >:)
-		ADD_TRAIT(user, TRAIT_NO_JUMPSUIT, REF(src)) // prevent dropping pockets & belt
+		for(var/obj/item/bodypart/part as anything in user.get_bodyparts())
+			ADD_TRAIT(part, TRAIT_CAN_EQUIP_ITEMS_TO, REF(src)) // prevent dropping pocket contents and whatnot
 
 	// magic trick!
 	playsound(user, SFX_SPARKS, rand(25,50), TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
@@ -438,7 +439,9 @@
 		card_id.scribbled_trim = replacetext(random_trim.trim_state, "trim_", "cardboard_")
 	card_id.scribbled_assignment = random_trim.assignment
 	card_id.update_appearance()
-	REMOVE_TRAIT(user, TRAIT_NO_JUMPSUIT, REF(src))
+
+	for(var/obj/item/bodypart/part as anything in user.get_bodyparts())
+		REMOVE_TRAIT(part, TRAIT_CAN_EQUIP_ITEMS_TO, REF(src))
 
 /obj/item/relic/proc/roll_costume(slot, flagcheck)
 	var/list/candidates = list()

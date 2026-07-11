@@ -61,8 +61,8 @@
 	if(victim.is_mouth_covered(ITEM_SLOT_HEAD))
 		to_chat(attacker, span_notice("[victim]'s mouth is covered."))
 		return
-	if(!mob_can_equip(victim, ITEM_SLOT_MASK))
-		to_chat(attacker, span_notice("[victim] is already wearing somthing on their face."))
+	if(!mob_can_equip(victim, ITEM_SLOT_MASK, disable_warning = TRUE))
+		to_chat(attacker, span_notice("You can't put [src] on [victim]."))
 		return
 	balloon_alert(attacker, "taping mouth...")
 	to_chat(victim, span_userdanger("[attacker] is attempting to tape your mouth closed!"))
