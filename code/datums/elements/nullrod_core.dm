@@ -11,10 +11,8 @@
 		return ELEMENT_INCOMPATIBLE
 
 	// the handle of a nullrod is always obsidian - the rest of the materials and slots, if present, are inherited
-	var/list/applied_materials = list(/datum/material/obsidian = 4 * SHEET_MATERIAL_AMOUNT)
+	var/list/applied_materials = list(/datum/material/obsidian = SHEET_MATERIAL_AMOUNT)
 	for(var/datum/material/existing_material, existing_material_amount in target.custom_materials)
-		if(existing_material.type == /datum/material/obsidian)
-			continue
 		applied_materials[existing_material.type] = existing_material_amount
 
 	var/list/applied_slots = list(/datum/material_slot/handle = /datum/material/obsidian)
