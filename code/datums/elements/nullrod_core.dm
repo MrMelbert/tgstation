@@ -10,7 +10,26 @@
 	if(!istype(target))
 		return ELEMENT_INCOMPATIBLE
 
-	target.AddComponent(/datum/component/anti_magic, MAGIC_RESISTANCE|MAGIC_RESISTANCE_HOLY)
+	// the handle of a nullrod is always obsidian - the rest of the materials and slots, if present, are inherited
+	var/list/applied_materials = list(/datum/material/obsidian = 4 * SHEET_MATERIAL_AMOUNT)
+	for(var/datum/material/existing_material, existing_material_amount in target.custom_materials)
+		if(existing_material.type == /datum/material/obsidian)
+			continue
+		applied_materials[existing_material.type] = existing_material_amount
+
+	var/list/applied_slots = list(/datum/material_slot/handle = /datum/material/obsidian)
+	for(var/existing_slot, existing_slot_material in target.material_slots)
+		if(existing_slot == /datum/material_slot/handle)
+			// if it already has a handle, obsidian takes on its volume and replaces it - so iron handle becomes obsidian handle
+			applied_materials[/datum/material/obsidian] = applied_materials[existing_slot_material] || SHEET_MATERIAL_AMOUNT
+			applied_materials -= existing_slot_material
+			continue
+		applied_slots[existing_slot] = existing_slot_material
+
+	target.material_flags |= MATERIAL_EFFECTS
+	target.set_custom_materials(applied_materials)
+	target.set_material_slots(applied_slots)
+
 	target.AddComponent(/datum/component/effect_remover, \
 		success_feedback = "You disrupt the magic of %THEEFFECT with %THEWEAPON.", \
 		success_forcesay = rune_remove_line, \

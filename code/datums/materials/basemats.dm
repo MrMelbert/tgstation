@@ -956,3 +956,23 @@
 		MATERIAL_BEAUTY = 0.8,
 	)
 	texture_layer_icon_state = "sand"
+
+/datum/material/obsidian
+	name = "obsidian"
+	desc = "A black, brittle glass formed from volcanic lava. Very sharp, very shiny."
+	color = "#1B1B1B"
+	mat_flags = MATERIAL_CLASS_RIGID | MATERIAL_CLASS_CRYSTAL
+	mat_properties = list(
+		MATERIAL_DENSITY = 2, // irl about 2.5g/cm3
+		MATERIAL_HARDNESS = 6, // irl 5.5 on moh's scale
+		MATERIAL_FLEXIBILITY = 0,
+		MATERIAL_REFLECTIVITY = 8,
+		MATERIAL_ELECTRICAL = 0,
+		MATERIAL_THERMAL = 2,
+		MATERIAL_CHEMICAL = 8,
+		MATERIAL_BEAUTY = 0.5,
+		MATERIAL_WARDING = TRUE,
+	)
+	material_reagent = /datum/reagent/silicon
+	value_per_unit = 400 / SHEET_MATERIAL_AMOUNT
+	texture_layer_icon_state = "shine"

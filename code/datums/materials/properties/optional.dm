@@ -206,3 +206,35 @@
 
 /datum/material_property/penetrating/get_tooltip(value)
 	return "Ignores all means of skin protection when triggering other material effects"
+
+/// Gives antimagic to the object, though
+/datum/material_property/warding
+	name = "Warding"
+	id = MATERIAL_WARDING
+
+/datum/material_property/warding/get_descriptor(value)
+	return "warding"
+
+/datum/material_property/warding/get_tooltip(value)
+	return "Prevents all forms of magic from affecting the object's wielder"
+
+/datum/material_property/warding/attach_to(datum/material/material)
+	. = ..()
+	RegisterSignal(material, COMSIG_MATERIAL_APPLIED, PROC_REF(on_applied))
+	RegisterSignal(material, COMSIG_MATERIAL_REMOVED, PROC_REF(on_removed))
+
+/datum/material_property/warding/proc/on_applied(datum/material/source, atom/new_atom, mat_amount, multiplier, from_slot)
+	SIGNAL_HANDLER
+
+	if (!isitem(new_atom) || !(new_atom.material_flags & MATERIAL_EFFECTS))
+		return
+
+	new_atom.AddComponent(/datum/component/anti_magic, MAGIC_RESISTANCE|MAGIC_RESISTANCE_HOLY)
+
+/datum/material_property/warding/proc/on_removed(datum/material/source, atom/old_atom, mat_amount, multiplier, from_slot)
+	SIGNAL_HANDLER
+
+	if (!isitem(old_atom) || !(old_atom.material_flags & MATERIAL_EFFECTS))
+		return
+
+	qdel(old_atom.GetComponent(/datum/component/anti_magic))
