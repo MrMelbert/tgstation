@@ -63,7 +63,6 @@ GLOBAL_LIST_INIT(material_flags_to_string, alist(
 // You can use a calculator at https://www.desmos.com/calculator/wbkx4ttj3j for easy property calculations
 
 // Core material property IDs
-/// How dense
 #define MATERIAL_DENSITY "density"
 #define MATERIAL_HARDNESS "hardness"
 #define MATERIAL_FLEXIBILITY "flexibility"
