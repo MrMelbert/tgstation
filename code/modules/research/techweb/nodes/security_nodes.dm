@@ -103,12 +103,6 @@
 	description = "Energy-based weaponry designed for both lethal and non-lethal applications."
 	prereq_ids = list(TECHWEB_NODE_RIOT_SUPRESSION)
 	design_ids = list(
-		// future todo : these cargo designs are obviously linked to the supply packs list
-		// but more important they only work when the station researches this node.
-		// these designs should be hidden from off-station techwebs.
-		//
-		// in fact, it would be nice if the supply packs list was tied to these designs
-		// and the designs handled the logic for unlocking the relevant packs when the station researches them
 		"cargo_ion_carbine",
 		"cargo_temp_gun",
 		"cargo_tesla_cannon",
