@@ -403,6 +403,7 @@
 
 /datum/supply_pack/security/armory/rnd_locked
 	abstract_type = /datum/supply_pack/security/armory/rnd_locked
+	group = "Requisitions"
 	order_flags = ORDER_SPECIAL
 
 /datum/supply_pack/security/armory/rnd_locked/fill(obj/container)
