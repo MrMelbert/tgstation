@@ -407,9 +407,8 @@
 
 /datum/supply_pack/security/armory/rnd_locked/fill(obj/container)
 	. = ..()
-	for(var/obj/item/gun/spawned in container.get_all_contents())
-		if(isobj(spawned.pin))
-			QDEL_NULL(spawned.pin)
+	for(var/obj/item/firing_pin/gunpin in container.get_all_contents())
+		qdel(gunpin)
 
 /datum/supply_pack/security/armory/rnd_locked/aeg
 	name = "Advanced Energy Gun Requisition"
