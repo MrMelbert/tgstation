@@ -6,8 +6,8 @@
 	description = "Applications of lighting and vision technology not originally thought to be commercially viable."
 	design_ids = list(
 		"bright_helmet",
+		"cargo_photon_cannon",
 		"rld_mini",
-		"photon_cannon",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS)
 	hidden = TRUE

@@ -103,9 +103,15 @@
 	description = "Energy-based weaponry designed for both lethal and non-lethal applications."
 	prereq_ids = list(TECHWEB_NODE_RIOT_SUPRESSION)
 	design_ids = list(
-		"stunrevolver",
-		"ioncarbine",
-		"temp_gun",
+		// future todo : these cargo designs are obviously linked to the supply packs list
+		// but more important they only work when the station researches this node.
+		// these designs should be hidden from off-station techwebs.
+		//
+		// in fact, it would be nice if the supply packs list was tied to these designs
+		// and the designs handled the logic for unlocking the relevant packs when the station researches them
+		"cargo_ion_carbine",
+		"cargo_temp_gun",
+		"cargo_tesla_cannon",
 		"lasershell",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_3_POINTS)
@@ -117,10 +123,10 @@
 	description = "So advanced, even engineers are baffled by its operational principles."
 	prereq_ids = list(TECHWEB_NODE_ELECTRIC_WEAPONS)
 	design_ids = list(
-		"xray_laser",
-		"nuclear_gun",
 		"c38_flare",
 		"c38_flare_mag",
+		"cargo_advanced_egun",
+		"cargo_xray_laser",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_4_POINTS)
 	announce_channels = list(RADIO_CHANNEL_SECURITY)

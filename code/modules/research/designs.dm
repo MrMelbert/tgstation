@@ -181,6 +181,14 @@ other types of metals and chemistry for reagents).
 	else
 		target_object.set_custom_materials(custom_materials, multiplier)
 
+/// Called when the design is researched by the station's techweb
+/datum/design/proc/on_station_research()
+	return
+
+/// Called when the design is un-researched by the station's techweb
+/datum/design/proc/on_station_unresearch()
+	return
+
 ////////////////////////////////////////
 //Disks for transporting design datums//
 ////////////////////////////////////////

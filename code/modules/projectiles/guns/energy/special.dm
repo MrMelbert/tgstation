@@ -419,8 +419,8 @@ it is often confused with the mech weapon of the same name, since it is a bit mo
 	display_empty =  FALSE
 	weapon_weight = WEAPON_HEAVY
 	w_class = WEIGHT_CLASS_BULKY
-	///if our stpck is extended and we are ready to fire.
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5, /datum/material/glass = SHEET_MATERIAL_AMOUNT * 5, /datum/material/silver = SHEET_MATERIAL_AMOUNT * 5)
+	///if our stock is extended and we are ready to fire.
 	var/ready_to_fire = FALSE
 
 /obj/item/gun/energy/tesla_cannon/Initialize(mapload)

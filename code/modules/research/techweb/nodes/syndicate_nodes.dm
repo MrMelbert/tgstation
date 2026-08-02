@@ -7,14 +7,14 @@
 		"advanced_camera",
 		"ai_cam_upgrade",
 		"borg_syndicate_module",
+		"cargo_ebow",
 		"donksoft_refill",
-		"largecrossbow",
 		"mag_autorifle",
 		"mag_autorifle_ap",
 		"mag_autorifle_ic",
 		"rapidsyringe",
-		"suppressor",
 		"super_pointy_tape",
+		"suppressor",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_5_POINTS)
 	hidden = TRUE

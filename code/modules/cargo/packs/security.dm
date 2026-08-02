@@ -401,6 +401,71 @@
 	)
 	crate_name = "thermal cannons crate"
 
+/datum/supply_pack/security/armory/rnd_locked
+	abstract_type = /datum/supply_pack/security/armory/rnd_locked
+	order_flags = ORDER_SPECIAL
+
+/datum/supply_pack/security/armory/rnd_locked/fill(obj/container)
+	. = ..()
+	for(var/obj/item/gun/spawned in container)
+		if(isobj(spawned.pin))
+			QDEL_NULL(spawned.pin)
+
+/datum/supply_pack/security/armory/rnd_locked/aeg
+	name = "Advanced Energy Gun Requisition"
+	desc = "Contains an Advanced Energy Gun, which fires both disabling and lethal shots like a standard energy gun. \
+		However, it also contains a miniature nuclear reactor that recharges the gun's energy cells over time."
+	cost = CARGO_CRATE_VALUE * 16
+	contains = list(/obj/item/gun/energy/e_gun/nuclear = 1)
+	crate_name = "advanced energy gun crate"
+
+/datum/supply_pack/security/armory/rnd_locked/xray
+	name = "Type 6 X-ray Laser Gun Requisition"
+	desc = "Contains a Type 6 X-ray Laser Gun, an atypical energy gun that fires radioactive-infused laser beams, \
+		which are capable of penetrating most forms of armor and even walls."
+	cost = CARGO_CRATE_VALUE * 20
+	contains = list(/obj/item/gun/energy/laser/xray = 1)
+	crate_name = "x-ray gun crate"
+
+/datum/supply_pack/security/armory/rnd_locked/tempgun
+	name = "Temperature Gun Requisition"
+	desc = "Contains a Temperature Gun, a debatably useful weapon designed to rapidly heating or cooling targets."
+	cost = CARGO_CRATE_VALUE * 8
+	contains = list(/obj/item/gun/energy/temperature = 1)
+	crate_name = "temperature gun crate"
+
+/datum/supply_pack/security/armory/rnd_locked/tesla
+	name = "Tesla Cannon Requisition"
+	desc = "Contains an anomaly powered Tesla Cannon, which fires high-voltage arc of electricity that can chain between multiple targets. \
+		While excellent for crowd control, you'll need to supply a flux anomaly core to power it, which is not included in this crate."
+	cost = CARGO_CRATE_VALUE * 20
+	contains = list(/obj/item/gun/energy/tesla_cannon = 1) // melbert todo: core support
+	crate_name = "tesla cannon crate"
+
+/datum/supply_pack/security/armory/rnd_locked/photon
+	name = "Photon Cannon Requisition"
+	desc = "Contains an anomaly powered Photon Cannon, which fires concentrated miniature suns that blind those without eye protection. \
+		While excellent for crowd control, you'll need to supply a flux anomaly core to power it, which is not included in this crate."
+	cost = CARGO_CRATE_VALUE * 20
+	contains = list(/obj/item/gun/energy/photon = 1) // melbert todo: core support
+	crate_name = "photon cannon crate"
+
+/datum/supply_pack/security/armory/rnd_locked/ion
+	name = "Ion Carbine Requisition"
+	desc = "Contains an Ion Carbine, a more portable form of the more unwieldy Ion Rifle. \
+		Fires electromagnetic pulses that can disable electronics."
+	cost = CARGO_CRATE_VALUE * 12
+	contains = list(/obj/item/gun/energy/ionrifle/carbine = 1)
+	crate_name = "ion carbine crate"
+
+/datum/supply_pack/security/armory/rnd_locked/ebow
+	name = "Energy Bow Requisition"
+	desc = "Contains a reverse engineered Syndicate Energy Crossbow. Though less compact that the original, \
+		the projectiles it fires are just as capable of downing targets in a single shot - if not more."
+	cost = CARGO_CRATE_VALUE * 20
+	contains = list(/obj/item/gun/energy/recharge/ebow/large = 1)
+	crate_name = "energy bow crate"
+
 /datum/supply_pack/security/blood_worm_testers
 	name = "Hemoparasite Testing Crate"
 	desc = "Contains four single-use hemoparasite testing tools. \

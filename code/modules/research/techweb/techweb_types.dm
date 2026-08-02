@@ -11,6 +11,16 @@
 	if(.)
 		node.on_station_research(research_source)
 
+/datum/techweb/science/add_design(datum/design/design, custom, list/add_to)
+	. = ..()
+	if(.)
+		design.on_station_research()
+
+/datum/techweb/science/remove_design(datum/design/design, custom)
+	. = ..()
+	if(.)
+		design.on_station_unresearch()
+
 /datum/techweb/oldstation
 	id = "CHARLIE"
 	organization = "Nanotrasen"
