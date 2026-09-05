@@ -35,6 +35,7 @@ GLOBAL_LIST_EMPTY(shared_particles)
  * for 400 objects using them. This should be prioritized over normal particles when possible if it is known
  * that there will be a lot of objects using certain particles.
  *
+ * Args
  * * particle_type - the type of particle to add
  * * custom_key - can be used to create a new pool of already existing particle type in case you're planning to edit holder's color or properties
  * * particle_flags - flags to pass to the particle holder. Not included in the key automatically, so you need to provide a custom key in that case
@@ -45,8 +46,8 @@ GLOBAL_LIST_EMPTY(shared_particles)
  */
 /atom/proc/add_shared_particles(particle_type, custom_key = null, particle_flags = NONE, pool_size = 3)
 	if(particle_flags && isnull(custom_key))
-		// Particle flags are not included in the key automatically to make remove_shared_particles easier to use
-		// However if you set particle flags without a custom key there's a chance you accidentally make everyone use those flags
+		// nb: particle flags are not included in the key automatically to make remove_shared_particles easier to use...
+		// however, if you set particle flags without a custom key, there's a good chance you accidentally just made every source of that particle use those flags
 		CRASH("add_shared_particles was called with flags, but without a key - you must \
 			provide a custom key if you want to use flags! (atom: [type] particle: [particle_type])")
 
@@ -94,7 +95,7 @@ GLOBAL_LIST_EMPTY(shared_particles)
 		particle_key = "[particle_key]"
 
 	if (PLANE_TO_TRUE(plane) == FLOOR_PLANE)
-		particle_key += "-floor"
+		particle_key += "-floor" // nb: unfortunately if the plane changes between the particles being removed, this will break.
 
 	if (!GLOB.shared_particles[particle_key])
 		return
