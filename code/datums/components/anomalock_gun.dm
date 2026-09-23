@@ -1,5 +1,12 @@
+/**
+ * ## Anomaly Locked Gun
+ *
+ * Prevents guns from being fired without having an anomaly core installed
+ */
 /datum/component/anomaly_locked_gun
-	var/obj/item/assembly/signaler/anomaly/core
+	/// Reference to currently installed core
+	VAR_PRIVATE/obj/item/assembly/signaler/anomaly/core
+	/// List of anomaly core types that are accepted by this gun
 	var/list/accepted_anomalies
 
 /datum/component/anomaly_locked_gun/Initialize(list/accepted_anomalies, init_core = FALSE)
@@ -15,7 +22,8 @@
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(parent, COMSIG_ATOM_DESTRUCTION, PROC_REF(on_destruction))
 	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(on_exited))
-	RegisterSignal(parent, COMSIG_GUN_TRY_FIRE, PROC_REF(on_try_fire))
+	RegisterSignal(parent, COMSIG_GUN_CAN_SHOOT, PROC_REF(on_can_shoot))
+	RegisterSignals(parent, list(COMSIG_GUN_TRY_FIRE, COMSIG_GUN_TRY_AUTO_FIRE), PROC_REF(on_try_fire))
 
 	if(init_core)
 		var/obj/item/the_gun = parent
@@ -29,8 +37,7 @@
 
 /datum/component/anomaly_locked_gun/proc/on_item_interact(obj/item/source, mob/living/user, obj/item/tool, list/modifiers)
 	SIGNAL_HANDLER
-
-	if(!is_type_in_typecache(tool, accepted_anomalies))
+	if(!is_type_in_list(tool, accepted_anomalies))
 		return NONE
 	if(!isnull(core))
 		source.balloon_alert(user, "already has core!")
@@ -83,9 +90,18 @@
 	SIGNAL_HANDLER
 	core?.forceMove(source.drop_location())
 
-/datum/component/anomaly_locked_gun/proc/on_try_fire(obj/item/gun/source, mob/living/user, ...)
+/// Hooks can_shoot to ensure we cover ALL cases where the gun may attempt to fire
+/datum/component/anomaly_locked_gun/proc/on_can_shoot(obj/item/gun/source, ...)
 	SIGNAL_HANDLER
 	if(!isnull(core))
 		return NONE
-	source.balloon_alert(user, "cannot fire without a core!")
+	return COMPONENT_CANCEL_GUN_FIRE
+
+/// Hooks try_shoot to give a feedback when they try to fire (it runs before can_shoot, letting us be more specific)
+/datum/component/anomaly_locked_gun/proc/on_try_fire(obj/item/gun/source, mob/living/shooter, ...)
+	SIGNAL_HANDLER
+	if(!isnull(core))
+		return NONE
+	source.balloon_alert(shooter, "cannot fire without a core!")
+	source.shoot_with_empty_chamber(shooter)
 	return COMPONENT_CANCEL_GUN_FIRE

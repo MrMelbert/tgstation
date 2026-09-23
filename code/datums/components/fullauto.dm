@@ -287,7 +287,7 @@
 /obj/item/gun/proc/on_autofire_start(mob/living/shooter)
 	if(fire_cd || shooter.incapacitated || !can_trigger_gun(shooter))
 		return FALSE
-	if(SEND_SIGNAL(src, COMSIG_GUN_TRY_FIRE, shooter, null, null, null) & COMPONENT_CANCEL_GUN_FIRE)
+	if(SEND_SIGNAL(src, COMSIG_GUN_TRY_AUTO_FIRE, shooter) & COMPONENT_CANCEL_GUN_FIRE)
 		return NONE
 	if(!can_shoot())
 		shoot_with_empty_chamber(shooter)

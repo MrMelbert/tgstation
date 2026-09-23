@@ -133,6 +133,10 @@
 /datum/techweb/proc/get_researched_nodes()
 	return researched_nodes - hidden_nodes
 
+/// Check if we can add a design to this techweb
+/datum/techweb/proc/is_valid_design(datum/design/design)
+	return TRUE
+
 /**
  * Adds a design to this techweb
  *
@@ -142,9 +146,12 @@
  * * add_to - A custom list to add the node to, overwriting research_designs.
  */
 /datum/techweb/proc/add_design(datum/design/design, custom = FALSE, list/add_to)
-	if(ispath(design))
+	SHOULD_NOT_OVERRIDE(TRUE)
+
+	if(ispath(design, /datum/design))
 		design = SSresearch.techweb_designs[design]
-	if(!istype(design))
+
+	if(!istype(design) || !is_valid_design(design))
 		return FALSE
 
 	if(custom)
@@ -158,8 +165,13 @@
 	for(var/unlocked_by in design.unlocked_by)
 		hidden_nodes -= unlocked_by
 
+	design_added(design)
 	SEND_SIGNAL(src, COMSIG_TECHWEB_ADD_DESIGN, design, custom)
 	return TRUE
+
+/// A design was added to this techweb
+/datum/techweb/proc/design_added(datum/design/design)
+	return
 
 /**
  * Removes a design from this techweb
@@ -169,8 +181,11 @@
  * * custom - Boolean on whether the node should also be removed from custom_designs
  */
 /datum/techweb/proc/remove_design(datum/design/design, custom = FALSE)
-	if(ispath(design))
+	SHOULD_NOT_OVERRIDE(TRUE)
+
+	if(ispath(design, /datum/design))
 		design = SSresearch.techweb_designs[design]
+
 	if(!istype(design))
 		return FALSE
 
@@ -179,8 +194,13 @@
 
 	researched_designs -= design.type
 
+	design_removed(design)
 	SEND_SIGNAL(src, COMSIG_TECHWEB_REMOVE_DESIGN, design, custom)
 	return TRUE
+
+/// A design was removed from this techweb
+/datum/techweb/proc/design_removed(datum/design/design)
+	return
 
 /datum/techweb/proc/can_afford(list/point_list)
 	for(var/point_type, point_amount in point_list)
@@ -332,6 +352,7 @@
 		adjust_multiple_points(node_cost)
 		log_message += " at the cost of [json_encode(node_cost)]"
 
+	node_added(node, research_source)
 	//Add to our researched list
 	researched_nodes[node.type] = TRUE
 
@@ -373,6 +394,10 @@
 
 	return TRUE
 
+/// A node was added to this techweb
+/datum/techweb/proc/node_added(datum/techweb_node/node, atom/research_source)
+	return
+
 /**
  * Removes a node from this techweb
  *
@@ -383,8 +408,13 @@
 	if(istype(node_path))
 		node_path = node_path.type
 
+	node_removed(node_path)
 	researched_nodes -= node_path
 	recalculate_nodes(recalculate_designs = TRUE) //Fully rebuild the tree.
+
+/// A node was removed from this techweb
+/datum/techweb/proc/node_removed(datum/techweb_node/node_path)
+	return
 
 /// Boosts a techweb node.
 /datum/techweb/proc/boost_techweb_node(datum/techweb_node/node, list/point_list)
@@ -445,9 +475,8 @@
 
 	if(researched)
 		researched_nodes[node.type] = TRUE
-		var/list/Dear_tg_station_13_maintainers_COMMA_I_am_writing_this_variable_like_this_because_I_am_curious_if_you_guys_actually_review_the_code_that_comes_across_your_desk_PERIOD_If_you_see_this_COMMA_please_let_me_know = LAZYCOPY(node.unlocked_designs)
-		for(var/design_path in Dear_tg_station_13_maintainers_COMMA_I_am_writing_this_variable_like_this_because_I_am_curious_if_you_guys_actually_review_the_code_that_comes_across_your_desk_PERIOD_If_you_see_this_COMMA_please_let_me_know - researched_designs)
-			add_design(SSresearch.techweb_designs[design_path])
+		for(var/design_path in SANITIZE_LIST(node.unlocked_designs) - researched_designs)
+			add_design(design_path)
 	else if(available)
 		available_nodes[node.type] = TRUE
 	else if(visible)
