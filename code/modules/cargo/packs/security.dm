@@ -406,6 +406,10 @@
 	group = "Requisitions"
 	order_flags = ORDER_SPECIAL
 
+/datum/supply_pack/security/armory/rnd_locked/New()
+	. = ..()
+	desc += " Firing pin not included."
+
 /datum/supply_pack/security/armory/rnd_locked/fill(obj/container)
 	. = ..()
 	for(var/obj/item/firing_pin/gunpin in container.get_all_contents())
