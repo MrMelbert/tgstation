@@ -426,7 +426,7 @@
 
 /// Removes the ability to blade break, removes cloak of shadows and removes the cap on how many blades you can craft
 /datum/antagonist/heretic/proc/disable_blade_breaking()
-	if(unlimited_blades)
+	if(unlimited_blades || feast_of_owls)
 		return
 	var/mob/heretic_mob = owner.current
 	unlimited_blades = TRUE
@@ -766,7 +766,7 @@
 /datum/antagonist/heretic/proc/adjust_knowledge_points(amount, update = TRUE)
 	knowledge_points = max(0, knowledge_points + amount) // Don't allow negative knowledge points
 	knowledge_gained += max(0, amount)
-	if(knowledge_gained > points_to_aura && !unlimited_blades)
+	if(knowledge_gained > points_to_aura)
 		disable_blade_breaking()
 	if(update)
 		update_data_for_all_viewers()
