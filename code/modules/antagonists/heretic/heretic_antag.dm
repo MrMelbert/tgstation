@@ -433,8 +433,6 @@
 	to_chat(heretic_mob, span_boldwarning("You have gained a lot of power, the mansus will no longer allow you to break your blades, but you can now make as many as you wish."))
 	heretic_mob.balloon_alert(heretic_mob, "blade breaking disabled!")
 	update_heretic_aura()
-	var/datum/action/cooldown/spell/shadow_cloak/cloak_spell = locate() in heretic_mob.actions
-	cloak_spell.Remove(heretic_mob)
 
 /datum/antagonist/heretic/proc/add_aura_overlay(mob/living/source, list/overlays)
 	SIGNAL_HANDLER
