@@ -444,11 +444,11 @@
 	if(!can_assign_self_objectives)
 		return FALSE // We spurned the offer of the Mansus :(
 	if(!unlimited_blades)
-		return FALSE // No aura if we have the trait or is too early still
+		return FALSE // Not at the aura stage
 	if(feast_of_owls)
 		return FALSE // No use in giving the aura to a heretic that can't ascend
 	if(heretic_path?.route == PATH_LOCK && !istype(owner.current?.get_item_by_slot(ITEM_SLOT_OCLOTHING), /obj/item/clothing/suit/hooded/cultrobes/eldritch))
-		return FALSE // Lock heretics never get this aura
+		return FALSE // Lock heretics don't get aura unless they're wearing the guise
 	return TRUE
 
 /datum/antagonist/heretic/proc/on_heretic_examine(datum/source, mob/user, text)
