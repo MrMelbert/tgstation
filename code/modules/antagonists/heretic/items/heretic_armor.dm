@@ -18,7 +18,6 @@
 	allowed = list(/obj/item/melee/sickly_blade, /obj/item/gun/ballistic/rifle/lionhunter, /obj/item/flashlight/lantern/heretic)
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/eldritch
 	armor_type = /datum/armor/eldritch_armor
-	clothing_traits = list(TRAIT_HERETIC_AURA_HIDDEN)
 	/// Whether the hood is flipped up
 	var/hood_up = FALSE
 	/// Type of texture applied by this
@@ -538,7 +537,6 @@
 	armor_type = /datum/armor/eldritch_armor/moon
 	flags_inv = HIDESHOES | HIDEJUMPSUIT | HIDEMUTWINGS
 	clothing_traits = list(
-		TRAIT_HERETIC_AURA_HIDDEN,
 		TRAIT_BATON_RESISTANCE,
 		TRAIT_STUNIMMUNE,
 		TRAIT_NEVER_WOUNDED,
