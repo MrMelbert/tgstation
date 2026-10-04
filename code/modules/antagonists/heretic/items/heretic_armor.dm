@@ -492,10 +492,12 @@
 /obj/item/clothing/suit/hooded/cultrobes/eldritch/lock/on_robes_gained(mob/living/user)
 	user.AddElement(/datum/element/digitalcamo)
 	user.add_traits(list(TRAIT_SILENT_FOOTSTEPS, TRAIT_UNKNOWN_APPEARANCE, TRAIT_UNKNOWN_VOICE), REF(src))
+	user.update_appearance(UPDATE_OVERLAYS)
 
 /obj/item/clothing/suit/hooded/cultrobes/eldritch/lock/on_robes_lost(mob/user, obj/item/clothing/suit/hooded/cultrobes/eldritch/robes)
 	user.RemoveElement(/datum/element/digitalcamo)
 	user.remove_traits(list(TRAIT_SILENT_FOOTSTEPS, TRAIT_UNKNOWN_APPEARANCE, TRAIT_UNKNOWN_VOICE), REF(src))
+	user.update_appearance(UPDATE_OVERLAYS)
 
 /obj/item/clothing/suit/hooded/cultrobes/eldritch/lock/robes_side_effect(mob/living/user)
 	if(!iscarbon(user))

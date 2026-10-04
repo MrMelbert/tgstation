@@ -432,7 +432,13 @@
 	if(!should_show_aura())
 		return
 	overlays += eldritch_overlay
-	overlays += emissive_appearance(eldritch_overlay.icon, eldritch_overlay.icon_state, source)
+	overlays += emissive_appearance(
+		icon = eldritch_overlay.icon,
+		icon_state = eldritch_overlay.icon_state,
+		offset_spokesman = source,
+		alpha = 200 * (heretic_path?.route == PATH_LOCK ? 0.25 : 1),
+		effect_type = (heretic_path?.route == PATH_LOCK ? EMISSIVE_SPECULAR : EMISSIVE_BLOOM),
+	)
 
 /// Adds an overlay to the heretic
 /datum/antagonist/heretic/proc/update_heretic_aura()
