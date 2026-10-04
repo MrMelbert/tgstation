@@ -392,11 +392,6 @@
 	RegisterSignal(our_mob, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(after_fully_healed))
 	RegisterSignal(our_mob, COMSIG_ATOM_EXAMINE, PROC_REF(on_heretic_examine))
 
-	RegisterSignals(
-		our_mob,
-		list(SIGNAL_ADDTRAIT(TRAIT_HERETIC_AURA_HIDDEN), SIGNAL_REMOVETRAIT(TRAIT_HERETIC_AURA_HIDDEN)),
-		PROC_REF(update_heretic_aura)
-	)
 	RegisterSignal(our_mob, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(add_aura_overlay))
 	our_mob.update_appearance(UPDATE_OVERLAYS)
 
@@ -418,8 +413,6 @@
 			COMSIG_LIVING_CULT_SACRIFICED,
 			COMSIG_ATOM_EXAMINE,
 			COMSIG_ATOM_UPDATE_OVERLAYS,
-			SIGNAL_ADDTRAIT(TRAIT_HERETIC_AURA_HIDDEN),
-			SIGNAL_REMOVETRAIT(TRAIT_HERETIC_AURA_HIDDEN),
 		)
 	)
 	our_mob.update_appearance(UPDATE_OVERLAYS)
@@ -450,11 +443,11 @@
 /datum/antagonist/heretic/proc/should_show_aura()
 	if(!can_assign_self_objectives)
 		return FALSE // We spurned the offer of the Mansus :(
-	if(!unlimited_blades || HAS_TRAIT(owner.current, TRAIT_HERETIC_AURA_HIDDEN))
+	if(!unlimited_blades)
 		return FALSE // No aura if we have the trait or is too early still
 	if(feast_of_owls)
 		return FALSE // No use in giving the aura to a heretic that can't ascend
-	if(heretic_path?.route == PATH_LOCK)
+	if(heretic_path?.route == PATH_LOCK && !istype(owner.current?.get_item_by_slot(ITEM_SLOT_OCLOTHING), /obj/item/clothing/suit/hooded/cultrobes/eldritch))
 		return FALSE // Lock heretics never get this aura
 	return TRUE
 
