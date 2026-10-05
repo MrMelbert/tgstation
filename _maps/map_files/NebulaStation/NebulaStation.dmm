@@ -57068,9 +57068,7 @@
 /obj/machinery/light_switch/directional/west,
 /obj/machinery/status_display/evac/directional/north,
 /obj/structure/table/wood/fancy/red,
-/obj/structure/tipjar/prefilled{
-	pixel_y = 8
-	},
+/obj/structure/tipjar/prefilled,
 /turf/open/floor/wood/large,
 /area/station/service/kitchen/diner)
 "itU" = (
@@ -121693,9 +121691,7 @@
 /area/space/nearstation)
 "rVX" = (
 /obj/structure/table/wood/fancy/red,
-/obj/structure/tipjar/prefilled{
-	pixel_y = 8
-	},
+/obj/structure/tipjar/prefilled,
 /obj/machinery/newscaster/directional/south,
 /obj/machinery/light/directional/south{
 	color = "#ffcc99"

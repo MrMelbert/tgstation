@@ -49468,9 +49468,7 @@
 /obj/effect/landmark/start/hangover,
 /obj/structure/table/wood,
 /obj/machinery/door/firedoor,
-/obj/structure/tipjar/prefilled{
-	pixel_y = 6
-	},
+/obj/structure/tipjar/prefilled,
 /turf/open/floor/iron/dark/smooth_half{
 	dir = 1
 	},

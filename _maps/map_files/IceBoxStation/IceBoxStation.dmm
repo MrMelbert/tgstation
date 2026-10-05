@@ -29187,9 +29187,7 @@
 "iiE" = (
 /obj/structure/table/wood,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
-/obj/structure/tipjar/prefilled{
-	pixel_y = 8
-	},
+/obj/structure/tipjar/prefilled,
 /turf/open/floor/iron,
 /area/station/service/bar)
 "iiH" = (

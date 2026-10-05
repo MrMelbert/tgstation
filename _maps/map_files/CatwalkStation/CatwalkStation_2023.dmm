@@ -20050,9 +20050,7 @@
 	id = "kitchen_counter";
 	name = "Kitchen Counter Shutters"
 	},
-/obj/structure/tipjar/prefilled{
-	pixel_y = 8
-	},
+/obj/structure/tipjar/prefilled,
 /turf/open/floor/wood/large,
 /area/station/service/kitchen)
 "fod" = (
@@ -61931,9 +61929,7 @@
 "qwJ" = (
 /obj/machinery/door/firedoor,
 /obj/structure/table/reinforced,
-/obj/structure/tipjar/prefilled{
-	pixel_y = 8
-	},
+/obj/structure/tipjar/prefilled,
 /turf/open/floor/wood/large,
 /area/station/service/bar)
 "qwN" = (
