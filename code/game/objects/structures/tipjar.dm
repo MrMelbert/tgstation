@@ -11,6 +11,7 @@
 	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_COLOR
 	pass_flags = PASSTABLE
 	anchored_tabletop_offset = 6
+	drag_slowdown = 0.5
 
 	/// Stuff that can fit in the jar
 	VAR_PRIVATE/static/list/tippable_typecache = typecacheof(list(
