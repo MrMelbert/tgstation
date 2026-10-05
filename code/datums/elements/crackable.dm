@@ -26,12 +26,9 @@
 			return ELEMENT_INCOMPATIBLE
 
 		crack_icon = 'icons/effects/cracks.dmi'
-		var/static/list/default_crack_states
-		if(!length(default_crack_states))
-			default_crack_states = list()
-			for(var/i in 1 to 10)
-				default_crack_states += "crack[i]"
-		crack_states = default_crack_states
+		crack_states = list()
+		for(var/i in 1 to 10)
+			crack_states += "crack[i]"
 
 	src.crack_integrity = crack_integrity
 	if(!crack_appearances) // This is the first attachment and we need to do first time setup
