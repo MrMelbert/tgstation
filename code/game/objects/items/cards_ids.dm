@@ -143,7 +143,6 @@
 
 /obj/item/card/id/Destroy()
 	clear_account()
-	QDEL_NULL(my_store)
 	if (isitem(loc))
 		UnregisterSignal(loc, list(COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED))
 	return ..()
