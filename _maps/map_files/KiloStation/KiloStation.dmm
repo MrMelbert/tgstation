@@ -37023,7 +37023,7 @@
 /area/station/maintenance/port/greater)
 "lHE" = (
 /obj/structure/table/wood,
-/obj/structure/displaycase/forsale/kitchen{
+/obj/structure/tipjar/prefilled{
 	pixel_y = 4
 	},
 /obj/structure/sign/picture_frame/portrait/bar{
@@ -57204,7 +57204,7 @@
 /area/station/security/courtroom)
 "sde" = (
 /obj/structure/table/reinforced,
-/obj/structure/displaycase/forsale/kitchen{
+/obj/structure/tipjar/prefilled{
 	pixel_y = 4
 	},
 /obj/machinery/door/firedoor,
