@@ -74,11 +74,6 @@
 		for(var/dir in GLOB.cardinals)
 			knob_overlays["[dir]"] = image('icons/obj/pipes_n_cables/stationary_canisters_misc.dmi', icon_state = "knob", dir = dir, layer = FLOAT_LAYER)
 
-	if(!crack_states)
-		crack_states = list()
-		for(var/i in 1 to crack_states_count)
-			crack_states += "crack[i]"
-
 	if(!merger_typecache)
 		merger_typecache = typecacheof(/obj/machinery/atmospherics/components/tank)
 
