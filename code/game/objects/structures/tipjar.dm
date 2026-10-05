@@ -47,18 +47,11 @@
 		vector( 0, -2),
 	)
 
-	/// Crack states for the tip jar's appearance when damaged
-	VAR_PRIVATE/static/list/crack_states = list()
-
 	/// If TRUE, we have a chance to spawn with some goodies inside
 	VAR_PROTECTED/prefilled = FALSE
 
 /obj/structure/tipjar/Initialize(mapload)
 	. = ..()
-	if(!length(crack_states))
-		for(var/i in 1 to 10)
-			crack_states += "crack[i]"
-
 	if(mapload)
 		set_anchored(TRUE)
 	if(prefilled)
@@ -72,7 +65,7 @@
 			for(var/i in 1 to rand(1, 2))
 				new /obj/effect/spawner/random/entertainment/money(src)
 
-	AddElement(/datum/element/crackable, 'icons/effects/cracks.dmi', crack_states)
+	AddElement(/datum/element/crackable)
 	update_appearance()
 
 /obj/structure/tipjar/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
