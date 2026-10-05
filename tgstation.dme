@@ -3179,6 +3179,7 @@
 #include "code\game\objects\structures\tables_racks.dm"
 #include "code\game\objects\structures\tank_dispenser.dm"
 #include "code\game\objects\structures\tank_holder.dm"
+#include "code\game\objects\structures\tipjar.dm"
 #include "code\game\objects\structures\toiletbong.dm"
 #include "code\game\objects\structures\training_machine.dm"
 #include "code\game\objects\structures\traps.dm"
