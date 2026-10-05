@@ -95,7 +95,7 @@
 
 	AddComponent(/datum/component/gas_leaker, leak_rate = 0.05)
 	AddElement(/datum/element/volatile_gas_storage)
-	AddElement(/datum/element/crackable, 'icons/obj/pipes_n_cables/stationary_canisters_misc.dmi', crack_states)
+	AddElement(/datum/element/crackable, 'icons/effects/cracks.dmi', crack_states)
 
 	RegisterSignal(src, COMSIG_MERGER_ADDING, PROC_REF(merger_adding))
 	RegisterSignal(src, COMSIG_MERGER_REMOVING, PROC_REF(merger_removing))

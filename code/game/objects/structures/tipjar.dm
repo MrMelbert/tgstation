@@ -55,7 +55,7 @@
 /obj/structure/tipjar/Initialize(mapload)
 	. = ..()
 	if(!length(crack_states))
-		for(var/i in 1 to 9)
+		for(var/i in 1 to 10)
 			crack_states += "crack[i]"
 
 	if(mapload)
@@ -71,7 +71,7 @@
 			for(var/i in 1 to rand(1, 2))
 				new /obj/effect/spawner/random/entertainment/money(src)
 
-	AddElement(/datum/element/crackable, 'icons/obj/pipes_n_cables/stationary_canisters_misc.dmi', crack_states)
+	AddElement(/datum/element/crackable, 'icons/effects/cracks.dmi', crack_states)
 	update_appearance()
 
 /obj/structure/tipjar/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
