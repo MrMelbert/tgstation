@@ -7005,7 +7005,7 @@
 /area/awaymission/caves/heretic_laboratory)
 "JS" = (
 /obj/structure/table/reinforced,
-/obj/structure/displaycase/forsale/kitchen{
+/obj/structure/tipjar/prefilled{
 	pixel_y = 8
 	},
 /obj/effect/turf_decal/tile/bar/opposingcorners,

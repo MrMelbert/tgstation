@@ -12868,9 +12868,7 @@
 	dir = 1
 	},
 /obj/structure/table/reinforced,
-/obj/structure/displaycase/forsale{
-	req_one_access = list(7)
-	},
+/obj/structure/tipjar,
 /obj/machinery/door/firedoor,
 /obj/machinery/light/directional/north,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -15290,9 +15288,7 @@
 /area/station/hallway/secondary/entry)
 "eaL" = (
 /obj/structure/table/reinforced,
-/obj/structure/displaycase/forsale{
-	req_one_access = list(7)
-	},
+/obj/structure/tipjar,
 /obj/item/paper_bin{
 	pixel_x = 1;
 	pixel_y = 9
@@ -20054,7 +20050,7 @@
 	id = "kitchen_counter";
 	name = "Kitchen Counter Shutters"
 	},
-/obj/structure/displaycase/forsale/kitchen{
+/obj/structure/tipjar/prefilled{
 	pixel_y = 8
 	},
 /turf/open/floor/wood/large,
@@ -55474,9 +55470,7 @@
 /area/station/command/vault)
 "oJs" = (
 /obj/structure/table/reinforced,
-/obj/structure/displaycase/forsale{
-	req_one_access = list(7)
-	},
+/obj/structure/tipjar,
 /obj/machinery/door/firedoor,
 /obj/machinery/door/poddoor/shutters/preopen{
 	dir = 8;
@@ -61937,7 +61931,7 @@
 "qwJ" = (
 /obj/machinery/door/firedoor,
 /obj/structure/table/reinforced,
-/obj/structure/displaycase/forsale/kitchen{
+/obj/structure/tipjar/prefilled{
 	pixel_y = 8
 	},
 /turf/open/floor/wood/large,
