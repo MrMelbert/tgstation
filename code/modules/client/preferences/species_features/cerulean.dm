@@ -46,7 +46,7 @@
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
 	priority = PREFERENCE_PRIORITY_SPECIES
 	randomize_by_default = FALSE
-	default_value = TRUE
+	default_value = FALSE
 
 /datum/preference/toggle/cerulean_snout/is_accessible(datum/preferences/preferences)
 	return ..() && ispath(preferences.read_preference(/datum/preference/choiced/species), /datum/species/human/cerulean)
