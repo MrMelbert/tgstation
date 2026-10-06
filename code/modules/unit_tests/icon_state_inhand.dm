@@ -100,4 +100,3 @@
 
 	if(unset_inhand_var_message)
 		log_test("\tNotice - Possible inhand icon matches found. It is best to be explicit with inhand sprite values.[unset_inhand_var_message]")
-
