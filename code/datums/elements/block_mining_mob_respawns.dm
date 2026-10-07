@@ -27,13 +27,16 @@ GLOBAL_LIST_EMPTY(mining_mob_respawn_blockers)
 	GLOB.mining_mob_respawn_blockers -= get_turf(source)
 	return ..()
 
+/// If our movable moves, also move the blocker accordingly
 /datum/element/block_mining_mob_respawns/proc/movable_moved(atom/movable/source, atom/old_loc, ...)
 	SIGNAL_HANDLER
 
+	// NB: Two blocking movables on one tile will overwrite each other - but it should be fine since they'll cover each other
 	GLOB.mining_mob_respawn_blockers -= old_loc
 	if(isturf(source.loc) && (!ismob(source) || astype(source, /mob).stat != DEAD))
 		GLOB.mining_mob_respawn_blockers[source.loc] = src.block_range
 
+/// If our movable (mob) dies or revives, add or remove the blocker
 /datum/element/block_mining_mob_respawns/proc/movable_stat_change(mob/source, new_stat, old_stat)
 	SIGNAL_HANDLER
 

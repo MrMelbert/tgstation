@@ -148,10 +148,12 @@
 			alpha = (network.powered & CANDELA_NETWORK_POWERED) ? 192 : 128
 		)
 
+/// When the network's power state changes, update respawn blockers on or off
 /datum/component/candela_node/proc/on_network_power_changed(datum/mining_beacon_network/source, ...)
 	SIGNAL_HANDLER
 	update_blockers()
 
+/// If we have no network or the network is not powered, remove respawn blockers from the parent. Otherwise, add them.
 /datum/component/candela_node/proc/update_blockers()
 	if(network?.powered & CANDELA_NETWORK_POWERED)
 		if(!blockers_active)
