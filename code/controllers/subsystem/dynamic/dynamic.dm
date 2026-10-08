@@ -149,10 +149,10 @@ SUBSYSTEM_DEF(dynamic)
 	// (actual execution, ie assigning antags, will happen after job assignment)
 	for(var/datum/dynamic_ruleset/roundstart/ruleset in queued_rulesets)
 		// NOTE: !! THIS CAN SLEEP !!
-		if(!ruleset.prepare_execution( num_real_players, antag_candidates ))
+		var/prepare = ruleset.prepare_execution( num_real_players, antag_candidates )
+		if(prepare != PREPARATION_SUCCESS)
 			log_dynamic("Roundstart: Selected ruleset [ruleset.config_tag], but preparation failed!")
-			if(ruleset.log_data)
-				log_dynamic("- [ruleset.log_data]")
+			log_dynamic("- [prepare || "Unknown error"]")
 			unqueue_ruleset(ruleset)
 			qdel(ruleset)
 			continue
@@ -375,11 +375,11 @@ SUBSYSTEM_DEF(dynamic)
 			stoplag()
 
 	// NOTE: !! THIS CAN SLEEP !!
-	if(!picked_ruleset.prepare_execution(player_count, picked_ruleset.collect_candidates()))
+	var/preparation_result = picked_ruleset.prepare_execution(player_count, picked_ruleset.collect_candidates())
+	if(preparation_result != PREPARATION_SUCCESS)
 		log_dynamic("Midround ([range]): Selected ruleset [picked_ruleset.config_tag], but preparation failed!")
 		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
-		if(picked_ruleset.log_data)
-			log_dynamic("- [picked_ruleset.log_data]")
+		log_dynamic("- [preparation_result || "Unknown error"]")
 		QDEL_LIST(rulesets_weighted)
 		return FALSE
 	// Run the thing
@@ -443,12 +443,12 @@ SUBSYSTEM_DEF(dynamic)
 			return FALSE
 
 	// NOTE: !! THIS CAN SLEEP !!
-	if(!running.prepare_execution(get_active_player_count(afk_check = TRUE), running.collect_candidates()))
+	var/prepare = running.prepare_execution(get_active_player_count(afk_check = TRUE), running.collect_candidates())
+	if(prepare != PREPARATION_SUCCESS)
 		if(alert_admins_on_fail)
-			message_admins("Midround (forced): Forced ruleset [running.config_tag], but preparation failed! [running.log_data]")
+			message_admins("Midround (forced): Forced ruleset [running.config_tag], but preparation failed! [prepare || "Unknown error"]")
 		log_dynamic("Midround (forced): Forced ruleset [running.config_tag], but preparation failed!")
-		if(running.log_data)
-			log_dynamic("- [running.log_data]")
+		log_dynamic("- [prepare || "Unknown error"]")
 		qdel(running)
 		return FALSE
 
@@ -471,12 +471,12 @@ SUBSYSTEM_DEF(dynamic)
 	// because they're generally forced by events or admins (and thus have higher priority)
 	for(var/datum/dynamic_ruleset/latejoin/queued in queued_rulesets)
 		// NOTE: !! THIS CAN SLEEP !!
-		if(!queued.prepare_execution(get_active_player_count(afk_check = TRUE), list(latejoiner)))
-			message_admins("Latejoin (forced): Queued ruleset [queued.config_tag] failed to prepare! [queued.log_data] \
+		var/prepare = queued.prepare_execution(get_active_player_count(afk_check = TRUE), list(latejoiner))
+		if(prepare != PREPARATION_SUCCESS)
+			message_admins("Latejoin (forced): Queued ruleset [queued.config_tag] failed to prepare! [prepare || "Unknown error"] \
 				It remains queued for next latejoin. (<a href='byond://?src=[REF(src)];admin_dequeue=[REF(queued)]'>REMOVE FROM QUEUE</a>)")
 			log_dynamic("Latejoin (forced): Queued ruleset [queued.config_tag] failed to prepare! It remains queued for next latejoin.")
-			if(queued.log_data)
-				log_dynamic("- [queued.log_data]")
+			log_dynamic("- [prepare || "Unknown error"]")
 			continue
 
 		log_dynamic("Latejoin (forced): [queued.config_tag]")
@@ -517,13 +517,13 @@ SUBSYSTEM_DEF(dynamic)
 		log_dynamic("Latejoin: No rulesets to pick from!")
 		return FALSE
 	// NOTE: !! THIS CAN SLEEP !!
-	if(!picked_ruleset.prepare_execution(player_count, list(latejoiner)))
+	var/prepare = picked_ruleset.prepare_execution(player_count, list(latejoiner))
+	if(prepare != PREPARATION_SUCCESS)
 		failed_latejoins++
-		log_dynamic("Latejoin: Selected ruleset [picked_ruleset.name] for [key_name(latejoiner)], but preparation failed!")
+		log_dynamic("Latejoin: Selected ruleset [picked_ruleset.name] for [key_name(latejoiner)], but preparation failed! [prepare || "Unknown error"]")
 		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 		log_dynamic("- Latejoin chance has increased ([failed_latejoins] failed latejoins).")
-		if(picked_ruleset.log_data)
-			log_dynamic("- [picked_ruleset.log_data]")
+		log_dynamic("- [prepare || "Unknown error"]")
 		QDEL_LIST(rulesets_weighted)
 		return FALSE
 	// Run the thing

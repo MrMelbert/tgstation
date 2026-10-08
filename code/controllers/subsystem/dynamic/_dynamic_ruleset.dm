@@ -80,8 +80,6 @@
 	var/minimum_required_age = 0
 	/// Templates necessary for this ruleset to be executed
 	VAR_PROTECTED/list/ruleset_lazy_templates
-	/// Extra logging information can be set here, to be output into any admin messaging and dynamic logs.
-	VAR_FINAL/log_data
 
 /datum/dynamic_ruleset/New(list/dynamic_config)
 	for(var/new_var in dynamic_config?[config_tag])
@@ -218,26 +216,26 @@
  * * antag_candidates - List of players who are candidates for this ruleset
  * This list is mutated by this proc!
  *
- * Returns TRUE if execution is ready, FALSE if it should be canceled
+ * Returns PREPARATION_SUCCESS if execution is ready, a string with the reason if it should be canceled
  */
 /datum/dynamic_ruleset/proc/prepare_execution(population_size = 0, list/mob/antag_candidates = list())
 	SHOULD_NOT_OVERRIDE(TRUE)
+
+	. = "Runtime error."
 
 	// !! THIS SLEEPS !!
 	load_templates()
 
 	// This is (mostly) redundant, buuuut the (potential) sleep above makes it iffy, so let's just be safe
 	if(!can_be_selected())
-		log_data = "Reason: Ruleset cannot be selected."
-		return FALSE
+		return "Reason: Ruleset cannot be selected."
 
 	var/max_candidates = get_antag_cap(population_size, max_antag_cap || min_antag_cap)
 	var/min_candidates = get_antag_cap(population_size, min_antag_cap)
 
 	var/list/selected_candidates = select_candidates(antag_candidates, max_candidates)
 	if(length(selected_candidates) < min_candidates)
-		log_data = "Reason: Not enough eligible candidates. Have: [length(selected_candidates)], Need: [min_candidates]"
-		return FALSE
+		return "Reason: Not enough eligible candidates. Have: [length(selected_candidates)], Need: [min_candidates]"
 
 	for(var/mob/candidate as anything in selected_candidates)
 		var/datum/mind/candidate_mind = get_candidate_mind(candidate)
@@ -246,7 +244,7 @@
 		selected_minds += candidate_mind
 		antag_candidates -= candidate
 
-	return TRUE
+	return PREPARATION_SUCCESS
 
 /// Gets the mind of a candidate, can be overridden to return a different mind if necessary
 /datum/dynamic_ruleset/proc/get_candidate_mind(mob/dead/candidate)

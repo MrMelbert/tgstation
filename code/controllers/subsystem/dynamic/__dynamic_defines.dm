@@ -61,3 +61,5 @@
 
 /// Used to easily get a config entry for a dynamic ruleset or tier
 #define GET_DYNAMIC_CONFIG(some_typepath, var_name) SSdynamic.get_config_value(some_typepath, NAMEOF(some_typepath, ##var_name), some_typepath::##var_name)
+
+#define PREPARATION_SUCCESS "Success"
