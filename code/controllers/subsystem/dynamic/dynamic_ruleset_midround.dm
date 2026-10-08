@@ -25,7 +25,7 @@
 	config_tag = "Spiders"
 	midround_type = HEAVY_MIDROUND
 	false_alarm_able = TRUE
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 0,
@@ -63,7 +63,7 @@
 	config_tag = "Light Pirates"
 	midround_type = LIGHT_MIDROUND
 	jobban_flag = ROLE_TRAITOR
-	ruleset_flags = RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
 	weight = 3
 	min_pop = 15
 	min_antag_cap = 0 // ship will spawn if there are no ghosts around
@@ -92,7 +92,7 @@
 	config_tag = "Heavy Pirates"
 	midround_type = HEAVY_MIDROUND
 	jobban_flag = ROLE_TRAITOR
-	ruleset_flags = RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
 	weight = 3
 	min_pop = 25
 	min_antag_cap = 0 // ship will spawn if there are no ghosts around
@@ -220,6 +220,7 @@
  * - assign_role is what gives the player their antag datum.
  */
 /datum/dynamic_ruleset/midround/from_ghosts
+	ruleset_flags = parent_type::ruleset_flags|RULESET_NEEDS_GHOSTS
 	///Path of an item to show up in ghost polls for applicants to sign up.
 	var/signup_atom_appearance = /obj/structure/sign/poster/contraband/syndicate_recruitment
 	/// Text shown in the candidate poll. Optional, if unset uses pref_flag. (Though required if pref_flag is unset)
@@ -293,7 +294,7 @@
 	candidate_role = "Wizard"
 	pref_flag = ROLE_WIZARD_MIDROUND
 	jobban_flag = ROLE_WIZARD
-	ruleset_flags = RULESET_INVADER|RULESET_HIGH_IMPACT
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_HIGH_IMPACT
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 0,
@@ -316,7 +317,7 @@
 	candidate_role = "Operative"
 	pref_flag = ROLE_OPERATIVE_MIDROUND
 	jobban_flag = ROLE_OPERATIVE
-	ruleset_flags = RULESET_INVADER|RULESET_HIGH_IMPACT
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_HIGH_IMPACT
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 1,
@@ -400,7 +401,7 @@
 	midround_type = HEAVY_MIDROUND
 	false_alarm_able = TRUE
 	pref_flag = ROLE_BLOB
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 1,
@@ -440,7 +441,7 @@
 	midround_type = HEAVY_MIDROUND
 	false_alarm_able = TRUE
 	pref_flag = ROLE_ALIEN
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 1,
@@ -492,7 +493,7 @@
 	pref_flag = ROLE_BLOOD_WORM_INFESTATION
 	jobban_flag = ROLE_BLOOD_WORM
 	candidate_role = "Blood Worm"
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = 2 // For reference, Nightmare has a weight of 5.
 	min_pop = 20 // Blood worms are limited by resources, so low pop means they have a harder time getting their tail in the door.
 	min_antag_cap = 1
@@ -529,7 +530,7 @@
 	preview_antag_datum = /datum/antagonist/nightmare
 	midround_type = LIGHT_MIDROUND
 	pref_flag = ROLE_NIGHTMARE
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = 5
 	min_pop = 15
 	max_antag_cap = 1
@@ -554,7 +555,7 @@
 	midround_type = HEAVY_MIDROUND
 	false_alarm_able = TRUE
 	pref_flag = ROLE_SPACE_DRAGON
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 3,
@@ -593,7 +594,7 @@
 	preview_antag_datum = /datum/antagonist/abductor
 	midround_type = LIGHT_MIDROUND
 	pref_flag = ROLE_ABDUCTOR
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = 5
 	min_pop = 20
 	min_antag_cap = 2
@@ -624,7 +625,7 @@
 	preview_antag_datum = /datum/antagonist/ninja
 	midround_type = HEAVY_MIDROUND
 	pref_flag = ROLE_NINJA
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 0,
@@ -656,7 +657,7 @@
 	preview_antag_datum = /datum/antagonist/revenant
 	midround_type = LIGHT_MIDROUND
 	pref_flag = ROLE_REVENANT
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = 5
 	min_pop = 10
 	max_antag_cap = 1
@@ -708,7 +709,7 @@
 	candidate_role = "Changeling"
 	pref_flag = ROLE_CHANGELING_MIDROUND
 	jobban_flag = ROLE_CHANGELING
-	ruleset_flags = RULESET_INVADER|RULESET_VARIATION
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_VARIATION
 	weight = 5
 	min_pop = 15
 	max_antag_cap = 1
@@ -741,7 +742,7 @@
 	preview_antag_datum = /datum/antagonist/paradox_clone
 	midround_type = LIGHT_MIDROUND
 	pref_flag = ROLE_PARADOX_CLONE
-	ruleset_flags = RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
 	weight = 5
 	min_pop = 10
 	max_antag_cap = 1
@@ -825,7 +826,7 @@
 
 	midround_type = LIGHT_MIDROUND
 	pref_flag = ROLE_VOIDWALKER
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 
 	weight = 5
 	min_pop = 40 // Ensures there's a lot of people near windows
@@ -850,7 +851,7 @@
 	preview_antag_datum = /datum/antagonist/fugitive
 	midround_type = LIGHT_MIDROUND
 	pref_flag = ROLE_FUGITIVE
-	ruleset_flags = RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
 	weight = 3
 	min_pop = 20
 	max_antag_cap = 4
@@ -1069,7 +1070,7 @@
 	midround_type = LIGHT_MIDROUND
 	candidate_role = "Morphling"
 	jobban_flag = ROLE_ALIEN
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = 0
 	max_antag_cap = 1
 	signup_atom_appearance = /mob/living/basic/morph
@@ -1091,7 +1092,7 @@
 	// preview_antag_datum = /datum/antagonist/slaughter // Doesn't actually have its own pref
 	midround_type = HEAVY_MIDROUND
 	jobban_flag = ROLE_SENTIENCE
-	ruleset_flags = RULESET_INVADER
+	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
 	weight = 0
 	min_pop = 20
 	max_antag_cap = 1

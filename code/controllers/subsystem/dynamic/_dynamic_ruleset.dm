@@ -190,6 +190,8 @@
 			continue
 		if(tier != DYNAMIC_TIER_HIGH && (ruleset_flags & RULESET_HIGH_IMPACT) && (other_ruleset.ruleset_flags & RULESET_HIGH_IMPACT))
 			return 0
+		if(ruleset_flags & RULESET_NEEDS_GHOSTS && length(get_non_admin_ghosts()) <= 0)
+			return 0
 		if(!istype(other_ruleset, type))
 			continue
 		if(!repeatable)

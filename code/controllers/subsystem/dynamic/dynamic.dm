@@ -570,15 +570,17 @@ SUBSYSTEM_DEF(dynamic)
 	if(admin_forcing_next_heavy && range == HEAVY_MIDROUND)
 		return 100
 
-	var/chance = 0
-	var/num_antags = length(GLOB.current_living_antags)
-	var/num_dead = length(GLOB.dead_player_list)
-	var/num_alive = get_active_player_count(afk_check = TRUE)
-	if(num_dead + num_alive <= 0)
-		return 0
+	var/total_crew = 0
+	var/dead_or_mia = 0
+	for(var/datum/mind/crew_mind as anything in get_crewmember_minds())
+		if(isnull(crew_mind.current) || crew_mind.current.stat <= HARD_CRIT)
+			dead_or_mia += 1
+		total_crew += 1
 
-	chance += 100 - (200 * (num_dead / (num_alive + num_dead)))
-	if(num_antags < 0)
+	// guaranteed to stop spawning antags at 50% total casualties
+	var/chance = 100 - (300 * (dead_or_mia / total_crew))
+	// big cash injection for if all antags are dead. we gotta get goin!
+	if(length(GLOB.current_living_antags) <= 0)
 		chance += 50
 
 	return chance
@@ -590,16 +592,19 @@ SUBSYSTEM_DEF(dynamic)
 	if(admin_forcing_next_latejoin)
 		return 100
 
-	var/chance = 0
-	var/num_antags = length(GLOB.current_living_antags)
-	var/num_dead = length(GLOB.dead_player_list)
-	var/num_alive = get_active_player_count(afk_check = TRUE)
-	if(num_dead + num_alive <= 0)
-		return 0
+	var/total_crew = 0
+	var/dead_or_mia = 0
+	for(var/datum/mind/crew_mind as anything in get_crewmember_minds())
+		if(isnull(crew_mind.current) || crew_mind.current.stat <= HARD_CRIT)
+			dead_or_mia += 1
+		total_crew += 1
 
-	chance += 100 - (200 * (num_dead / (num_alive + num_dead)))
-	if(num_antags < 0)
+	// guaranteed to stop spawning antags at 50% total casualties
+	var/chance = 100 - (300 * (dead_or_mia / total_crew))
+	// big cash injection for if all antags are dead. we gotta get goin!
+	if(length(GLOB.current_living_antags) <= 0)
 		chance += 50
+
 	chance += (failed_latejoins * 15)
 	// Reduced chance before lights start
 	if(!COOLDOWN_FINISHED(src, light_ruleset_start))
