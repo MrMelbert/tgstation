@@ -265,9 +265,7 @@ SUBSYSTEM_DEF(dynamic)
 		return list()
 
 	var/list/rulesets_weighted = get_roundstart_rulesets(antag_candidates)
-	var/total_weight = 0
-	for(var/ruleset in rulesets_weighted)
-		total_weight += rulesets_weighted[ruleset]
+	var/total_weight = values_sum(rulesets_weighted)
 	if(total_weight <= 0)
 		log_dynamic("Roundstart: No rulesets to pick from!")
 		return list()
@@ -379,13 +377,14 @@ SUBSYSTEM_DEF(dynamic)
 	// NOTE: !! THIS CAN SLEEP !!
 	if(!picked_ruleset.prepare_execution(player_count, picked_ruleset.collect_candidates()))
 		log_dynamic("Midround ([range]): Selected ruleset [picked_ruleset.config_tag], but preparation failed!")
+		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 		if(picked_ruleset.log_data)
 			log_dynamic("- [picked_ruleset.log_data]")
 		QDEL_LIST(rulesets_weighted)
 		return FALSE
 	// Run the thing
 	log_dynamic("Midround ([range]): [picked_ruleset.config_tag]")
-	log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / total_weight * 100, 0.01)]%")
+	log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 	executed_rulesets += picked_ruleset
 	rulesets_weighted -= picked_ruleset
 	picked_ruleset.execute()
@@ -473,8 +472,11 @@ SUBSYSTEM_DEF(dynamic)
 	for(var/datum/dynamic_ruleset/latejoin/queued in queued_rulesets)
 		// NOTE: !! THIS CAN SLEEP !!
 		if(!queued.prepare_execution(get_active_player_count(afk_check = TRUE), list(latejoiner)))
-			message_admins("Latejoin (forced): Queued ruleset [queued.config_tag] failed to prepare! It remains queued for next latejoin. (<a href='byond://?src=[REF(src)];admin_dequeue=[REF(queued)]'>REMOVE FROM QUEUE</a>)")
+			message_admins("Latejoin (forced): Queued ruleset [queued.config_tag] failed to prepare! [queued.log_data] \
+				It remains queued for next latejoin. (<a href='byond://?src=[REF(src)];admin_dequeue=[REF(queued)]'>REMOVE FROM QUEUE</a>)")
 			log_dynamic("Latejoin (forced): Queued ruleset [queued.config_tag] failed to prepare! It remains queued for next latejoin.")
+			if(queued.log_data)
+				log_dynamic("- [queued.log_data]")
 			continue
 
 		log_dynamic("Latejoin (forced): [queued.config_tag]")
@@ -518,6 +520,7 @@ SUBSYSTEM_DEF(dynamic)
 	if(!picked_ruleset.prepare_execution(player_count, list(latejoiner)))
 		failed_latejoins++
 		log_dynamic("Latejoin: Selected ruleset [picked_ruleset.name] for [key_name(latejoiner)], but preparation failed!")
+		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 		log_dynamic("- Latejoin chance has increased ([failed_latejoins] failed latejoins).")
 		if(picked_ruleset.log_data)
 			log_dynamic("- [picked_ruleset.log_data]")
@@ -525,7 +528,7 @@ SUBSYSTEM_DEF(dynamic)
 		return FALSE
 	// Run the thing
 	log_dynamic("Latejoin: [picked_ruleset.config_tag]]")
-	log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / total_weight * 100, 0.01)]%")
+	log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 	executed_rulesets += picked_ruleset
 	rulesets_weighted -= picked_ruleset
 	picked_ruleset.execute()
