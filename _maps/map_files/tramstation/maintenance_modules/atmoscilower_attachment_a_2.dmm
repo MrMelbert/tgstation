@@ -112,7 +112,7 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/door/poddoor/shutters{
 	dir = 1;
-	id = weirdpodthing1
+	id = "weirdpodthing1"
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)

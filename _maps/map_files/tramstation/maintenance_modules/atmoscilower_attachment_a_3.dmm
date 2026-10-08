@@ -228,7 +228,7 @@
 /area/station/maintenance/starboard/lesser)
 "T" = (
 /obj/machinery/door/airlock/maintenance_hatch,
-/obj/effect/spawner/random/structure/barricade,
+/obj/effect/spawner/random/structure/barricade/crude,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/lesser)
 "U" = (
