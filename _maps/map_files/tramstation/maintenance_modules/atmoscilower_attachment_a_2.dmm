@@ -1,13 +1,8 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"a" = (
-/obj/structure/rack,
-/obj/effect/spawner/random/maintenance/two,
-/obj/effect/spawner/random/decoration/glowstick,
-/turf/open/floor/iron/smooth_large,
-/area/station/maintenance/starboard/lesser)
 "b" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/spawner/random/glass_shards,
+/obj/structure/grille,
+/obj/structure/window/spawner/directional/north,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "c" = (
@@ -19,14 +14,6 @@
 /obj/effect/turf_decal/loading_area,
 /turf/open/floor/plating/airless,
 /area/template_noop)
-"e" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/button/door/directional/north{
-	id = "weirdpodthing2"
-	},
-/obj/machinery/portable_atmospherics/canister/water_vapor,
-/turf/open/floor/iron/smooth,
-/area/station/maintenance/starboard/lesser)
 "f" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/loading_area{
@@ -34,6 +21,11 @@
 	},
 /obj/item/wallframe/button,
 /turf/open/floor/plating,
+/area/station/maintenance/starboard/lesser)
+"g" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/remains/human,
+/turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "h" = (
 /obj/structure/girder,
@@ -48,10 +40,13 @@
 /area/station/maintenance/starboard/lesser)
 "j" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
 /obj/machinery/button/door/directional/east{
 	id = "weirdpodthing1"
 	},
-/turf/open/floor/iron/smooth,
+/turf/open/floor/plating,
 /area/station/maintenance/starboard/lesser)
 "k" = (
 /obj/effect/decal/cleanable/dirt{
@@ -59,22 +54,27 @@
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
-"l" = (
-/obj/structure/grille,
-/obj/structure/window/spawner/directional/north,
-/turf/open/floor/iron/smooth_large,
-/area/station/maintenance/starboard/lesser)
 "n" = (
 /obj/effect/spawner/random/structure/tank_holder,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
-"q" = (
+"o" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/rack,
+/obj/item/crowbar/large/old,
+/obj/item/wrench,
+/obj/item/analyzer,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
-"r" = (
-/obj/structure/grille,
-/obj/structure/window/spawner/directional/east,
-/obj/effect/decal/cleanable/dirt,
+"p" = (
+/obj/effect/turf_decal/sand/plating,
+/obj/item/grenade/smokebomb{
+	pixel_x = 6;
+	pixel_y = 4
+	},
+/turf/open/floor/plating/airless,
+/area/template_noop)
+"q" = (
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "s" = (
@@ -92,12 +92,6 @@
 	dir = 4
 	},
 /area/station/maintenance/starboard/lesser)
-"t" = (
-/obj/structure/grille,
-/obj/structure/window/spawner/directional/west,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/smooth,
-/area/station/maintenance/starboard/lesser)
 "u" = (
 /turf/closed/wall/r_wall,
 /area/station/maintenance/starboard/lesser)
@@ -107,9 +101,12 @@
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "w" = (
-/obj/modular_map_connector,
 /obj/effect/decal/cleanable/dirt,
-/turf/open/floor/iron/smooth,
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
+/obj/modular_map_connector,
+/turf/open/floor/plating,
 /area/station/maintenance/starboard/lesser)
 "x" = (
 /obj/effect/turf_decal/delivery,
@@ -119,11 +116,6 @@
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
-"z" = (
-/obj/structure/rack,
-/obj/effect/spawner/random/trash/janitor_supplies,
-/turf/open/floor/iron/smooth_large,
-/area/station/maintenance/starboard/lesser)
 "A" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/engineering/tank,
@@ -132,21 +124,18 @@
 "C" = (
 /turf/closed/wall,
 /area/station/maintenance/starboard/lesser)
+"E" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/rack,
+/obj/effect/spawner/random/maintenance/three,
+/turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
 "F" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
 /turf/open/floor/plating,
-/area/station/maintenance/starboard/lesser)
-"H" = (
-/obj/structure/rack,
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/spawner/random/maintenance/three,
-/obj/machinery/button/door/directional/north{
-	id = "weirdpodthing1"
-	},
-/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "I" = (
 /turf/closed/wall{
@@ -175,6 +164,11 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
+"N" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/spawner/random/structure/chair_flipped,
+/turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
 "O" = (
 /obj/structure/rack,
 /obj/effect/decal/cleanable/dirt,
@@ -198,15 +192,25 @@
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
-"T" = (
-/turf/closed/wall/r_wall{
-	dir = 4
+"S" = (
+/obj/structure/rack,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/button/door/directional/north{
+	id = "weirdpodthing1"
 	},
+/obj/effect/spawner/random/trash/janitor_supplies,
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
-"V" = (
-/obj/effect/turf_decal/sand/plating,
-/turf/open/floor/plating/airless,
-/area/template_noop)
+"U" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/button/door/directional/north{
+	id = "weirdpodthing2"
+	},
+/obj/structure/rack,
+/obj/item/extinguisher,
+/obj/item/clothing/glasses/meson,
+/turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
 "W" = (
 /turf/template_noop,
 /area/template_noop)
@@ -229,15 +233,20 @@
 	dir = 4
 	},
 /area/station/maintenance/starboard/lesser)
+"Z" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/portable_atmospherics/canister/water_vapor,
+/turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
 
 (1,1,1) = {"
 W
+C
+C
+C
+C
+C
 W
-C
-C
-C
-C
-C
 W
 W
 W
@@ -249,14 +258,14 @@ W
 W
 "}
 (2,1,1) = {"
-W
 C
 C
-H
+S
 i
 O
 C
-I
+C
+W
 W
 W
 W
@@ -268,13 +277,13 @@ W
 "}
 (3,1,1) = {"
 w
-F
 x
 M
 M
 M
-z
-I
+o
+C
+W
 W
 W
 W
@@ -286,13 +295,13 @@ W
 "}
 (4,1,1) = {"
 j
-F
 P
+N
 M
 M
 b
-l
-I
+C
+W
 W
 W
 W
@@ -303,14 +312,14 @@ W
 W
 "}
 (5,1,1) = {"
-W
 C
 C
 n
 k
 q
-a
-I
+E
+C
+W
 W
 W
 W
@@ -322,17 +331,17 @@ W
 "}
 (6,1,1) = {"
 W
+I
+I
+s
+s
+I
+I
+I
+u
+u
 W
-C
-I
-s
-s
-I
-I
-u
-u
-u
-u
+W
 W
 W
 W
@@ -341,16 +350,16 @@ W
 (7,1,1) = {"
 W
 W
-W
 I
 Y
 Y
 c
 C
-e
-r
-v
-T
+U
+A
+I
+W
+W
 W
 W
 W
@@ -359,23 +368,22 @@ W
 (8,1,1) = {"
 W
 W
-W
 I
 L
 L
 f
 K
-M
-M
+g
 M
 X
 d
 W
 W
 W
+W
+W
 "}
 (9,1,1) = {"
-W
 W
 W
 I
@@ -385,9 +393,10 @@ F
 K
 M
 M
-M
 R
 d
+W
+W
 W
 W
 W
@@ -395,17 +404,17 @@ W
 (10,1,1) = {"
 W
 W
+I
+I
+I
+C
+C
+v
+Z
+C
+p
 W
-I
-I
-I
-C
-C
-A
-t
-A
-C
-V
+W
 W
 W
 W
@@ -417,13 +426,13 @@ W
 W
 W
 W
-W
-C
 C
 C
 C
 C
 h
+W
+W
 W
 W
 W

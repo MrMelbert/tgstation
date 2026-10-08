@@ -7,6 +7,12 @@
 "c" = (
 /turf/template_noop,
 /area/template_noop)
+"f" = (
+/obj/effect/spawner/random/decoration/paint,
+/obj/structure/rack,
+/obj/effect/spawner/random/maintenance,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/lesser)
 "g" = (
 /obj/structure/rack,
 /obj/effect/spawner/random/engineering/material,
@@ -48,7 +54,6 @@
 "p" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/table,
-/obj/machinery/light/small/directional/south,
 /obj/structure/railing{
 	dir = 4
 	},
@@ -56,7 +61,6 @@
 	pixel_x = -4;
 	pixel_y = 6
 	},
-/obj/effect/spawner/random/decoration/paint,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "q" = (
@@ -100,6 +104,7 @@
 	default_raw_text = "Mark this room off as long-term storage, isn't worth trying to retrieve the containers before closing off the halls.";
 	name = "Equipment Notice"
 	},
+/obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "w" = (
@@ -186,11 +191,18 @@
 	},
 /turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
+"M" = (
+/obj/effect/turf_decal/stripes/white/line{
+	dir = 4
+	},
+/turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
 "N" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/white/corner{
 	dir = 4
 	},
+/obj/effect/turf_decal/stripes/white/corner,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "O" = (
@@ -262,7 +274,7 @@ J
 J
 J
 m
-c
+m
 c
 c
 "}
@@ -274,7 +286,7 @@ I
 s
 J
 g
-m
+f
 m
 c
 c
@@ -313,7 +325,7 @@ q
 w
 E
 N
-B
+M
 m
 c
 c
