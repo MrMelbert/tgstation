@@ -36,6 +36,7 @@ ADMIN_VERB(dynamic_tester, R_DEBUG, "Dynamic Tester", "See dynamic probabilities
 			continue
 		var/datum/dynamic_ruleset/midround/created = new rtype(SSdynamic.get_config())
 		created.dynamic_tester_init()
+		created.ruleset_flags &= ~RULESET_NEEDS_GHOSTS
 		midround_rulesets += created
 
 	update_reports()
