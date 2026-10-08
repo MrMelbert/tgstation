@@ -172,17 +172,6 @@
 /proc/get_active_player_count(alive_check = FALSE, afk_check = FALSE, human_check = FALSE)
 	return length(get_active_player_list(alive_check, afk_check, human_check))
 
-/// Returns what percentage of the crew is currently dead, about to die, or otherwise entirely lacking a body
-/proc/get_percentage_crew_incapacitated()
-	var/total_crew = 0
-	var/dead_or_mia = 0
-	for(var/datum/mind/crew_mind as anything in get_crewmember_minds())
-		if(isnull(crew_mind.current) || crew_mind.current.stat <= HARD_CRIT)
-			dead_or_mia += 1
-		total_crew += 1
-
-	return dead_or_mia / total_crew
-
 ///Uses stripped down and bastardized code from respawn character
 /proc/make_body(mob/dead/observer/ghost_player)
 	if(!ghost_player || !ghost_player.key)
