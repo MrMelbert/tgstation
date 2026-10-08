@@ -21349,7 +21349,7 @@
 	name = "Mix Chamber Access"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = atmosmix
+	cycle_id = "atmosmix"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
 /obj/effect/turf_decal/stripes/line{
@@ -27298,7 +27298,7 @@
 /area/station/security/courtroom/holding)
 "iwi" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = atmosmix
+	cycle_id = "atmosmix"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
 /obj/machinery/door/airlock/atmos/glass{
