@@ -25,7 +25,7 @@
 	config_tag = "Spiders"
 	midround_type = HEAVY_MIDROUND
 	false_alarm_able = TRUE
-	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER
+	ruleset_flags = RULESET_NEEDS_GHOSTS|RULESET_INVADER
 	weight = alist(
 		DYNAMIC_TIER_LOW = 0,
 		DYNAMIC_TIER_LOWMEDIUM = 0,
@@ -38,7 +38,7 @@
 	var/egg_count = 2
 
 /datum/dynamic_ruleset/midround/spiders/can_be_selected()
-	return ..() && (GLOB.ghost_role_flags & GHOSTROLE_MIDROUND_EVENT) && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = TRUE))
+	return ..() && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = TRUE))
 
 /datum/dynamic_ruleset/midround/spiders/execute()
 	var/num_egg = get_antag_cap(length(GLOB.alive_player_list), egg_count)
@@ -63,7 +63,7 @@
 	config_tag = "Light Pirates"
 	midround_type = LIGHT_MIDROUND
 	jobban_flag = ROLE_TRAITOR
-	ruleset_flags = parent_type::ruleset_flags|RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
+	ruleset_flags = RULESET_NEEDS_GHOSTS|RULESET_INVADER|RULESET_ADMIN_CONFIGURABLE
 	weight = 3
 	min_pop = 15
 	min_antag_cap = 0 // ship will spawn if there are no ghosts around
@@ -76,7 +76,7 @@
 	pirate_pool = default_pirate_pool()
 
 /datum/dynamic_ruleset/midround/pirates/can_be_selected()
-	return ..() && !SSmapping.is_planetary() && (GLOB.ghost_role_flags & GHOSTROLE_MIDROUND_EVENT) && length(default_pirate_pool()) > 0
+	return ..() && !SSmapping.is_planetary() && length(default_pirate_pool()) > 0
 
 // An abornmal ruleset that selects no players, but just spawns a pirate ship
 /datum/dynamic_ruleset/midround/pirates/execute()
@@ -225,10 +225,6 @@
 	var/signup_atom_appearance = /obj/structure/sign/poster/contraband/syndicate_recruitment
 	/// Text shown in the candidate poll. Optional, if unset uses pref_flag. (Though required if pref_flag is unset)
 	var/candidate_role
-
-/datum/dynamic_ruleset/midround/from_ghosts/can_be_selected()
-	SHOULD_CALL_PARENT(TRUE)
-	return ..() && (GLOB.ghost_role_flags & GHOSTROLE_MIDROUND_EVENT)
 
 /datum/dynamic_ruleset/midround/from_ghosts/get_candidate_mind(mob/dead/candidate)
 	// Ghost roles will always get a fresh mind
@@ -459,7 +455,7 @@
 	max_antag_cap += prob(50) // 50% chance to get a second xeno, free!
 
 /datum/dynamic_ruleset/midround/from_ghosts/xenomorph/can_be_selected()
-	return ..() && length(find_vent_spawns()) > 0
+	return length(find_vent_spawns()) > 0
 
 /datum/dynamic_ruleset/midround/from_ghosts/xenomorph/execute()
 	. = ..()
@@ -501,7 +497,7 @@
 	signup_atom_appearance = /mob/living/basic/blood_worm/juvenile
 
 /datum/dynamic_ruleset/midround/from_ghosts/blood_worms/can_be_selected()
-	return ..() && length(find_vent_spawns()) > 0
+	return length(find_vent_spawns()) > 0
 
 /datum/dynamic_ruleset/midround/from_ghosts/blood_worms/execute()
 	. = ..()
@@ -540,7 +536,7 @@
 	return FALSE
 
 /datum/dynamic_ruleset/midround/from_ghosts/nightmare/can_be_selected()
-	return ..() && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = TRUE))
+	return !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = TRUE))
 
 /datum/dynamic_ruleset/midround/from_ghosts/nightmare/assign_role(datum/mind/candidate)
 	candidate.add_antag_datum(/datum/antagonist/nightmare)
@@ -568,7 +564,7 @@
 	signup_atom_appearance = /mob/living/basic/space_dragon
 
 /datum/dynamic_ruleset/midround/from_ghosts/space_dragon/can_be_selected()
-	return ..() && !isnull(find_space_spawn())
+	return !isnull(find_space_spawn())
 
 /datum/dynamic_ruleset/midround/from_ghosts/space_dragon/create_ruleset_body()
 	return new /mob/living/basic/space_dragon
@@ -603,8 +599,6 @@
 	signup_atom_appearance = /obj/item/melee/baton/abductor
 
 /datum/dynamic_ruleset/midround/from_ghosts/abductors/can_be_selected()
-	if(!..())
-		return FALSE
 	var/num_abductors = 0
 	for(var/datum/team/abductor_team/team in GLOB.antagonist_teams)
 		num_abductors++
@@ -639,7 +633,7 @@
 	signup_atom_appearance = /obj/item/energy_katana
 
 /datum/dynamic_ruleset/midround/from_ghosts/space_ninja/can_be_selected()
-	return ..() && !isnull(find_space_spawn())
+	return !isnull(find_space_spawn())
 
 /datum/dynamic_ruleset/midround/from_ghosts/space_ninja/assign_role(datum/mind/candidate)
 	var/mob/living/carbon/human/new_ninja = candidate.current
@@ -668,8 +662,6 @@
 	var/required_station_corpses = 10
 
 /datum/dynamic_ruleset/midround/from_ghosts/revenant/can_be_selected()
-	if(!..())
-		return FALSE
 	var/num_station_corpses = 0
 	for(var/mob/deceased as anything in GLOB.dead_mob_list)
 		var/turf/deceased_turf = get_turf(deceased)
@@ -759,7 +751,7 @@
 /datum/dynamic_ruleset/midround/from_ghosts/paradox_clone/can_be_selected()
 	if(clone_target_ref && isnull(clone_target_ref.resolve())) // our chosen original was deleted while we were polling, bail
 		return FALSE
-	return ..() && !isnull(find_clone()) && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
+	return !isnull(find_clone()) && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
 
 #define RANDOM_CLONE_TARGET "Random"
 
@@ -835,7 +827,7 @@
 	signup_atom_appearance = /obj/item/clothing/head/helmet/skull/cosmic
 
 /datum/dynamic_ruleset/midround/from_ghosts/voidwalker/can_be_selected()
-	return ..() && !SSmapping.is_planetary() && !isnull(find_space_spawn())
+	return !SSmapping.is_planetary() && !isnull(find_space_spawn())
 
 /datum/dynamic_ruleset/midround/from_ghosts/voidwalker/create_ruleset_body()
 	return new /mob/living/basic/voidwalker
@@ -864,7 +856,7 @@
 	VAR_FINAL/hunter_backstory
 
 /datum/dynamic_ruleset/midround/from_ghosts/fugitives/can_be_selected()
-	return ..() && !SSmapping.is_planetary() && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
+	return !SSmapping.is_planetary() && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
 
 // If less than a certain number of candidates accept the poll, it varies how many antags are spawned
 /datum/dynamic_ruleset/midround/from_ghosts/fugitives/collect_candidates()
@@ -1076,7 +1068,7 @@
 	signup_atom_appearance = /mob/living/basic/morph
 
 /datum/dynamic_ruleset/midround/from_ghosts/morph/can_be_selected()
-	return ..() && !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
+	return !isnull(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
 
 /datum/dynamic_ruleset/midround/from_ghosts/morph/create_ruleset_body()
 	return new /mob/living/basic/morph(find_maintenance_spawn(atmos_sensitive = TRUE, require_darkness = FALSE))
@@ -1099,7 +1091,7 @@
 	signup_atom_appearance = /mob/living/basic/demon/slaughter
 
 /datum/dynamic_ruleset/midround/from_ghosts/slaughter_demon/can_be_selected()
-	return ..() && !isnull(find_space_spawn())
+	return !isnull(find_space_spawn())
 
 /datum/dynamic_ruleset/midround/from_ghosts/slaughter_demon/create_ruleset_body()
 	var/turf/spawnloc = find_space_spawn()
@@ -1221,7 +1213,7 @@
 	)
 
 /datum/dynamic_ruleset/midround/from_living/malf_ai/can_be_selected()
-	return ..() && !HAS_TRAIT(SSstation, STATION_TRAIT_HUMAN_AI)
+	return !HAS_TRAIT(SSstation, STATION_TRAIT_HUMAN_AI)
 
 /datum/dynamic_ruleset/midround/from_living/blob
 	name = "Blob Infection"

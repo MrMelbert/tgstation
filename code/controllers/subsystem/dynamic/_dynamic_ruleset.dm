@@ -184,13 +184,17 @@
 	if(final_minpop > population_size)
 		return 0
 
+	if(ruleset_flags & RULESET_NEEDS_GHOSTS)
+		if(GLOB.ghost_role_flags & GHOSTROLE_MIDROUND_EVENT)
+			return 0
+		if(length(get_non_admin_ghosts()) <= 0)
+			return 0
+
 	var/final_weight = islist(weight) ? get_tier_specific_value(weight, tier) : weight
 	for(var/datum/dynamic_ruleset/other_ruleset as anything in SSdynamic.executed_rulesets)
 		if(other_ruleset == src)
 			continue
 		if(tier != DYNAMIC_TIER_HIGH && (ruleset_flags & RULESET_HIGH_IMPACT) && (other_ruleset.ruleset_flags & RULESET_HIGH_IMPACT))
-			return 0
-		if(ruleset_flags & RULESET_NEEDS_GHOSTS && length(get_non_admin_ghosts()) <= 0)
 			return 0
 		if(!istype(other_ruleset, type))
 			continue
