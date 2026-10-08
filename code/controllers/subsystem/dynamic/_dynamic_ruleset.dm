@@ -371,6 +371,18 @@
 	return FALSE
 
 /**
+ * Handles anything special this ruleset needs to do when initialized for the dynamic tester
+ */
+/datum/dynamic_ruleset/proc/dynamic_tester_init()
+	return
+
+/**
+ * Adds comments pertaining to this ruleset in the dynamic tester interface
+ */
+/datum/dynamic_ruleset/proc/dynamic_tester_comments()
+	return
+
+/**
  * Allows admins to configure rulesets before prepare_execution() is called.
  *
  * Only called if RULESET_ADMIN_CONFIGURABLE is set in ruleset_flags.

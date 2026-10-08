@@ -466,6 +466,12 @@
 	log_dynamic("> [config_tag]: All headrevs were ineligible after the timer expired, and no replacements could be found. Ruleset canceled.")
 	message_admins("[config_tag]: All headrevs were ineligible after the timer expired, and no replacements could be found. Ruleset canceled.")
 
+/datum/dynamic_ruleset/roundstart/revolution/dynamic_tester_init()
+	heads_necessary = 0
+
+/datum/dynamic_ruleset/roundstart/revolution/dynamic_tester_comments()
+	return "Assuming [initial(revs.heads_necessary)] heads of staff"
+
 /datum/dynamic_ruleset/roundstart/spies
 	name = "Spies"
 	config_tag = "Roundstart Spies"

@@ -110,3 +110,9 @@
 	new_head.remove_clumsy = TRUE
 	candidate.add_antag_datum(new_head, GLOB.revolution_handler.revs)
 	GLOB.revolution_handler.start_revolution()
+
+/datum/dynamic_ruleset/latejoin/revolution/dynamic_tester_init()
+	heads_necessary = 0
+
+/datum/dynamic_ruleset/latejoin/revolution/dynamic_tester_comments()
+	return "Assuming [initial(revs.heads_necessary)] heads of staff"
