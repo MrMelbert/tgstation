@@ -33,6 +33,10 @@
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
+"l" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/station/maintenance/starboard/lesser)
 "m" = (
 /turf/closed/wall/r_wall,
 /area/station/maintenance/starboard/lesser)
@@ -48,7 +52,11 @@
 /obj/structure/railing{
 	dir = 4
 	},
-/obj/effect/spawner/random/engineering/flashlight,
+/obj/effect/spawner/random/engineering/flashlight{
+	pixel_x = -4;
+	pixel_y = 6
+	},
+/obj/effect/spawner/random/decoration/paint,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "q" = (
@@ -62,12 +70,14 @@
 "r" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/engineering/tank,
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "s" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/table,
-/obj/effect/spawner/random/decoration/paint,
+/obj/structure/frame/computer{
+	dir = 1
+	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "t" = (
@@ -112,7 +122,8 @@
 	pixel_y = -10;
 	pixel_x = 7
 	},
-/turf/open/floor/iron/smooth,
+/obj/structure/frame/machine,
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "A" = (
 /obj/effect/decal/cleanable/dirt,
@@ -153,7 +164,7 @@
 /area/station/maintenance/starboard/lesser)
 "H" = (
 /obj/item/wrench,
-/turf/open/floor/iron/smooth,
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "I" = (
 /obj/effect/decal/cleanable/dirt,
@@ -173,7 +184,7 @@
 	pixel_x = 7;
 	pixel_y = -5
 	},
-/turf/open/floor/iron/smooth,
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "N" = (
 /obj/effect/decal/cleanable/dirt,
@@ -220,7 +231,11 @@
 "X" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/decoration/glowstick/on,
-/turf/open/floor/iron/smooth,
+/obj/item/radio{
+	pixel_x = -8;
+	pixel_y = 5
+	},
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "Y" = (
 /obj/effect/decal/cleanable/dirt,
@@ -339,7 +354,7 @@ Y
 V
 K
 y
-J
+l
 c
 "}
 (9,1,1) = {"
@@ -352,7 +367,7 @@ V
 V
 V
 V
-J
+l
 c
 "}
 (10,1,1) = {"
@@ -365,7 +380,7 @@ P
 V
 Y
 G
-J
+l
 c
 "}
 (11,1,1) = {"

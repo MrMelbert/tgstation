@@ -1,4 +1,15 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"a" = (
+/obj/structure/rack,
+/obj/effect/spawner/random/maintenance/two,
+/obj/effect/spawner/random/decoration/glowstick,
+/turf/open/floor/iron/smooth_large,
+/area/station/maintenance/starboard/lesser)
+"b" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/spawner/random/glass_shards,
+/turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
 "c" = (
 /obj/structure/girder,
 /turf/open/floor/plating,
@@ -29,6 +40,12 @@
 /obj/effect/turf_decal/sand/plating,
 /turf/open/floor/plating/airless,
 /area/template_noop)
+"i" = (
+/obj/structure/grille,
+/obj/structure/window/spawner/directional/east,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/smooth_large,
+/area/station/maintenance/starboard/lesser)
 "j" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/button/door/directional/east{
@@ -42,11 +59,13 @@
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
-"p" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt{
-	dir = 4
-	},
+"l" = (
+/obj/structure/grille,
+/obj/structure/window/spawner/directional/north,
+/turf/open/floor/iron/smooth_large,
+/area/station/maintenance/starboard/lesser)
+"n" = (
+/obj/effect/spawner/random/structure/tank_holder,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
 "q" = (
@@ -100,6 +119,11 @@
 	},
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/starboard/lesser)
+"z" = (
+/obj/structure/rack,
+/obj/effect/spawner/random/trash/janitor_supplies,
+/turf/open/floor/iron/smooth_large,
+/area/station/maintenance/starboard/lesser)
 "A" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/engineering/tank,
@@ -122,7 +146,7 @@
 /obj/machinery/button/door/directional/north{
 	id = "weirdpodthing1"
 	},
-/turf/open/floor/iron/smooth,
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "I" = (
 /turf/closed/wall{
@@ -155,7 +179,7 @@
 /obj/structure/rack,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/engineering/material_cheap,
-/turf/open/floor/iron/smooth,
+/turf/open/floor/iron/smooth_large,
 /area/station/maintenance/starboard/lesser)
 "P" = (
 /obj/effect/turf_decal/delivery,
@@ -173,6 +197,11 @@
 	id = "weirdpodthing2"
 	},
 /turf/open/floor/iron/smooth,
+/area/station/maintenance/starboard/lesser)
+"T" = (
+/turf/closed/wall/r_wall{
+	dir = 4
+	},
 /area/station/maintenance/starboard/lesser)
 "V" = (
 /obj/effect/turf_decal/sand/plating,
@@ -224,10 +253,10 @@ W
 C
 C
 H
-r
+i
 O
 C
-W
+I
 W
 W
 W
@@ -242,10 +271,10 @@ w
 F
 x
 M
-q
 M
-C
-W
+M
+z
+I
 W
 W
 W
@@ -259,11 +288,11 @@ W
 j
 F
 P
-p
 M
 M
-C
-W
+b
+l
+I
 W
 W
 W
@@ -277,11 +306,11 @@ W
 W
 C
 C
-q
+n
 k
 q
-C
-W
+a
+I
 W
 W
 W
@@ -299,7 +328,7 @@ I
 s
 s
 I
-u
+I
 u
 u
 u
@@ -321,7 +350,7 @@ C
 e
 r
 v
-C
+T
 W
 W
 W

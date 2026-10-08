@@ -6116,6 +6116,9 @@
 /obj/machinery/atmospherics/components/unary/airlock_pump/unbolt_only{
 	dir = 1
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 2
+	},
 /turf/open/floor/engine,
 /area/station/engineering/atmos)
 "aYn" = (
@@ -27091,7 +27094,7 @@
 	name = "atmoscilower";
 	key = "atmoscilower"
 	},
-/turf/open/misc/asteroid,
+/turf/open/floor/plating,
 /area/station/asteroid)
 "itN" = (
 /obj/effect/turf_decal/stripes/white/corner{
@@ -43262,6 +43265,15 @@
 /obj/machinery/status_display/ai/directional/east,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
+"nMi" = (
+/obj/effect/turf_decal/trimline/yellow/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/engineering/atmos)
 "nMu" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth,
@@ -46747,6 +46759,9 @@
 /area/station/engineering/atmos)
 "peI" = (
 /obj/structure/sign/warning/vacuum/directional/east,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/station/engineering/atmos)
 "peO" = (
@@ -53089,6 +53104,9 @@
 /turf/open/floor/plating,
 /area/station/medical/medbay/lobby)
 "rku" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 2
+	},
 /turf/open/floor/engine,
 /area/station/engineering/atmos)
 "rkx" = (
@@ -61655,6 +61673,15 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/science/genetics)
+"uiB" = (
+/obj/effect/turf_decal/trimline/yellow/filled/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/engineering/atmos)
 "uiC" = (
 /obj/machinery/door/airlock/research{
 	name = "Xenobiology Entrance"
@@ -111386,14 +111413,14 @@ abM
 abM
 abM
 mwK
-hZr
-hZr
-hZr
-hZr
-hZr
-hZr
-hZr
-hZr
+mwK
+mwK
+mwK
+mwK
+mwK
+mwK
+mwK
+mwK
 jVB
 ajj
 oFP
@@ -111650,7 +111677,7 @@ aaa
 aaa
 aaa
 aaa
-hZr
+mwK
 ntj
 ajj
 ero
@@ -111907,7 +111934,7 @@ aaa
 aaa
 aaa
 aaa
-hZr
+mwK
 bgT
 ajj
 eGg
@@ -112164,7 +112191,7 @@ aaa
 aaa
 aaa
 aaa
-hZr
+mwK
 rRi
 bHy
 iVs
@@ -112421,7 +112448,7 @@ aaa
 aaa
 aaa
 aaa
-hZr
+mwK
 sff
 ajj
 bMg
@@ -113698,19 +113725,19 @@ aaa
 abM
 abM
 abM
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
 mwK
 mwK
 elH
 awI
-hRj
-hRj
+nMi
+uiB
 aXd
 qaE
 bye
@@ -113955,14 +113982,14 @@ aaa
 abM
 abM
 rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-hZr
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+mwK
 ncX
 apI
 awI
@@ -114212,14 +114239,14 @@ aaa
 abM
 abM
 abM
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-hZr
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+mwK
 cgz
 voB
 xgL
@@ -114469,14 +114496,14 @@ aaa
 abM
 abM
 abM
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-hZr
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+mwK
 ijo
 cgf
 bZn
@@ -114726,15 +114753,15 @@ aaa
 abM
 abM
 abM
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-rtN
-hZr
-hZr
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+aaa
+mwK
+mwK
 ooh
 bar
 peI
