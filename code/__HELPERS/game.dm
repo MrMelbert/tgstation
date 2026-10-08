@@ -176,7 +176,7 @@
 	var/total_crew = 0
 	var/dead_or_mia = 0
 	for(var/datum/mind/crew_mind as anything in get_crewmember_minds())
-		if(isnull(crew_mind.current) || crew_mind.current.stat <= HARD_CRIT)
+		if(isnull(crew_mind.current) || crew_mind.current.stat >= HARD_CRIT)
 			dead_or_mia += 1
 		total_crew += 1
 	return total_crew > 0 ? (dead_or_mia / total_crew) : 0
