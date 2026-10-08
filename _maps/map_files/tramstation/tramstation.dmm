@@ -6971,11 +6971,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
-"brB" = (
-/obj/machinery/portable_atmospherics/canister/air,
-/obj/machinery/portable_atmospherics/canister/air,
-/turf/open/floor/iron/smooth,
-/area/station/engineering/atmos)
 "brG" = (
 /obj/structure/reagent_dispensers/water_cooler,
 /turf/open/floor/wood/parquet,
@@ -14095,7 +14090,7 @@
 /area/station/security/checkpoint/supply)
 "dIb" = (
 /obj/effect/spawner/structure/window,
-/obj/effect/spawner/random/structure/barricade,
+/obj/effect/spawner/random/structure/barricade/crude,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/construction/engineering)
 "dIn" = (
@@ -15228,7 +15223,6 @@
 /obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible{
 	dir = 4
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/arrow_cw{
 	dir = 4
 	},
@@ -16745,7 +16739,6 @@
 "eEl" = (
 /obj/machinery/meter/monitored/distro_loop,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/visible,
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/blue/corner_long_alt{
 	dir = 4
 	},
@@ -20653,7 +20646,6 @@
 	name = "Distro to Waste";
 	dir = 8
 	},
-/obj/structure/cable,
 /obj/machinery/light/small/directional/north,
 /obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/iron,
@@ -34190,6 +34182,7 @@
 	},
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/structure/cable,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "kHS" = (
@@ -34269,6 +34262,7 @@
 /area/station/maintenance/tram/left)
 "kIG" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "kII" = (
@@ -35538,7 +35532,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 9
 	},
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 4
@@ -35986,6 +35979,7 @@
 	dir = 1
 	},
 /obj/structure/window/reinforced/spawner/directional/east,
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "llN" = (
@@ -39343,7 +39337,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold/scrubbers/visible{
 	dir = 8
 	},
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 4
 	},
@@ -41188,7 +41181,6 @@
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
 "nbl" = (
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 4
 	},
@@ -47898,7 +47890,6 @@
 "pxd" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible/layer2,
-/obj/structure/cable,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/disposal/incinerator)
 "pxf" = (
@@ -48145,7 +48136,6 @@
 "pAD" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible,
-/obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 6
 	},
@@ -48583,6 +48573,7 @@
 /obj/structure/chair/stool/directional/north,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/structure/cable,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/disposal/incinerator)
 "pHX" = (
@@ -52929,15 +52920,6 @@
 /obj/item/stack/sheet/plasteel/twenty,
 /turf/open/floor/iron/smooth,
 /area/station/engineering/atmos)
-"rfQ" = (
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
-/obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/station/engineering/atmos/pumproom)
 "rfR" = (
 /obj/structure/table/wood,
 /obj/item/storage/crayons,
@@ -53545,7 +53527,6 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/engineering/atmos,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 4
@@ -55715,7 +55696,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/spawner/random/structure/barricade,
+/obj/effect/spawner/random/structure/barricade/crude,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/construction/engineering)
 "saW" = (
@@ -57928,6 +57909,7 @@
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "sOq" = (
@@ -58904,7 +58886,6 @@
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 8
 	},
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "tgj" = (
@@ -62133,7 +62114,6 @@
 	name = "Air to Distro";
 	dir = 8
 	},
-/obj/structure/cable,
 /obj/machinery/light/small/directional/north,
 /obj/effect/turf_decal/trimline/blue/arrow_cw{
 	dir = 2
@@ -67965,9 +67945,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/tram/left)
-"wik" = (
-/turf/open/space/basic,
-/area/station/asteroid)
 "wip" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/trimline/neutral/filled/line{
@@ -69917,11 +69894,11 @@
 /area/station/hallway/primary/tram/right)
 "wUv" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible,
-/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 4
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron,
 /area/station/engineering/atmos/pumproom)
 "wUG" = (
@@ -71404,11 +71381,6 @@
 /obj/structure/chair/stool/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/captain/private)
-"xxS" = (
-/obj/effect/spawner/random/structure/grille,
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space)
 "xxW" = (
 /obj/effect/turf_decal/trimline/neutral/filled/line{
 	dir = 9
@@ -108790,7 +108762,7 @@ aaa
 aac
 aac
 aac
-wik
+vXM
 vXM
 vXM
 vXM
@@ -109786,7 +109758,7 @@ mwK
 sPw
 gEN
 gkQ
-rfQ
+xVE
 nUW
 xVE
 xuS
@@ -109814,7 +109786,7 @@ aac
 aaa
 aaa
 aac
-wik
+vXM
 vXM
 vXM
 rge
@@ -110298,7 +110270,7 @@ abM
 abM
 mwK
 rQn
-brB
+rQn
 mym
 mZf
 rkx
@@ -110327,8 +110299,8 @@ aac
 aac
 aac
 vXM
-ycP
-ycP
+vXM
+vXM
 rge
 vXM
 vXM
@@ -112382,7 +112354,7 @@ qBg
 fjQ
 aac
 vXM
-xxS
+rge
 vXM
 vXM
 vXM
