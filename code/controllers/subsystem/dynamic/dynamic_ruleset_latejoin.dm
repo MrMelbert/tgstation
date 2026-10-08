@@ -93,13 +93,13 @@
 	if(head_check < heads_necessary - 1) // little bit of leeway
 		SSdynamic.unreported_rulesets += src
 		name += " (Canceled)"
-		log_dynamic("[config_tag]: Not enough heads of staff were present to start a revolution.")
+		log_dynamic("> [config_tag]: Not enough heads of staff were present to start a revolution.")
 		return
 
 	if(!can_be_headrev(candidate))
 		SSdynamic.unreported_rulesets += src
 		name += " (Canceled)"
-		log_dynamic("[config_tag]: [key_name(candidate)] was ineligible after the timer expired. Ruleset canceled.")
+		log_dynamic("> [config_tag]: [key_name(candidate)] was ineligible after the timer expired. Ruleset canceled.")
 		message_admins("[config_tag]: [key_name(candidate)] was ineligible after the timer expired. Ruleset canceled.")
 		return
 

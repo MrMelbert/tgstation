@@ -428,12 +428,12 @@
 			head_check++
 
 	if(head_check < heads_necessary)
-		log_dynamic("[config_tag]: Not enough heads of staff were present to start a revolution.")
+		log_dynamic("> [config_tag]: Not enough heads of staff were present to start a revolution.")
 		addtimer(CALLBACK(src, PROC_REF(revs_execution_failed)), 1 MINUTES, TIMER_UNIQUE|TIMER_DELETE_ME)
 		return
 
 	if(!can_be_headrev(candidate, TRUE))
-		log_dynamic("[config_tag]: [key_name(candidate)] was not eligible to be a headrev after the timer expired - finding a replacement.")
+		log_dynamic("> [config_tag]: [key_name(candidate)] was not eligible to be a headrev after the timer expired - finding a replacement.")
 		find_another_headrev()
 		return
 
@@ -451,10 +451,10 @@
 		if(!can_be_headrev(upstanding_citizen.mind, TRUE))
 			continue
 		reveal_head(upstanding_citizen.mind)
-		log_dynamic("[config_tag]: [key_name(upstanding_citizen)] was selected as a replacement headrev.")
+		log_dynamic("> [config_tag]: [key_name(upstanding_citizen)] was selected as a replacement headrev.")
 		return
 
-	log_dynamic("[config_tag]: Failed to find a replacement headrev.")
+	log_dynamic("> [config_tag]: Failed to find a replacement headrev.")
 	addtimer(CALLBACK(src, PROC_REF(revs_execution_failed)), 1 MINUTES, TIMER_UNIQUE|TIMER_DELETE_ME)
 
 /datum/dynamic_ruleset/roundstart/revolution/proc/revs_execution_failed()
@@ -463,7 +463,7 @@
 	// Execution is effectively cancelled by this point, but it's not like we can go back and refund it
 	SSdynamic.unreported_rulesets += src
 	name += " (Canceled)"
-	log_dynamic("[config_tag]: All headrevs were ineligible after the timer expired, and no replacements could be found. Ruleset canceled.")
+	log_dynamic("> [config_tag]: All headrevs were ineligible after the timer expired, and no replacements could be found. Ruleset canceled.")
 	message_admins("[config_tag]: All headrevs were ineligible after the timer expired, and no replacements could be found. Ruleset canceled.")
 
 /datum/dynamic_ruleset/roundstart/spies
