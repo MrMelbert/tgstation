@@ -160,10 +160,9 @@
 			parent.AddElement(/datum/element/block_mining_mob_respawns, 5)
 			blockers_active = TRUE
 
-	else
-		if(blockers_active)
-			parent.RemoveElement(/datum/element/block_mining_mob_respawns, 5)
-			blockers_active = FALSE
+	else if(blockers_active)
+		parent.RemoveElement(/datum/element/block_mining_mob_respawns, 5)
+		blockers_active = FALSE
 
 // Costly, but should not be called often (if at all) as all nodes should be anchored
 /datum/component/candela_node/proc/on_moved(atom/movable/source, atom/old_loc, dir, forced, list/old_locs)
