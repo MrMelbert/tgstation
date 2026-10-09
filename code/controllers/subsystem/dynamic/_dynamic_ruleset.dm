@@ -183,7 +183,7 @@
 		return 0
 
 	if(ruleset_flags & RULESET_NEEDS_GHOSTS)
-		if(GLOB.ghost_role_flags & GHOSTROLE_MIDROUND_EVENT)
+		if(!(GLOB.ghost_role_flags & GHOSTROLE_MIDROUND_EVENT))
 			return 0
 		if(length(get_non_admin_ghosts()) <= 0)
 			return 0
