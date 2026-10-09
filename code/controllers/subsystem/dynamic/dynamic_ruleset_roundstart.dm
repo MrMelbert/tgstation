@@ -470,7 +470,7 @@
 	heads_necessary = 0
 
 /datum/dynamic_ruleset/roundstart/revolution/dynamic_tester_comments()
-	return "Assuming [initial(revs.heads_necessary)] heads of staff"
+	return "Assuming [initial(heads_necessary)] heads of staff"
 
 /datum/dynamic_ruleset/roundstart/spies
 	name = "Spies"
