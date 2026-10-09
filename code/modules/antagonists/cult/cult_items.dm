@@ -833,12 +833,8 @@ Striking a noncultist, however, will tear their flesh."}
 	AddComponent(/datum/component/two_handed, \
 		force_unwielded = 17, \
 		force_wielded = 24, \
+		icon_wielded = "[base_icon_state]1", \
 	)
-
-/obj/item/melee/cultblade/halberd/update_icon_state()
-	icon_state = HAS_TRAIT(src, TRAIT_WIELDED) ? "[base_icon_state]1" : "[base_icon_state]0"
-	inhand_icon_state = HAS_TRAIT(src, TRAIT_WIELDED) ? "[base_icon_state]1" : "[base_icon_state]0"
-	return ..()
 
 /obj/item/melee/cultblade/halberd/Destroy()
 	if(halberd_act)

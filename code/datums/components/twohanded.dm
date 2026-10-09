@@ -76,22 +76,10 @@
 	if(require_twohands)
 		ADD_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS, ABSTRACT_ITEM_TRAIT)
 
-	if(PERFORM_ALL_TESTS(focus_only/two_handed_inhands))
-		var/list/blacklist = list(/obj/item/pillow)
-		if(!is_type_in_list(parent, blacklist))
-			var/obj/item/item_parent = parent
-			// pretend to be wielded
-			wielded = TRUE
-			ADD_TRAIT(item_parent, TRAIT_WIELDED, REF(src))
-			// update and then check icon state stuff
-			item_parent.update_appearance()
-			if(initial(item_parent.inhand_icon_state) && item_parent.inhand_icon_state == initial(item_parent.inhand_icon_state))
-				stack_trace("Inhand icon state for [item_parent] is still its initial value after being wielded. \
-					Inhand icon state should either be null or updated in update_icon_state.")
-			// then reset, just in case something tries to use us
-			wielded = FALSE
-			REMOVE_TRAIT(item_parent, TRAIT_WIELDED, REF(src))
-			item_parent.update_appearance()
+	if(PERFORM_ALL_TESTS(focus_only/two_handed_icons) && icon_wielded)
+		icon_exists_or_scream(item_parent.icon, icon_wielded)
+		icon_exists_or_scream(item_parent.righthand_file, icon_wielded)
+		icon_exists_or_scream(item_parent.lefthand_file, icon_wielded)
 
 /datum/component/two_handed/Destroy(force)
 	offhand_item = null

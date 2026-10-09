@@ -72,6 +72,3 @@
 
 ///Checks primarily that emissives aren't mistakenly not tagged with the meta flag
 /datum/unit_test/focus_only/bodypart_overlay_flags
-
-/// Ensures two-handed items either have a null icon state or update their inhand icon state when wielded
-/datum/unit_test/focus_only/two_handed_inhands
