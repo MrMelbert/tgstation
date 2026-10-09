@@ -332,11 +332,12 @@ SUBSYSTEM_DEF(dynamic)
 		return FALSE
 	var/casualty_ratio = get_crew_casualty_ratio()
 	var/midround_chance = get_midround_chance(range, casualty_ratio)
+	log_dynamic("Midround ([range]): Rolling for a midround... ([midround_chance]% chance)")
+	log_dynamic("- Crew casualty percent: [round(casualty_ratio * 100)]%")
+	log_dynamic("- Non-admin ghost count: [length(get_non_admin_ghosts())]")
+	log_dynamic("- Living antags count: [length(GLOB.current_living_antags)]")
 	if(!prob(midround_chance))
-		log_dynamic("Midround ([range]): Ruleset chance failed ([midround_chance]% chance)")
-		log_dynamic("- Crew casualty percent: [round(casualty_ratio * 100)]%")
-		log_dynamic("- Non-admin ghost count: [length(get_non_admin_ghosts())]")
-		log_dynamic("- Living antags count: [length(GLOB.current_living_antags)]")
+		log_dynamic("Midround ([range]): Ruleset chance failed.")
 		return FALSE
 
 	midround_admin_cancel = FALSE
@@ -503,9 +504,12 @@ SUBSYSTEM_DEF(dynamic)
 
 	var/casualty_ratio = get_crew_casualty_ratio()
 	var/latejoin_chance = get_latejoin_chance(casualty_ratio)
+	log_dynamic("Latejoin: Rolling for a latejoin...")
+	log_dynamic("- Crew casualty percent: [round(casualty_ratio * 100)]%")
+	log_dynamic("- Failed latejoins: [failed_latejoins]")
+	log_dynamic("- Living antags count: [length(GLOB.current_living_antags)]")
 	if(!prob(latejoin_chance))
-		log_dynamic("Latejoin: Ruleset chance failed ([latejoin_chance]% chance)")
-		log_dynamic("- Crew casualty percent: [round(casualty_ratio * 100)]%")
+		log_dynamic("Latejoin: Ruleset chance failed.")
 		return FALSE
 
 	var/player_count = get_active_player_count(afk_check = TRUE)
@@ -520,7 +524,7 @@ SUBSYSTEM_DEF(dynamic)
 	var/prepare = picked_ruleset.prepare_execution(player_count, list(latejoiner))
 	if(prepare != PREPARATION_SUCCESS)
 		failed_latejoins++
-		log_dynamic("Latejoin: Selected ruleset [picked_ruleset.name] for [key_name(latejoiner)], but preparation failed! [prepare || "Unknown error"]")
+		log_dynamic("Latejoin: Selected ruleset [picked_ruleset.name] for [key_name(latejoiner)], but preparation failed! [prepare || "Unknown error"] ([latejoin_chance]% chance)")
 		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 		log_dynamic("- Latejoin chance has increased ([failed_latejoins] failed latejoins).")
 		log_dynamic("- [prepare || "Unknown error"]")
