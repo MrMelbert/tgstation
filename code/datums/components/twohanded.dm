@@ -362,8 +362,6 @@
 
 /**
  * on_update_icon triggers on call to update parent items icon
- *
- * Updates the icon using icon_wielded if set
  */
 /datum/component/two_handed/proc/on_update_icon(obj/item/source)
 	SIGNAL_HANDLER
