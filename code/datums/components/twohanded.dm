@@ -77,6 +77,7 @@
 		ADD_TRAIT(parent, TRAIT_NEEDS_TWO_HANDS, ABSTRACT_ITEM_TRAIT)
 
 	if(PERFORM_ALL_TESTS(focus_only/two_handed_icons) && icon_wielded)
+		var/obj/item/item_parent = parent
 		icon_exists_or_scream(item_parent.icon, icon_wielded)
 		icon_exists_or_scream(item_parent.righthand_file, icon_wielded)
 		icon_exists_or_scream(item_parent.lefthand_file, icon_wielded)
