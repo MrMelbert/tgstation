@@ -415,7 +415,7 @@
 	AddComponent(/datum/component/two_handed, \
 		force_unwielded = 10, \
 		force_wielded = 24, \
-		icon_wielded = "bostaff1", \
+		update_icon_state = TRUE, \
 	)
 
 /obj/item/staff/bostaff/attack(mob/target, mob/living/user, list/modifiers, list/attack_modifiers)

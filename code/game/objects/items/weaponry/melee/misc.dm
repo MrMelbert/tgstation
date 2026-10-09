@@ -379,6 +379,7 @@
 	base_icon_state = "bambostaff"
 	inhand_icon_state = "bambostaff0"
 	worn_icon_state = "bambostaff0"
+	base_icon_state = "bambostaff"
 	icon_angle = -135
 	lefthand_file = 'icons/mob/inhands/weapons/staves_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/staves_righthand.dmi'
@@ -391,7 +392,7 @@
 	AddComponent(/datum/component/two_handed, \
 		force_unwielded = 10, \
 		force_wielded = 14, \
-		icon_wielded = "[base_icon_state]1", \
+		update_icon_state = TRUE, \
 	)
 	AddComponent(/datum/component/walking_aid)
 

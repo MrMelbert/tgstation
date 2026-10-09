@@ -35,7 +35,7 @@
 	AddElement(/datum/element/kneejerk)
 	AddComponent(/datum/component/two_handed, \
 		force_multiplier = 4, \
-		icon_wielded = "[base_icon_state]1", \
+		update_icon_state = TRUE, \
 	)
 
 /obj/item/singularityhammer/proc/vortex(turf/pull, mob/wielder)
@@ -92,7 +92,7 @@
 	. = ..()
 	AddComponent(/datum/component/two_handed, \
 		force_multiplier = 5, \
-		icon_wielded = "[base_icon_state]1", \
+		update_icon_state = TRUE, \
 		attacksound = SFX_SPARKS, \
 	)
 

@@ -833,12 +833,11 @@ Striking a noncultist, however, will tear their flesh."}
 	AddComponent(/datum/component/two_handed, \
 		force_unwielded = 17, \
 		force_wielded = 24, \
-		icon_wielded = "[base_icon_state]1", \
+		update_icon_state = TRUE, \
 	)
 
 /obj/item/melee/cultblade/halberd/Destroy()
-	if(halberd_act)
-		QDEL_NULL(halberd_act)
+	QDEL_NULL(halberd_act)
 	return ..()
 
 /obj/item/melee/cultblade/halberd/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)

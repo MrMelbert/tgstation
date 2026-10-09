@@ -6,6 +6,7 @@
 	icon_state = "hfrequency0"
 	inhand_icon_state = "hfrequency0"
 	worn_icon_state = "hfrequency0"
+	base_icon_state = "hfrequency"
 	icon_angle = -45
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
@@ -38,7 +39,7 @@
 	AddComponent(/datum/component/two_handed, \
 		wield_callback = CALLBACK(src, PROC_REF(on_wield)), \
 		unwield_callback = CALLBACK(src, PROC_REF(on_unwield)), \
-		icon_wielded = "hfrequency1", \
+		update_icon_state = TRUE, \
 	)
 	AddElement(/datum/element/update_icon_updates_onmob)
 
