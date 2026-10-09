@@ -368,7 +368,7 @@
 /datum/component/two_handed/proc/on_update_icon(obj/item/source)
 	SIGNAL_HANDLER
 	if(update_icon_state)
-		source.icon_state = source.inhand_icon_state = "[BASE_OR_INITIAL_ICON_STATE(item_parent)][wielded]"
+		source.icon_state = source.inhand_icon_state = "[BASE_OR_INITIAL_ICON_STATE(source)][wielded]"
 		return COMSIG_ATOM_NO_UPDATE_ICON_STATE
 	return NONE
 

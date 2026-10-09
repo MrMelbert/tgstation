@@ -75,7 +75,7 @@
 
 /obj/item/clothing/mask/update_icon_state()
 	. = ..()
-	icon_state = "[RESOLVE_BASE_ICON_STATE(src)][up ? "_up" : ""]"
+	icon_state = "[BASE_OR_INITIAL_ICON_STATE(src)][up ? "_up" : ""]"
 
 /**
  * Proc called in lungs.dm to act if wearing a mask with filters, used to reduce the filters durability, return a changed gas mixture depending on the filter status
