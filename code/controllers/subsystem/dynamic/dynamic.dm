@@ -391,7 +391,7 @@ SUBSYSTEM_DEF(dynamic)
 	// Post execute logging
 	for(var/datum/mind/selected as anything in picked_ruleset.selected_minds)
 		message_admins("Midround ([range]): [ADMIN_LOOKUPFLW(selected.current)] has been selected for [picked_ruleset.config_tag].")
-		log_dynamic("- Midround ([range]): [key_name(selected.current)] has been selected for [picked_ruleset.config_tag].")
+		log_dynamic("- [key_name(selected.current)] has been selected for [picked_ruleset.config_tag].")
 		notify_ghosts("[selected.name] has been picked for [picked_ruleset.config_tag]!", source = selected.current)
 	// Clean up unused rulesets
 	QDEL_LIST(rulesets_weighted)
