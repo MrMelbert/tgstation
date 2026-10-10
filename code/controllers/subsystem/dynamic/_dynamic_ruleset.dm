@@ -281,8 +281,9 @@
 
 	var/list/valid_candidates = list()
 	for(var/mob/candidate as anything in antag_candidates)
+		// If a mob in the candidates list hard deletes or something silly it really fucks shit up so this is just for safety
 		if(QDELETED(candidate))
-			stack_trace("[candidate ? "null" : "qdeling"] candidate passed to dynamic trim_candidates")
+			stack_trace("[candidate ? "qdeling" : "null"] candidate passed to dynamic trim_candidates")
 			continue
 		var/client/candidate_client = GET_CLIENT(candidate)
 		if(isnull(candidate_client))
