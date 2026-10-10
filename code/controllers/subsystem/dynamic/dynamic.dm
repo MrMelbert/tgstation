@@ -380,7 +380,7 @@ SUBSYSTEM_DEF(dynamic)
 	if(prepare != PREPARATION_SUCCESS)
 		log_dynamic("Midround ([range]): Selected ruleset [picked_ruleset.config_tag], but preparation failed!")
 		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
-		log_dynamic("- [preparation_result || "Unknown error"]")
+		log_dynamic("- [prepare || "Unknown error"]")
 		QDEL_LIST(rulesets_weighted)
 		return FALSE
 	// Run the thing
