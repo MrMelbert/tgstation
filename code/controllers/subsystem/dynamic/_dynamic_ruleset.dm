@@ -281,6 +281,9 @@
 
 	var/list/valid_candidates = list()
 	for(var/mob/candidate as anything in antag_candidates)
+		if(QDELETED(candidate))
+			stack_trace("[candidate ? "null" : "qdeling"] candidate passed to dynamic trim_candidates")
+			continue
 		var/client/candidate_client = GET_CLIENT(candidate)
 		if(isnull(candidate_client))
 			continue

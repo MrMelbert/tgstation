@@ -376,8 +376,8 @@ SUBSYSTEM_DEF(dynamic)
 			stoplag()
 
 	// NOTE: !! THIS CAN SLEEP !!
-	var/preparation_result = picked_ruleset.prepare_execution(player_count, picked_ruleset.collect_candidates())
-	if(preparation_result != PREPARATION_SUCCESS)
+	var/prepare = picked_ruleset.prepare_execution(player_count, picked_ruleset.collect_candidates())
+	if(prepare != PREPARATION_SUCCESS)
 		log_dynamic("Midround ([range]): Selected ruleset [picked_ruleset.config_tag], but preparation failed!")
 		log_dynamic("- Chance to pick: [round(rulesets_weighted[picked_ruleset] / values_sum(rulesets_weighted) * 100, 0.01)]%")
 		log_dynamic("- [preparation_result || "Unknown error"]")
