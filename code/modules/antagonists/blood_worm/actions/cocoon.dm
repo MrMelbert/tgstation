@@ -214,6 +214,9 @@
 
 /// Checks if the blood worm has consumed enough blood to use this action.
 /datum/action/cooldown/mob_cooldown/blood_worm/cocoon/proc/check_consumed_blood(feedback = FALSE)
+	if(total_blood_required <= 0)
+		return TRUE
+
 	var/mob/living/basic/blood_worm/worm = owner
 	var/total_consumed_blood = worm.get_consumed_blood()
 
