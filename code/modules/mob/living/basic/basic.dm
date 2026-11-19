@@ -168,7 +168,7 @@
 	if(staminaloss > 0)
 		adjust_stamina_loss(-stamina_recovery * seconds_per_tick)
 
-/mob/living/basic/get_default_say_verb()
+/mob/living/basic/get_default_say_verb(datum/language/language)
 	return length(speak_emote) ? pick(speak_emote) : ..()
 
 /mob/living/basic/death(gibbed)

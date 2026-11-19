@@ -148,6 +148,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 	if(user)
 		invokers += user
 	if(req_cultists > 1 || istype(src, /obj/effect/rune/convert))
+		var/datum/language/narsie_language = GLOB.language_datum_instances[/datum/language/narsie]
 		for(var/mob/living/cultist in range(1, src))
 			if(!IS_CULTIST(cultist))
 				continue
@@ -156,7 +157,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 				continue
 			if(cultist == user)
 				continue
-			if(!cultist.can_speak(allow_mimes = TRUE))
+			if(!narsie_language.can_atom_speak(allow_mimes = TRUE))
 				continue
 			if(IS_UNCONSCIOUS_OR_CRIT(cultist))
 				continue

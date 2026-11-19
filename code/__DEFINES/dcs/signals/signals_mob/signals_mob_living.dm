@@ -188,6 +188,29 @@
 	/// Do not do the spin animation when landing
 	#define ZIMPACT_NO_SPIN (1<<2)
 
+#define COMSIG_MOVABLE_SAY_MOD "movable_say_mod"
+	// Saymod handler categories
+	/// Say mod for strings that end in a question mark
+	#define SAY_MOD_ASK "ask"
+	/// Default saymod for no special handling
+	#define SAY_MOD_DEFAULT "say"
+	/// Say mod for strings that end in an exclamation mark
+	#define SAY_MOD_EXCLAIM "exclaim"
+	/// Say mod for strings that are sung
+	#define SAY_MOD_SING "sing"
+	/// Say mod for strings that are whispered
+	#define SAY_MOD_WHISPER "whisper"
+	/// Say mod for strings that are whispered, but also has two exclamations marks
+	#define SAY_MOD_WHISPER_YELL "whisper_yell"
+	/// Say mod for strings that have two exclamation marks
+	#define SAY_MOD_YELL "yell"
+
+	// Priorities for say mods
+	#define SAY_MOD_PRIORITY_DEFAULT -10
+	#define SAY_MOD_PRIORITY_LOW 0
+	#define SAY_MOD_PRIORITY_MEDIUM 10
+	#define SAY_MOD_PRIORITY_HIGH 20
+
 /// From mob/living/try_speak(): (message, ignore_spam, forced)
 #define COMSIG_MOB_TRY_SPEECH "living_vocal_speech"
 	/// Return to skip can_speak check, IE, forcing success. Overrides below.

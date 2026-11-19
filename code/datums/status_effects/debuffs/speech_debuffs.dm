@@ -14,10 +14,12 @@
 
 /datum/status_effect/speech/on_apply()
 	RegisterSignal(owner, COMSIG_LIVING_TREAT_MESSAGE, PROC_REF(handle_message))
+	RegisterSignal(owner, COMSIG_MOVABLE_SAY_MOD, PROC_REF(handle_saymod))
 	return TRUE
 
 /datum/status_effect/speech/on_remove()
 	UnregisterSignal(owner, COMSIG_LIVING_TREAT_MESSAGE)
+	UnregisterSignal(owner, COMSIG_MOVABLE_SAY_MOD)
 
 /**
  * Signal proc for [COMSIG_LIVING_TREAT_MESSAGE]
@@ -58,6 +60,10 @@
 /datum/status_effect/speech/proc/apply_speech(original_word, index)
 	stack_trace("[type] didn't implement apply_speech.")
 	return original_word
+
+/datum/status_effect/speech/proc/handle_saymod(datum/source, datum/saymod_selector/selector, datum/language/language_path)
+	SIGNAL_HANDLER
+	return
 
 /datum/status_effect/speech/stutter
 	id = "stutter"
@@ -101,6 +107,9 @@
 
 	return some_char
 
+/datum/status_effect/speech/stutter/handle_saymod(datum/source, datum/saymod_selector/selector, datum/language/language_path)
+	selector.add_saymod(SAY_MOD_DEFAULT, (language_path::flags & LANGUAGE_VISUAL) ? "shakily signs" : "stammers", SAY_MOD_PRIORITY_MEDIUM)
+
 /datum/status_effect/speech/stutter/anxiety
 	id = "anxiety_stutter"
 	stutter_prob = 5
@@ -110,12 +119,16 @@
 	remove_on_fullheal = FALSE
 
 /datum/status_effect/speech/stutter/anxiety/handle_message(datum/source, list/message_args)
-	if(HAS_TRAIT(owner, TRAIT_FEARLESS) || HAS_TRAIT(owner, TRAIT_SIGN_LANG))
+	var/datum/language/language_instance = GLOB.language_datum_instances[message_args[TREAT_MESSAGE_LANGUAGE]]
+	if(HAS_TRAIT(owner, TRAIT_FEARLESS) || (language_instance.flags & LANGUAGE_VISUAL))
 		stutter_prob = 0
 	else
 		var/datum/quirk/social_anxiety/host_quirk = owner.get_quirk(/datum/quirk/social_anxiety)
 		stutter_prob = clamp(host_quirk?.calculate_mood_mod() * 0.5, 5, 50)
 	return ..()
+
+/datum/status_effect/speech/stutter/anxiety/handle_saymod(datum/source, datum/saymod_selector/selector, datum/language/language_path)
+	return
 
 /datum/status_effect/speech/stutter/obsession
 	id = "obsession_stutter"
@@ -201,6 +214,9 @@
 
 	// Otherwise just return and don't call parent, we already modified our speech
 	return
+
+/datum/status_effect/speech/stutter/derpspeech/handle_saymod(datum/source, datum/saymod_selector/selector, datum/language/language_path)
+	selector.add_saymod(SAY_MOD_DEFAULT, (language_path::flags & LANGUAGE_VISUAL) ? "incoherently signs" : "gibbers", SAY_MOD_PRIORITY_MEDIUM + 1)
 
 /datum/status_effect/speech/slurring
 	/// The chance that any given character in a message will be replaced with a common character

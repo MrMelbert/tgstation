@@ -5,22 +5,65 @@
 	/// Any symbols to sanitize from signed messages.
 	var/static/regex/omissions = new ("\[!?\]", "g")
 
-/datum/language/galactic_sign/modify_message(message)
-	if(get_unfilled_hands(carbon_parent) == 1)
-		message = stars(message)
+// Defines to determine the tone of the signer's message.
+#define TONE_NEUTRAL 0 //! a statement
+#define TONE_INQUISITIVE 1 //! a question
+#define TONE_EMPHATIC 2 //! an exclamation
+#define TONE_INQUISITIVE_EMPHATIC 3 //! both a question and an exclamation (interrobang)
 
-	if(HAS_TRAIT_FROM_ONLY(carbon_parent, TRAIT_RESTRAINED, HANDCUFFED_TRAIT))
+/datum/language/galactic_sign/modify_message(mob/living/speaker, message)
+	var/exclamation_found = findtext(message, "!")
+	var/question_found = findtext(message, "?")
+	var/only_handcuffed = HAS_TRAIT_FROM_ONLY(speaker, TRAIT_RESTRAINED, HANDCUFFED_TRAIT)
+
+	var/emote_tone = TONE_NEUTRAL
+	if (exclamation_found && question_found)
+		emote_tone = TONE_INQUISITIVE_EMPHATIC
+	else if (exclamation_found)
+		emote_tone = TONE_EMPHATIC
+	else if (question_found)
+		emote_tone = TONE_INQUISITIVE
+
+	speaker.apply_status_effect(/datum/status_effect/tonal_indicator, emote_tone)
+	if(HAS_TRAIT_FROM_ONLY(speaker, TRAIT_RESTRAINED, HANDCUFFED_TRAIT))
+		speaker.visible_message("struggles, signing slowly with [speaker.p_their()] hands cuffed...", visible_message_flags = EMOTE_MESSAGE)
 		message = stifled(message)
 
-	return replacetext(message, omissions, ".")
+	else if(astype(speaker, /mob/living/carbon/human)?.is_face_obscured())
+		pass()
+
+	else
+		switch(emote_tone)
+			if(TONE_INQUISITIVE)
+				speaker.visible_message(span_bold("quirks [speaker.p_their()] brows quizzically."), visible_message_flags = EMOTE_MESSAGE|BLOCK_SELF_HIGHLIGHT_MESSAGE)
+			if(TONE_EMPHATIC)
+				speaker.visible_message(span_bold("widens [speaker.p_their()] eyes emphatically!"), visible_message_flags = EMOTE_MESSAGE|BLOCK_SELF_HIGHLIGHT_MESSAGE)
+			if(TONE_INQUISITIVE_EMPHATIC)
+				speaker.visible_message(span_bold("wears an intense, befuddled expression!"), visible_message_flags = EMOTE_MESSAGE|BLOCK_SELF_HIGHLIGHT_MESSAGE)
+
+	if(get_unfilled_hands(speaker) == 1)
+		message = stars(message)
+
+	// remove ! and ? symbols from message at the end
+	message = replacetext(message, omissions, ".")
+
+	return message
+
+/datum/language/galactic_sign/add_saymods(datum/saymod_selector/selector)
+	selector.add_saymod(SAY_MOD_ASK, "signs", SAY_MOD_PRIORITY_DEFAULT)
+	selector.add_saymod(SAY_MOD_EXCLAIM, "signs", SAY_MOD_PRIORITY_DEFAULT)
+	selector.add_saymod(SAY_MOD_SING, "rythmically signs", SAY_MOD_PRIORITY_DEFAULT)
+	selector.add_saymod(SAY_MOD_WHISPER, "subtly signs", SAY_MOD_PRIORITY_DEFAULT)
+	selector.add_saymod(SAY_MOD_WHISPER_YELL, "signs", SAY_MOD_PRIORITY_DEFAULT)
+	selector.add_saymod(SAY_MOD_YELL, "emphatically signs", SAY_MOD_PRIORITY_DEFAULT)
 
 /datum/language/galactic_sign/scramble_paragraph(input, list/mutual_languages)
 	if(length(mutual_languages))
 		return ..()
-	return "makes an unknown gesture"
+	return "makes a series of [pick("unknown", "strange", "foreign", "exaggerated", "eccentric")] gestures"
 
 /datum/language/galactic_sign/scramble_word(input)
-	return ".."
+	return "??"
 
 /datum/language/galactic_sign/can_atom_speak_language(atom/movable/some_atom, feedback)
 	return TRUE
@@ -30,7 +73,7 @@
 		return TRUE
 
 	var/mob/living/carbon/carbon_parent = some_atom
-	if(HAS_MIND_TRAIT(carbon_parent, TRAIT_MIMING))
+	if(!allow_mimes && HAS_MIND_TRAIT(carbon_parent, TRAIT_MIMING))
 		if(feedback)
 			to_chat(carbon_parent, span_green("You stop yourself from signing in favor of the artform of mimery!"))
 		return FALSE
@@ -45,11 +88,7 @@
 
 		return FALSE
 
-	if(HAS_TRAIT(carbon_parent, TRAIT_RESTRAINED))
-		if(HAS_TRAIT_FROM_ONLY(carbon_parent, TRAIT_RESTRAINED, HANDCUFFED_TRAIT))
-			if(feedback)
-				carbon_parent.visible_message("struggles, signing slowly with [carbon_parent.p_their()] hands cuffed...", visible_message_flags = EMOTE_MESSAGE)
-			return TRUE // allowed, but elsewhere we mess with it
+	if(HAS_TRAIT_NOT_FROM(carbon_parent, TRAIT_RESTRAINED, HANDCUFFED_TRAIT))
 		if(feedback)
 			carbon_parent.visible_message("tries to sign, but can't with [carbon_parent.p_their()] hands bound!", visible_message_flags = EMOTE_MESSAGE)
 		return FALSE
@@ -76,3 +115,37 @@
 		hands -= 1
 
 	return hands
+
+// Handles the tonal indicator overlay
+/datum/status_effect/tonal_indicator
+	id = "tonal_indicator"
+	alert_type = null
+	duration = 2.5 SECONDS
+	tick_interval = STATUS_EFFECT_NO_TICK
+	status_type = STATUS_EFFECT_REPLACE
+	/// What type of tone are we conveying
+	var/tone_type
+
+/datum/status_effect/tonal_indicator/on_creation(mob/living/new_owner, tone_type = TONE_NEUTRAL)
+	src.tone_type = tone_type
+	return ..()
+
+/datum/status_effect/tonal_indicator/on_apply()
+	if(tone_type == TONE_NEUTRAL)
+		stack_trace("Tonal indicator applied with neutral tone - only works for non-neutral tones")
+		return FALSE
+	if(!owner.client?.typing_indicators)
+		return FALSE
+
+	RegisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(on_update_overlays))
+	owner.update_appearance(UPDATE_OVERLAYS)
+	return TRUE
+
+/datum/status_effect/tonal_indicator/on_remove()
+	UnregisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS)
+	owner.update_appearance(UPDATE_OVERLAYS)
+
+/datum/status_effect/tonal_indicator/proc/on_update_overlays(datum/source, list/overlays)
+	SIGNAL_HANDLER
+
+	overlays += mutable_appearance('icons/mob/effects/talk.dmi', "signlang[tone_type]", TYPING_LAYER)

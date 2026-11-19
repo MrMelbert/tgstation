@@ -196,11 +196,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	if(sigreturn & COMPONENT_UPPERCASE_SPEECH)
 		message = uppertext(message)
 
-	var/list/message_data = treat_message(message, language) // unfortunately we still need this
-	message = message_data["message"]
-	var/tts_message = message_data["tts_message"]
-	var/list/tts_filter = message_data["tts_filter"]
-
+	message = treat_message(message, language) // unfortunately we still need this
 	spans |= speech_span
 
 	var/datum/language/spoken_lang = GLOB.language_datum_instances[language]
@@ -220,8 +216,12 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 			succumb()
 		return
 
+	var/static/regex/shout_regex = regex(@"\w+\s*(!+)\s*$\s*", "i")
+	if(!message_mods[SHOUT_MODE] && shout_regex.Find(message))
+		message_mods[SHOUT_MODE] = length_char(shout_regex.group[1]) > 1 ? MODE_YELL : MODE_SHOUT
+
 	//Get which verb is prefixed to the message before radio but after most modifications
-	message_mods[SAY_MOD_VERB] ||= say_mod(message, message_mods)
+	message_mods[SAY_MOD_VERB] ||= say_mod(message, language, message_mods)
 
 	if(SStts.tts_enabled && voice && !message_mods[MODE_CUSTOM_SAY_ERASE_INPUT] && !(spoken_lang.flags & LANGUAGE_VISUAL) && !HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE))
 		var/list/filter = list()
@@ -229,6 +229,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 		if(length(voice_filter) > 0)
 			filter += voice_filter
 
+		var/list/tts_filter = message_mods[MODS_TTS_FILTER]
 		if(length(tts_filter) > 0)
 			filter += tts_filter.Join(",")
 
@@ -249,7 +250,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 		message_range = 1
 		if(!message_mods[WHISPER_MODE])
 			message_mods[WHISPER_MODE] = MODE_WHISPER
-			message_mods[SAY_MOD_VERB] = say_mod(message, message_mods)
+			message_mods[SAY_MOD_VERB] = say_mod(message, language, message_mods)
 
 	//No screams in space, unless you're next to someone.
 	var/turf/T = get_turf(src)
@@ -325,7 +326,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 			// But we can still see them speak
 			if(speaker_is_signing)
-				deaf_message = "[speaker_name] [speaker.get_default_say_verb()] something, but the motions are too subtle to make out from afar."
+				deaf_message = "[speaker_name] [speaker.get_default_say_verb(message_language)] something, but the motions are too subtle to make out from afar."
 			// If we can't hear we want to continue to the default deaf message
 			else if(!HAS_TRAIT(src, TRAIT_DEAF))
 				if(isliving(speaker))
@@ -381,7 +382,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 	if(speaker != src)
 		if(!radio_freq) //These checks have to be separate, else people talking on the radio will make "You can't hear yourself!" appear when hearing people over the radio while deaf.
-			deaf_message = "[speaker_name] [speaker.get_default_say_verb()] something but you cannot hear [speaker.p_them()]."
+			deaf_message = "[speaker_name] [speaker.get_default_say_verb(message_language)] something but you cannot hear [speaker.p_them()]."
 			deaf_type = MSG_VISUAL
 	else
 		deaf_message = span_notice("You can't hear yourself!")
@@ -510,7 +511,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 	if(!(sigreturn & TREAT_MESSAGE_NO_LANGUAGE))
 		var/datum/language/language_instance = GLOB.language_datum_instances[language]
-		message = language_instance.modify_message(message)
+		message = language_instance.modify_message(src, message)
 
 	if(!(sigreturn & TREAT_MESSAGE_NO_CAPITALIZE))
 		message = capitalize(message)
@@ -546,30 +547,30 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	return NONE
 
 /mob/living/say_mod(input, list/message_mods = list())
-	if(message_mods[WHISPER_MODE] == MODE_WHISPER)
-		. = verb_whisper
-	else if(message_mods[WHISPER_MODE] == MODE_WHISPER_CRIT && !HAS_TRAIT(src, TRAIT_SUCCUMB_OVERRIDE))
-		. = "[verb_whisper] in [p_their()] last breath"
-	else if(message_mods[MODE_SING])
-		. = verb_sing
-	// Any subtype of slurring in our status effects make us "slur"
-	else if(locate(/datum/status_effect/speech/slurring) in status_effects)
-		if (HAS_TRAIT(src, TRAIT_SIGN_LANG))
-			. = "loosely signs"
-		else
-			. = "slurs"
-	else if(has_status_effect(/datum/status_effect/speech/stutter))
-		if(HAS_TRAIT(src, TRAIT_SIGN_LANG))
-			. = "shakily signs"
-		else
-			. = "stammers"
-	else if(has_status_effect(/datum/status_effect/speech/stutter/derpspeech))
-		if(HAS_TRAIT(src, TRAIT_SIGN_LANG))
-			. = "incoherently signs"
-		else
-			. = "gibbers"
-	else
-		. = ..()
+	// if(message_mods[WHISPER_MODE] == MODE_WHISPER)
+	// 	. = verb_whisper
+	// else if(message_mods[WHISPER_MODE] == MODE_WHISPER_CRIT && !HAS_TRAIT(src, TRAIT_SUCCUMB_OVERRIDE))
+	// 	. = "[verb_whisper] in [p_their()] last breath"
+	// else if(message_mods[MODE_SING])
+	// 	. = verb_sing
+	// // Any subtype of slurring in our status effects make us "slur"
+	// else if(locate(/datum/status_effect/speech/slurring) in status_effects)
+	// 	if (HAS_TRAIT(src, TRAIT_SIGN_LANG))
+	// 		. = "loosely signs"
+	// 	else
+	// 		. = "slurs"
+	// else if(has_status_effect(/datum/status_effect/speech/stutter))
+	// 	if(HAS_TRAIT(src, TRAIT_SIGN_LANG))
+	// 		. = "shakily signs"
+	// 	else
+	// 		. = "stammers"
+	// else if(has_status_effect(/datum/status_effect/speech/stutter/derpspeech))
+	// 	if(HAS_TRAIT(src, TRAIT_SIGN_LANG))
+	// 		. = "incoherently signs"
+	// 	else
+	// 		. = "gibbers"
+	// else
+	// 	. = ..()
 
 /**
  * Living level whisper.

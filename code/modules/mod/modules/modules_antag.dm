@@ -436,17 +436,14 @@
 /obj/item/mod/module/infiltrator/on_part_activation()
 	mod.wearer.add_traits(traits_to_add, REF(src))
 	RegisterSignal(mod.wearer, COMSIG_TRY_MODIFY_SPEECH, PROC_REF(on_speech_modification))
-	var/obj/item/organ/tongue/user_tongue = mod.wearer.get_organ_slot(ORGAN_SLOT_TONGUE)
-	user_tongue.temp_say_mod = "states"
+	RegisterSignal(mod.wearer, COMSIG_MOVABLE_SAY_MOD, PROC_REF(handle_saymod))
 	var/obj/item/clothing/head_cover = mod.get_part_from_slot(ITEM_SLOT_HEAD)
 	if(istype(head_cover))
 		head_cover.flash_protect = FLASH_PROTECTION_WELDER_HYPER_SENSITIVE
 
 /obj/item/mod/module/infiltrator/on_part_deactivation(deleting = FALSE)
 	mod.wearer.remove_traits(traits_to_add, REF(src))
-	UnregisterSignal(mod.wearer, COMSIG_TRY_MODIFY_SPEECH)
-	var/obj/item/organ/tongue/user_tongue = mod.wearer.get_organ_slot(ORGAN_SLOT_TONGUE)
-	user_tongue.temp_say_mod = initial(user_tongue.temp_say_mod)
+	UnregisterSignal(mod.wearer, list(COMSIG_TRY_MODIFY_SPEECH, COMSIG_MOVABLE_SAY_MOD))
 	if(deleting)
 		return
 	var/obj/item/clothing/head_cover = mod.get_part_from_slot(ITEM_SLOT_HEAD)
@@ -456,9 +453,20 @@
 /obj/item/mod/module/infiltrator/proc/on_speech_modification(datum/source)
 	SIGNAL_HANDLER
 	if(!mod.active)
-		return
+		return NONE
 	//Prevent speech modifications if the suit is active
 	return PREVENT_MODIFY_SPEECH
+
+/obj/item/mod/module/infiltrator/proc/handle_saymod(mob/living/speaker, datum/saymod_selector/selector)
+	SIGNAL_HANDLER
+	if(!mod.active)
+		return
+	selector.add_saymod(SAY_MOD_ASK, "queries", SAY_MOD_PRIORITY_HIGH)
+	selector.add_saymod(SAY_MOD_EXCLAIM, "blares", SAY_MOD_PRIORITY_HIGH)
+	selector.add_saymod(SAY_MOD_SING, "synthesizes", SAY_MOD_PRIORITY_HIGH)
+	selector.add_saymod(SAY_MOD_WHISPER, "whirrs", SAY_MOD_PRIORITY_HIGH)
+	selector.add_saymod(SAY_MOD_WHISPER_YELL, "states", SAY_MOD_PRIORITY_HIGH)
+	selector.add_saymod(SAY_MOD_YELL, "alarms", SAY_MOD_PRIORITY_HIGH)
 
 ///Medbeam - Medbeam but built into a modsuit
 /obj/item/mod/module/medbeam

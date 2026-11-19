@@ -231,7 +231,14 @@
  *
  * Returns the modified message.
  */
-/datum/language/proc/modify_message(message)
+/datum/language/proc/modify_message(mob/living/speaker, message)
+	if(ishuman(speaker) && !HAS_TRAIT(speaker, TRAIT_SPEAKS_CLEARLY))
+		var/static/regex/tongueless_lower = new("\[gdntke]+", "g")
+		var/static/regex/tongueless_upper = new("\[GDNTKE]+", "g")
+		if(message[1] != "*")
+			message = tongueless_lower.Replace(message, pick("aa", "oo", "'"))
+			message = tongueless_upper.Replace(message, pick("AA", "OO", "'"))
+
 	return message
 
 /**
@@ -384,5 +391,8 @@
 			to_chat(some_atom, span_warning("You find yourself unable to speak!"))
 		return FALSE
 	return TRUE
+
+/datum/language/proc/add_saymods(datum/saymod_selector/selector)
+	return
 
 #undef SCRAMBLE_CACHE_LEN

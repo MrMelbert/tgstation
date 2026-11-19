@@ -1,34 +1,12 @@
+/mob/living/carbon/human/get_default_say_verb(datum/language/language)
+	if(language::flags & LANGUAGE_VISUAL)
+		return "signs"
 
-
-/mob/living/carbon/human/say(
-	message,
-	bubble_type,
-	list/spans = list(),
-	sanitize = TRUE,
-	datum/language/language,
-	ignore_spam = FALSE,
-	forced,
-	filterproof = FALSE,
-	message_range = 7,
-	datum/saymode/saymode,
-	list/message_mods = list(),
-)
-	var/datum/language/language_instance = GLOB.language_datum_instances[language]
-	if(!HAS_TRAIT(src, TRAIT_SPEAKS_CLEARLY) && !(language_instance.flags & LANGUAGE_VISUAL))
-		var/static/regex/tongueless_lower = new("\[gdntke]+", "g")
-		var/static/regex/tongueless_upper = new("\[GDNTKE]+", "g")
-		if(message[1] != "*")
-			message = tongueless_lower.Replace(message, pick("aa","oo","'"))
-			message = tongueless_upper.Replace(message, pick("AA","OO","'"))
-	return ..()
-
-/mob/living/carbon/human/get_default_say_verb()
 	var/obj/item/organ/tongue/tongue = get_organ_slot(ORGAN_SLOT_TONGUE)
 	if(isnull(tongue))
-		if(HAS_TRAIT(src, TRAIT_SIGN_LANG))
-			return "signs"
 		return "gurgles"
-	return  tongue.temp_say_mod || tongue.say_mod || ..()
+
+	return ..()
 
 /mob/living/carbon/human/get_voice(add_id_name = FALSE)
 	if(HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE))

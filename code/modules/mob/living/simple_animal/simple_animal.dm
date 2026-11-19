@@ -337,7 +337,7 @@
 		new /obj/effect/temp_visual/gib_animation/animal(loc, icon_gib)
 
 
-/mob/living/simple_animal/get_default_say_verb()
+/mob/living/simple_animal/get_default_say_verb(datum/language/language)
 	return length(speak_emote) ? pick(speak_emote) : ..()
 
 /mob/living/simple_animal/proc/set_varspeed(var_value)

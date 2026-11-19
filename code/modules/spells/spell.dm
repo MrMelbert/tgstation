@@ -427,18 +427,15 @@
 			to_chat(invoker, span_warning("You need to be living to invoke [src]!"))
 		return FALSE
 
-	var/invoke_sig_return = SEND_SIGNAL(invoker, COMSIG_MOB_TRY_INVOKE_SPELL, src, feedback)
-	if(invoke_sig_return & SPELL_INVOCATION_ALWAYS_SUCCEED)
-		return TRUE // skips all of the following checks
-	if(invoke_sig_return & SPELL_INVOCATION_FAIL)
-		return FALSE
-
 	if(invocation_type == INVOCATION_EMOTE && HAS_TRAIT(invoker, TRAIT_EMOTEMUTE))
 		if(feedback)
 			to_chat(invoker, span_warning("You can't position your hands correctly to invoke [src]!"))
 		return FALSE
 
-	if((invocation_type == INVOCATION_WHISPER || invocation_type == INVOCATION_SHOUT) && !invoker.can_speak())
+	var/datum/language/language_instance = GLOB.language_datum_instances[invoker.get_selected_language()]
+	if(invocation_type == INVOCATION_WHISPER || invocation_type == INVOCATION_SHOUT)
+		if(language_instance.can_atom_speak(invoker, FALSE, feedback))
+			return TRUE
 		if(feedback)
 			to_chat(invoker, span_warning("You can't get the words out to invoke [src]!"))
 		return FALSE
