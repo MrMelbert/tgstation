@@ -177,7 +177,7 @@
 	SIGNAL_HANDLER
 
 	speech_args[SPEECH_SPANS] |= voicespan
-	speech_args[SPEECH_MODS][MODS_TTS_FILTER] += "acrusher=samples=2:level_out=6,aecho=delays=90:decays=0.3,aemphasis=type=cd,acontrast=30,crystalizer=i=5"
+	speech_args[SPEECH_MODS][MODE_TTS_FILTER] += "acrusher=samples=2:level_out=6,aecho=delays=90:decays=0.3,aemphasis=type=cd,acontrast=30,crystalizer=i=5"
 	drain_power(use_energy_cost)
 
 ///Criminal Capture - Generates hardlight bags you can put people in and sinch.

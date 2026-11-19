@@ -31,13 +31,13 @@
 	lose_text = span_notice("You suddenly remember how languages work.")
 
 /datum/brain_trauma/severe/aphasia/on_gain()
-	owner.add_blocked_language(subtypesof(/datum/language) - /datum/language/aphasia, source = LANGUAGE_APHASIA)
+	owner.add_blocked_language(valid_subtypesof(/datum/language) - /datum/language/aphasia, source = LANGUAGE_APHASIA)
 	owner.grant_language(/datum/language/aphasia, source = LANGUAGE_APHASIA)
 	. = ..()
 
 /datum/brain_trauma/severe/aphasia/on_lose()
 	if(!QDELING(owner))
-		owner.remove_blocked_language(subtypesof(/datum/language), source = LANGUAGE_APHASIA)
+		owner.remove_blocked_language(valid_subtypesof(/datum/language), source = LANGUAGE_APHASIA)
 		owner.remove_language(/datum/language/aphasia, source = LANGUAGE_APHASIA)
 
 	..()

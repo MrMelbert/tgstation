@@ -7,7 +7,7 @@
 #define LANGUAGE_HIDE_ICON_IF_UNDERSTOOD (1<<2)
 /// Language icon is hidden if the language is not understood
 #define LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD (1<<3)
-
+/// Language is visual, not auditory, such as a sign language
 #define LANGUAGE_VISUAL (1<<4)
 
 // Returns from display_icon_type

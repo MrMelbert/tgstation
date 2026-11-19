@@ -135,7 +135,8 @@
 		return user.death_sound
 
 /datum/emote/living/deathgasp/should_play_sound(mob/living/user, intentional = FALSE)
-	if(!user.can_speak() || user.get_oxy_loss() >= 50)
+	var/datum/language/language_instance = GLOB.language_datum_instances[/datum/language/common]
+	if(!language_instance.can_atom_speak(user) || user.get_oxy_loss() >= 50)
 		return FALSE //stop the sound if oxyloss too high/cant speak
 	return ..()
 
@@ -318,7 +319,8 @@
 	)
 
 /datum/emote/living/laugh/can_run_emote(mob/living/user, status_check = TRUE , intentional, params)
-	return ..() && user.can_speak(allow_mimes = TRUE)
+	var/datum/language/language_instance = GLOB.language_datum_instances[/datum/language/common]
+	return ..() && language_instance.can_atom_speak(user, TRUE)
 
 /datum/emote/living/look
 	key = "look"

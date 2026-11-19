@@ -286,8 +286,7 @@
 	var/sigreturn = SEND_SIGNAL(talking_movable, COMSIG_MOVABLE_USING_RADIO, src, channel) | SEND_SIGNAL(src, COMSIG_RADIO_NEW_MESSAGE, talking_movable, message, channel)
 	if(sigreturn & COMPONENT_CANNOT_USE_RADIO)
 		return NONE
-	var/datum/language/language_instance = GLOB.language_datum_instances[message_mods[SPEECH_LANGUAGE]]
-	if((language_instance.flags & LANGUAGE_VISUAL) && !(sigreturn & COMPONENT_ALLOW_VISUAL_RADIO))
+	if((language::flags & LANGUAGE_VISUAL) && !(sigreturn & COMPONENT_ALLOW_VISUAL_RADIO))
 		return NONE
 
 	if(!spans)

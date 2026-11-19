@@ -63,6 +63,7 @@
 	)
 
 	mutual_understanding = list(
+		/datum/language/sign_language/common = 100,
 		/datum/language/beachbum = 33,
 		/datum/language/uncommon = 20,
 	)

@@ -112,13 +112,13 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	if(language_instance.flags & LANGUAGE_VISUAL)
 		return
 
-	var/final_message = message_mods[MODS_TTS_MESSAGE] || message
+	var/final_message = message_mods[MODE_TTS_MESSAGE] || message
 
 	var/list/filter = list()
 	if(length(voice_filter) > 0)
 		filter += voice_filter
 
-	var/list/additional_filter = message_mods[MODS_TTS_FILTER]
+	var/list/additional_filter = message_mods[MODE_TTS_FILTER]
 	if(length(additional_filter) > 0)
 		filter += additional_filter.Join(",")
 
@@ -146,7 +146,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/list/listened = list()
 
 	var/tts_message_to_use = message_mods[MODE_TTS_MESSAGE] || message
-	var/tts_filter = message_mods[MODE_TTS_FILTER]
+	var/list/tts_filter = message_mods[MODE_TTS_FILTER]
 
 	var/list/filter = list()
 	if(length(voice_filter) > 0)

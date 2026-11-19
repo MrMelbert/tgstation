@@ -45,9 +45,9 @@
 		return // No change was done, whatever
 
 	if(length(tts_filter) > 0)
-		message_args[TREAT_MESSAGE_MODS][MODS_TTS_FILTER] += tts_filter
+		message_args[TREAT_MESSAGE_MODS][MODE_TTS_FILTER] += tts_filter
 	if(make_tts_message_original)
-		message_args[TREAT_MESSAGE_MODS][MODS_TTS_MESSAGE] = message_args[TREAT_MESSAGE_ARG]
+		message_args[TREAT_MESSAGE_MODS][MODE_TTS_MESSAGE] = message_args[TREAT_MESSAGE_ARG]
 
 	message_args[TREAT_MESSAGE_ARG] = sanitize(final_phrase)
 
@@ -313,6 +313,9 @@
 		replacement_dupe_check = TRUE
 
 	return modified_char
+
+/datum/status_effect/speech/slurring/handle_saymod(datum/source, datum/saymod_selector/selector, datum/language/language_path)
+	selector.add_saymod(SAY_MOD_DEFAULT, (language_path::flags & LANGUAGE_VISUAL) ? "loosely signs" : "slurs", SAY_MOD_PRIORITY_MEDIUM)
 
 /datum/status_effect/speech/slurring/generic
 	id = "generic_slurring"

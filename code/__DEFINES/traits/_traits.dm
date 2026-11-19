@@ -122,8 +122,15 @@
 #define GET_TRAIT_SOURCES(target, trait) (target?._status_traits?[trait] || list())
 /// Returns the amount of sources for a trait. useful if you don't want to have a "thing counter" stuck around all the time
 #define COUNT_TRAIT_SOURCES(target, trait) length(GET_TRAIT_SOURCES(target, trait))
-/// A simple helper for checking traits in a mob's mind
-#define HAS_MIND_TRAIT(target, trait) (HAS_TRAIT(target, trait) || (target.mind && HAS_TRAIT(target.mind, trait)))
-#define HAS_MIND_TRAIT_FROM(target, trait, source) (HAS_TRAIT_FROM(target, trait,source) || (target.mind && HAS_TRAIT_FROM(target.mind, trait, source)))
-#define ADD_MIND_TRAIT(target, trait, source) if(target.mind) { ADD_TRAIT(target.mind, trait, source) }
-#define REMOVE_MIND_TRAIT(target, trait, source) if(target.mind) { REMOVE_TRAIT(target.mind, trait, source) }
+
+// Mind trait helpers - rule of thumb is they work with the mind's mob if it exists, otherwise they fall back to the target itself.
+/// Checks if the target OR the target's mind has the specified trait
+#define HAS_MIND_TRAIT(target, trait) (HAS_TRAIT(target, trait) || (HAS_TRAIT(astype(target, /mob)?.mind, trait)))
+/// Checks if the target OR the target's mind has the specified trait from the given source
+#define HAS_MIND_TRAIT_FROM(target, trait, source) (HAS_TRAIT_FROM(target, trait, source) || (HAS_TRAIT_FROM(astype(target, /mob)?.mind, trait, source)))
+/// Add a trait to the target, or their mind, if it exists
+#define ADD_MIND_TRAIT(target, trait, source) ADD_TRAIT((astype(target, /mob)?.mind || target), trait, source)
+/// Removes a trait from the target, or their mind, if it exists
+#define REMOVE_MIND_TRAIT(target, trait, source) REMOVE_TRAIT((astype(target, /mob)?.mind || target), trait, source)
+/// Returns a list of trait sources for the target's mind, or the target itself if no mind exists
+#define GET_MIND_TRAIT_SOURCES(target, trait) (astype(target, /mob)?.mind?._status_traits?[trait] || target?._status_traits?[trait] || list())

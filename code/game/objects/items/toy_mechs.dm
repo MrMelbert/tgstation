@@ -129,7 +129,7 @@
 	if(timer < world.time)
 		to_chat(user, span_notice("You play with [src]."))
 		timer = world.time + cooldown
-		if(!quiet)
+		if(!HAS_TRAIT(src, TRAIT_MUTE))
 			playsound(user, 'sound/vehicles/mecha/mechstep.ogg', 20, TRUE)
 	else
 		. = ..()
@@ -191,7 +191,7 @@
 	if(timer < world.time)
 		to_chat(user, span_notice("You telekinetically play with [src]."))
 		timer = world.time + cooldown
-		if(!quiet)
+		if(!HAS_TRAIT(src, TRAIT_MUTE))
 			playsound(user, 'sound/vehicles/mecha/mechstep.ogg', 20, TRUE)
 	return COMPONENT_CANCEL_ATTACK_CHAIN
 
@@ -262,9 +262,6 @@
 
 	if(wins || losses)
 		. += span_notice("This toy has [wins] wins, and [losses] losses.")
-
-/obj/item/toy/mecha/is_mute()
-	return quiet || ..()
 
 /**
  * The 'master' proc of the mech battle. Processes the entire battle's events and makes sure it start and finishes correctly.
@@ -416,9 +413,8 @@
 		attacker_controller.visible_message(span_notice("[attacker] demolishes [src] and walks away victorious!"), \
 							"[span_notice("You raise up [attacker] proudly over [src]")]!")
 	else //both win?
-		say("NEXT TIME.")
-		//don't want to make this a one sided conversation
-		quiet? attacker.say("I WENT EASY ON YOU.") : attacker.say("OF COURSE.")
+		say(pick("NEXT TIME.", "HMPH."))
+		attacker.say(pick("I WENT EASY ON YOU.", "OF COURSE."))
 
 	in_combat = FALSE
 	attacker.in_combat = FALSE
@@ -614,11 +610,14 @@
 /obj/item/toy/mecha/reticence
 	name = "toy Reticence"
 	icon_state = "reticencetoy"
-	quiet = TRUE
 	max_combat_health = 4 //100 integrity
 	special_attack_type = SPECIAL_ATTACK_OTHER
 	special_attack_type_message = "has a lower cooldown than normal special moves, increases the opponent's cooldown, and deals damage."
 	special_attack_cry = "*wave"
+
+/obj/item/toy/mecha/reticence/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_MUTE, INNATE_TRAIT)
 
 /obj/item/toy/mecha/reticence/super_special_attack(obj/item/toy/mecha/victim)
 	special_attack_cooldown-- //Has a lower cooldown...

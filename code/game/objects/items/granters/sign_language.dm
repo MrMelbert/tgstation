@@ -13,11 +13,12 @@
 	)
 
 /obj/item/book/granter/sign_language/can_learn(mob/living/user)
-	if (!iscarbon(user))
-		return
-	if (user.GetComponent(/datum/component/sign_language))
+	if (user.has_language(/datum/language/sign_language/common, ALL, LANGUAGE_MIND))
 		to_chat(user, span_warning("You already know all about sign language!"))
-		return
+		return FALSE
+	if(user.has_quirk(/datum/quirk/anti_signer))
+		to_chat(user, span_warning("You struggle to understand the symbology presented before you."))
+		return FALSE
 	return TRUE
 
 /obj/item/book/granter/sign_language/recoil(mob/living/user)
@@ -26,4 +27,4 @@
 /// Called when the reading is completely finished. This is where the actual granting should happen.
 /obj/item/book/granter/sign_language/on_reading_finished(mob/living/user)
 	..()
-	user.AddComponent(/datum/component/sign_language)
+	user.grant_language(/datum/language/sign_language/common, ALL, LANGUAGE_MIND)

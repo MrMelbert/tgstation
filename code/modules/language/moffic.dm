@@ -21,6 +21,10 @@
 	default_name_syllable_min = 5
 	default_name_syllable_max = 10
 
+	mutual_understanding = list(
+		/datum/language/sign_language/moth = 100,
+	)
+
 /datum/language/moffic/get_random_name(
 	gender = NEUTER,
 	name_count = default_name_count,

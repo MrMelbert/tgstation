@@ -40,10 +40,10 @@
 	speech_args[SPEECH_SPANS] |= voicespan
 	if(obj_flags & EMAGGED)
 		// somewhat compressed and ear-grating, crusty and noisy with a bit of echo.
-		speech_args[SPEECH_MODS][MODS_TTS_FILTER] += "acrusher=samples=9:level_out=7,aecho=delays=100:decays=0.4,aemphasis=type=emi,crystalizer=i=6,acontrast=60,rubberband=pitch=0.9"
+		speech_args[SPEECH_MODS][MODE_TTS_FILTER] += "acrusher=samples=9:level_out=7,aecho=delays=100:decays=0.4,aemphasis=type=emi,crystalizer=i=6,acontrast=60,rubberband=pitch=0.9"
 	else
 		// A sharper and louder sound with a bit of echo
-		speech_args[SPEECH_MODS][MODS_TTS_FILTER] += "acrusher=samples=2:level_out=6,aecho=delays=90:decays=0.3,aemphasis=type=cd,acontrast=30,crystalizer=i=5"
+		speech_args[SPEECH_MODS][MODE_TTS_FILTER] += "acrusher=samples=2:level_out=6,aecho=delays=90:decays=0.3,aemphasis=type=cd,acontrast=30,crystalizer=i=5"
 
 /obj/item/megaphone/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(obj_flags & EMAGGED)

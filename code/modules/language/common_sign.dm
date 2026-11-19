@@ -1,9 +1,14 @@
-/datum/language/galactic_sign
-	name = "Galactic Sign Language"
-	desc = "A universal sign language used for non-verbal communication across the galaxy."
+/datum/language/sign_language
+	abstract_type = /datum/language/sign_language
 	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_VISUAL
 	/// Any symbols to sanitize from signed messages.
 	var/static/regex/omissions = new ("\[!?\]", "g")
+
+/datum/language/sign_language/New()
+	. = ..()
+	for(var/sign_language_type in valid_typesof(/datum/language/sign_language))
+		if(sign_language_type != type)
+			mutual_understanding[sign_language_type] = 80
 
 // Defines to determine the tone of the signer's message.
 #define TONE_NEUTRAL 0 //! a statement
@@ -11,10 +16,11 @@
 #define TONE_EMPHATIC 2 //! an exclamation
 #define TONE_INQUISITIVE_EMPHATIC 3 //! both a question and an exclamation (interrobang)
 
-/datum/language/galactic_sign/modify_message(mob/living/speaker, message)
+/datum/language/sign_language/modify_message(mob/living/speaker, message)
+	speaker.bubble_icon = "signlang" // melbert todo..
+
 	var/exclamation_found = findtext(message, "!")
 	var/question_found = findtext(message, "?")
-	var/only_handcuffed = HAS_TRAIT_FROM_ONLY(speaker, TRAIT_RESTRAINED, HANDCUFFED_TRAIT)
 
 	var/emote_tone = TONE_NEUTRAL
 	if (exclamation_found && question_found)
@@ -49,26 +55,26 @@
 
 	return message
 
-/datum/language/galactic_sign/add_saymods(datum/saymod_selector/selector)
-	selector.add_saymod(SAY_MOD_ASK, "signs", SAY_MOD_PRIORITY_DEFAULT)
-	selector.add_saymod(SAY_MOD_EXCLAIM, "signs", SAY_MOD_PRIORITY_DEFAULT)
-	selector.add_saymod(SAY_MOD_SING, "rythmically signs", SAY_MOD_PRIORITY_DEFAULT)
-	selector.add_saymod(SAY_MOD_WHISPER, "subtly signs", SAY_MOD_PRIORITY_DEFAULT)
-	selector.add_saymod(SAY_MOD_WHISPER_YELL, "signs", SAY_MOD_PRIORITY_DEFAULT)
-	selector.add_saymod(SAY_MOD_YELL, "emphatically signs", SAY_MOD_PRIORITY_DEFAULT)
+/datum/language/sign_language/add_saymods(datum/saymod_selector/selector)
+	selector.add_saymod(SAY_MOD_ASK, "signs", SAY_MOD_PRIORITY_DEFAULT + 1)
+	selector.add_saymod(SAY_MOD_EXCLAIM, "signs", SAY_MOD_PRIORITY_DEFAULT + 1)
+	selector.add_saymod(SAY_MOD_SING, "rythmically signs", SAY_MOD_PRIORITY_DEFAULT + 1)
+	selector.add_saymod(SAY_MOD_WHISPER, "subtly signs", SAY_MOD_PRIORITY_DEFAULT + 1)
+	selector.add_saymod(SAY_MOD_WHISPER_YELL, "signs", SAY_MOD_PRIORITY_DEFAULT + 1)
+	selector.add_saymod(SAY_MOD_YELL, "emphatically signs", SAY_MOD_PRIORITY_DEFAULT + 1)
 
-/datum/language/galactic_sign/scramble_paragraph(input, list/mutual_languages)
+/datum/language/sign_language/scramble_paragraph(input, list/mutual_languages)
 	if(length(mutual_languages))
 		return ..()
 	return "makes a series of [pick("unknown", "strange", "foreign", "exaggerated", "eccentric")] gestures"
 
-/datum/language/galactic_sign/scramble_word(input)
+/datum/language/sign_language/scramble_word(input)
 	return "??"
 
-/datum/language/galactic_sign/can_atom_speak_language(atom/movable/some_atom, feedback)
+/datum/language/sign_language/can_atom_speak_language(atom/movable/some_atom, feedback)
 	return TRUE
 
-/datum/language/galactic_sign/can_atom_speak(atom/movable/some_atom, allow_mimes, feedback)
+/datum/language/sign_language/can_atom_speak(atom/movable/some_atom, allow_mimes, feedback)
 	if(!iscarbon(some_atom))
 		return TRUE
 
@@ -105,7 +111,7 @@
 
 	return TRUE
 
-/datum/language/galactic_sign/proc/get_unfilled_hands(mob/living/carbon/carbon_parent)
+/datum/language/sign_language/proc/get_unfilled_hands(mob/living/carbon/carbon_parent)
 	var/hands = carbon_parent.usable_hands
 	for(var/obj/item/held_item as anything in carbon_parent.get_held_items())
 		// items like slappers/zombie claws/etc. should be ignored
@@ -115,6 +121,32 @@
 		hands -= 1
 
 	return hands
+
+/datum/language/sign_language/common
+	name = "Galactic Sign Language"
+	desc = "A universal sign language used for non-verbal communication across the galaxy."
+
+/datum/language/sign_language/lizard
+	name = "Draconic Sign Language"
+	desc = "A sign language used by Lizardfolk for non-verbal communication. \
+		Unlike Galactic Sign Language, Draconic Sign Language makes heavy use of tail movement."
+
+/datum/language/sign_language/lizard/get_unfilled_hands(mob/living/carbon/carbon_parent)
+	if(carbon_parent.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL))
+		return ..()
+
+	return min(1, ..())
+
+/datum/language/sign_language/moth
+	name = "Mothic Sign Language"
+	desc = "A sign language used by Mothpeople for non-verbal communication. \
+		Unlike Galactic Sign Language, Mothic Sign Language makes heavy use of wing and antennae movement."
+
+/datum/language/sign_language/moth/get_unfilled_hands(mob/living/carbon/carbon_parent)
+	if(carbon_parent.get_organ_slot(ORGAN_SLOT_EXTERNAL_WINGS) && carbon_parent.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE))
+		return ..()
+
+	return min(1, ..())
 
 // Handles the tonal indicator overlay
 /datum/status_effect/tonal_indicator
@@ -132,7 +164,6 @@
 
 /datum/status_effect/tonal_indicator/on_apply()
 	if(tone_type == TONE_NEUTRAL)
-		stack_trace("Tonal indicator applied with neutral tone - only works for non-neutral tones")
 		return FALSE
 	if(!owner.client?.typing_indicators)
 		return FALSE
@@ -149,3 +180,8 @@
 	SIGNAL_HANDLER
 
 	overlays += mutable_appearance('icons/mob/effects/talk.dmi', "signlang[tone_type]", TYPING_LAYER)
+
+#undef TONE_NEUTRAL
+#undef TONE_INQUISITIVE
+#undef TONE_EMPHATIC
+#undef TONE_INQUISITIVE_EMPHATIC

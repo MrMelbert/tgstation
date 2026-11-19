@@ -223,12 +223,15 @@ Key procs
 		langs_to_check |= spoken_languages
 	if(flag_to_check & UNDERSTOOD_LANGUAGE && !LAZYACCESS(blocked_understanding, language))
 		langs_to_check |= understood_languages
+		for(var/lang_type, understanding in best_mutual_languages)
+			if(understanding >= 100)
+				langs_to_check |= lang_type
 
 	return language in langs_to_check
 
 /// Checks if you have partial understanding of the language passed.
 /datum/language_holder/proc/has_partial_language(language)
-	return LAZYACCESS(best_mutual_languages, language)
+	return LAZYACCESS(best_mutual_languages, language) && !LAZYACCESS(blocked_understanding, language)
 
 /// Checks if you can speak the language. Tongue limitations should be supplied as an argument.
 /datum/language_holder/proc/can_speak_language(language_path, feedback = FALSE)
@@ -340,7 +343,7 @@ GLOBAL_LIST_INIT(prototype_language_holders, init_language_holder_prototypes())
 /// Inits the global list of language holder prototypes.
 /proc/init_language_holder_prototypes()
 	var/list/prototypes = list()
-	for(var/holdertype in typesof(/datum/language_holder))
+	for(var/holdertype in valid_typesof(/datum/language_holder))
 		prototypes[holdertype] = new holdertype()
 
 	return prototypes

@@ -83,9 +83,9 @@
 /// Message has a TTS identifier attached to it
 #define MODE_TTS_IDENTIFIER "tts_identifier"
 /// Overrides message to say this instead of whatever was originally inputted
-#define MODS_TTS_MESSAGE "tts_message"
+#define MODE_TTS_MESSAGE "tts_message"
 /// Filters applied to the TTS message
-#define MODS_TTS_FILTER "tts_filter"
+#define MODE_TTS_FILTER "tts_filter"
 /// Override the mob's name
 #define MODE_SPEAKER_NAME_OVERRIDE "speaker_name_override"
 /// Override the mob's gender

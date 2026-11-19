@@ -25,12 +25,9 @@
 		if (feedback)
 			owner.balloon_alert(owner, "wait [DisplayTimeText(cords.next_command - world.time)]!")
 		return FALSE
-	if(isliving(owner))
-		var/mob/living/living = owner
-		if(!living.can_speak())
-			if (feedback)
-				owner.balloon_alert(owner, "can't speak!")
-			return FALSE
+	var/datum/language/language_instance = GLOB.language_datum_instances[owner.get_selected_language()]
+	if(!language_instance.can_atom_speak(owner, FALSE, feedback))
+		return FALSE
 	if((check_flags & AB_CHECK_CONSCIOUS) && IS_UNCONSCIOUS_OR_CRIT(owner))
 		if (feedback)
 			if(owner.stat == DEAD)
@@ -59,7 +56,8 @@
 		to_chat(owner, span_notice("You must wait [DisplayTimeText(next_command - world.time)] before Speaking again."))
 		return FALSE
 
-	return owner.can_speak()
+	var/datum/language/language_instance = GLOB.language_datum_instances[owner.get_selected_language()]
+	return language_instance.can_atom_speak(owner, FALSE, TRUE)
 
 /obj/item/organ/vocal_cords/colossus/handle_speech(message)
 	playsound(get_turf(owner), 'sound/effects/magic/clockwork/invoke_general.ogg', 300, TRUE, 5)
