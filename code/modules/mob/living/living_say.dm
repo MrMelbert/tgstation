@@ -161,10 +161,10 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 			return
 		COOLDOWN_START(client, say_slowmode, SSlag_switch.slowmode_cooldown)
 
-	if(!try_speak(original_message, ignore_spam, forced, filterproof))
-		return
-
 	language ||= message_mods[LANGUAGE_EXTENSION] || get_selected_language()
+
+	if(!try_speak(original_message, language, ignore_spam, forced, filterproof))
+		return
 
 	var/succumbed = FALSE
 
@@ -227,7 +227,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	var/tts_message_to_use = tts_message || message
 
 
-	if(SStts.tts_enabled && voice && !message_mods[MODE_CUSTOM_SAY_ERASE_INPUT] && !HAS_TRAIT(src, TRAIT_SIGN_LANG) && !HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE))
+	if(SStts.tts_enabled && voice && !message_mods[MODE_CUSTOM_SAY_ERASE_INPUT] && !(spoken_lang.flags & LANGUAGE_VISUAL) && !HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE))
 		var/list/filter = list()
 		var/list/special_filter = list()
 		if(length(voice_filter) > 0)
@@ -260,7 +260,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	var/turf/T = get_turf(src)
 	var/datum/gas_mixture/environment = T.return_air()
 	var/pressure = (environment)? environment.return_pressure() : 0
-	if(pressure < SOUND_MINIMUM_PRESSURE && !HAS_TRAIT(src, TRAIT_SIGN_LANG))
+	if(pressure < SOUND_MINIMUM_PRESSURE && !(spoken_lang.flags & LANGUAGE_VISUAL))
 		message_range = 1
 
 	if(pressure < ONE_ATMOSPHERE * (HAS_TRAIT(src, TRAIT_SPEECH_BOOSTER) ? 0.1 : 0.4)) //Thin air, let's italicise the message unless we have a loud low pressure speech trait and not in vacuum
@@ -287,6 +287,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 		deaf_type = MSG_AUDIBLE
 
 	var/atom/movable/virtualspeaker/holopad_speaker = speaker
+	var/datum/language/language_instance = GLOB.language_datum_instances[message_language]
 	var/avoid_highlight = src == (istype(holopad_speaker) ? holopad_speaker.source : speaker)
 
 	var/is_custom_emote = message_mods[MODE_CUSTOM_SAY_ERASE_INPUT]
@@ -297,7 +298,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 		if(raw_message != untranslated_raw_message)
 			understood = FALSE
 
-	var/speaker_is_signing = HAS_TRAIT(speaker, TRAIT_SIGN_LANG)
+	var/speaker_is_signing = (language_instance.flags & LANGUAGE_VISUAL)
 	var/use_runechat = client?.prefs.read_preference(/datum/preference/toggle/enable_runechat)
 	if (IS_UNCONSCIOUS_AND_ALIVE(src))
 		use_runechat = FALSE

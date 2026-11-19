@@ -263,8 +263,8 @@
 	if(wins || losses)
 		. += span_notice("This toy has [wins] wins, and [losses] losses.")
 
-/obj/item/toy/mecha/can_speak(allow_mimes)
-	return !quiet && ..()
+/obj/item/toy/mecha/is_mute()
+	return quiet || ..()
 
 /**
  * The 'master' proc of the mech battle. Processes the entire battle's events and makes sure it start and finishes correctly.

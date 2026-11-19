@@ -112,7 +112,8 @@
 /obj/item/organ/ears/proc/adjust_speech(datum/source, list/speech_args)
 	SIGNAL_HANDLER
 
-	if(HAS_TRAIT_NOT_FROM(owner, TRAIT_DEAF, EAR_DAMAGE) || HAS_TRAIT(owner, TRAIT_SIGN_LANG))
+	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
+	if(HAS_TRAIT_NOT_FROM(owner, TRAIT_DEAF, EAR_DAMAGE) || (language_instance.flags & LANGUAGE_VISUAL))
 		return
 
 	var/message = speech_args[SPEECH_MESSAGE]

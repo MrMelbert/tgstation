@@ -55,7 +55,8 @@
 /datum/component/marionette/proc/on_puller_speech(datum/source, list/speech_args)
 	SIGNAL_HANDLER
 
-	if(HAS_TRAIT(grabber, TRAIT_SIGN_LANG))
+	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
+	if(language_instance.flags & LANGUAGE_VISUAL)
 		return
 
 	var/message = speech_args[SPEECH_MESSAGE]

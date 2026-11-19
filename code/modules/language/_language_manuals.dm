@@ -20,7 +20,7 @@
 
 	user.grant_language(language)
 	user.remove_blocked_language(language, source=LANGUAGE_ALL)
-	ADD_TRAIT(user.mind, TRAIT_TOWER_OF_BABEL, MAGIC_TRAIT) // this makes you immune to babel effects
+	ADD_MIND_TRAIT(user, TRAIT_OMNI_TONGUE, MAGIC_TRAIT) // this makes you immune to babel effects
 
 	use_charge(user)
 

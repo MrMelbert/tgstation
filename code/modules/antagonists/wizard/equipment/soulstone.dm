@@ -418,7 +418,6 @@
 	soulstone_spirit.copy_languages(victim, LANGUAGE_MIND)//Copies the old mobs languages into the new mob holder.
 	if(user)
 		soulstone_spirit.copy_languages(user, LANGUAGE_MASTER)
-	soulstone_spirit.get_language_holder().omnitongue = TRUE //Grants omnitongue
 	if(user)
 		soulstone_spirit.add_ally(user) //Add the master as a faction, allowing inter-mob cooperation
 		if(IS_CULTIST(user))

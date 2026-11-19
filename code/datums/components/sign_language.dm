@@ -89,7 +89,6 @@
 	RegisterSignal(carbon_parent, COMSIG_CARBON_GAIN_ORGAN, PROC_REF(on_added_organ))
 	RegisterSignal(carbon_parent, COMSIG_MOB_TRY_SPEECH, PROC_REF(on_try_speech))
 	RegisterSignal(carbon_parent, COMSIG_LIVING_TREAT_MESSAGE, PROC_REF(on_treat_living_message))
-	RegisterSignal(carbon_parent, COMSIG_MOVABLE_USING_RADIO, PROC_REF(on_using_radio))
 	RegisterSignal(carbon_parent, COMSIG_MOVABLE_SAY_QUOTE, PROC_REF(on_say_quote))
 	RegisterSignal(carbon_parent, COMSIG_MOB_SAY, PROC_REF(on_say))
 	RegisterSignal(carbon_parent, COMSIG_MOB_TRY_INVOKE_SPELL, PROC_REF(can_cast_spell))
@@ -116,7 +115,6 @@
 		COMSIG_CARBON_GAIN_ORGAN,
 		COMSIG_MOB_TRY_SPEECH,
 		COMSIG_LIVING_TREAT_MESSAGE,
-		COMSIG_MOVABLE_USING_RADIO,
 		COMSIG_MOVABLE_SAY_QUOTE,
 		COMSIG_MOB_SAY,
 		COMSIG_MOB_TRY_INVOKE_SPELL,
@@ -133,84 +131,6 @@
 	var/obj/item/organ/tongue/new_tongue = new_organ
 	new_tongue.temp_say_mod = "signs"
 
-/// Signal proc for [COMSIG_MOB_TRY_SPEECH]
-/// Sign languagers can always speak regardless of they're mute (as long as they're not mimes)
-/datum/component/sign_language/proc/on_try_speech(mob/living/source, message, ignore_spam, forced)
-	SIGNAL_HANDLER
-
-	var/mob/living/carbon/carbon_parent = parent
-	if(HAS_MIND_TRAIT(carbon_parent, TRAIT_MIMING))
-		to_chat(carbon_parent, span_green("You stop yourself from signing in favor of the artform of mimery!"))
-		return COMPONENT_CANNOT_SPEAK
-
-	switch(check_signables_state())
-		if(SIGN_HANDS_FULL) // Full hands
-			carbon_parent.visible_message("tries to sign, but can't with [carbon_parent.p_their()] hands full!", visible_message_flags = EMOTE_MESSAGE)
-			return COMPONENT_CANNOT_SPEAK
-
-		if(SIGN_HANDS_COMPLETELY_RESTRAINED) // Restrained
-			carbon_parent.visible_message("tries to sign, but can't with [carbon_parent.p_their()] hands bound!", visible_message_flags = EMOTE_MESSAGE)
-			return COMPONENT_CANNOT_SPEAK
-
-		// If we're handcuffed, we can still sign, but it's slow
-		if(SIGN_SLOWLY_FROM_CUFFS)
-			carbon_parent.visible_message("struggles, signing slowly with [carbon_parent.p_their()] hands cuffed...", visible_message_flags = EMOTE_MESSAGE)
-			return COMPONENT_IGNORE_CAN_SPEAK
-
-		if(SIGN_ARMLESS) // No arms
-			to_chat(carbon_parent, span_warning("You can't sign with no hands!"))
-			return COMPONENT_CANNOT_SPEAK
-
-		if(SIGN_ARMS_DISABLED) // Arms but they're disabled
-			to_chat(carbon_parent, span_warning("You can't sign with your hands right now!"))
-			return COMPONENT_CANNOT_SPEAK
-
-		if(SIGN_TRAIT_BLOCKED) // Hands blocked or emote mute
-			to_chat(carbon_parent, span_warning("You can't sign at the moment!"))
-			return COMPONENT_CANNOT_SPEAK
-
-	// Assuming none of the above fail, sign language users can speak
-	// regardless of being muzzled or mute toxin'd or whatever.
-	return COMPONENT_IGNORE_CAN_SPEAK
-
-/// Checks to see what state this person is in and if they are able to sign or not.
-/datum/component/sign_language/proc/check_signables_state()
-	var/mob/living/carbon/carbon_parent = parent
-	// See how many hands we can actually use (this counts disabled / missing limbs for us)
-	var/total_hands = carbon_parent.usable_hands
-	// Look ma, no hands!
-	if(total_hands <= 0)
-		// Either our hands are still attached (just disabled) or they're gone entirely
-		return carbon_parent.num_hands > 0 ? SIGN_ARMS_DISABLED : SIGN_ARMLESS
-
-	// Now let's see how many of our hands is holding something
-	var/busy_hands = 0
-	for(var/obj/item/held_item as anything in carbon_parent.get_held_items())
-		// items like slappers/zombie claws/etc. should be ignored
-		if(held_item.item_flags & HAND_ITEM)
-			continue
-
-		busy_hands++
-
-	// Handcuffed or otherwise restrained
-	if(HAS_TRAIT(carbon_parent, TRAIT_RESTRAINED))
-		if(HAS_TRAIT_FROM_ONLY(carbon_parent, TRAIT_RESTRAINED, HANDCUFFED_TRAIT))
-			return SIGN_SLOWLY_FROM_CUFFS
-		else
-			return SIGN_HANDS_COMPLETELY_RESTRAINED
-	// Some other trait preventing us from using our hands now
-	else if(HAS_TRAIT(carbon_parent, TRAIT_HANDS_BLOCKED) || HAS_TRAIT(carbon_parent, TRAIT_EMOTEMUTE))
-		return SIGN_TRAIT_BLOCKED
-
-	// Okay let's compare the total hands to the number of busy hands
-	// to see how many we have left to use for signing right now
-	var/actually_usable_hands = total_hands - busy_hands
-	if(actually_usable_hands <= 0)
-		return SIGN_HANDS_FULL
-	if(actually_usable_hands == 1)
-		return SIGN_ONE_HAND
-
-	return SIGN_OKAY
 
 /**
  * Check if we can sign the given spell
@@ -254,13 +174,6 @@
 	SIGNAL_HANDLER
 
 	message_args[MOVABLE_SAY_QUOTE_MESSAGE] = sanitize_message(message_args[MOVABLE_SAY_QUOTE_MESSAGE])
-
-/// Signal proc for [COMSIG_MOVABLE_USING_RADIO]
-/// Disallows us from speaking on comms if we don't have the special trait.
-/datum/component/sign_language/proc/on_using_radio(atom/movable/source, obj/item/radio/radio)
-	SIGNAL_HANDLER
-
-	return HAS_TRAIT(source, TRAIT_CAN_SIGN_ON_COMMS) ? NONE : COMPONENT_CANNOT_USE_RADIO
 
 /// Replaces emphatic punctuation with periods. Changes tonal indicator and emotes based on what is typed.
 /datum/component/sign_language/proc/on_say(mob/living/carbon/carbon_parent, list/speech_args)
@@ -341,3 +254,15 @@
 #undef TONE_INQUISITIVE
 #undef TONE_EMPHATIC
 #undef TONE_INQUISITIVE_EMPHATIC
+
+/datum/component/wearertargeting/allow_radio_signing
+	signals = list(COMSIG_MOVABLE_USING_RADIO)
+	proctype = PROC_REF(radio_help)
+
+/datum/component/wearertargeting/allow_radio_signing/Initialize()
+	. = ..()
+	valid_slots = astype(parent, /obj/item)?.slot_flags || NONE
+
+/datum/component/wearertargeting/allow_radio_signing/proc/radio_help(...)
+	SIGNAL_HANDLER
+	return COMPONENT_ALLOW_VISUAL_RADIO

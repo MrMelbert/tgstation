@@ -768,10 +768,14 @@
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 7.5, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 5)
 
 /obj/item/mod/module/signlang_radio/on_part_activation()
-	ADD_TRAIT(mod.wearer, TRAIT_CAN_SIGN_ON_COMMS, REF(src))
+	RegisterSignal(mod.wearer, COMSIG_MOVABLE_USING_RADIO, PROC_REF(radio_help))
 
 /obj/item/mod/module/signlang_radio/on_part_deactivation(deleting = FALSE)
-	REMOVE_TRAIT(mod.wearer, TRAIT_CAN_SIGN_ON_COMMS, REF(src))
+	UnregisterSignal(mod.wearer, COMSIG_MOVABLE_USING_RADIO)
+
+/obj/item/mod/module/signlang_radio/proc/radio_help(...)
+	SIGNAL_HANDLER
+	return COMPONENT_ALLOW_VISUAL_RADIO
 
 ///A module that recharges the suit by an itsy tiny bit whenever the user takes a step. Originally called "magneto module" but the videogame reference sounds cooler.
 /obj/item/mod/module/joint_torsion

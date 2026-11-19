@@ -46,7 +46,7 @@ GAME_VERB(/mob, me_verb, VERB_ME, null)
 
 	QUEUE_OR_CALL_VERB_FOR(VERB_CALLBACK(src, TYPE_PROC_REF(/mob, emote), "me", NONE, message, TRUE), SSspeech_controller)
 
-/mob/try_speak(message, ignore_spam = FALSE, forced = null, filterproof = FALSE)
+/mob/try_speak(message, language = /datum/language/common, ignore_spam = FALSE, forced = null, filterproof = FALSE)
 	var/list/filter_result
 	var/list/soft_filter_result
 	if(client && !forced && !filterproof)
@@ -88,19 +88,9 @@ GAME_VERB(/mob, me_verb, VERB_ME, null)
 		return FALSE
 
 	if(!..()) // the can_speak check
-		if(HAS_MIND_TRAIT(src, TRAIT_MIMING))
-			to_chat(src, span_green("Your vow of silence prevents you from speaking!"))
-		else
-			to_chat(src, span_warning("You find yourself unable to speak!"))
 		return FALSE
 
 	return TRUE
-
-/mob/can_speak(allow_mimes = FALSE)
-	if(!allow_mimes && HAS_MIND_TRAIT(src, TRAIT_MIMING))
-		return FALSE
-
-	return ..()
 
 /**
  * say_dead

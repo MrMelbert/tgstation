@@ -124,7 +124,6 @@
 	create_initial_profile()
 	if(give_objectives)
 		forge_objectives()
-	owner.current.get_language_holder().omnitongue = TRUE
 	return ..()
 
 /datum/antagonist/changeling/apply_innate_effects(mob/living/mob_override)
@@ -143,6 +142,7 @@
 	ADD_TRAIT(living_mob, TRAIT_FAKE_SOULLESS, CHANGELING_TRAIT)
 	ADD_TRAIT(living_mob, TRAIT_BRAINLESS_CARBON, CHANGELING_TRAIT)
 	ADD_TRAIT(living_mob, TRAIT_CHANGELING_HIVEMIND, CHANGELING_TRAIT)
+	ADD_TRAIT(living_mob, TRAIT_OMNI_TONGUE, CHANGELING_TRAIT)
 
 	if (living_mob.hud_used)
 		on_hud_created()
@@ -203,6 +203,7 @@
 	REMOVE_TRAIT(living_mob, TRAIT_FAKE_SOULLESS, CHANGELING_TRAIT)
 	REMOVE_TRAIT(living_mob, TRAIT_BRAINLESS_CARBON, CHANGELING_TRAIT)
 	REMOVE_TRAIT(living_mob, TRAIT_CHANGELING_HIVEMIND, CHANGELING_TRAIT)
+	REMOVE_TRAIT(living_mob, TRAIT_OMNI_TONGUE, CHANGELING_TRAIT)
 
 	for(var/mob/eye/imaginary_friend/hivemind/hivemind_member in living_mob.imaginary_group)
 		qdel(hivemind_member)

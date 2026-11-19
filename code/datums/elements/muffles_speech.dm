@@ -52,7 +52,8 @@
 /datum/element/muffles_speech/proc/muzzle_talk(datum/source, list/speech_args)
 	SIGNAL_HANDLER
 
-	if(HAS_TRAIT(source, TRAIT_SIGN_LANG))
+	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
+	if(language_instance.flags & LANGUAGE_VISUAL)
 		return
 	var/spoken_message = speech_args[SPEECH_MESSAGE]
 	if(spoken_message)

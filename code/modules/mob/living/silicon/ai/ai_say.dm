@@ -13,7 +13,7 @@
 		return ""
 	return "[radio_freq ? " (" + speaker.GetJob() + ")" : ""]" + "[speaker.GetSource() ? "</a>" : ""]"
 
-/mob/living/silicon/ai/try_speak(message, ignore_spam = FALSE, forced = null, filterproof = FALSE)
+/mob/living/silicon/ai/try_speak(message, language = /datum/language/common, ignore_spam = FALSE, forced = null, filterproof = FALSE)
 	// AIs cannot speak if silent AI is on.
 	// Unless forced is set, as that's probably stating laws or something.
 	if(!forced && CONFIG_GET(flag/silent_ai))

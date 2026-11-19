@@ -29,7 +29,8 @@
 
 /obj/item/megaphone/proc/handle_speech(mob/living/user, list/speech_args)
 	SIGNAL_HANDLER
-	if(HAS_TRAIT(user, TRAIT_SIGN_LANG) || user.get_active_held_item() != src)
+	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
+	if((language_instance.flags & LANGUAGE_VISUAL) || user.get_active_held_item() != src)
 		return
 	if(spamcheck > world.time)
 		to_chat(user, span_warning("\The [src] needs to recharge!"))
@@ -39,7 +40,7 @@
 
 /obj/item/megaphone/proc/add_tts_filter(mob/living/carbon/user, list/message_args)
 	SIGNAL_HANDLER
-	if(HAS_TRAIT(user, TRAIT_SIGN_LANG) || user.get_active_held_item() != src)
+	if(user.get_active_held_item() != src)
 		return
 	if(spamcheck > world.time)
 		return

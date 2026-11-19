@@ -54,14 +54,14 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	datum/saymode/saymode,
 	list/message_mods = list(),
 )
-	if(!try_speak(message, ignore_spam, forced, filterproof))
+	language ||= get_selected_language()
+	if(!try_speak(message, language, ignore_spam, forced, filterproof))
 		return
 	if(sanitize)
 		message = trim(copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN))
 	if(!message || message == "")
 		return
 	spans |= speech_span
-	language ||= get_selected_language()
 	message_mods[SAY_MOD_VERB] ||= say_mod(message, message_mods)
 	send_speech(message, message_range, src, bubble_type, spans, language, message_mods, forced = forced)
 
@@ -89,31 +89,27 @@ GLOBAL_LIST_INIT(freqtospan, list(
  * Returns:
  * 	TRUE of FASE depending on if our movable can speak
  */
-/atom/movable/proc/try_speak(message, ignore_spam = FALSE, forced = null, filterproof = FALSE)
-	return can_speak()
+/atom/movable/proc/try_speak(message, language = /datum/language/common, ignore_spam = FALSE, forced = null, filterproof = FALSE)
+	var/datum/language/language_instance = GLOB.language_datum_instances[language]
+	return language_instance.can_atom_speak(src, ignore_spam)
 
 /**
- * Checks if our movable can currently speak, vocally, in general.
- * Should NOT include feedback messages about why someone can or can't speak
-
- * Used in various places to check if a movable is simply able to speak in general,
- * regardless of OOC status (being muted) and regardless of what they're actually saying.
+ * Checks if this movable is mute
  *
- * Checked AFTER handling of xeno channels.
- * (I'm not sure what this comment means, but it was here in the past, so I'll maintain it here.)
- *
- * allow_mimes - Determines if this check should skip over mimes. (Only matters for living mobs and up.)
- * If FALSE, this check will always fail if the movable has a mind and is miming.
- * if TRUE, we will check if the movable can speak REGARDLESS of if they have an active mime vow.
+ * In the future this can be replaced by direct trait checks,
+ * if we refactor every override to just apply mute trait where relevant
  */
-/atom/movable/proc/can_speak(allow_mimes = FALSE)
+/atom/movable/proc/is_mute()
 	SHOULD_BE_PURE(TRUE)
-	return !HAS_TRAIT(src, TRAIT_MUTE)
+	return HAS_TRAIT(src, TRAIT_MUTE)
 
 /atom/movable/proc/do_tts_message(message, language, message_mods, list/tts_filter, list/hearers)
 	set waitfor = FALSE
 
-	if(!SStts.tts_enabled || !voice || HAS_TRAIT(src, TRAIT_SIGN_LANG) || HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE) || message_mods[MODE_CUSTOM_SAY_ERASE_INPUT])
+	if(!SStts.tts_enabled || !voice || HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE) || message_mods[MODE_CUSTOM_SAY_ERASE_INPUT])
+		return
+	var/datum/language/language_instance = GLOB.language_datum_instances[language]
+	if(language_instance.flags & LANGUAGE_VISUAL)
 		return
 
 	var/list/filter = list()
@@ -251,11 +247,9 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	/* all inputs should be fully figured out past this point */
 
 	var/processed_input = apply_message_emphasis(input) //This MUST be done first so that we don't get clipped by spans
-	processed_input = attach_spans(processed_input, spans)
-
 	var/processed_say_mod = apply_message_emphasis(say_mod)
 
-	return "[processed_say_mod], \"[processed_input]\""
+	return "[processed_say_mod], \"[attach_spans(processed_input, spans)]\""
 
 /atom/movable/proc/get_voice_description()
 	switch(gender)

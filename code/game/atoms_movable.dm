@@ -1626,13 +1626,13 @@
 		language_holder = new initial_language_holder(src)
 	return language_holder
 
-/// Grants the supplied language and sets omnitongue true.
+/// Grants the supplied language
 /atom/movable/proc/grant_language(language, language_flags = ALL, source = LANGUAGE_ATOM)
 	return get_language_holder().grant_language(language, language_flags, source)
 
 /// Grants every language.
-/atom/movable/proc/grant_all_languages(language_flags = ALL, grant_omnitongue = TRUE, source = LANGUAGE_MIND)
-	return get_language_holder().grant_all_languages(language_flags, grant_omnitongue, source)
+/atom/movable/proc/grant_all_languages(language_flags = ALL, source = LANGUAGE_MIND)
+	return get_language_holder().grant_all_languages(language_flags, source)
 
 /// Grants partial understanding of a language.
 /atom/movable/proc/grant_partial_language(language, amount = 50, source = LANGUAGE_ATOM)
@@ -1642,9 +1642,9 @@
 /atom/movable/proc/remove_language(language, language_flags = ALL, source = LANGUAGE_ALL)
 	return get_language_holder().remove_language(language, language_flags, source)
 
-/// Removes every language and sets omnitongue false.
-/atom/movable/proc/remove_all_languages(source = LANGUAGE_ALL, remove_omnitongue = FALSE)
-	return get_language_holder().remove_all_languages(source, remove_omnitongue)
+/// Removes every language
+/atom/movable/proc/remove_all_languages(source = LANGUAGE_ALL)
+	return get_language_holder().remove_all_languages(source)
 
 /// Removes partial understanding of a language.
 /atom/movable/proc/remove_partial_language(language, source = LANGUAGE_ALL)
@@ -1671,12 +1671,8 @@
 	return get_language_holder().has_partial_language(language)
 
 /// Checks if atom can speak the language.
-/atom/movable/proc/can_speak_language(language)
-	return get_language_holder().can_speak_language(language)
-
-/// Returns the result of tongue specific limitations on spoken languages.
-/atom/movable/proc/could_speak_language(datum/language/language_path)
-	return TRUE
+/atom/movable/proc/can_speak_language(language, feedback)
+	return get_language_holder().can_speak_language(language, feedback)
 
 /// Returns selected language, if it can be spoken, or finds, sets and returns a new selected language if possible.
 /atom/movable/proc/get_selected_language()

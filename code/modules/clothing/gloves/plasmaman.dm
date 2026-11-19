@@ -125,4 +125,7 @@
 	inhand_icon_state = null
 	greyscale_colors = null
 	worn_icon_state = "radio_g"
-	clothing_traits = list(TRAIT_CAN_SIGN_ON_COMMS)
+
+/obj/item/clothing/gloves/color/plasmaman/radio/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/allow_radio_signing)

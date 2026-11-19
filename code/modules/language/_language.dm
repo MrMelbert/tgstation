@@ -340,4 +340,41 @@
 	// If they're shouting, we're shouting
 	return (is_uppercase(input) && length_char(input) >= 2) ? uppertext(word) : word
 
+/**
+ * Checks if the atom can speak this language
+ *
+ * Differs from [proc/can_atom_speak] in that it specifically checks if the atom is allowed to speak this particular language.
+ * For example if the atom's tongue is incompatible with this language, this will return FALSE.
+ */
+/datum/language/proc/can_atom_speak_language(atom/movable/some_atom, feedback)
+	if(!iscarbon(some_atom))
+		return TRUE
+
+	var/mob/living/carbon/some_mob = some_atom
+	var/obj/item/organ/tongue/spoken_with = some_mob.get_organ_slot(ORGAN_SLOT_TONGUE)
+	if(isnull(spoken_with))
+		return (flags & LANGUAGE_TONGUELESS_SPEECH)
+
+	if(HAS_MIND_TRAIT(some_mob, TRAIT_OMNI_TONGUE))
+		return TRUE
+
+	return spoken_with.language_allowed(src)
+
+/**
+ * Checks if the atom can speak when using this language
+ *
+ * Differs from [proc/can_atom_speak_language] in that it checks if the atom can speak in general while using this language.
+ * For example, if the language is vocal, and the atom is mute, this fails.
+ */
+/datum/language/proc/can_atom_speak(atom/movable/some_atom, allow_mimes, feedback)
+	if(!allow_mimes && HAS_MIND_TRAIT(some_atom, TRAIT_MIMING))
+		if(feedback)
+			to_chat(some_atom, span_green("Your vow of silence prevents you from speaking!"))
+		return FALSE
+	if(some_atom.is_mute())
+		if(feedback)
+			to_chat(some_atom, span_warning("You find yourself unable to speak!"))
+		return FALSE
+	return TRUE
+
 #undef SCRAMBLE_CACHE_LEN

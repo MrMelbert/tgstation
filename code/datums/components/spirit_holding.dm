@@ -107,7 +107,6 @@
 	bound_spirit = new(parent)
 	chosen_spirit.transfer_to(bound_spirit)
 	bound_spirit.fully_replace_character_name(null, "The spirit of [name_override || parent]")
-	bound_spirit.get_language_holder().omnitongue = TRUE //Grants omnitongue
 
 	RegisterSignal(parent, COMSIG_ATOM_RELAYMOVE, PROC_REF(block_buckle_message))
 	if(allow_exorcism)

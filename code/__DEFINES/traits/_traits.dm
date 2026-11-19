@@ -123,4 +123,7 @@
 /// Returns the amount of sources for a trait. useful if you don't want to have a "thing counter" stuck around all the time
 #define COUNT_TRAIT_SOURCES(target, trait) length(GET_TRAIT_SOURCES(target, trait))
 /// A simple helper for checking traits in a mob's mind
-#define HAS_MIND_TRAIT(target, trait) (HAS_TRAIT(target, trait) || (target.mind ? HAS_TRAIT(target.mind, trait) : FALSE))
+#define HAS_MIND_TRAIT(target, trait) (HAS_TRAIT(target, trait) || (target.mind && HAS_TRAIT(target.mind, trait)))
+#define HAS_MIND_TRAIT_FROM(target, trait, source) (HAS_TRAIT_FROM(target, trait,source) || (target.mind && HAS_TRAIT_FROM(target.mind, trait, source)))
+#define ADD_MIND_TRAIT(target, trait, source) if(target.mind) { ADD_TRAIT(target.mind, trait, source) }
+#define REMOVE_MIND_TRAIT(target, trait, source) if(target.mind) { REMOVE_TRAIT(target.mind, trait, source) }

@@ -45,8 +45,6 @@ Key procs
 	var/list/blocked_understanding
 	/// Lazyassoclist of languages we are blocked from speaking, used for certain mobs, mutations, quirks, etc.
 	var/list/blocked_speaking
-	/// If true, overrides tongue aforementioned limitations.
-	var/omnitongue = FALSE
 	/// Handles displaying the language menu UI.
 	VAR_FINAL/datum/language_menu/language_menu
 	/// Currently spoken language
@@ -122,12 +120,10 @@ Key procs
 
 	return .
 
-/// Grants every language to understood and spoken, and gives omnitongue.
-/datum/language_holder/proc/grant_all_languages(language_flags = ALL, grant_omnitongue = TRUE, source = LANGUAGE_MIND)
+/// Grants every language to understood and spoken
+/datum/language_holder/proc/grant_all_languages(language_flags = ALL, source = LANGUAGE_MIND)
 	for(var/language in GLOB.all_languages)
 		grant_language(language, language_flags, source)
-	if(grant_omnitongue) // Overrides tongue limitations.
-		omnitongue = TRUE
 	return TRUE
 
 /// Grants partial understanding of the passed language.
@@ -158,12 +154,10 @@ Key procs
 
 	return .
 
-/// Removes every language and optionally sets omnitongue false. If a non default source is supplied, only removes that source.
-/datum/language_holder/proc/remove_all_languages(source = LANGUAGE_ALL, remove_omnitongue = FALSE)
+/// Removes every language. If a non default source is supplied, only removes that source.
+/datum/language_holder/proc/remove_all_languages(source = LANGUAGE_ALL)
 	for(var/language in GLOB.all_languages)
 		remove_language(language, ALL, source)
-	if(remove_omnitongue)
-		omnitongue = FALSE
 	return TRUE
 
 /// Removes partial understanding of the passed language.
@@ -237,9 +231,13 @@ Key procs
 	return LAZYACCESS(best_mutual_languages, language)
 
 /// Checks if you can speak the language. Tongue limitations should be supplied as an argument.
-/datum/language_holder/proc/can_speak_language(language)
-	var/can_speak_language_path = omnitongue || owner.could_speak_language(language)
-	return (can_speak_language_path && has_language(language, SPOKEN_LANGUAGE))
+/datum/language_holder/proc/can_speak_language(language_path, feedback = FALSE)
+	var/datum/language/language_instance = GLOB.language_datum_instances[language_path]
+	if(!language_instance.can_atom_speak_language(owner, feedback))
+		return FALSE
+	if(!has_language(language_path, SPOKEN_LANGUAGE))
+		return FALSE
+	return TRUE
 
 /// Returns selected language if it can be spoken, or decides, sets and returns a new selected language if possible.
 /datum/language_holder/proc/get_selected_language()

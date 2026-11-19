@@ -777,7 +777,7 @@
 		expiration = CALLBACK(src, PROC_REF(on_expire)), \
 	)
 
-	if(HAS_MIND_TRAIT(organ_owner, TRAIT_TOWER_OF_BABEL))
+	if(HAS_MIND_TRAIT_FROM(organ_owner, TRAIT_OMNI_TONGUE, MAGIC_TRAIT))
 		to_chat(organ_owner, span_noticealien("You don't feel that much different this time. Looks like your brain has attuned to the [src]'s effect."))
 		return
 
@@ -790,22 +790,21 @@
 			// Can understand nothing
 			organ_owner.remove_all_languages(source = LANGUAGE_ALL)
 			//but speak everything
-			organ_owner.grant_all_languages(language_flags = SPOKEN_LANGUAGE, grant_omnitongue = FALSE, source = LANGUAGE_BABEL)
+			organ_owner.grant_all_languages(language_flags = SPOKEN_LANGUAGE, source = LANGUAGE_BABEL)
 			to_chat(organ_owner, span_noticealien("You feel like you've been given the first half of a cosmic puzzle!"))
 		if(46 to 90)
 			// Can speak nothing
 			organ_owner.remove_all_languages(source = LANGUAGE_ALL)
 			// but understand everything
-			organ_owner.grant_all_languages(language_flags = UNDERSTOOD_LANGUAGE, grant_omnitongue = FALSE, source = LANGUAGE_BABEL)
+			organ_owner.grant_all_languages(language_flags = UNDERSTOOD_LANGUAGE, source = LANGUAGE_BABEL)
 			to_chat(organ_owner, span_noticealien("You feel like you've been given the second half of a cosmic puzzle!"))
 		if(91 to 100)
 			// jackpot!
-			organ_owner.grant_all_languages(language_flags = ALL, grant_omnitongue = TRUE, source = LANGUAGE_BABEL)
+			organ_owner.grant_all_languages(language_flags = ALL, source = LANGUAGE_BABEL)
 			to_chat(organ_owner, span_noticealien("You feel like you've been given both halves of a cosmic puzzle!"))
 			to_chat(organ_owner, span_boldnicegreen("So <i>that's</i> what they said to you that one time..."))
 
-	if(organ_owner.mind)
-		ADD_TRAIT(organ_owner.mind, TRAIT_TOWER_OF_BABEL, MAGIC_TRAIT) // only one roll per mind
+	ADD_MIND_TRAIT(organ_owner, TRAIT_OMNI_TONGUE, MAGIC_TRAIT) // only one roll per mind
 
 /obj/item/organ/ears/babbelfish/on_mob_remove(mob/living/carbon/organ_owner, special, movement_flags)
 	. = ..()

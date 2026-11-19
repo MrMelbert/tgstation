@@ -67,8 +67,11 @@
 	desc = "A pair of electronic gloves which connect to nearby radios wirelessly. Allows for sign language users to 'speak' over comms."
 	icon_state = "radio_g"
 	inhand_icon_state = null
-	clothing_traits = list(TRAIT_CAN_SIGN_ON_COMMS)
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 0.9, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 0.4)
+
+/obj/item/clothing/gloves/radio/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/allow_radio_signing)
 
 /obj/item/clothing/gloves/race
 	name = "race gloves"

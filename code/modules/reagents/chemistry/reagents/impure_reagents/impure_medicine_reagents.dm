@@ -774,8 +774,8 @@ Basically, we fill the time between now and 2s from now with hands based off the
 	if(HAS_TRAIT(owner, TRAIT_DEAF))
 		return
 	// not technically hearing
-	var/atom/movable/speaker = hearing_args[HEARING_SPEAKER]
-	if(!isnull(speaker) && HAS_TRAIT(speaker, TRAIT_SIGN_LANG))
+	var/datum/language/language_instance = GLOB.language_datum_instances[hearing_args[HEARING_LANGUAGE]]
+	if(language_instance.flags & LANGUAGE_VISUAL)
 		return
 
 	var/list/spans = hearing_args[HEARING_SPANS]

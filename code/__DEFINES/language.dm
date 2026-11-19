@@ -8,6 +8,8 @@
 /// Language icon is hidden if the language is not understood
 #define LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD (1<<3)
 
+#define LANGUAGE_VISUAL (1<<4)
+
 // Returns from display_icon_type
 /// Display no icon for this language
 #define DISPLAY_LANGUAGE_ICON_NONE 0

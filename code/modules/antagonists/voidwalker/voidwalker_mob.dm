@@ -182,8 +182,8 @@
 		return TRUE
 	return FALSE
 
-/mob/living/basic/voidwalker/can_speak(allow_mimes)
-	return can_speak && ..()
+/mob/living/basic/voidwalker/is_mute()
+	return !can_speak || ..()
 
 /mob/living/basic/voidwalker/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change)
 	. = ..()

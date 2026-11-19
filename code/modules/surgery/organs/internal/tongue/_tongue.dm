@@ -110,10 +110,11 @@
 		modify_speech(source, speech_args)
 
 /obj/item/organ/tongue/proc/should_modify_speech(datum/source, list/speech_args)
-	if(speech_args[SPEECH_LANGUAGE] in languages_native) // Speaking a native language?
-		return FALSE // Don't modify speech
-	if(HAS_TRAIT(source, TRAIT_SIGN_LANG)) // No modifiers for signers - I hate this but I simply cannot get these to combine into one statement
-		return FALSE // Don't modify speech
+	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
+	if(language_instance.type in languages_native) // Speaking a native language?
+		return FALSE
+	if(language_instance.flags & LANGUAGE_VISUAL) // Stuff like sign language
+		return FALSE
 	return TRUE
 
 /obj/item/organ/tongue/proc/modify_speech(datum/source, list/speech_args)
@@ -171,8 +172,8 @@
 	if(sense_of_taste)
 		remove_organ_trait(TRAIT_AGEUSIA)
 
-/obj/item/organ/tongue/could_speak_language(datum/language/language_path)
-	return (language_path in languages_possible)
+/obj/item/organ/tongue/proc/language_allowed(datum/language/language)
+	return (language.type in languages_possible)
 
 /obj/item/organ/tongue/get_availability(datum/species/owner_species, mob/living/owner_mob)
 	return owner_species.mutanttongue
@@ -616,7 +617,7 @@
 		/datum/emote/living/deathgasp::key = 'sound/mobs/non-humanoids/cyborg/borg_deathsound.ogg',
 	)
 
-/obj/item/organ/tongue/robot/could_speak_language(datum/language/language_path)
+/obj/item/organ/tongue/robot/language_allowed(datum/language/language)
 	return TRUE // THE MAGIC OF ELECTRONICS
 
 /obj/item/organ/tongue/robot/modify_speech(datum/source, list/speech_args)

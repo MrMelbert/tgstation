@@ -18,8 +18,8 @@
 
 	return ..()
 
-/mob/living/brain/can_speak(allow_mimes)
-	return istype(container, /obj/item/brain_processor) && ..()
+/mob/living/brain/is_mute()
+	return !istype(container, /obj/item/brain_processor) || ..()
 
 /mob/living/brain/radio(message, list/message_mods = list(), list/spans, language)
 	if(message_mods[MODE_HEADSET] && istype(container, /obj/item/brain_processor))

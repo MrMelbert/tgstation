@@ -451,8 +451,8 @@
 
 
 //===============================SPEACH===================================================
-/obj/machinery/vending/can_speak(allow_mimes)
-	return is_operational && !shut_up && ..()
+/obj/machinery/vending/is_mute()
+	return !is_operational || shut_up || ..()
 
 
 /**

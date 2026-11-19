@@ -37,7 +37,7 @@
 		lang_data["icon_state"] = language::icon_state
 		if(speaker)
 			lang_data["can_speak"] = !!speaker.has_language(language, SPOKEN_LANGUAGE)
-			lang_data["could_speak"] = !!(language_holder.omnitongue || speaker.could_speak_language(language))
+			lang_data["could_speak"] = language_holder.can_speak_language(language)
 			lang_data["can_understand"] = !!speaker.has_language(language, UNDERSTOOD_LANGUAGE)
 			lang_data["partial_understanding"] = partial_languages?[language] || 0
 
@@ -45,7 +45,7 @@
 
 	data["is_living"] = isliving(speaker)
 	data["admin_mode"] = check_rights_for(user.client, R_ADMIN) || isobserver(speaker)
-	data["omnitongue"] = language_holder.omnitongue
+	data["omnitongue"] = HAS_MIND_TRAIT(speaker, TRAIT_OMNI_TONGUE)
 
 	return data
 
@@ -120,8 +120,12 @@
 				. = TRUE
 		if("toggle_omnitongue")
 			if(is_admin || isobserver(speaker))
-				language_holder.omnitongue = !language_holder.omnitongue
+				if(HAS_MIND_TRAIT(speaker, TRAIT_OMNI_TONGUE))
+					// just remove everything! this will surely have side effects, but as this is an admin button, it doesn't really matter.
+					REMOVE_MIND_TRAIT(speaker, TRAIT_OMNI_TONGUE, GET_MIND_TRAIT_SOURCES(speaker, TRAIT_OMNI_TONGUE))
+				else
+					ADD_MIND_TRAIT(speaker, TRAIT_OMNI_TONGUE, ADMIN_TRAIT)
 				if(is_admin)
-					message_admins("[key_name_admin(user)] [language_holder.omnitongue ? "enabled" : "disabled"] the ability to speak all languages (that they know) of [key_name_admin(speaker)].")
-					log_admin("[key_name(user)] [language_holder.omnitongue ? "enabled" : "disabled"] the ability to speak all languages (that_they know) of [key_name(speaker)].")
+					message_admins("[key_name_admin(user)] [HAS_MIND_TRAIT(speaker, TRAIT_OMNI_TONGUE) ? "enabled" : "disabled"] the ability to speak all languages (that they know) of [key_name_admin(speaker)].")
+					log_admin("[key_name(user)] [HAS_MIND_TRAIT(speaker, TRAIT_OMNI_TONGUE) ? "enabled" : "disabled"] the ability to speak all languages (that_they know) of [key_name(speaker)].")
 				. = TRUE

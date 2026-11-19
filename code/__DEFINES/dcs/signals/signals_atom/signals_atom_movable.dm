@@ -115,6 +115,7 @@
 #define COMSIG_MOVABLE_USING_RADIO "movable_radio"
 	/// Return to prevent the movable from talking into the radio.
 	#define COMPONENT_CANNOT_USE_RADIO (1<<0)
+	#define COMPONENT_ALLOW_VISUAL_RADIO (1<<1)
 
 /// Sent from /atom/movable/proc/generate_messagepart() generating a quoted message, after say verb is chosen and before spans are applied.
 #define COMSIG_MOVABLE_SAY_QUOTE "movable_say_quote"

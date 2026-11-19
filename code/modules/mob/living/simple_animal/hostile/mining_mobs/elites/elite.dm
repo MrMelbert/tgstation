@@ -61,8 +61,8 @@
 		M.take_damage(50, BRUTE, MELEE, 1)
 
 //Elites can't talk (normally)!
-/mob/living/simple_animal/hostile/asteroid/elite/can_speak(allow_mimes)
-	return can_talk && ..()
+/mob/living/simple_animal/hostile/asteroid/elite/is_mute()
+	return !can_talk || ..()
 
 /*Basic setup for elite attacks, based on Whoneedspace's megafauna attack setup.
 While using this makes the system rely on OnFire, it still gives options for timers not tied to OnFire, and it makes using attacks consistent accross the board for player-controlled elites.*/

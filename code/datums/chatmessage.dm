@@ -160,8 +160,9 @@
 		LAZYADD(prefixes, "\icon[r_icon]")
 		chat_color_name_to_use = target.get_visible_name(add_id_name = FALSE) // use face name for nonverbal messages
 
+	var/datum/language/language_instance = GLOB.language_datum_instances[language]
 	if(isnull(chat_color_name_to_use))
-		if(HAS_TRAIT(target, TRAIT_SIGN_LANG))
+		if(language_instance.flags & LANGUAGE_VISUAL)
 			chat_color_name_to_use = target.get_visible_name(add_id_name = FALSE) // use face name for signers too
 		else
 			chat_color_name_to_use = target.get_voice() // for everything else, use the target's voice name
@@ -173,7 +174,6 @@
 		target.chat_color_name = chat_color_name_to_use
 
 	// Append language icon if the language uses one
-	var/datum/language/language_instance = GLOB.language_datum_instances[language]
 	var/language_icon_type = language_instance?.display_icon_type(owner, message_mods) || DISPLAY_LANGUAGE_ICON_NONE
 	if(language_icon_type != DISPLAY_LANGUAGE_ICON_NONE)
 		var/language_icon_key = "[language][language_icon_type == DISPLAY_LANGUAGE_ICON_PARTIAL ? "-partial" : ""]"

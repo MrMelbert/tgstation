@@ -14,7 +14,7 @@
 /obj/item/gun/magic/wand/babel/zap_self(mob/living/user, suicide = FALSE)
 	. = ..()
 	charges--
-	if (HAS_TRAIT(user, TRAIT_TOWER_OF_BABEL))
+	if (HAS_TRAIT(user, TRAIT_OMNI_TONGUE))
 		return
 	curse_of_babel(user)
 

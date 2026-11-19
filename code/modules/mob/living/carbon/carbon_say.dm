@@ -1,15 +1,14 @@
-/mob/living/carbon/can_speak(allow_mimes = FALSE)
+// Future todo : replace this by just adding the relevant trait when lungs are removed
+/mob/living/carbon/is_mute()
+	if(isnull(dna?.species))
+		return ..()
+
 	// If we're not a nobreath species, and we don't have lungs, we can't talk
-	if(dna?.species && !HAS_TRAIT_FROM(src, TRAIT_NOBREATH, SPECIES_TRAIT) && !get_organ_slot(ORGAN_SLOT_LUNGS))
-		// How do species that don't breathe, talk? Magic, that's what.
-		return FALSE
+	if(HAS_TRAIT_FROM(src, TRAIT_MUTE, SPECIES_TRAIT))
+		return ..()
+
+	// How do species that don't breathe, talk? Magic, that's what.
+	if(!get_organ_slot(ORGAN_SLOT_LUNGS))
+		return TRUE
 
 	return ..()
-
-/mob/living/carbon/could_speak_language(datum/language/language_path)
-	var/obj/item/organ/tongue/spoken_with = get_organ_slot(ORGAN_SLOT_TONGUE)
-	if(spoken_with)
-		// the tower of babel needs to bypass the tongue language restrictions without giving omnitongue
-		return HAS_MIND_TRAIT(src, TRAIT_TOWER_OF_BABEL) || spoken_with.could_speak_language(language_path)
-
-	return initial(language_path.flags) & LANGUAGE_TONGUELESS_SPEECH

@@ -160,8 +160,7 @@
 	cure_curse_of_babel(user) // removes tower of babel if we have it
 	user.grant_all_languages(source = LANGUAGE_BABEL)
 	user.remove_blocked_language(GLOB.all_languages, source = LANGUAGE_ALL)
-	if(user.mind)
-		ADD_TRAIT(user.mind, TRAIT_TOWER_OF_BABEL, MAGIC_TRAIT) // this makes you immune to babel effects
+	ADD_MIND_TRAIT(user, TRAIT_OMNI_TONGUE, MAGIC_TRAIT) // this makes you immune to babel effects
 	new /obj/effect/decal/cleanable/ash(get_turf(user))
 	qdel(src)
 

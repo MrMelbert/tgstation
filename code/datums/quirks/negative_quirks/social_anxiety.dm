@@ -44,7 +44,8 @@
 
 	if(HAS_TRAIT(quirk_holder, TRAIT_FEARLESS))
 		return
-	if(HAS_TRAIT(source, TRAIT_SIGN_LANG)) // No modifiers for signers, so you're less anxious when you go non-verbal
+	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
+	if(language_instance.flags & LANGUAGE_VISUAL) // No modifiers for signers, so you're less anxious when you go non-verbal
 		return
 
 	var/moodmod = calculate_mood_mod()

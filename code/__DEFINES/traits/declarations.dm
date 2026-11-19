@@ -531,13 +531,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_RDS_SUPPRESSED "rds_suppressed"
 /// Mobs that have this trait cannot be extinguished
 #define TRAIT_NO_EXTINGUISH "no_extinguish"
-/// Indicates if the mob is currently speaking with sign language
-#define TRAIT_SIGN_LANG "sign_language"
 /// Trait given to mobs to indicate that they can catch papers thrown at them midair without trying,
 /// and make syndicate airplanes when folding paper up.
 #define TRAIT_PAPER_MASTER "paper_master"
-/// This mob is able to use sign language over the radio.
-#define TRAIT_CAN_SIGN_ON_COMMS "can_sign_on_comms"
 /// nobody can use martial arts on this mob
 #define TRAIT_MARTIAL_ARTS_IMMUNE "martial_arts_immune"
 /// Immune to being afflicted by time stop (spell)
@@ -1155,6 +1151,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_AI_MOVEMENT_HALTED "ai_movement_halted"
 
 /// this is used to bypass tongue language restrictions but not tongue disabilities
+#define TRAIT_OMNI_TONGUE "omnitongue"
 #define TRAIT_TOWER_OF_BABEL "tower_of_babel"
 
 /// This target has recently been shot by a marksman coin and is very briefly immune to being hit by one again to prevent recursion
