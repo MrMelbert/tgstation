@@ -129,8 +129,8 @@
 /// Checks if the target OR the target's mind has the specified trait from the given source
 #define HAS_MIND_TRAIT_FROM(target, trait, source) (HAS_TRAIT_FROM(target, trait, source) || (HAS_TRAIT_FROM(astype(target, /mob)?.mind, trait, source)))
 /// Add a trait to the target, or their mind, if it exists
-#define ADD_MIND_TRAIT(target, trait, source) ADD_TRAIT((astype(target, /mob)?.mind || target), trait, source)
+#define ADD_MIND_TRAIT(target, trait, source) if(astype(target, /mob)?.mind) { ADD_TRAIT((astype(target, /mob).mind), trait, source) } else { ADD_TRAIT(target, trait, source) }
 /// Removes a trait from the target, or their mind, if it exists
-#define REMOVE_MIND_TRAIT(target, trait, source) REMOVE_TRAIT((astype(target, /mob)?.mind || target), trait, source)
+#define REMOVE_MIND_TRAIT(target, trait, source) if(astype(target, /mob)?.mind) { REMOVE_TRAIT((astype(target, /mob).mind), trait, source) } else { REMOVE_TRAIT(target, trait, source) }
 /// Returns a list of trait sources for the target's mind, or the target itself if no mind exists
 #define GET_MIND_TRAIT_SOURCES(target, trait) (astype(target, /mob)?.mind?._status_traits?[trait] || target?._status_traits?[trait] || list())

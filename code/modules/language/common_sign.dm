@@ -3,12 +3,14 @@
 	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_VISUAL
 	/// Any symbols to sanitize from signed messages.
 	var/static/regex/omissions = new ("\[!?\]", "g")
+	/// Other sign languages intrinsically know about how each other works, to a degree
+	var/mutual_sign_language_understanding = 80
 
 /datum/language/sign_language/New()
 	. = ..()
 	for(var/sign_language_type in valid_typesof(/datum/language/sign_language))
 		if(sign_language_type != type)
-			mutual_understanding[sign_language_type] = 80
+			mutual_understanding[sign_language_type] = mutual_sign_language_understanding
 
 // Defines to determine the tone of the signer's message.
 #define TONE_NEUTRAL 0 //! a statement
@@ -135,7 +137,7 @@
 	if(carbon_parent.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL))
 		return ..()
 
-	return min(1, ..())
+	return ..() - 1
 
 /datum/language/sign_language/moth
 	name = "Mothic Sign Language"
@@ -146,7 +148,12 @@
 	if(carbon_parent.get_organ_slot(ORGAN_SLOT_EXTERNAL_WINGS) && carbon_parent.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE))
 		return ..()
 
-	return min(1, ..())
+	return ..() - 1
+
+/datum/language/sign_language/spacer
+	name = "Spacer Sign Language"
+	desc = "A sign language used by Spacers for emergency communication in the event of communications failure during EVA."
+	mutual_sign_language_understanding = 50
 
 // Handles the tonal indicator overlay
 /datum/status_effect/tonal_indicator

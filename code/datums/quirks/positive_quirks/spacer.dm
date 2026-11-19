@@ -38,9 +38,11 @@
 	if(isnull(modded_height))
 		modded_height = GLOB.spacer_height_choices[pick(GLOB.spacer_height_choices)]
 
+	//taller from lack of gravity
+	astype(quirk_holder, /mob/living/carbon/human)?.set_mob_height(modded_height)
+
+	// dummies don't need to register signals or anything, they just need the height for the preview
 	if(isdummy(quirk_holder))
-		var/mob/living/carbon/human/dummy_quirker = quirk_holder
-		dummy_quirker.set_mob_height(modded_height)
 		return
 
 	// Using Z moved because we don't urgently need to check on every single turf movement for planetary status.
@@ -60,9 +62,7 @@
 	MODIFY_PHYSIOLOGY(quirk_holder, PHYS_COEFF_PRESSURE, damage_mod)
 	MODIFY_PHYSIOLOGY(quirk_holder, PHYS_COEFF_COLD, damage_mod)
 
-	//taller from lack of gravity
-	var/mob/living/carbon/human/human_quirker = quirk_holder
-	human_quirker.set_mob_height(modded_height)
+	quirk_holder.grant_language(/datum/language/sign_language/spacer, ALL, LANGUAGE_QUIRK)
 
 /datum/quirk/spacer_born/post_add()
 	var/on_a_planet = SSmapping.is_planetary()
@@ -95,8 +95,9 @@
 	MODIFY_PHYSIOLOGY(quirk_holder, PHYS_COEFF_PRESSURE, 1 / damage_mod)
 	MODIFY_PHYSIOLOGY(quirk_holder, PHYS_COEFF_COLD, 1 / damage_mod)
 
-	var/mob/living/carbon/human/human_quirker = quirk_holder
-	human_quirker.set_mob_height(HUMAN_HEIGHT_MEDIUM)
+	astype(quirk_holder, /mob/living/carbon/human)?.set_mob_height(HUMAN_HEIGHT_MEDIUM)
+
+	quirk_holder.remove_language(/datum/language/sign_language/spacer, ALL, LANGUAGE_QUIRK)
 
 /// Check on Z change whether we should start or stop timers
 /datum/quirk/spacer_born/proc/spacer_moved(mob/living/source, turf/old_turf, turf/new_turf, same_z_layer)
