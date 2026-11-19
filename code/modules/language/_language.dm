@@ -227,6 +227,14 @@
 		last_sentence_cache.Cut(1, last_sentence_cache.len - SENTENCE_CACHE_LEN + 1)
 
 /**
+ * Modify the message before it gets spoken / translated
+ *
+ * Returns the modified message.
+ */
+/datum/language/proc/modify_message(message)
+	return message
+
+/**
  * Scramble a paragraph in this language.
  *
  * Takes into account any languages the hearer knows that has mutual understanding with this language.

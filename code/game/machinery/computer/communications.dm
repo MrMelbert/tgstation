@@ -785,8 +785,7 @@
 		return
 	if(user.try_speak(input))
 		//Adds slurs and so on. Someone should make this use languages too.
-		var/list/input_data = user.treat_message(input)
-		input = input_data["message"]
+		input = user.treat_message(input)
 	else
 		//No cheating, mime/random mute guy!
 		input = "..."

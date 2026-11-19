@@ -15,6 +15,7 @@
 		OB.brainmob = src
 		forceMove(OB)
 	ADD_TRAIT(src, TRAIT_NEVER_CONSIDERED_ALIVE, INNATE_TRAIT)
+	RegisterSignal(src, COMSIG_LIVING_TREAT_MESSAGE, PROC_REF(mess_with_treat_message))
 
 /mob/living/brain/on_changed_z_level(turf/old_turf, turf/new_turf, same_z_layer, notify_contents)
 	var/obj/item/organ/brain/brain_loc = loc
@@ -106,3 +107,7 @@
 
 	if(container)
 		. += "[container.type]"
+
+/mob/living/brain/proc/mess_with_treat_message(...)
+	SIGNAL_HANDLER
+	return TREAT_MESSAGE_NO_UNTINTELLIGIBLE | TREAT_MESSAGE_NO_LANGUAGE

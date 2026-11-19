@@ -396,13 +396,13 @@
 	switch(used_invocation_type)
 		if(INVOCATION_SHOUT)
 			if(prob(used_invocation_garble_prob))
-				INVOKE_ASYNC(invoker, TYPE_PROC_REF(/atom/movable, say), replacetext(used_invocation_message," ","`"), forced = "spell ([src])")
+				INVOKE_ASYNC(invoker, TYPE_PROC_REF(/atom/movable, say), replacetext(used_invocation_message," ","`"), forced = "spell ([src])", message_mods = list(MODS_TTS_MESSAGE = used_invocation_message))
 			else
 				INVOKE_ASYNC(invoker, TYPE_PROC_REF(/atom/movable, say), used_invocation_message, forced = "spell ([src])")
 
 		if(INVOCATION_WHISPER)
 			if(prob(used_invocation_garble_prob))
-				INVOKE_ASYNC(invoker, TYPE_PROC_REF(/mob, whisper), replacetext(used_invocation_message," ","`"), forced = "spell ([src])")
+				INVOKE_ASYNC(invoker, TYPE_PROC_REF(/mob, whisper), replacetext(used_invocation_message," ","`"), forced = "spell ([src])", message_mods = list(MODS_TTS_MESSAGE = used_invocation_message))
 			else
 				INVOKE_ASYNC(invoker, TYPE_PROC_REF(/mob, whisper), used_invocation_message, forced = "spell ([src])")
 

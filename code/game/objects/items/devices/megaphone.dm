@@ -8,49 +8,42 @@
 	righthand_file = 'icons/mob/inhands/items/megaphone_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	siemens_coefficient = 1
-	var/spamcheck = 0
+	COOLDOWN_DECLARE(spamcheck)
 	var/list/voicespan = list(SPAN_COMMAND)
 
 /obj/item/megaphone/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is uttering [user.p_their()] last words into \the [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	spamcheck = 0//so they dont have to worry about recharging
+	COOLDOWN_RESET(src, spamcheck)//so they dont have to worry about recharging
 	user.say("AAAAAAAAAAAARGHHHHH", forced="megaphone suicide")//he must have died while coding this
 	return OXYLOSS
 
 /obj/item/megaphone/equipped(mob/equipper, slot)
 	. = ..()
-	if ((slot & ITEM_SLOT_HANDS))
+	if (slot & ITEM_SLOT_HANDS)
 		RegisterSignal(equipper, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-		RegisterSignal(equipper, COMSIG_LIVING_TREAT_MESSAGE, PROC_REF(add_tts_filter))
 
 /obj/item/megaphone/dropped(mob/dropper)
 	. = ..()
-	UnregisterSignal(dropper, list(COMSIG_MOB_SAY, COMSIG_LIVING_TREAT_MESSAGE))
+	UnregisterSignal(dropper, COMSIG_MOB_SAY)
 
 /obj/item/megaphone/proc/handle_speech(mob/living/user, list/speech_args)
 	SIGNAL_HANDLER
 	var/datum/language/language_instance = GLOB.language_datum_instances[speech_args[SPEECH_LANGUAGE]]
 	if((language_instance.flags & LANGUAGE_VISUAL) || user.get_active_held_item() != src)
 		return
-	if(spamcheck > world.time)
+	if(!COOLDOWN_FINISHED(src, spamcheck))
 		to_chat(user, span_warning("\The [src] needs to recharge!"))
-	else
-		playsound(loc, 'sound/items/megaphone.ogg', 100, FALSE, TRUE)
-		speech_args[SPEECH_SPANS] |= voicespan
+		return
 
-/obj/item/megaphone/proc/add_tts_filter(mob/living/carbon/user, list/message_args)
-	SIGNAL_HANDLER
-	if(user.get_active_held_item() != src)
-		return
-	if(spamcheck > world.time)
-		return
-	spamcheck = world.time + 5 SECONDS
+	COOLDOWN_START(src, spamcheck, 5 SECONDS)
+	playsound(loc, 'sound/items/megaphone.ogg', 100, FALSE, TRUE)
+	speech_args[SPEECH_SPANS] |= voicespan
 	if(obj_flags & EMAGGED)
-		///somewhat compressed and ear-grating, crusty and noisy with a bit of echo.
-		message_args[TREAT_TTS_FILTER_ARG] += "acrusher=samples=9:level_out=7,aecho=delays=100:decays=0.4,aemphasis=type=emi,crystalizer=i=6,acontrast=60,rubberband=pitch=0.9"
+		// somewhat compressed and ear-grating, crusty and noisy with a bit of echo.
+		speech_args[SPEECH_MODS][MODS_TTS_FILTER] += "acrusher=samples=9:level_out=7,aecho=delays=100:decays=0.4,aemphasis=type=emi,crystalizer=i=6,acontrast=60,rubberband=pitch=0.9"
 	else
-		///A sharper and louder sound with a bit of echo
-		message_args[TREAT_TTS_FILTER_ARG] += "acrusher=samples=2:level_out=6,aecho=delays=90:decays=0.3,aemphasis=type=cd,acontrast=30,crystalizer=i=5"
+		// A sharper and louder sound with a bit of echo
+		speech_args[SPEECH_MODS][MODS_TTS_FILTER] += "acrusher=samples=2:level_out=6,aecho=delays=90:decays=0.3,aemphasis=type=cd,acontrast=30,crystalizer=i=5"
 
 /obj/item/megaphone/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(obj_flags & EMAGGED)

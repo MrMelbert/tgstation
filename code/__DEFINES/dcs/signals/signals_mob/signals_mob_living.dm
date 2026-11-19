@@ -195,13 +195,21 @@
 	/// Return if the mob cannot speak.
 	#define COMPONENT_CANNOT_SPEAK (1<<1)
 
-/// From mob/living/treat_message(): (list/message_args)
+/// From mob/living/treat_message(): (list/treat_message_args)
 #define COMSIG_LIVING_TREAT_MESSAGE "living_treat_message"
-	/// The index of message_args that corresponds to the actual message
+	/// The index of treat_message_args that corresponds to the actual message
 	#define TREAT_MESSAGE_ARG 1
-	#define TREAT_TTS_MESSAGE_ARG 2
-	#define TREAT_TTS_FILTER_ARG 3
-	#define TREAT_CAPITALIZE_MESSAGE 4
+	/// The index of treat_message_args that corresponds to the language of the message
+	#define TREAT_MESSAGE_LANGUAGE 2
+	/// The index of treat_message_args that corresponds to the message modifiers list
+	#define TREAT_MESSAGE_MODS 3
+
+	/// Return to prevent untintelligible speech from affecting the message
+	#define TREAT_MESSAGE_NO_UNTINTELLIGIBLE (1<<0)
+	/// Return to prevent the message from being modified by spoken language
+	#define TREAT_MESSAGE_NO_LANGUAGE (1<<1)
+	/// Return to prevent auto-capitalization of the message
+	#define TREAT_MESSAGE_NO_CAPITALIZE (1<<2)
 
 /// From mob/living/send_speech(): (atom/source, list/listeners)
 #define COMSIG_LIVING_SEND_SPEECH "living_send_speech"

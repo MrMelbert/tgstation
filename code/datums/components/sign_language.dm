@@ -35,38 +35,10 @@
 	var/tonal_indicator = null
 	/// The timerid for our sign language tonal indicator.
 	var/tonal_timerid
-	/// Any symbols to sanitize from signed messages.
-	var/regex/omissions = new ("\[!?\]", "g")
-	/// The action for toggling sign language.
-	var/datum/action/innate/sign_language/linked_action
 
 /// Replace specific characters in the input string with periods.
 /datum/component/sign_language/proc/sanitize_message(input)
 	return replacetext(input, omissions, ".")
-
-/datum/component/sign_language/Initialize()
-	// Non-Carbon mobs can't use sign language.
-	if (!iscarbon(parent))
-		stack_trace("Sign Language component added to [parent] ([parent?.type]) which is not a /mob/living/carbon subtype.")
-		return COMPONENT_INCOMPATIBLE
-	linked_action = new(src)
-
-/datum/component/sign_language/Destroy()
-	QDEL_NULL(linked_action)
-	return ..()
-
-/datum/component/sign_language/RegisterWithParent()
-	// Sign language is toggled on/off via adding/removing TRAIT_SIGN_LANG.
-	RegisterSignal(parent, SIGNAL_ADDTRAIT(TRAIT_SIGN_LANG), PROC_REF(enable_sign_language))
-	RegisterSignal(parent, SIGNAL_REMOVETRAIT(TRAIT_SIGN_LANG), PROC_REF(disable_sign_language))
-	linked_action.Grant(parent)
-
-/datum/component/sign_language/UnregisterFromParent()
-	disable_sign_language()
-	UnregisterSignal(parent, list(
-		SIGNAL_ADDTRAIT(TRAIT_SIGN_LANG),
-		SIGNAL_REMOVETRAIT(TRAIT_SIGN_LANG)
-	))
 
 /// Signal handler for [COMSIG_SIGNLANGUAGE_ENABLE]
 /// Enables signing for the parent Carbon, stopping them from speaking vocally.
@@ -88,7 +60,6 @@
 	carbon_parent.bubble_icon = "signlang"
 	RegisterSignal(carbon_parent, COMSIG_CARBON_GAIN_ORGAN, PROC_REF(on_added_organ))
 	RegisterSignal(carbon_parent, COMSIG_MOB_TRY_SPEECH, PROC_REF(on_try_speech))
-	RegisterSignal(carbon_parent, COMSIG_LIVING_TREAT_MESSAGE, PROC_REF(on_treat_living_message))
 	RegisterSignal(carbon_parent, COMSIG_MOVABLE_SAY_QUOTE, PROC_REF(on_say_quote))
 	RegisterSignal(carbon_parent, COMSIG_MOB_SAY, PROC_REF(on_say))
 	RegisterSignal(carbon_parent, COMSIG_MOB_TRY_INVOKE_SPELL, PROC_REF(can_cast_spell))
@@ -114,7 +85,6 @@
 	UnregisterSignal(carbon_parent, list(
 		COMSIG_CARBON_GAIN_ORGAN,
 		COMSIG_MOB_TRY_SPEECH,
-		COMSIG_LIVING_TREAT_MESSAGE,
 		COMSIG_MOVABLE_SAY_QUOTE,
 		COMSIG_MOB_SAY,
 		COMSIG_MOB_TRY_INVOKE_SPELL,
@@ -154,19 +124,6 @@
 		return SPELL_INVOCATION_FAIL
 
 	return SPELL_INVOCATION_ALWAYS_SUCCEED
-
-/// Signal proc for [COMSIG_LIVING_TREAT_MESSAGE]
-/// Changes our message based on conditions that limit or alter our ability to communicate
-/datum/component/sign_language/proc/on_treat_living_message(atom/movable/source, list/message_args)
-	SIGNAL_HANDLER
-
-	if(check_signables_state() == SIGN_ONE_HAND)
-		message_args[TREAT_MESSAGE_ARG] = stars(message_args[TREAT_MESSAGE_ARG])
-
-	if(check_signables_state() == SIGN_SLOWLY_FROM_CUFFS)
-		message_args[TREAT_MESSAGE_ARG] = stifled(message_args[TREAT_MESSAGE_ARG])
-
-	message_args[TREAT_TTS_MESSAGE_ARG] = ""
 
 /// Signal proc for [COMSIG_MOVABLE_SAY_QUOTE]
 /// Removes exclamation/question marks.

@@ -2,6 +2,17 @@
 	name = "Galactic Sign Language"
 	desc = "A universal sign language used for non-verbal communication across the galaxy."
 	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_VISUAL
+	/// Any symbols to sanitize from signed messages.
+	var/static/regex/omissions = new ("\[!?\]", "g")
+
+/datum/language/galactic_sign/modify_message(message)
+	if(get_unfilled_hands(carbon_parent) == 1)
+		message = stars(message)
+
+	if(HAS_TRAIT_FROM_ONLY(carbon_parent, TRAIT_RESTRAINED, HANDCUFFED_TRAIT))
+		message = stifled(message)
+
+	return replacetext(message, omissions, ".")
 
 /datum/language/galactic_sign/scramble_paragraph(input, list/mutual_languages)
 	if(length(mutual_languages))

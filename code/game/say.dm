@@ -103,7 +103,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	SHOULD_BE_PURE(TRUE)
 	return HAS_TRAIT(src, TRAIT_MUTE)
 
-/atom/movable/proc/do_tts_message(message, language, message_mods, list/tts_filter, list/hearers)
+/atom/movable/proc/do_tts_message(message, language, list/message_mods = list(), list/hearers)
 	set waitfor = FALSE
 
 	if(!SStts.tts_enabled || !voice || HAS_TRAIT(src, TRAIT_UNKNOWN_VOICE) || message_mods[MODE_CUSTOM_SAY_ERASE_INPUT])
@@ -112,14 +112,33 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	if(language_instance.flags & LANGUAGE_VISUAL)
 		return
 
+	SEND_SIGNAL(src, COMSIG_MOVABLE_TTS_MESSAGE, message, message_mods)
+
+	var/final_message = message_mods[MODS_TTS_MESSAGE] || message
+
 	var/list/filter = list()
 	if(length(voice_filter) > 0)
 		filter += voice_filter
 
-	if(length(tts_filter) > 0)
-		filter += tts_filter.Join(",")
+	var/list/additional_filter = message_mods[MODS_TTS_FILTER]
+	if(length(additional_filter) > 0)
+		filter += additional_filter.Join(",")
+
 	var/list/special_filter = list()
-	INVOKE_ASYNC(SStts, TYPE_PROC_REF(/datum/controller/subsystem/tts, queue_tts_message), src, html_decode(message), language, get_tts_voice(filter, special_filter), filter.Join(","), hearers, message_range = 7, pitch = pitch, special_filters = special_filter.Join("|"), blip_base = blip_base, blip_number = blip_number, identifier = message_mods[MODE_TTS_IDENTIFIER])
+	INVOKE_ASYNC(SStts, TYPE_PROC_REF(/datum/controller/subsystem/tts, queue_tts_message), \
+		src, \
+		html_decode(final_message), \
+		language, \
+		get_tts_voice(filter, special_filter), \
+		filter.Join(","), \
+		hearers, \
+		message_range = 7, \
+		pitch = pitch, \
+		special_filters = special_filter.Join("|"), \
+		blip_base = blip_base, \
+		blip_number = blip_number, \
+		identifier = message_mods[MODE_TTS_IDENTIFIER], \
+	)
 
 /atom/movable/proc/get_tts_voice(list/filter, list/special_filter)
 	. = voice

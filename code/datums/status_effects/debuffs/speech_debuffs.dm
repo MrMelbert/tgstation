@@ -43,9 +43,9 @@
 		return // No change was done, whatever
 
 	if(length(tts_filter) > 0)
-		message_args[TREAT_TTS_FILTER_ARG] += tts_filter
+		message_args[TREAT_MESSAGE_MODS][MODS_TTS_FILTER] += tts_filter
 	if(make_tts_message_original)
-		message_args[TREAT_TTS_MESSAGE_ARG] = message_args[TREAT_MESSAGE_ARG]
+		message_args[TREAT_MESSAGE_MODS][MODS_TTS_MESSAGE] = message_args[TREAT_MESSAGE_ARG]
 
 	message_args[TREAT_MESSAGE_ARG] = sanitize(final_phrase)
 

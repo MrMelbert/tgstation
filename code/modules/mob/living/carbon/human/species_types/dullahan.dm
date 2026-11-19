@@ -229,8 +229,8 @@
 				if(speech_args[SPEECH_MODS][WHISPER_MODE]) // whisper away
 					speech_args[SPEECH_SPANS] |= SPAN_ITALICS
 				// The body's own speech is blanked below, so its treat_message() (capitalization, accents, ...) never runs on this message
-				var/list/treated_message = human.treat_message(speech_args[SPEECH_MESSAGE])
-				head.say(treated_message["message"], spans = speech_args[SPEECH_SPANS], sanitize = FALSE, language = speech_args[SPEECH_LANGUAGE], message_range = speech_args[SPEECH_RANGE], message_mods = speech_args[SPEECH_MODS])
+				var/message = human.treat_message(speech_args[SPEECH_MESSAGE], speech_args[SPEECH_LANGUAGE])
+				head.say(message, spans = speech_args[SPEECH_SPANS], sanitize = FALSE, language = speech_args[SPEECH_LANGUAGE], message_range = speech_args[SPEECH_RANGE], message_mods = speech_args[SPEECH_MODS])
 	speech_args[SPEECH_MESSAGE] = ""
 
 /obj/item/organ/ears/dullahan

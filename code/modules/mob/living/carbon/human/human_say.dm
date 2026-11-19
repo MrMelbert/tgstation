@@ -13,7 +13,8 @@
 	datum/saymode/saymode,
 	list/message_mods = list(),
 )
-	if(!HAS_TRAIT(src, TRAIT_SPEAKS_CLEARLY))
+	var/datum/language/language_instance = GLOB.language_datum_instances[language]
+	if(!HAS_TRAIT(src, TRAIT_SPEAKS_CLEARLY) && !(language_instance.flags & LANGUAGE_VISUAL))
 		var/static/regex/tongueless_lower = new("\[gdntke]+", "g")
 		var/static/regex/tongueless_upper = new("\[GDNTKE]+", "g")
 		if(message[1] != "*")

@@ -60,7 +60,7 @@
 
 /datum/mutation/heckacious/proc/handle_caps(atom/movable/source, list/message_args)
 	SIGNAL_HANDLER
-	message_args[TREAT_CAPITALIZE_MESSAGE] = FALSE
+	return TREAT_MESSAGE_NO_CAPITALIZE
 
 /datum/mutation/heckacious/proc/handle_speech(datum/source, list/speech_args)
 
