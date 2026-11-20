@@ -1708,9 +1708,14 @@
 /// Returns the currently selected language if successful, if the language was not valid, returns null
 /atom/movable/proc/set_active_language(language_path)
 	var/datum/language_holder/our_holder = get_language_holder()
-	our_holder.selected_language = language_path
+	if(!our_holder.can_speak_language(language_path))
+		if(our_holder.selected_language == language_path)
+			stack_trace("Tried to set active language to already active language, while simultaneously being unable to speak active language")
+			our_holder.get_selected_language() // resets to first valid language
+		return FALSE
 
-	return our_holder.get_selected_language() // verifies its validity, returns it if successful.
+	our_holder.selected_language = language_path
+	return TRUE
 
 /**
  * Randomizes our atom's language to an uncommon language if:

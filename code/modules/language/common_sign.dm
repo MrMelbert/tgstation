@@ -58,6 +58,8 @@
 	return message
 
 /datum/language/sign_language/add_saymods(datum/saymod_selector/selector)
+	// melbert todo : these break from us stripping ! and ?
+	selector.add_saymod(SAY_MOD_DEFAULT, "signs", SAY_MOD_PRIORITY_DEFAULT + 1)
 	selector.add_saymod(SAY_MOD_ASK, "signs", SAY_MOD_PRIORITY_DEFAULT + 1)
 	selector.add_saymod(SAY_MOD_EXCLAIM, "signs", SAY_MOD_PRIORITY_DEFAULT + 1)
 	selector.add_saymod(SAY_MOD_SING, "rythmically signs", SAY_MOD_PRIORITY_DEFAULT + 1)

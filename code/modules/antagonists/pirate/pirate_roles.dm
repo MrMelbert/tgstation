@@ -273,8 +273,7 @@
 
 /obj/effect/mob_spawn/ghost_role/human/pirate/siren/special(mob/living/carbon/spawned_mob, mob/mob_possessor, apply_prefs)
 	. = ..()
-	var/datum/language_holder/language_holder = spawned_mob.get_language_holder()
-	language_holder.selected_language = /datum/language/common //sing for them
+	spawned_mob.set_active_language(/datum/language/common) //sing for them
 	spawned_mob.add_personalities(list(
 		//some sugar
 		/datum/personality/creative,

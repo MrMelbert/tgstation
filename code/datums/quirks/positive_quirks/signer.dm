@@ -13,6 +13,7 @@
 		quirk_holder.grant_language(/datum/language/sign_language/lizard, ALL, LANGUAGE_QUIRK)
 	if(ismoth(quirk_holder))
 		quirk_holder.grant_language(/datum/language/sign_language/moth, ALL, LANGUAGE_QUIRK)
+	quirk_holder.set_active_language(/datum/language/sign_language/common)
 
 /datum/quirk/item_quirk/signer/add_unique(client/client_source)
 	var/obj/item/clothing/gloves/gloves_type = /obj/item/clothing/gloves/radio
@@ -23,3 +24,4 @@
 /datum/quirk/item_quirk/signer/remove()
 	for(var/language_type in valid_typesof(/datum/language/sign_language))
 		quirk_holder.remove_language(language_type, ALL, LANGUAGE_QUIRK)
+	quirk_holder.get_selected_language()

@@ -72,7 +72,7 @@
 		if(WIRE_SPEAKER)
 			language_iterator %= length(vending_languages.spoken_languages)
 			language_iterator += 1
-			vending_languages.selected_language = vending_languages.spoken_languages[language_iterator]
+			vending_machine.set_active_language(vending_languages.spoken_languages[language_iterator])
 		if(WIRE_AGELIMIT)
 			vending_machine.age_restrictions = !vending_machine.age_restrictions
 

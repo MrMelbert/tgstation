@@ -162,8 +162,9 @@
 #define BLOCK_SELF_HIGHLIGHT_MESSAGE (1<<3)
 
 ///Defines for priorities for the bubble_icon_override comp
-#define BUBBLE_ICON_PRIORITY_ACCESSORY 2
-#define BUBBLE_ICON_PRIORITY_ORGAN 1
+#define BUBBLE_ICON_PRIORITY_ACCESSORY 3
+#define BUBBLE_ICON_PRIORITY_ORGAN 2
+#define BUBBLE_ICON_PRIORITY_LANGUAGE 1
 
 //These are the names of the commands, what you'd need to type to do the command (also used in winset)
 #define VERB_SAY "Say"

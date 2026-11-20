@@ -12,9 +12,6 @@
 	return GLOB.language_menu_state
 
 /datum/language_menu/ui_interact(mob/user, datum/tgui/ui)
-	if(isnull(language_holder.selected_language))
-		language_holder.get_selected_language()
-
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "LanguageMenu")
@@ -24,6 +21,7 @@
 	var/list/data = list()
 
 	var/atom/movable/speaker = language_holder.owner
+	var/selected_language = language_holder.get_selected_language()
 	var/list/partial_languages = speaker?.get_partially_understood_languages()
 	data["languages"] = list()
 	for(var/datum/language/language as anything in GLOB.all_languages)
@@ -32,7 +30,7 @@
 		lang_data["name"] = language::name
 		lang_data["desc"] = language::desc
 		lang_data["key"] = language::key
-		lang_data["is_default"] = (language == language_holder.selected_language)
+		lang_data["is_default"] = (language == selected_language)
 		lang_data["icon"] = language::icon
 		lang_data["icon_state"] = language::icon_state
 		if(speaker)
@@ -65,8 +63,7 @@
 
 	switch(action)
 		if("select_default")
-			if(language_datum && speaker.can_speak_language(language_datum))
-				language_holder.selected_language = language_datum
+			if(speaker.set_active_language(language_datum))
 				. = TRUE
 		if("grant_language")
 			if((is_admin || isobserver(speaker)) && language_datum)

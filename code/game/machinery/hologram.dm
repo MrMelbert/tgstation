@@ -807,8 +807,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	hologram.copy_overlays(work_off, TRUE)
 	hologram.makeHologram()
 
-	var/datum/language_holder/holder = hologram.get_language_holder()
-	holder.selected_language = record.language
+	hologram.set_active_language(record.language)
 	hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
 	hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
 	SET_PLANE_EXPLICIT(hologram, ABOVE_GAME_PLANE, src)
@@ -904,8 +903,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			addtimer(CALLBACK(src, PROC_REF(replay_entry),entry_number+1),entry[2])
 			return
 		if(HOLORECORD_LANGUAGE)
-			var/datum/language_holder/holder = replay_holo.get_language_holder()
-			holder.selected_language = entry[2]
+			replay_holo.set_active_language(entry[2])
 		if(HOLORECORD_PRESET)
 			var/preset_type = entry[2]
 			var/datum/preset_holoimage/H = new preset_type

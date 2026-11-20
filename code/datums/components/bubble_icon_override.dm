@@ -29,8 +29,8 @@
 		register_owner(target)
 
 /datum/component/bubble_icon_override/proc/register_owner(mob/living/owner)
-	RegisterSignal(owner, COMSIG_GET_BUBBLE_ICON, PROC_REF(return_bubble_icon))
-	get_bubble_icon(owner)
+	RegisterSignal(owner, COMSIG_LIVING_UPDATE_BUBBLE_ICON, PROC_REF(give_bubble_icon))
+	owner.update_bubble_icon()
 
 /datum/component/bubble_icon_override/UnregisterFromParent()
 	UnregisterSignal(parent, list(
@@ -44,8 +44,8 @@
 		unregister_owner(target)
 
 /datum/component/bubble_icon_override/proc/unregister_owner(mob/living/owner)
-	UnregisterSignal(owner, list(COMSIG_GET_BUBBLE_ICON))
-	get_bubble_icon(owner)
+	UnregisterSignal(owner, COMSIG_LIVING_UPDATE_BUBBLE_ICON)
+	owner.update_bubble_icon()
 
 ///Returns the potential wearer/owner of the object when the component is un/registered to/from it
 /datum/component/bubble_icon_override/proc/get_bubble_icon_target()
@@ -61,6 +61,7 @@
 	else if(isorgan(parent))
 		var/obj/item/organ/organ = parent
 		return organ.owner
+	return null
 
 /datum/component/bubble_icon_override/proc/on_equipped(obj/item/source, mob/equipper, slot)
 	SIGNAL_HANDLER
@@ -79,21 +80,6 @@
 	SIGNAL_HANDLER
 	unregister_owner(owner)
 
-/**
- * Get the bubble icon with the highest priority from all instances of bubble_icon_override
- * currently registered with the target.
- */
-/datum/component/bubble_icon_override/proc/get_bubble_icon(mob/living/target)
-	if(QDELETED(parent))
-		return
-	var/list/holder = list(null)
-	SEND_SIGNAL(target, COMSIG_GET_BUBBLE_ICON, holder)
-	var/bubble_icon = holder[1]
-	target.bubble_icon = bubble_icon || initial(target.bubble_icon)
-
-/datum/component/bubble_icon_override/proc/return_bubble_icon(datum/source, list/holder)
+/datum/component/bubble_icon_override/proc/give_bubble_icon(datum/source, list/bubble_icons)
 	SIGNAL_HANDLER
-	var/enemy_priority = holder[holder[1]]
-	if(enemy_priority < priority)
-		holder[1] = bubble_icon
-		holder[bubble_icon] = priority
+	bubble_icons[bubble_icon] = max(priority, bubble_icons[bubble_icon] || 0)

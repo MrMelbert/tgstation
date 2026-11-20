@@ -104,3 +104,35 @@
 /mob/living/proc/post_indicator_update(indicator_signal)
 	SEND_SIGNAL(src, COMSIG_LIVING_CHAT_INDICATOR_UPDATED)
 	SEND_SIGNAL(src, indicator_signal)
+
+/mob/living/set_active_language(language_path)
+	. = ..()
+	if(!.)
+		return
+
+	update_bubble_icon()
+
+/mob/living/proc/update_bubble_icon()
+	var/old_icon = bubble_icon
+	bubble_icon = initial(bubble_icon)
+
+	var/list/other_icons = list()
+	var/datum/language/active_language = get_selected_language()
+	if(active_language::flags & LANGUAGE_VISUAL)
+		other_icons["signlang"] = BUBBLE_ICON_PRIORITY_LANGUAGE
+
+	SEND_SIGNAL(src, COMSIG_LIVING_UPDATE_BUBBLE_ICON, other_icons)
+
+	var/highest_priority = -INFINITY
+	for(var/other_icon, icon_priority in other_icons)
+		if(icon_priority > highest_priority)
+			highest_priority = icon_priority
+			bubble_icon = other_icon
+
+	if(old_icon != bubble_icon)
+		if(active_thinking_indicator)
+			remove_thinking_indicator()
+			create_thinking_indicator()
+		if(active_typing_indicator)
+			remove_typing_indicator()
+			create_typing_indicator()

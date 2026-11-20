@@ -414,7 +414,7 @@
 	var/datum/language_holder/vending_languages = get_language_holder()
 	var/datum/wires/vending/vending_wires = wires
 	// if the language wire got pulsed during an EMP, this will make sure the language_iterator is synched correctly
-	vending_languages.selected_language = vending_languages.spoken_languages[vending_wires.language_iterator]
+	set_active_language(vending_languages.spoken_languages[vending_wires.language_iterator])
 
 /obj/machinery/vending/unbuckle_mob(mob/living/buckled_mob, force = FALSE, can_fall = TRUE)
 	if(!force)
